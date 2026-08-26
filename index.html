@@ -342,7 +342,7 @@
   /* the button keeps the base gold treatment — the old ink-on-dark override
      disappeared into the panel's shadows (Jacob: "you can't see it's a box") */
   .seam-gold .signed-line{color:var(--bone)}
-  .seam-half{position:absolute; top:0; bottom:0; width:50%; overflow:hidden; background:#000;
+  .seam-half{pointer-events:none; position:absolute; top:0; bottom:0; width:50%; overflow:hidden; background:#000;
     z-index:2; will-change:transform}
   .shL{left:0} .shR{right:0}
   /* OPEN is 4 letters where CLOSED was 6 — bigger glyphs keep the same visual mass */
@@ -354,9 +354,9 @@
   .seam-half::after{content:''; position:absolute; top:0; bottom:0; width:1px; background:#000}
   .shL::after{right:0} .shR::after{left:0}
   /* standing line + receipt after the vault seals over the email */
-  .seam-line{position:absolute; left:50%; top:0; bottom:0; width:1px; margin-left:-.5px; z-index:3;
+  .seam-line{pointer-events:none; position:absolute; left:50%; top:0; bottom:0; width:1px; margin-left:-.5px; z-index:3;
     background:#000; opacity:0; box-shadow:none}
-  .seam-rcv{position:absolute; left:50%; top:68%; transform:translateX(-50%); z-index:4;
+  .seam-rcv{pointer-events:none; position:absolute; left:50%; top:68%; transform:translateX(-50%); z-index:4;
     font-family:'Cinzel',Georgia,serif; font-weight:600; letter-spacing:.18em; font-size:12px;
     color:var(--gold-hot); opacity:0; white-space:nowrap;
     text-shadow:0 1px 3px #000, 0 2px 14px rgba(0,0,0,.95)}
