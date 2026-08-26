@@ -1077,13 +1077,13 @@
      endpoint. keepalive lets the POST survive the page teardown on a hard
      restart. An empty LIST_URL is a clean no-op, so this ships safely before the
      address exists — drop the endpoint in and it starts collecting. */
-  var LIST_URL='';   // <-- Formspree / Buttondown / Netlify function endpoint
+  var LIST_URL='https://formsubmit.co/ajax/vctrsclo@gmail.com';   // FormSubmit → the brand inbox (activated from that inbox, no account)
   function capture(v){
     if(!LIST_URL) return;
     try{
       fetch(LIST_URL,{method:'POST',keepalive:true,
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:v,src:location.href})}).catch(function(){});
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({email:v,src:location.href,_subject:'VCTRS list signup',_template:'table'})}).catch(function(){});
     }catch(e){}
   }
   // one permissive test, shared by both forms: rejects a@.b and a@b. which the
