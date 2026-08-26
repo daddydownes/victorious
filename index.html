@@ -152,17 +152,22 @@
   .stage.playing .title-block{opacity:0}
   .stage.done .title-block{opacity:1}
   /* the guided-journey cue — a fixed prompt that tells you the next move */
+  /* width:max-content + the viewport cap, on EVERY screen: one line wherever it
+     fits, a centred two-line box where it doesn't. The old nowrap default clipped
+     both ends on big Androids (Pixel Pro/XL, Galaxy Ultra report >430 CSS px and
+     missed the phone breakpoint), and the old wrapped version shrank to ~50vw —
+     left:50% gives a fixed element only half the viewport of shrink-to-fit room —
+     so iPhones got a cramped six-line tower instead of the capped box. */
   .guide-cue{position:fixed; left:50%; bottom:clamp(22px,4.5vh,44px); transform:translateX(-50%) translateY(10px);
     z-index:85; pointer-events:none; color:var(--gold-hot); font-size:12px; letter-spacing:.22em;
-    text-transform:uppercase; text-align:center; white-space:nowrap; opacity:0;
+    text-transform:uppercase; text-align:center; opacity:0; line-height:1.55;
+    width:max-content; max-width:calc(100vw - 24px); box-sizing:border-box;
     padding:9px 18px; border-radius:2px; background:rgba(11,10,8,.62); border:1px solid rgba(240,212,146,.28);
     transition:opacity .55s ease, transform .55s ease}
   .guide-cue.show{opacity:1; transform:translateX(-50%) translateY(0)}
-  /* phones: the cue is too long for one line — allow wrap + cap width so it can
-     never bleed past either edge (border-box keeps padding inside the cap) */
-  @media (max-width:430px){
-    .guide-cue{white-space:normal; box-sizing:border-box; max-width:calc(100vw - 24px);
-      line-height:1.55; font-size:11px; letter-spacing:.16em}
+  /* phones (site-wide 560px breakpoint): smaller face so the box stays shallow */
+  @media (max-width:560px){
+    .guide-cue{font-size:11px; letter-spacing:.16em}
   }
   .guide-cue .g-chev{display:inline-block; margin-left:.35em; color:var(--gold-hot);
     animation:cuebounce 1.5s ease-in-out infinite}
@@ -1305,7 +1310,11 @@
     },16);
   }
   function flyIn(){
-    if(flyRan || reduced) return; flyRan=true; // scroll + submit can race into here — only the first wins
+    // scroll + submit can race into here — only the first wins. The closing /
+    // surfaced check: a Surface exit retires the dive for good, and it must be
+    // by PHASE — surfacedReset re-arms flyRan, so the email path's still-pending
+    // 1500ms timer would otherwise dive a page that has already surfaced.
+    if(flyRan || reduced || guidePhase==='closing' || guidePhase==='surfaced') return; flyRan=true;
     vaultArming=true;                          // sole entry into the vault; there is no door path
     // fade from each element's CURRENT visibility — never force-show a hidden one
     var fadeEls=[document.querySelector('.sg1'), document.querySelector('.sgh'),
@@ -1710,6 +1719,12 @@
      document.querySelector('.sgr'), document.querySelector('.sg2'),
      document.querySelector('.sgc'), signup, seamRcv].forEach(function(el){ if(el) el.style.opacity=''; });
     guidePhase='surfaced';
+    /* Surface can fire while a landing is still mid-flight; the entryGen abort
+       skips the remover at the END of landVault/flyIn, and 'guiding'
+       (touch-action:pan-x) then outlives the journey — BEYOND arrived with
+       touch scroll dead on phones. Wheels never noticed: touch-action only
+       gates touch, which is why the bug was phone-only and spam-timing-only. */
+    document.body.classList.remove('guiding');
     // THE LOOP IS RETIRED: body.surfaced collapses the CLOSED seam + descent
     // and opens BEYOND — the site continues forward from the card, never back
     // into the vault flow (the seam resets above stay as a clean hidden state)
