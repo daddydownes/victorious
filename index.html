@@ -1563,10 +1563,17 @@
       hotSince=Date.now(); setHot(best);
     }
   }
+  /* MOUSE ONLY — mobile Chrome fires pointerover/out for touches too, which
+     quietly re-created the retired tap-light: finger down lit the photo under
+     the finger, pointerdown killed it, the first move lit the centre photo —
+     an ON→OFF→ON blink on every touch (the "flash" Jacob felt), and the lift's
+     pointerout could kill the light that is meant to STAY lit after a pan. */
   plane.addEventListener('pointerover',function(e){
+    if(e.pointerType==='touch'||e.pointerType==='pen') return;
     if(!dragging && e.target.tagName==='IMG') setHot(e.target);
   });
   plane.addEventListener('pointerout',function(e){
+    if(e.pointerType==='touch'||e.pointerType==='pen') return;
     if(e.target===hotImg) setHot(null);
   });
 
@@ -1626,7 +1633,11 @@
     dragging=true; dragId=e.pointerId; lx=e.clientX; ly=e.clientY;
     dnX=e.clientX; dnY=e.clientY;
     followHot=(e.pointerType==='touch'||e.pointerType==='pen'); // touch: the light follows the pan
-    setHot(null); // drop any lifted photo the moment a drag starts
+    /* mouse: drop the stale hover-lift the moment a drag starts. Touch: the
+       reigning follow-light STAYS — nulling it here blinked the same photo
+       OFF→ON at the start of every pan; lightCentre steals it smoothly
+       (hysteresis + dwell) if the pan moves the centre elsewhere. */
+    if(!followHot) setHot(null);
     samples=[{t:Date.now(),x:e.clientX,y:e.clientY}];
     stopInertia(); velX=velY=0;
     vault.classList.add('dragging');
