@@ -226,7 +226,7 @@
     margin:14px 0 26px; line-height:1.8}
   .flap-play{background:var(--gold); color:var(--ink); border:0; cursor:pointer; border-radius:0;
     font-family:'Cascadia Mono',Consolas,monospace; font-size:12px; letter-spacing:.28em;
-    text-transform:uppercase; padding:15px 34px; transition:background .25s ease}
+    text-transform:uppercase; padding:15px 34px; transition:background .25s ease, transform .12s ease}
   .flap-play:hover{background:var(--gold-hot)}
   .flap-play:focus-visible{outline:1px solid var(--gold-hot); outline-offset:3px}
   .flap-best{margin-top:18px; letter-spacing:.24em; font-size:10px; color:var(--gold);
@@ -260,18 +260,20 @@
   /* 16px minimum — anything smaller makes iOS Safari zoom the page on focus */
   .signup input[type=email]{flex:1 1 240px; min-width:0; background:transparent; border:1px solid var(--line);
     color:var(--bone); font-family:'Cascadia Mono',Consolas,monospace; font-size:16px; letter-spacing:.06em;
-    padding:14px 16px; outline:none; border-radius:0; -webkit-appearance:none}
+    padding:14px 16px; outline:none; border-radius:0; -webkit-appearance:none; transition:border-color .25s ease}
   .signup input[type=email]::placeholder{color:var(--bone-dim); opacity:.55}
   .signup input[type=email]:focus{border-color:var(--gold)}
   .signup button{flex:0 0 auto; background:var(--gold); color:var(--ink); border:0; cursor:pointer; border-radius:0;
     font-family:'Cascadia Mono',Consolas,monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase;
-    padding:14px 26px; transition:background .25s ease}
+    padding:14px 26px; transition:background .25s ease, transform .12s ease}
   .signup button:hover{background:var(--gold-hot)}
+  .signup button:active, .flap-play:active{transform:translateY(1px) scale(.98)}
   .signup button:focus-visible{outline:1px solid var(--gold-hot); outline-offset:3px}
   .signed{display:none}
   .signup.done form{display:none}
   .signup.done .signed{display:block}
   .signed-line{color:var(--gold-hot); font-size:18px; letter-spacing:.06em}
+  @keyframes receiptUp{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:translateY(0)}}  .signup.done .signed-line{animation:receiptUp .45s ease-out both}
   /* the rejected-address state. Always rendered at opacity 0 with a fixed height
      so the translateY(-50%) gold panel NEVER reflows when it appears — and in
      --bone, not a new hue: a salmon error tint on the teal tower photo reads as
@@ -280,6 +282,7 @@
     font-size:10px; text-transform:uppercase; color:var(--bone-dim); transition:opacity .2s ease}
   .signup.bad .err{opacity:1}
   .signup.bad input[type=email], .seam-gold .signup.bad input[type=email]{border-color:var(--bone)}
+  @keyframes formShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-3px)}40%,80%{transform:translateX(3px)}}  .signup.bad input[type=email]{animation:formShake .26s ease}
   .signup.done .err{display:none}   /* else it leaves dead space above the receipt */
 
   /* ---- THE SEAM (closed section, critic #1): the word CLOSED splits like the
@@ -303,7 +306,7 @@
     background:linear-gradient(to bottom, rgba(7,7,8,.66), rgba(7,7,8,.20) 32%, rgba(7,7,8,.24) 62%, rgba(4,4,5,.80))}
   /* anchored to the panel's own edges so content can NEVER spill onto the black */
   .seam-gold-in{position:absolute; left:16px; right:16px; top:50%; transform:translateY(-50%);
-    text-align:center; color:var(--bone); opacity:0}
+    text-align:center; color:var(--bone); opacity:0; transition:transform .18s ease}
   /* THE HEADLINE treatment (Jacob's pick from the 3 demos, sizes bumped so
      every line reads at arm's length): mono kicker → giant serif hero →
      glowing rule → mono sub. Hard 1px black shadow + deep glow on the small
@@ -429,8 +432,9 @@
     font-size:12px; color:var(--gold); text-transform:uppercase}
   .surface-btn{pointer-events:auto; background:transparent; border:1px solid var(--line); color:var(--gold);
     font-family:'Cascadia Mono',Consolas,monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase;
-    padding:9px 14px; cursor:pointer; border-radius:0; transition:border-color .25s ease}
+    padding:9px 14px; cursor:pointer; border-radius:0; transition:border-color .25s ease, transform .12s ease}
   .surface-btn:hover{border-color:var(--gold)}
+  .surface-btn:active{border-color:var(--gold); transform:translateY(1px)}
   .vault-title{text-align:center; transition:opacity 1.2s ease}
   .vault-title.gone{opacity:0; pointer-events:none} /* retires itself 5s after the reveal (revealVaultTitle) */
   .vault-title .vt{font-size:clamp(26px,4.5vw,44px); letter-spacing:.2em; color:var(--bone);
@@ -455,10 +459,11 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .scroll-on,.drag-label,.guide-cue .g-chev{animation:none}
+    .scroll-on,.drag-label,.guide-cue .g-chev,.signup.bad input[type=email],.signup.done .signed-line{animation:none}
     .stagger .l{opacity:1; animation:none}
     .vault-plane img{transition:box-shadow .45s ease, border-color .45s ease}
     .vault-plane img.hot{transform:none !important}
+    .signup button:active,.flap-play:active,.surface-btn:active{transform:none}
   }
 </style>
 
@@ -994,7 +999,7 @@
     seamGold.style.width=(gap*2).toFixed(1)+'px';
     // reveal thresholds scale with the gap ceiling so the message + signup show
     // at the same PROPORTION of the open gesture on every screen width
-    var _gm=seamGapMax(), _thr=Math.min(46,_gm*0.28), _den=Math.min(100,_gm*0.55);
+    var _gm=seamGapMax(), _thr=_gm*0.28, _den=_gm*0.55; // proportional on EVERY width — the caps made desktop text hit full opacity at 44% open, sliced by the door edges
     var _vis=Math.max(0,Math.min(1,(gap-_thr)/_den));
     seamGoldIn.style.opacity=_vis.toFixed(3);
     // the panel is width:0 + opacity:0, NOT display:none — so the email field and
@@ -1023,9 +1028,9 @@
       var o=Math.max(0, openP-closeP);
       // geared easing: barely moves at first, then gives — the word has mass
       // (running it backward gives the close the same weight)
-      var geared=o<0.35 ? o*0.25 : 0.0875+(o-0.35)*1.403;
+      var geared=Math.pow(o,2.4); // one continuous power curve — same mass at the start, no gear-change kink at o=0.35
       var gapMax=seamGapMax();
-      seamApply(Math.max(0, Math.min(gapMax, geared*gapMax*1.05)));
+      seamApply(Math.min(gapMax, geared*gapMax)); // no 1.05 overdrive — the open docks softly at gapMax, no clamp thunk, no dead zone
       // once fully re-closed by scroll, the standing hairline takes over
       seamLine.style.opacity = (closeP>=1 && seamRise<1) ? '1' : (seamSealed?'1':'0');
     }
@@ -1103,7 +1108,7 @@
   sForm.addEventListener('submit',function(e){
     e.preventDefault();
     var v=(sEmail.value||'').trim();
-    if(!goodEmail(v)){ signup.classList.add('bad'); sEmail.focus(); return; } // was invisible: it painted the SAME gold the focus ring already uses
+    if(!goodEmail(v)){ signup.classList.remove('bad'); void sEmail.offsetWidth; signup.classList.add('bad'); sEmail.focus(); return; } // remove+reflow re-arms the shake on every rejected submit
     capture(v);
     signup.classList.remove('bad');
     signup.classList.add('done');
@@ -1120,9 +1125,10 @@
         // light (the doors do NOT close — Jacob) while Received. sits in the box
         var r0=Date.now();
         var riv=setInterval(function(){
-          var rt=Math.min(1,(Date.now()-r0)/450);
+          var rt=Math.min(1,(Date.now()-r0)/450), re=1-Math.pow(1-rt,3);
           seamRcv.style.opacity=rt.toFixed(3);
-          if(rt>=1) clearInterval(riv);
+          seamRcv.style.transform='translateX(-50%) translateY('+(10*(1-re)).toFixed(1)+'px)'; // it actually RISES now, as the comment always promised
+          if(rt>=1){ clearInterval(riv); seamRcv.style.transform=''; } // clear -> CSS resting transform stands; fadeEls/surfacedReset touch opacity only
         },33);
         // one readable beat, then EXACTLY the dive the scroll gesture fires —
         // the zoom through the open shaft into the photo. flyIn owns the
@@ -1143,7 +1149,7 @@
     soloForm.addEventListener('submit',function(e){
       e.preventDefault();
       var v=(soloEmail.value||'').trim();
-      if(!goodEmail(v)){ soloBox.classList.add('bad'); soloEmail.focus(); return; }
+      if(!goodEmail(v)){ soloBox.classList.remove('bad'); void soloEmail.offsetWidth; soloBox.classList.add('bad'); soloEmail.focus(); return; }
       capture(v);
       soloBox.classList.remove('bad');
       soloBox.classList.add('done');
@@ -1177,6 +1183,24 @@
   }
   function showCue(html){ if(guideCue){ guideCue.innerHTML=html; guideCue.classList.add('show'); } }
   function hideCue(){ if(guideCue) guideCue.classList.remove('show'); }
+  /* the email hold pushes back: the panel leans up to 6px with the accruing swipe
+     and springs home when you stop. seamGoldIn is safe to move — nothing else ever
+     writes its transform (seamApply writes only its opacity). The idle decay also
+     stops a stale half-swipe from firing the dive minutes later. */
+  var giveTimer=null, giveLast=0;
+  function holdGive(){
+    giveLast=Date.now();
+    var g=Math.max(0,Math.min(1,scrollIntent/ADVANCE)), gs=g*g*(3-2*g);
+    seamGoldIn.style.transform='translateY(calc(-50% + '+(6*gs).toFixed(1)+'px))';
+    if(!giveTimer) giveTimer=setInterval(function(){
+      if(guidePhase!=='email'){ clearInterval(giveTimer); giveTimer=null; seamGoldIn.style.transform=''; return; }
+      if(Date.now()-giveLast<250) return;
+      scrollIntent=Math.max(0,scrollIntent-ADVANCE*0.06);
+      var g2=scrollIntent/ADVANCE, gs2=g2*g2*(3-2*g2);
+      seamGoldIn.style.transform = scrollIntent>0 ? 'translateY(calc(-50% + '+(6*gs2).toFixed(1)+'px))' : '';
+      if(scrollIntent<=0){ clearInterval(giveTimer); giveTimer=null; }
+    },33);
+  }
   function startGuide(){
     if(reduced || guidePhase!=='film') return;
     guidePhase='toEmail'; hideCue();
@@ -1190,9 +1214,11 @@
        between them: an easeInQuad ends at maximum velocity, so a stop there
        is a hitch, not an impact. */
     setTimeout(function(){
-      glideTo(seamDocTop(), 1200, function(){
-        glideTo(emailY(), 2600, enterEmail, function(q){ return 1-Math.pow(1-q,3); }); // easeOutCubic — the settle
-      }, function(q){ return q*q; });                                                  // easeInQuad — the fall
+      var d1=Math.max(1,seamDocTop()-scrollY), d2=Math.max(1,emailY()-seamDocTop());
+      var vj=(2*d1+3*d2)/3800, D1=Math.min(3000,Math.max(700,2*d1/vj)), D2=Math.min(3200,Math.max(1200,3*d2/vj));
+      glideTo(seamDocTop(), D1, function(){
+        glideTo(emailY(), D2, enterEmail, function(q){ return 1-Math.pow(1-q,3); }); // easeOutCubic — the settle
+      }, function(q){ return q*q; });   // easeInQuad — the fall; D1/D2 solved so the junction velocity matches (no mid-flight hitch), total stays ~3.8s
     }, 450); // a beat = the "slow down"
   }
   function enterEmail(){
@@ -1212,6 +1238,7 @@
     if(guidePhase==='toVault' || guidePhase==='vault' || guidePhase==='closing' || guidePhase==='surfaced') return;
     if(guideTimer){ clearInterval(guideTimer); guideTimer=null; }
     guidePhase='toVault'; hideCue(); if(sEmail) sEmail.blur();
+    if(giveTimer){ clearInterval(giveTimer); giveTimer=null; } seamGoldIn.style.transform=''; // the dive starts from a clean panel
     flyIn();
   }
   // ORIGINAL behaviour, restored: scroll is captured at the email stop (the page
@@ -1222,7 +1249,8 @@
     if(guidePhase==='toEmail' || guidePhase==='toVault' || guidePhase==='closing'){ e.preventDefault(); return; }
     if(guidePhase==='email'){
       e.preventDefault();
-      if(e.deltaY>0){ scrollIntent+=e.deltaY; if(scrollIntent>ADVANCE) advanceToVault(); }
+      if(e.deltaY>0){ scrollIntent+=e.deltaY; holdGive(); if(scrollIntent>ADVANCE) advanceToVault(); }
+      else if(e.deltaY<0){ scrollIntent=Math.max(0,scrollIntent+e.deltaY*0.5); holdGive(); } // easing off releases the lean
     }
   }
   function onGuideTouch(e){
@@ -1232,7 +1260,8 @@
       // a REAL upward swipe (not a tap) drops the soft keyboard so iOS's "scroll the
       // focused field into view" can't swallow the gesture — once per gesture, past SWIPE_MIN px
       if(!gBlurred && sEmail && document.activeElement===sEmail && (gStartY-y)>SWIPE_MIN){ gBlurred=true; sEmail.blur(); }
-      if(dy>0){ scrollIntent+=dy; if(scrollIntent>ADVANCE) advanceToVault(); }
+      if(dy>0){ scrollIntent+=dy; holdGive(); if(scrollIntent>ADVANCE) advanceToVault(); }
+      else if(dy<0){ scrollIntent=Math.max(0,scrollIntent+dy*0.5); holdGive(); }
       e.preventDefault();
     }
   }
@@ -1607,16 +1636,16 @@
     inertia=setInterval(function(){        // interval-driven so it survives throttled rAF
       px+=velX; py+=velY;
       var cx=clampAxis(px,vw,PW*S), cy=clampAxis(py,vh,PH*S);
-      if(cx!==px){ px=cx; velX=0; }
-      if(cy!==py){ py=cy; velY=0; }
-      velX*=0.94; velY*=0.94;
+      if(cx!==px){ velX=velX*0.4+(cx-px)*0.08; if(Math.abs(px-cx)>140) px=cx+(px>cx?140:-140); } // overdamped spring toward the edge, not a dead stop
+      if(cy!==py){ velY=velY*0.4+(cy-py)*0.08; if(Math.abs(py-cy)>140) py=cy+(py>cy?140:-140); }
+      velX*=0.965; velY*=0.965; // native-weight coast (0.94 read as dragging through sand)
       applyPan();
       if(followHot) lightCentre(); // keep the spotlight honest through the glide
-      if(Math.abs(velX)<0.05 && Math.abs(velY)<0.05) stopInertia();
+      if(Math.abs(velX)<0.05 && Math.abs(velY)<0.05 && Math.abs(cx-px)<0.5 && Math.abs(cy-py)<0.5){ px=cx; py=cy; applyPan(); stopInertia(); } // epsilon snap — exact float equality never lands after an asymptotic spring
     },16);
   }
 
-  var dragging=false, dragId=null, lx=0, ly=0, samples=[];
+  var dragging=false, dragId=null, lx=0, ly=0, samples=[], rawX=0, rawY=0; // raw = uncompressed drag position; the give curve is applied to it one-shot
   var dnX=0, dnY=0; // pointerdown origin, for the real-pan threshold
   /* the drag label pulsed forever, with nothing ever dismissing it. Retire it
      once someone has actually panned. animation:none must be set BEFORE the
@@ -1634,7 +1663,7 @@
     // would retarget the click to the vault and swallow the button press
     if(e.target.closest && e.target.closest('.surface-btn')) return;
     if(dragging) return; // a second finger mid-pan must not hijack the anchor/samples
-    dragging=true; dragId=e.pointerId; lx=e.clientX; ly=e.clientY;
+    dragging=true; dragId=e.pointerId; lx=e.clientX; ly=e.clientY; rawX=px; rawY=py;
     dnX=e.clientX; dnY=e.clientY;
     followHot=(e.pointerType==='touch'||e.pointerType==='pen'); // touch: the light follows the pan
     /* mouse: drop the stale hover-lift the moment a drag starts. Touch: the
@@ -1649,9 +1678,14 @@
   });
   vault.addEventListener('pointermove',function(e){
     if(!dragging || e.pointerId!==dragId) return;
-    px+=e.clientX-lx; py+=e.clientY-ly;
+    rawX+=e.clientX-lx; rawY+=e.clientY-ly;
     lx=e.clientX; ly=e.clientY;
-    clampPan(); applyPan();
+    if(reduced){ px=rawX; py=rawY; clampPan(); rawX=px; rawY=py; }
+    else{ var rcx=clampAxis(rawX,vw,PW*S), rcy=clampAxis(rawY,vh,PH*S); // one-shot compression of the RAW overscroll: true asymptote toward 120px, frame-rate independent, never retreats against the finger
+      if(rawX-rcx>360) rawX=rcx+360; else if(rcx-rawX>360) rawX=rcx-360; // bound the raw so a deep overscroll reverses responsively
+      if(rawY-rcy>360) rawY=rcy+360; else if(rcy-rawY>360) rawY=rcy-360;
+      px=rcx+(rawX-rcx)/(1+Math.abs(rawX-rcx)/120); py=rcy+(rawY-rcy)/(1+Math.abs(rawY-rcy)/120); }
+    applyPan();
     if(followHot) lightCentre(); // the photo under the spotlight glows as you roam
     // a real pan, not a 2px twitch
     if(!dragCueDone && (Math.abs(e.clientX-dnX)+Math.abs(e.clientY-dnY))>60) retireDragCue();
@@ -1666,12 +1700,14 @@
     // no tap-light on touch: it misfired on slow pans. The centred photo the
     // follow-light landed on simply STAYS lit after you lift your finger.
     var n=samples.length;
-    if(n>=2){
+    if(n>=2 && Date.now()-samples[n-1].t>100){ velX=velY=0; } // held still, then lifted: no phantom glide off stale samples
+    else if(n>=2){
       var a=samples[0], b=samples[n-1], dt=Math.max(16,b.t-a.t);
       velX=(b.x-a.x)/dt*16; velY=(b.y-a.y)/dt*16;    // px per 16ms tick
-      var cap=40; velX=Math.max(-cap,Math.min(cap,velX)); velY=Math.max(-cap,Math.min(cap,velY));
-      if(Math.abs(velX)>0.5||Math.abs(velY)>0.5) startInertia();
+      var cap=34; velX=Math.max(-cap,Math.min(cap,velX)); velY=Math.max(-cap,Math.min(cap,velY));
     }
+    // start the glide for real velocity OR to spring home from any overscroll — never park past the edge
+    if(Math.abs(velX)>0.5||Math.abs(velY)>0.5||clampAxis(px,vw,PW*S)!==px||clampAxis(py,vh,PH*S)!==py) startInertia();
   }
   vault.addEventListener('pointerup',endDrag);
   vault.addEventListener('pointercancel',endDrag);
@@ -1773,7 +1809,7 @@
       var ft=Math.min(1,(Date.now()-f0)/FADE);
       flybloom.style.opacity=(1-ft).toFixed(3);
       if(ft>=1){ clearInterval(fi); flybloom.style.opacity='0'; }
-    },33);
+    },16);
   }
   function armVaultClose(){
     if(vaultClosing) return;
@@ -1797,7 +1833,7 @@
         surfacedReset();                                   // land on the gold card, in place
         fadeFlash();
       }
-    },33);
+    },16);
   }
   document.getElementById('surfaceBtn').addEventListener('click',armVaultClose);
 
