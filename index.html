@@ -343,6 +343,23 @@
   }
   .seam-gold .signup{margin-top:0; border:1px solid rgba(239,233,220,.45); padding:14px;
     background:rgba(2,10,12,.38)}
+  /* DEMO v1 — THE POUR: molten gold fills the engraving while you hold */
+  .vhold{position:relative;display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;
+    min-height:56px;background:rgba(2,10,12,.38);border:1px solid rgba(239,233,220,.45);cursor:pointer;border-radius:0;
+    font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:15px;letter-spacing:.3em;text-indent:.3em;
+    touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;
+    -webkit-tap-highlight-color:transparent;transition:transform .12s ease;overflow:hidden;padding:0 12px}
+  .vhold.holding{transform:translateY(1px)}
+  .vh-base{color:var(--gold);opacity:.38}
+  .vh-fill{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
+    color:var(--gold-hot);-webkit-clip-path:inset(0 100% 0 0);clip-path:inset(0 100% 0 0);
+    letter-spacing:.3em;text-indent:.3em;text-shadow:0 0 14px rgba(240,212,146,.35)}
+  .vh-line{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold-hot);box-shadow:0 0 10px rgba(240,212,146,.55)}
+  .vhold.full .vh-fill{color:var(--bone);text-shadow:0 0 18px rgba(240,212,146,.85)}
+  .vhold:focus-visible{outline:1px solid var(--gold-hot);outline-offset:3px}
+  @supports not ((clip-path:inset(0 100% 0 0)) or (-webkit-clip-path:inset(0 100% 0 0))){
+    .vh-fill{display:none} /* museum browsers: the hairline alone meters the pour; entry still works */
+  }
   .seam-gold .signup input[type=email]{flex:1 1 150px; border-color:rgba(239,233,220,.45); color:var(--bone)}
   .seam-gold .signup input[type=email]::placeholder{color:rgba(239,233,220,.6); opacity:1}
   .seam-gold .signup input[type=email]:focus{border-color:var(--gold-hot)}
@@ -543,6 +560,7 @@
               <div class="signed-line">Received.</div>
             </div>
           </div>
+          <button type="button" id="vaultHold" class="vhold" aria-label="Hold to enter the vault"><span class="vh-base">HOLD TO ENTER</span><span class="vh-fill" aria-hidden="true">HOLD TO ENTER</span><span class="vh-line" aria-hidden="true"></span></button>
         </div>
       </div>
       <div class="seam-half shL" id="seamL" aria-hidden="true"><div class="seam-word">OPEN</div></div>
@@ -1024,6 +1042,12 @@
     var openP=sstep((sp-0.04)/0.24);
     var closeP=sstep((sp-0.44)/0.24);
     seamRise=sstep((sp-0.72)/0.26);
+    // THE DIVE OWNS THE SEAM: after the dive's silent cut seamRise is 1, and the writes
+    // below would zero seamGold's width, blank seamLift and slide it 14vh up — all
+    // mid-flight. The old dive hid that behind a full-screen white flash; this one has
+    // no flash to hide behind, so the writes must simply not happen. seamRise itself is
+    // computed ABOVE this line and left alone: updateScroll reads it for vault opacity.
+    if(flyOwnsSeam){ if(seamsecEl) seamsecEl.style.pointerEvents='none'; return; }
     if(!seamSealed){
       var o=Math.max(0, openP-closeP);
       // geared easing: barely moves at first, then gives — the word has mass
@@ -1225,7 +1249,7 @@
     guidePhase='email'; scrollIntent=0;
     // guard both: a fast scroller can leave 'email' before these fire — don't pop
     // the email cue (or grab focus) mid-dive into the vault
-    setTimeout(function(){ if(guidePhase==='email') showCue('Scroll <span class="g-chev">▼</span> for the vault &nbsp;·&nbsp; or add your email'); }, 700);
+    setTimeout(function(){ if(guidePhase==='email') showCue('Add your email &nbsp;&middot;&nbsp; or HOLD TO ENTER'); }, 700);
     if(isDesktop && sEmail){ setTimeout(function(){ if(guidePhase==='email'){ try{ sEmail.focus({preventScroll:true}); }catch(e){} } }, 950); }
   }
   function advanceToVault(){
@@ -1249,7 +1273,7 @@
     if(guidePhase==='toEmail' || guidePhase==='toVault' || guidePhase==='closing'){ e.preventDefault(); return; }
     if(guidePhase==='email'){
       e.preventDefault();
-      if(e.deltaY>0){ scrollIntent+=e.deltaY; holdGive(); if(scrollIntent>ADVANCE) advanceToVault(); }
+      if(e.deltaY>0){ scrollIntent=Math.min(ADVANCE,scrollIntent+e.deltaY); holdGive(); } // DEMO: the page HOLDS here — the mechanism below the email is the way down
       else if(e.deltaY<0){ scrollIntent=Math.max(0,scrollIntent+e.deltaY*0.5); holdGive(); } // easing off releases the lean
     }
   }
@@ -1260,7 +1284,7 @@
       // a REAL upward swipe (not a tap) drops the soft keyboard so iOS's "scroll the
       // focused field into view" can't swallow the gesture — once per gesture, past SWIPE_MIN px
       if(!gBlurred && sEmail && document.activeElement===sEmail && (gStartY-y)>SWIPE_MIN){ gBlurred=true; sEmail.blur(); }
-      if(dy>0){ scrollIntent+=dy; holdGive(); if(scrollIntent>ADVANCE) advanceToVault(); }
+      if(dy>0){ scrollIntent=Math.min(ADVANCE,scrollIntent+dy); holdGive(); } // DEMO: swipe leans the panel but never dives
       else if(dy<0){ scrollIntent=Math.max(0,scrollIntent+dy*0.5); holdGive(); }
       e.preventDefault();
     }
@@ -1269,6 +1293,73 @@
   addEventListener('touchstart', function(e){ if(e.touches&&e.touches[0]){ gtY=e.touches[0].clientY; gStartY=gtY; gBlurred=false; } }, {passive:true});
   addEventListener('touchmove', onGuideTouch, {passive:false});
   window.__guide={ start:startGuide, toVault:advanceToVault, phase:function(){return guidePhase;} }; // test hook
+  /* DEMO v1 — THE POUR: hold the bar, gold pours into the letters, the vault yields */
+  (function(){
+    var vhBtn=document.getElementById('vaultHold'); if(!vhBtn) return;
+    var vhFill=vhBtn.querySelector('.vh-fill'), vhLine=vhBtn.querySelector('.vh-line');
+    var vhCharge=0, vhHold=false, vhAuto=false, vhPid=null, vhTimer=null, vhFired=false, vhLast=0;
+    var CHARGE_MS=1000, AUTO_MS=420, DRAIN_X=3;
+    function vhLocked(){ return vhFired||guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced'; }
+    function vhPaint(){
+      var e=vhCharge*vhCharge*(3-2*vhCharge), c='inset(0 '+((1-e)*100).toFixed(2)+'% 0 0)';
+      vhFill.style.clipPath=c; vhFill.style.webkitClipPath=c;
+      vhLine.style.width=(e*100).toFixed(2)+'%';
+    }
+    function vhRun(){ if(!vhTimer){ vhLast=Date.now(); vhTimer=setInterval(vhTick,16); } }
+    function vhStop(){ if(vhTimer){ clearInterval(vhTimer); vhTimer=null; } }
+    function vhCommit(){
+      if(vhFired) return; vhFired=true;
+      vhStop(); vhHold=false; vhAuto=false; vhPid=null;
+      vhBtn.classList.remove('holding'); vhBtn.classList.add('full');
+      seamGoldIn.style.transform='translateY(calc(-50% + 2px))';
+      try{ if(navigator.vibrate) navigator.vibrate(18); }catch(err){}
+      setTimeout(function(){ seamGoldIn.style.transform=''; advanceToVault(); },140);
+    }
+    function vhTick(){ // wall-clock charge: a throttled 100ms tick counts as 100ms, not 16
+      if(vhLocked()&&!vhFired){ vhHold=false; vhAuto=false; vhPid=null; vhBtn.classList.remove('holding'); }
+      var now=Date.now(), dt=Math.min(now-vhLast,CHARGE_MS); vhLast=now;
+      vhCharge+= (vhHold||vhAuto) ? dt/(vhAuto?AUTO_MS:CHARGE_MS) : -(dt*DRAIN_X)/CHARGE_MS;
+      if(vhCharge>=1){ vhCharge=1; vhPaint(); vhCommit(); return; }
+      if(vhCharge<=0){ vhCharge=0; vhPaint(); vhStop(); return; }
+      vhPaint();
+    }
+    function vhDown(e,id){
+      if(vhLocked()||vhPid!==null||e.button>0) return;   // one owner; right/middle mouse never pours
+      e.preventDefault();                                 // no select, no focus steal, no synthesized mouse pair
+      if(reduced){ vhFired=true; scrollTo(0, vaultY()); return; } // plain instant entry
+      vhPid=id; vhHold=true; vhAuto=false; vhBtn.classList.add('holding');
+      if(e.pointerId!==undefined){ try{ vhBtn.setPointerCapture(e.pointerId); }catch(err){} }
+      vhRun();
+    }
+    function vhUp(id){
+      if(id!==vhPid) return;                              // only the owning finger releases (multi-touch)
+      vhPid=null; vhHold=false; vhBtn.classList.remove('holding');
+    }
+    if(window.PointerEvent){
+      vhBtn.addEventListener('pointerdown', function(e){ vhDown(e,e.pointerId); });
+      addEventListener('pointerup', function(e){ vhUp(e.pointerId); });      // window-level: a drag-off release still drains even if capture failed
+      addEventListener('pointercancel', function(e){ vhUp(e.pointerId); });
+    }else{ // ancient WebViews: touch+mouse shim, same ownership rules
+      vhBtn.addEventListener('touchstart', function(e){ vhDown(e,'t'); }, {passive:false});
+      addEventListener('touchend', function(){ vhUp('t'); });
+      addEventListener('touchcancel', function(){ vhUp('t'); });
+      vhBtn.addEventListener('mousedown', function(e){ vhDown(e,'m'); });
+      addEventListener('mouseup', function(){ vhUp('m'); });
+    }
+    addEventListener('blur', function(){ vhUp(vhPid); }); // app-switch mid-hold = release, not ghost-charge
+    document.addEventListener('visibilitychange', function(){ if(document.hidden) vhUp(vhPid); });
+    vhBtn.addEventListener('touchmove', function(e){ if(vhPid!==null){ e.stopPropagation(); if(e.cancelable) e.preventDefault(); } }, {passive:false});
+    vhBtn.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    /* Activation clicks (keyboard, VoiceOver/TalkBack double-tap, plain fast taps) can't
+       hold — a click landing with no meaningful charge runs a fast auto-pour, then commits.
+       A hold released past 25% still drains back: release-to-cancel survives for real holds. */
+    vhBtn.addEventListener('click', function(){
+      if(vhLocked()||vhPid!==null) return;
+      if(reduced){ vhFired=true; scrollTo(0, vaultY()); return; }
+      if(vhCharge>0.25) return;                           // an aborted hold stays aborted
+      vhAuto=true; vhHold=false; vhBtn.classList.add('holding'); vhRun();
+    });
+  })();
 
   /* ================= descent: scroll-driven sink into black ================= */
   var descent=document.getElementById('descent'), shroud=document.getElementById('shroud'),
@@ -1314,6 +1405,7 @@
   var vaultArming=false, vaultClosing=false, surfacing=false;
   var flybloom=document.getElementById('flybloom');
   var flyRan=false;                          // hard re-entry guard: the dive fires exactly once
+  var flyOwnsSeam=false;                     // while the dive flies, IT writes the seam layer — seamScroll must not fight it
   /* the quiet landing — for the SCROLL path (incl. post-Surface re-entry). The
      dissolving word has already revealed the archive resting small/blurred in
      the depths; it just focus-pulls up to meet you. No flash, no scroll-jump —
@@ -1355,70 +1447,79 @@
     // 1500ms timer would otherwise dive a page that has already surfaced.
     if(flyRan || reduced || guidePhase==='closing' || guidePhase==='surfaced') return; flyRan=true;
     vaultArming=true;                          // sole entry into the vault; there is no door path
-    // fade from each element's CURRENT visibility — never force-show a hidden one
     var fadeEls=[document.querySelector('.sg1'), document.querySelector('.sgh'),
                  document.querySelector('.sgr'), document.querySelector('.sg2'),
-                 document.querySelector('.sgc'), signup, seamRcv].filter(Boolean)
+                 document.querySelector('.sgc'), signup, document.getElementById('vaultHold'), seamRcv].filter(Boolean)
       .map(function(el){ return { el: el, o0: parseFloat(getComputedStyle(el).opacity)||0 }; });
-    // NO re-seal — you dive STRAIGHT into the light as it stands: the open shaft
-    // on the scroll path, the sealed hairline on the email path (goldW adapts).
-    var goldW=Math.max(seamGap*2, 10), hb0=seamGap;   // hb0: the halves' parted base offset
-    seamGold.style.width=goldW.toFixed(1)+'px';       // assert the width the dive flies into
-    var jumped=false, marked=false, prevS=1, t0=Date.now(), DUR=2400, myGen=++entryGen;
+    var goldW=Math.max(seamGap*2, 10), hb0=seamGap;
+    seamGold.style.width=goldW.toFixed(1)+'px';
+    var jumped=false, marked=false, prevS=1, prevMb=-1, t0=Date.now(), myGen=++entryGen;
+    var vwF=document.documentElement.clientWidth||innerWidth, vhF=innerHeight;
     dive.style.willChange='transform,filter';
+    flyOwnsSeam=true;
     function rng(t,a,b){ var x=(t-a)/(b-a); x=x<0?0:x>1?1:x; return x*x*(3-2*x); }
-    // halves scale from their INNER edge so growth pushes outward, never back to centre
     seamHL.style.transformOrigin='100% 50%';
     seamHR.style.transformOrigin='0% 50%';
+    /* ---- DEPTH ----
+       Same beats, but the shot is built in real 3D instead of flat scale(). A
+       perspective camera sits on .seam-lift and the three planes are pushed toward
+       it in Z: the doors (off-centre, so perspective SPLAYS them outward as they
+       come at you), the photo, then the room. Edges race outward faster than the
+       centre — that is the actual visual signature of moving forward, and a flat
+       scale can never produce it. */
+    var P=1150, DUR=2600;
+    seamLift.style.perspective=P+'px';
+    // z that puts the photo exactly at cover: mag = P/(P-z) = vwF/goldW
+    var zCover=P*(1-goldW/vwF), zMax=zCover+(P-zCover)*0.62;   // then keep going, well past cover
     var iv=setInterval(function(){
-      if(myGen!==entryGen){ clearInterval(iv); return; } // Surface fired mid-dive — abandon quietly
-      var t=Math.min(1,(Date.now()-t0)/DUR), vwNow=document.documentElement.clientWidth||innerWidth;
-      // the words that asked for your email dissolve as you start to fall
-      for(var i=0;i<fadeEls.length;i++) fadeEls[i].el.style.opacity=(fadeEls[i].o0*(1-rng(t,0,0.18))).toFixed(3);
-      // MID plane: exponential dolly into the light — constant perceived flight speed
-      var gz=rng(t,0,0.55), GMAX=(vwNow/goldW)*1.35;
-      var s=Math.exp(Math.log(GMAX)*gz);
-      seamGold.style.transform='translateX(-50%) scale('+s.toFixed(4)+')';
-      // NEAR plane: the halves whip outward past the camera FROM their parted base
-      var nt=rng(t,0,0.45), hs=(1+2.6*nt).toFixed(3);
-      seamHL.style.transform='translateX('+(-hb0).toFixed(1)+'px) translateX('+(-135*nt).toFixed(2)+'%) scale('+hs+')';
-      seamHR.style.transform='translateX('+hb0.toFixed(1)+'px) translateX('+(135*nt).toFixed(2)+'%) scale('+hs+')';
-      var no=(1-rng(t,0.12,0.50)).toFixed(3);
+      if(myGen!==entryGen){ // Surface fired mid-dive — abandon quietly, and hand back everything the dive took
+        clearInterval(iv); flyOwnsSeam=false;
+        seamLift.style.perspective=''; dive.style.willChange='transform';  // the 3D camera + the promoted layer are the dive's, not the page's
+        return; }
+      var t=Math.min(1,(Date.now()-t0)/DUR);
+      if(t<0.24){ for(var i=0;i<fadeEls.length;i++) fadeEls[i].el.style.opacity=(fadeEls[i].o0*(1-rng(t,0,0.20))).toFixed(3); }
+      // THE CAMERA PUSH — one variable: how far the world has come toward the lens
+      var cz=rng(t,0,0.82), z=zMax*cz, mag=P/Math.max(1,(P-z));
+      var drift=(-14*rng(t,0,0.85));
+      seamGold.style.transform='translateX(-50%) translateY('+drift.toFixed(1)+'px) translateZ('+z.toFixed(1)+'px)';
+      // NEAR plane: the doors come at you faster AND splay outward on their own —
+      // they sit off-centre, so perspective throws them wide with no help from us
+      var nz=zMax*rng(t,0,0.52)*1.25;
+      seamHL.style.transform='translateX('+(-hb0).toFixed(1)+'px) translateZ('+nz.toFixed(1)+'px)';
+      seamHR.style.transform='translateX('+hb0.toFixed(1)+'px) translateZ('+nz.toFixed(1)+'px)';
+      var no=(1-rng(t,0.08,0.46)).toFixed(3);
       seamHL.style.opacity=no; seamHR.style.opacity=no;
-      var mb=Math.min(14, Math.abs(s-prevS)*2).toFixed(2);
-      seamHL.style.filter='blur('+mb+'px)'; seamHR.style.filter='blur('+mb+'px)';
-      prevS=s;
-      // the flash: rises into the pass-through, HOLDS full-cover through the cut, then dies
-      var up=rng(t,0.35,0.55), down=1-rng(t,0.66,0.82);
-      flybloom.style.opacity=Math.min(up,down).toFixed(3);
-      // behind the held flash: land the page inside the vault
-      if(!jumped && t>=0.62){
-        jumped=true;
-        vault.style.pointerEvents='auto';
-        scrollTo(0, vaultY());               // seamRise→1: seamScroll retires the seam layer itself
+      var mb=t<0.50?((Math.min(12,Math.abs(mag-prevS)*9)/2)|0)*2:0;
+      if(mb!==prevMb){ prevMb=mb; seamHL.style.filter=mb?'blur('+mb+'px)':''; seamHR.style.filter=mb?'blur('+mb+'px)':''; }
+      prevS=mag;
+      // the silent cut, hidden by the photo's own full-screen cover
+      if(!jumped && (goldW*mag>=vwF*1.02 || t>=0.54)){
+        jumped=true; vault.style.pointerEvents='auto';
+        scrollTo(0, vaultY());
       }
-      if(jumped){
-        var e1=rng(t,0.60,0.85), e2=rng(t,0.85,1);   // overshoot 1.02 → settle 1.00: the landing has weight
-        dive.style.transform='scale('+(0.55+0.47*e1-0.02*e2).toFixed(4)+')';
-        dive.style.filter='blur('+((1-e1)*6).toFixed(2)+'px) brightness('+(0.5+0.5*e1).toFixed(3)+')';
-      }
-      // the wordmark condenses out of the dying light, not onto a dead frame
-      if(!marked && t>=0.72){ marked=true;
-        if(!vaultRevealed) revealVaultTitle(); }
+      var thru=rng(t,0.46,0.90);
+      seamLift.style.opacity=(1-thru).toFixed(3);
+      flybloom.style.opacity=(0.26*Math.sin(Math.PI*rng(t,0.34,0.96))).toFixed(3);
+      // the room comes to rest as the surface leaves the lens
+      var e1=rng(t,0.28,0.88), e2=rng(t,0.82,1);
+      dive.style.transform='scale('+(1.20-0.18*e1-0.02*e2).toFixed(4)+')';
+      dive.style.filter='brightness('+(0.56+0.44*e1).toFixed(3)+')';
+      if(!marked && t>=0.66){ marked=true; if(!vaultRevealed) revealVaultTitle(); }
       if(t>=1){
         clearInterval(iv);
-        // leave every element as the rest of the site expects to find it
         seamHL.style.transform=''; seamHR.style.transform='';
         seamHL.style.opacity='';  seamHR.style.opacity='';
         seamHL.style.filter='';   seamHR.style.filter='';
         seamHL.style.transformOrigin=''; seamHR.style.transformOrigin='';
-        seamGold.style.transform=''; seamGold.style.width='0px';
+        seamGold.style.transform=''; seamGold.style.width='0px'; seamGold.style.filter='';
+        seamLift.style.perspective=''; seamLift.style.transform='';
         for(var j=0;j<fadeEls.length;j++) fadeEls[j].el.style.opacity='';
         flybloom.style.opacity='0';
         dive.style.transform='scale(1)'; dive.style.filter='none'; dive.style.willChange='transform';
         vaultActive=true; vault.style.pointerEvents='auto';
         guidePhase='vault';
-        document.body.classList.remove('guiding'); // quiet re-entry landed: release the guard for surfaced native scroll
+        document.body.classList.remove('guiding');
+        flyOwnsSeam=false; seamScroll();        // hand the seam back and let it settle to its retired state in one go
       }
     },16);
   }
@@ -1774,7 +1875,7 @@
     if(seamsecEl) seamsecEl.style.pointerEvents='';
     [document.querySelector('.sg1'), document.querySelector('.sgh'),
      document.querySelector('.sgr'), document.querySelector('.sg2'),
-     document.querySelector('.sgc'), signup, seamRcv].forEach(function(el){ if(el) el.style.opacity=''; });
+     document.querySelector('.sgc'), signup, document.getElementById('vaultHold'), seamRcv].forEach(function(el){ if(el) el.style.opacity=''; });
     guidePhase='surfaced';
     /* Surface can fire while a landing is still mid-flight; the entryGen abort
        skips the remover at the END of landVault/flyIn, and 'guiding'
