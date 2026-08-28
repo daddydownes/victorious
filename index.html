@@ -1526,6 +1526,14 @@
 
   function updateScroll(){
     var y=scrollY; lastY=y;
+    // Keep the authored black-tide reset even after the old chapter retires.
+    stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
+    // BEYOND has replaced the seam/descent after Surface. Retire all hidden
+    // chapter style work instead of touching invisible layers on every wheel.
+    if(guidePhase==='surfaced'){
+      if(y>40){ hideCue(); stopUnderglow(); }
+      return;
+    }
     /* CLOSED used to be carried into frame at full opacity by the black tide —
        the most loaded word on the site had no moment of its own. Driven off the
        APPROACH, not seamScroll's sp (which is pinned at 0 for the whole ~100vh
@@ -1535,10 +1543,7 @@
       var _arr=clamp01((y-(seamTop-vh))/(vh*0.75)).toFixed(3);
       for(var _wi=0;_wi<seamWords.length;_wi++) seamWords[_wi].style.opacity=_arr;
     }
-    // the post-Surface cue has done its job once they start descending
-    if(guidePhase==='surfaced' && y>40){ hideCue(); stopUnderglow(); }
-    // black tide (idea C): dim the pinned film as the closed section rises over it
-    stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
+    // black tide (idea C) was updated above so Surface also resets it at y=0
     seamScroll();
     var p=clamp01((y-dStart)/(dEnd-dStart));
     // while a Seal exit repositions to the top UNDER the sealed doors, updateScroll
@@ -1619,6 +1624,7 @@
     }
     setInterval(function(){
       if(parseFloat(vault.style.opacity||'0')<=0) return;   // vault not on screen
+      if(dragging || inertia) return; // keep the decorative 20fps canvas off the critical pan/coast path
       // backing store was in CSS px and the compositor stretched it to the real
       // pixel grid — every gold mote arrived as a soft blur on a phone
       var _dpr=Math.min(2, devicePixelRatio||1);
@@ -1725,25 +1731,76 @@
   function applyPan(){ plane.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0) scale('+S+')'; }
   plane.style.transformOrigin='0 0';
 
+  /* One display clock for interactive motion. rAF keeps transforms aligned with
+     the monitor; the 250ms watchdog advances only when an embedder has left rAF
+     silent for >200ms. All motion remains elapsed-time based in either path. */
+  var motionRaf=0, motionLast=0, motionRafSeen=0;
+  var motionVaultStep=null, motionSurfaceStep=null, motionCrewStep=null, motionRamps=[];
+  function motionHasWork(){ return !!(motionVaultStep || motionSurfaceStep || motionCrewStep || motionRamps.length); }
+  function motionAdvance(now){
+    var dt=motionLast ? Math.max(0,Math.min(250,now-motionLast)) : 16;
+    motionLast=now;
+    if(motionVaultStep) motionVaultStep(dt,now);
+    if(motionSurfaceStep) motionSurfaceStep(dt,now);
+    if(motionCrewStep) motionCrewStep(dt,now);
+    for(var ri=motionRamps.length-1;ri>=0;ri--){
+      var r=motionRamps[ri], p=Math.max(0,Math.min(1,(now-r.t0)/r.dur));
+      r.el.style.opacity=(r.from+(r.to-r.from)*p).toFixed(3);
+      if(p>=1){ motionRamps.splice(ri,1); if(r.done) r.done(); }
+    }
+  }
+  function motionFrame(now){
+    motionRaf=0; motionRafSeen=Date.now(); motionAdvance(now);
+    if(motionHasWork()){ if(!motionRaf) motionRaf=requestAnimationFrame(motionFrame); } else motionSleep();
+  }
+  function motionSleep(){ if(motionRaf){ cancelAnimationFrame(motionRaf); motionRaf=0; } motionLast=0; }
+  function wakeMotion(){
+    if(!motionHasWork() || motionRaf) return;
+    motionLast=performance.now(); motionRafSeen=Date.now();
+    motionRaf=requestAnimationFrame(motionFrame);
+  }
+  setInterval(function(){
+    if(!motionHasWork() || Date.now()-motionRafSeen<=200) return;
+    motionAdvance(performance.now());
+    if(!motionHasWork()) motionSleep();
+  },250);
+  function opacityRamp(el,dur,from,to,done){
+    for(var i=motionRamps.length-1;i>=0;i--) if(motionRamps[i].el===el) motionRamps.splice(i,1);
+    el.style.opacity=from.toFixed(3);
+    motionRamps.push({el:el,dur:dur,from:from,to:to,done:done||null,t0:performance.now()});
+    wakeMotion();
+  }
+
   // start centered on the plane
   calcScale();
   px=(vw-PW*S)/2; py=(vh-PH*S)/2; clampPan(); applyPan();
 
-  function stopInertia(){ if(inertia){ clearInterval(inertia); inertia=null; } vault.classList.remove('gliding'); }
+  function stopInertia(){ inertia=null; motionVaultStep=null; vault.classList.remove('gliding'); }
   function startInertia(){
     if(reduced){ velX=velY=0; return; }    // reduced motion: direct pan only
     stopInertia();
     vault.classList.add('gliding');        // the follow-light keeps its fast ease through the glide
-    inertia=setInterval(function(){        // interval-driven so it survives throttled rAF
-      px+=velX; py+=velY;
-      var cx=clampAxis(px,vw,PW*S), cy=clampAxis(py,vh,PH*S);
-      if(cx!==px){ velX=velX*0.4+(cx-px)*0.08; if(Math.abs(px-cx)>140) px=cx+(px>cx?140:-140); } // overdamped spring toward the edge, not a dead stop
-      if(cy!==py){ velY=velY*0.4+(cy-py)*0.08; if(Math.abs(py-cy)>140) py=cy+(py>cy?140:-140); }
-      velX*=0.965; velY*=0.965; // native-weight coast (0.94 read as dragging through sand)
+    inertia=true;
+    motionVaultStep=function(dt){
+      var left=Math.min(250,dt), cx=px, cy=py;
+      // Bound integration to 16ms substeps so a watchdog tick cannot tunnel
+      // through the edge spring or change the authored motion law.
+      while(left>0){
+        var step=Math.min(16,left), k=step/16;
+        var decay=Math.pow(0.965,k), travel=(1-decay)/(1-0.965);
+        px+=velX*travel; py+=velY*travel;
+        cx=clampAxis(px,vw,PW*S); cy=clampAxis(py,vh,PH*S);
+        var edgeRetain=Math.pow(0.4,k), edgeGain=(0.08/(1-0.4))*(1-edgeRetain);
+        if(cx!==px){ velX=velX*edgeRetain+(cx-px)*edgeGain; if(Math.abs(px-cx)>140) px=cx+(px>cx?140:-140); }
+        if(cy!==py){ velY=velY*edgeRetain+(cy-py)*edgeGain; if(Math.abs(py-cy)>140) py=cy+(py>cy?140:-140); }
+        velX*=decay; velY*=decay;
+        left-=step;
+      }
       applyPan();
       if(followHot) lightCentre(); // keep the spotlight honest through the glide
       if(Math.abs(velX)<0.05 && Math.abs(velY)<0.05 && Math.abs(cx-px)<0.5 && Math.abs(cy-py)<0.5){ px=cx; py=cy; applyPan(); stopInertia(); } // epsilon snap — exact float equality never lands after an asymptotic spring
-    },16);
+    };
+    wakeMotion();
   }
 
   var dragging=false, dragId=null, lx=0, ly=0, samples=[], rawX=0, rawY=0; // raw = uncompressed drag position; the give curve is applied to it one-shot
@@ -1772,7 +1829,7 @@
        OFF→ON at the start of every pan; lightCentre steals it smoothly
        (hysteresis + dwell) if the pan moves the centre elsewhere. */
     if(!followHot) setHot(null);
-    samples=[{t:Date.now(),x:e.clientX,y:e.clientY}];
+    samples=[{t:performance.now(),x:e.clientX,y:e.clientY}];
     stopInertia(); velX=velY=0;
     vault.classList.add('dragging');
     if(vault.setPointerCapture){ try{ vault.setPointerCapture(e.pointerId); }catch(_){} }
@@ -1790,7 +1847,7 @@
     if(followHot) lightCentre(); // the photo under the spotlight glows as you roam
     // a real pan, not a 2px twitch
     if(!dragCueDone && (Math.abs(e.clientX-dnX)+Math.abs(e.clientY-dnY))>60) retireDragCue();
-    var now=Date.now();
+    var now=performance.now();
     samples.push({t:now,x:e.clientX,y:e.clientY});
     while(samples.length>2 && now-samples[0].t>120) samples.shift();
   });
@@ -1800,11 +1857,21 @@
     vault.classList.remove('dragging');
     // no tap-light on touch: it misfired on slow pans. The centred photo the
     // follow-light landed on simply STAYS lit after you lift your finger.
-    var n=samples.length;
-    if(n>=2 && Date.now()-samples[n-1].t>100){ velX=velY=0; } // held still, then lifted: no phantom glide off stale samples
-    else if(n>=2){
-      var a=samples[0], b=samples[n-1], dt=Math.max(16,b.t-a.t);
-      velX=(b.x-a.x)/dt*16; velY=(b.y-a.y)/dt*16;    // px per 16ms tick
+    var n=samples.length, now=performance.now(), cancelled=!!(e && e.type==='pointercancel');
+    if(cancelled || n<2 || now-samples[n-1].t>=80){ velX=velY=0; }
+    else{
+      // Weighted recent-window velocity: old motion cannot kick after the hand
+      // has paused, while a true immediate release keeps the intended coast.
+      var sx=0, sy=0, sw=0;
+      for(var i=1;i<n;i++){
+        if(samples[i].t<now-60) continue;
+        var dt=Math.max(1,samples[i].t-samples[i-1].t);
+        var w=Math.max(0.2,1-(now-samples[i].t)/80);
+        sx+=(samples[i].x-samples[i-1].x)/dt*w;
+        sy+=(samples[i].y-samples[i-1].y)/dt*w; sw+=w;
+      }
+      var ageScale=Math.max(0,1-(now-samples[n-1].t)/80);
+      velX=(sw?sx/sw*16:0)*ageScale; velY=(sw?sy/sw*16:0)*ageScale;
       var cap=34; velX=Math.max(-cap,Math.min(cap,velX)); velY=Math.max(-cap,Math.min(cap,velY));
     }
     // start the glide for real velocity OR to spring home from any overscroll — never park past the edge
@@ -1812,7 +1879,7 @@
   }
   vault.addEventListener('pointerup',endDrag);
   vault.addEventListener('pointercancel',endDrag);
-  vault.addEventListener('lostpointercapture',function(){ if(dragging) endDrag({pointerId:dragId}); });
+  vault.addEventListener('lostpointercapture',function(){ if(dragging) endDrag({pointerId:dragId,type:'pointercancel'}); });
 
   // keyboard panning (a11y) — active whenever the vault is on screen
   addEventListener('keydown',function(e){
@@ -1846,12 +1913,14 @@
   });
 
   /* ===== ▲ SURFACE — the dive, reversed =====
-     The archive recedes (scale↓ blur↑ dim↓) behind a rising teal flash; at full
+     The archive recedes with scale only behind a rising opaque flash; at full
      cover the page repositions to the top, the CLOSED→vault loop is RETIRED
      (body.surfaced → seam+descent collapse, BEYOND opens), then the flash fades
      to reveal the black card + gold mark — and the site continues FORWARD into
-     the beyond region from there. Interval-driven (LAW 1). */
+     the beyond region from there. The shared display clock keeps it smooth and
+     its silent-rAF watchdog preserves embedder completion. */
   function surfacedReset(){
+    motionSurfaceStep=null;
     entryGen++;                         // belt-and-braces: also reached directly, not only via armVaultClose
     surfacing=true;                     // updateScroll stands down while we reposition
     scrollTo(0,0);                      // instant — invisible under the held flash
@@ -1905,12 +1974,7 @@
     startUnderglow();
   }
   function fadeFlash(){ // the gold flash dies away to reveal the surfaced card
-    var f0=Date.now(), FADE=520;
-    var fi=setInterval(function(){
-      var ft=Math.min(1,(Date.now()-f0)/FADE);
-      flybloom.style.opacity=(1-ft).toFixed(3);
-      if(ft>=1){ clearInterval(fi); flybloom.style.opacity='0'; }
-    },16);
+    opacityRamp(flybloom,520,1,0,function(){ flybloom.style.opacity='0'; });
   }
   function armVaultClose(){
     if(vaultClosing) return;
@@ -1919,52 +1983,78 @@
     vaultClosing=true; guidePhase='closing';               // block input via the guide handlers
     // never entered / reduced motion → no dive to reverse: cover, reset, uncover
     if(!vaultArming || reduced){ flybloom.style.opacity='1'; surfacedReset(); fadeFlash(); return; }
-    var t0=Date.now(), DUR2=900, wd=Date.now();
-    dive.style.willChange='transform,filter'; // the reverse dive writes filter every tick too
+    var t0=performance.now(), DUR2=900;
+    dive.style.willChange='transform';
     function rng(t,a,b){ var x=(t-a)/(b-a); x=x<0?0:x>1?1:x; return x*x*(3-2*x); }
-    var iv=setInterval(function(){
-      var t=Math.min(1,(Date.now()-t0)/DUR2);
-      var e=rng(t,0,1);                                    // archive recedes: scale↓ blur↑ dim↓
+    motionSurfaceStep=function(_,now){
+      var t=Math.min(1,(now-t0)/DUR2);
+      var e=rng(t,0,1);                                    // archive recedes: compositor scale only
       dive.style.transform='scale('+(1-0.45*e).toFixed(4)+')';
-      dive.style.filter='blur('+(e*6).toFixed(2)+'px) brightness('+(1-0.5*e).toFixed(3)+')';
       flybloom.style.opacity=rng(t,0.25,0.70).toFixed(3);  // the flash rises to full cover and HOLDS
-      if(t>=1 || Date.now()-wd > DUR2+4000){               // watchdog: never hang mid-exit
-        clearInterval(iv);
+      if(t>=1){
+        motionSurfaceStep=null;
         flybloom.style.opacity='1';                        // assert full cover for the swap
         surfacedReset();                                   // land on the gold card, in place
         fadeFlash();
       }
-    },16);
+    };
+    wakeMotion();
   }
   document.getElementById('surfaceBtn').addEventListener('click',armVaultClose);
 
   /* ================= THE NIGHT — the post-surface chapter =================
      Lives in .beyond (rendered only in body.surfaced). The crew strip reuses
-     the vault's own photos (no new bytes) and drifts on an interval (LAW 1);
+     the vault's own photos (no new bytes) and shares the elapsed display clock;
      it freezes off-screen and for reduced motion. */
   var crewStrip=document.getElementById('crewStrip');
   if(crewStrip){
     var picks=PHOTOS.filter(function(_,i){ return i%2===1; }).slice(0,6);
     picks.concat(picks).forEach(function(p){   // doubled for a seamless loop
       var im=document.createElement('img');
-      im.src=p.src; im.alt=''; im.draggable=false; im.loading='lazy';
+      if(!reduced) im.addEventListener('load',function(){ crewMeasureDirty=true; if(crewVis) wakeMotion(); });
+      im.alt=''; im.draggable=false; im.loading='lazy'; im.src=p.src;
       crewStrip.appendChild(im);
     });
     if(!reduced){
-      var crewX=0, crewHalf=0, crewVis=false;
-      addEventListener('resize',function(){ crewHalf=0; }); // strip imgs scale with vw — stale half = a visible loop jump
-      setInterval(function(){
+      var crewX=0, crewHalf=0, crewVis=false, crewMeasureDirty=true;
+      function measureCrewHalf(){
+        for(var i=0;i<picks.length;i++){
+          var sourceImg=crewStrip.children[i];
+          if(!sourceImg || !sourceImg.complete || !sourceImg.naturalWidth || !sourceImg.offsetWidth) return 0;
+        }
+        var first=crewStrip.children[0], twin=crewStrip.children[picks.length];
+        var next=(first && twin) ? twin.offsetLeft-first.offsetLeft : 0;
+        if(next>0){
+          if(crewHalf>0){ var phase=(((-crewX/crewHalf)%1)+1)%1; crewX=-phase*next; }
+          crewHalf=next; crewMeasureDirty=false;
+        }
+        return next;
+      }
+      function advanceCrew(dt){
         if(!crewVis) return;
-        if(!crewHalf) crewHalf=crewStrip.scrollWidth/2;
-        if(!crewHalf) return;
+        var period=crewMeasureDirty ? measureCrewHalf() : crewHalf;
+        if(!period) return;
         // ease the drift down to its cruising speed so the strip reads as
         // having already been moving before you arrived. Decayed HERE and not
         // in fadeFlash: crewVis is IntersectionObserver-gated and is still
         // false one statement after body.surfaced is set.
-        if(crewSpeed>0.4) crewSpeed=Math.max(0.4, crewSpeed*0.972);
-        crewX-=crewSpeed; if(-crewX>=crewHalf) crewX+=crewHalf;
+        var ticks=dt/33;
+        if(crewSpeed>0.4){
+          var startSpeed=crewSpeed;
+          var toCruise=Math.max(0,Math.log(0.4/startSpeed)/Math.log(0.972));
+          var decaying=Math.min(ticks,toCruise), decay=Math.pow(0.972,decaying);
+          crewX-=startSpeed*0.972*(1-decay)/(1-0.972);
+          crewSpeed=Math.max(0.4,startSpeed*decay); ticks-=decaying;
+        }
+        if(ticks>0) crewX-=0.4*ticks;
+        if(-crewX>=period) crewX+=period*Math.floor((-crewX)/period);
         crewStrip.style.transform='translate3d('+crewX.toFixed(1)+'px,0,0)';
-      },33);
+      }
+      function setCrewVisible(visible){
+        crewVis=visible; motionCrewStep=visible ? advanceCrew : null;
+        if(visible) wakeMotion();
+      }
+      addEventListener('resize',function(){ crewMeasureDirty=true; });
       /* BEYOND's entrance. It cannot hang off the Surface flash: .beyond sits
          after the 100vh sticky stage, so you surface onto the black card with
          this chapter a full viewport below the fold — it assembles as you
@@ -1974,17 +2064,12 @@
          so a staggered version would stay invisible forever. */
       function arriveRamp(el, D){
         if(!el) return;
-        var t0=Date.now();
-        var iv=setInterval(function(){
-          var t=Math.min(1,(Date.now()-t0)/D);
-          el.style.opacity=t.toFixed(3);
-          if(t>=1){ clearInterval(iv); el.style.opacity=''; }
-        },33);
+        opacityRamp(el,D,0,1,function(){ el.style.opacity=''; });
       }
       if('IntersectionObserver' in window){
         new IntersectionObserver(function(es){
           es.forEach(function(e){
-            crewVis=e.isIntersecting;
+            setCrewVisible(e.isIntersecting);
             // the strip eases from 1.6 down to its cruising 0.4 as it enters,
             // so it reads as having already been moving before you got here
             if(e.isIntersecting && !crewArrived){ crewArrived=true; crewSpeed=1.6; arriveRamp(crewStrip,700); }
