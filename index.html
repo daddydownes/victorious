@@ -198,6 +198,12 @@
     color:var(--gold); opacity:.6}
   body.surfaced .beyond{display:block}
   body.surfaced .seamsec, body.surfaced .descent{display:none}
+  @media (hover:hover) and (pointer:fine){
+    body.surfaced.stage-retired .stage{visibility:hidden}
+    .crew{contain:paint}
+    .crew-strip{will-change:auto}
+    .flap{background:#000; isolation:isolate}
+  }
 
   /* ---- THE NIGHT: the post-surface chapter (lives inside .beyond) ---- */
   .night{margin-top:clamp(40px,7vw,84px); text-align:left}
@@ -1225,6 +1231,7 @@
   var guideTimer=null, scrollIntent=0, ADVANCE=240, gtY=0, gStartY=0, gBlurred=false, SWIPE_MIN=24;
   var isDesktop=matchMedia('(hover:hover) and (pointer:fine)').matches;
   var guideCue=document.getElementById('guideCue');
+  var guideCueHideTimer=null;
   // document-relative top of the seam track (offsetTop is offsetParent-relative and
   // misses the hero's height — getBoundingClientRect + scrollY is the true doc position)
   function seamDocTop(){ return seamTrack.getBoundingClientRect().top + window.scrollY; }
@@ -1241,8 +1248,25 @@
       if(p>=1){ clearInterval(guideTimer); guideTimer=null; if(done) done(); }
     },16);
   }
-  function showCue(html){ if(guideCue){ guideCue.innerHTML=html; guideCue.classList.add('show'); } }
-  function hideCue(){ if(guideCue) guideCue.classList.remove('show'); }
+  function showCue(html){
+    if(!guideCue) return;
+    if(guideCueHideTimer){ clearTimeout(guideCueHideTimer); guideCueHideTimer=null; }
+    if(isDesktop) guideCue.style.display='';
+    guideCue.innerHTML=html;
+    guideCue.classList.add('show');
+  }
+  function hideCue(){
+    if(!guideCue) return;
+    guideCue.classList.remove('show');
+    if(!isDesktop || guideCueHideTimer || guideCue.style.display==='none') return;
+    guideCueHideTimer=setTimeout(function(){
+      guideCueHideTimer=null;
+      if(!guideCue.classList.contains('show')){
+        guideCue.style.display='none';
+        guideCue.innerHTML='';
+      }
+    },600);
+  }
   /* the email hold pushes back: the panel leans up to 6px with the accruing swipe
      and springs home when you stop. seamGoldIn is safe to move — nothing else ever
      writes its transform (seamApply writes only its opacity). The idle decay also
@@ -1560,16 +1584,26 @@
     },16);
   }
 
+  var stageRetired=false;
+  function setStageRetired(retired){
+    if(stageRetired===retired) return;
+    stageRetired=retired;
+    document.body.classList.toggle('stage-retired',retired);
+  }
   function updateScroll(){
     var y=scrollY; lastY=y;
-    // Keep the authored black-tide reset even after the old chapter retires.
-    stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
-    // BEYOND has replaced the seam/descent after Surface. Retire all hidden
-    // chapter style work instead of touching invisible layers on every wheel.
+    // Once opaque BEYOND fully covers the stage, retire its video compositor
+    // layer on desktop. Before that exact point, preserve the authored handoff.
     if(guidePhase==='surfaced'){
+      var stageCovered=isDesktop && y>=vh;
+      setStageRetired(stageCovered);
+      if(!stageCovered) stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
       if(y>40){ hideCue(); stopUnderglow(); }
       return;
     }
+    setStageRetired(false);
+    // Keep the authored black-tide reset while the original chapter is active.
+    stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
     /* CLOSED used to be carried into frame at full opacity by the black tide —
        the most loaded word on the site had no moment of its own. Driven off the
        APPROACH, not seamScroll's sp (which is pinned at 0 for the whole ~100vh
@@ -1960,6 +1994,7 @@
     entryGen++;                         // belt-and-braces: also reached directly, not only via armVaultClose
     surfacing=true;                     // updateScroll stands down while we reposition
     scrollTo(0,0);                      // instant — invisible under the held flash
+    setStageRetired(false);
     // vault + drag state down
     dragging=false; dragId=null; samples=[]; vault.classList.remove('dragging');
     stopInertia(); velX=velY=0; setHot(null);
@@ -2088,7 +2123,9 @@
         crewStrip.style.transform='translate3d('+crewX.toFixed(1)+'px,0,0)';
       }
       function setCrewVisible(visible){
-        crewVis=visible; motionCrewStep=visible ? advanceCrew : null;
+        crewVis=visible;
+        if(isDesktop) crewStrip.style.willChange=visible?'transform':'auto';
+        motionCrewStep=visible ? advanceCrew : null;
         if(visible) wakeMotion();
       }
       addEventListener('resize',function(){ crewMeasureDirty=true; });
