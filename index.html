@@ -1961,8 +1961,9 @@
        reduced-motion visitor with an invisible crew strip and sign-off. */
     if(!reduced){
       var _cs=document.getElementById('crewStrip'), _sl=document.querySelector('.so-line');
-      if(_cs) _cs.style.opacity='0';
-      if(_sl) _sl.style.opacity='0';
+      var _canObserve='IntersectionObserver' in window;
+      if(_cs) _cs.style.opacity=_canObserve?'0':''; // old WebViews keep a visible static rail
+      if(_sl) _sl.style.opacity=_canObserve?'0':''; // and a visible static sign-off
       crewArrived=false; soArrived=false; crewSpeed=1.6;
     }
     document.body.classList.add('surfaced');
