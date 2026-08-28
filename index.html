@@ -891,6 +891,7 @@
         mkGold.style.color='var(--gold-hot)'; mkWhite.style.opacity='0';
         filmLogo.style.filter=_rest; filmLogo.style.transform='';
         clearInterval(logoTintTimer); logoTintTimer=null;
+        finish(); // the original V is complete — hand straight to the existing guide
       }
     },16);
   }
@@ -1009,9 +1010,44 @@
       seamLift=document.getElementById('seamLift');
   var seamsecEl=seamTrack ? seamTrack.closest('.seamsec') : null; // the z-70 section over the vault
   var seamSealed=false, seamGap=0, seamRise=0;
+  var seamWordHoldTimer=null, seamWordsHidden=false, seamFullyOpen=false;
+  function seamWordEls(){ return [].slice.call(document.querySelectorAll('.seam-word')); }
+  function restoreSeamWords(){
+    if(seamWordHoldTimer){ clearTimeout(seamWordHoldTimer); seamWordHoldTimer=null; }
+    seamFullyOpen=false;
+    var words=seamWordEls();
+    for(var i=0;i<words.length;i++){
+      words[i].style.transition='none';
+      words[i].style.opacity='1';
+    }
+    seamWordsHidden=false;
+  }
+  function holdThenFadeSeamWords(gap){
+    if(reduced) return;
+    var fullyOpen=gap>=seamGapMax()-0.5;
+    if(!fullyOpen){
+      if(seamFullyOpen||seamWordsHidden||seamWordHoldTimer) restoreSeamWords();
+      return;
+    }
+    if(seamFullyOpen) return;
+    seamFullyOpen=true;
+    var words=seamWordEls();
+    for(var i=0;i<words.length;i++){ words[i].style.transition='none'; words[i].style.opacity='1'; }
+    seamWordHoldTimer=setTimeout(function(){
+      seamWordHoldTimer=null;
+      if(!seamFullyOpen||seamGap<seamGapMax()-0.5) return;
+      var heldWords=seamWordEls();
+      for(var j=0;j<heldWords.length;j++){
+        heldWords[j].style.transition='opacity .5s ease';
+        heldWords[j].style.opacity='0';
+      }
+      seamWordsHidden=true;
+    },4000);
+  }
   function sstep(x){ x=x<0?0:(x>1?1:x); return x*x*(3-2*x); }
   function seamApply(gap){
     seamGap=gap;
+    holdThenFadeSeamWords(gap);
     seamHL.style.transform='translateX('+(-gap).toFixed(1)+'px)';
     seamHR.style.transform='translateX('+gap.toFixed(1)+'px)';
     seamGold.style.width=(gap*2).toFixed(1)+'px';
