@@ -1874,6 +1874,18 @@
 
   var dragging=false, dragId=null, lx=0, ly=0, samples=[], rawX=0, rawY=0; // raw = uncompressed drag position; the give curve is applied to it one-shot
   var dnX=0, dnY=0; // pointerdown origin, for the real-pan threshold
+  /* INPUT CLOCK. event.timeStamp is stamped when the input actually happened;
+     performance.now() here is stamped when the HANDLER RUNS. A main thread busy
+     >80ms across the finger-lift made a stalled frame indistinguishable from a
+     paused hand, and endDrag's >=80ms test below then threw the whole flick away
+     (plane stops dead, no coast). All three drag clocks now read the input time so
+     they cannot disagree with each other. Verified same-timeline as
+     performance.now() on Blink and WebKit; the 1s sanity band falls back cleanly on
+     any engine still reporting epoch-based timeStamps, so the clocks never mix. */
+  function evNow(e){
+    var p=performance.now(), t=e&&e.timeStamp;
+    return (typeof t==='number' && t>0 && Math.abs(p-t)<1000) ? t : p;
+  }
   /* the drag label pulsed forever, with nothing ever dismissing it. Retire it
      once someone has actually panned. animation:none must be set BEFORE the
      opacity fade — the infinite pulse keyframe animates the same property and
@@ -1898,7 +1910,7 @@
        OFF→ON at the start of every pan; lightCentre steals it smoothly
        (hysteresis + dwell) if the pan moves the centre elsewhere. */
     if(!followHot) setHot(null);
-    samples=[{t:performance.now(),x:e.clientX,y:e.clientY}];
+    samples=[{t:evNow(e),x:e.clientX,y:e.clientY}];
     stopInertia(); velX=velY=0;
     vault.classList.add('dragging');
     if(vault.setPointerCapture){ try{ vault.setPointerCapture(e.pointerId); }catch(_){} }
@@ -1916,7 +1928,7 @@
     if(followHot) lightCentre(); // the photo under the spotlight glows as you roam
     // a real pan, not a 2px twitch
     if(!dragCueDone && (Math.abs(e.clientX-dnX)+Math.abs(e.clientY-dnY))>60) retireDragCue();
-    var now=performance.now();
+    var now=evNow(e);
     samples.push({t:now,x:e.clientX,y:e.clientY});
     while(samples.length>2 && now-samples[0].t>120) samples.shift();
   });
@@ -1926,7 +1938,7 @@
     vault.classList.remove('dragging');
     // no tap-light on touch: it misfired on slow pans. The centred photo the
     // follow-light landed on simply STAYS lit after you lift your finger.
-    var n=samples.length, now=performance.now(), cancelled=!!(e && e.type==='pointercancel');
+    var n=samples.length, now=evNow(e), cancelled=!!(e && e.type==='pointercancel');
     if(cancelled || n<2 || now-samples[n-1].t>=80){ velX=velY=0; }
     else{
       // Weighted recent-window velocity: old motion cannot kick after the hand
@@ -1948,7 +1960,7 @@
   }
   vault.addEventListener('pointerup',endDrag);
   vault.addEventListener('pointercancel',endDrag);
-  vault.addEventListener('lostpointercapture',function(){ if(dragging) endDrag({pointerId:dragId,type:'pointercancel'}); });
+  vault.addEventListener('lostpointercapture',function(e){ if(dragging && e && e.pointerId===dragId) endDrag({pointerId:dragId,type:'pointercancel'}); });
 
   // keyboard panning (a11y) — active whenever the vault is on screen
   addEventListener('keydown',function(e){
