@@ -1307,9 +1307,8 @@
   }
   function enterEmail(){
     guidePhase='email'; scrollIntent=0;
-    // guard both: a fast scroller can leave 'email' before these fire — don't pop
-    // the email cue (or grab focus) mid-dive into the vault
-    setTimeout(function(){ if(guidePhase==='email') showCue('Add your email &nbsp;&middot;&nbsp; or HOLD TO ENTER'); }, 700);
+    // a fast scroller can leave 'email' before focus fires — don't grab focus
+    // mid-dive into the vault
     if(isDesktop && sEmail){ setTimeout(function(){ if(guidePhase==='email'){ try{ sEmail.focus({preventScroll:true}); }catch(e){} } }, 950); }
   }
   function advanceToVault(){
