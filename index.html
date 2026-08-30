@@ -50,6 +50,9 @@
      black-tide transition, and keeps every later lock (the game overlay) shift-free */
   html{background:#000; overflow-x:clip} /* bg: overscroll must read true-black, not lifted ink; overflow-x:clip: the 100vw .stage overhang must never spawn a horizontal bar (clip, not hidden — hidden would break .stage's sticky) */
   html.gutter{scrollbar-gutter:stable}
+  html.journey-held{scrollbar-width:none;scrollbar-gutter:auto}
+  html.journey-held body{scrollbar-width:none}
+  html.journey-held::-webkit-scrollbar,html.journey-held body::-webkit-scrollbar{width:0;height:0;display:none}
   body.locked{overflow:hidden; height:100vh}
   /* phone: while the site is driving the guided journey, deny the compositor the
      vertical pan so onGuideTouch's preventDefault stays authoritative (a real phone
@@ -994,15 +997,9 @@
   addEventListener('pointerdown',arm,{passive:true});
 
   if(reduced){
-    phase='done'; stage.classList.add('done','cardend');
-    // paint the mark UNCONDITIONALLY: the film is inlined above this script, so
-    // loadedmetadata has usually already fired by now and a bare listener never
-    // runs — which left reduced-motion users on frame 0 with no wordmark at all
-    showFilmLogo(true); // straight to gold — no tint choreography under reduced motion
-    var seekLast=function(){ film.currentTime=Math.max(0,(film.duration||10.9)-0.05); }; // last frame = the logo card
-    // with the src deferred, readyState is always 0 here and the listener path
-    // is taken — the branch stays for a build where the payload is inline
-    if(film.readyState>=1){ seekLast(); } else { film.addEventListener('loadedmetadata',seekLast); }
+    // Keep the authored film, but omit the added V-intro and camera choreography.
+    // The muted film can begin as soon as its deferred source is ready.
+    lock(); play();
   } else {
     lock();
   }
@@ -1065,7 +1062,9 @@
     // the panel is width:0 + opacity:0, NOT display:none — so the email field and
     // its button sat in the tab order from first paint, and tabbing to them
     // scrolled the document out from under the guided journey
-    seamGold.inert = _vis < 0.5;
+    var _hidePanel=_vis < 0.5;
+    if(_hidePanel && seamGold.contains(document.activeElement)) document.activeElement.blur();
+    seamGold.inert = _hidePanel;
   }
   function seamGapMax(){
     // phone: FLOOR the shaft so the signup form is never crushed to a strip.
@@ -1286,10 +1285,17 @@
     },33);
   }
   function startGuide(){
-    if(reduced || guidePhase!=='film') return;
+    if(guidePhase!=='film') return;
     guidePhase='toEmail'; hideCue();
     document.body.classList.add('guiding'); // phone: JS owns touch through the whole glide/hold/dive so the compositor can't steal the swipe
+    document.documentElement.classList.add('journey-held');
     var so=document.querySelector('.scroll-on'); if(so) so.style.display='none';
+    if(reduced){
+      scrollTo(0,emailY());
+      seamApply(seamGapMax());
+      enterEmail();
+      return;
+    }
     /* ONE symmetric 5s ease meant the best shot on the site — the black tide
        rising over the pinned film as CLOSED comes into frame — was scrubbed
        past at PEAK velocity, while the slow tail was spent parked on an
@@ -1307,9 +1313,6 @@
   }
   function enterEmail(){
     guidePhase='email'; scrollIntent=0;
-    // a fast scroller can leave 'email' before focus fires — don't grab focus
-    // mid-dive into the vault
-    if(isDesktop && sEmail){ setTimeout(function(){ if(guidePhase==='email'){ try{ sEmail.focus({preventScroll:true}); }catch(e){} } }, 950); }
   }
   function advanceToVault(){
     // THE REAL FIX: fire the dive from ANY pre-vault state (film / toEmail / email).
@@ -1351,6 +1354,13 @@
   addEventListener('wheel', onGuideWheel, {passive:false});
   addEventListener('touchstart', function(e){ if(e.touches&&e.touches[0]){ gtY=e.touches[0].clientY; gStartY=gtY; gBlurred=false; } }, {passive:true});
   addEventListener('touchmove', onGuideTouch, {passive:false});
+  addEventListener('keydown',function(e){
+    if(!reduced || (guidePhase!=='toEmail' && guidePhase!=='email' && guidePhase!=='toVault')) return;
+    var el=e.target, tag=el&&el.tagName, editing=tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(el&&el.isContentEditable);
+    if(editing && (e.key===' '||e.key.indexOf('Arrow')===0||e.key==='Home'||e.key==='End')) return;
+    if(e.key===' ' && tag==='BUTTON') return;
+    if([' ','ArrowDown','ArrowUp','PageDown','PageUp','Home','End'].indexOf(e.key)>=0) e.preventDefault();
+  });
   window.__guide={ start:startGuide, toVault:advanceToVault, phase:function(){return guidePhase;} }; // test hook
   /* DEMO v1 — THE POUR: hold the bar, gold pours into the letters, the vault yields */
   (function(){
@@ -1385,7 +1395,6 @@
     function vhDown(e,id){
       if(vhLocked()||vhPid!==null||e.button>0) return;   // one owner; right/middle mouse never pours
       e.preventDefault();                                 // no select, no focus steal, no synthesized mouse pair
-      if(reduced){ vhFired=true; scrollTo(0, vaultY()); return; } // plain instant entry
       vhPid=id; vhHold=true; vhAuto=false; vhBtn.classList.add('holding');
       if(e.pointerId!==undefined){ try{ vhBtn.setPointerCapture(e.pointerId); }catch(err){} }
       vhRun();
@@ -1414,7 +1423,6 @@
        A hold released past 25% still drains back: release-to-cancel survives for real holds. */
     vhBtn.addEventListener('click', function(){
       if(vhLocked()||vhPid!==null) return;
-      if(reduced){ vhFired=true; scrollTo(0, vaultY()); return; }
       if(vhCharge>0.25) return;                           // an aborted hold stays aborted
       vhAuto=true; vhHold=false; vhBtn.classList.add('holding'); vhRun();
     });
@@ -1430,11 +1438,6 @@
   }
   var vw=document.documentElement.clientWidth, vh=innerHeight; // vw feeds dive-plane centring — must be the visible width, sans scrollbar
   var dStart=0, dEnd=1, vaultActive=false, lastY=-1;
-  // reduced-motion users never get the arming animation that flips the vault live,
-  // so activate it directly — otherwise the archive is visible but frozen (dead to
-  // both pointer and keyboard). visibility:hidden still gates it until scrolled in.
-  if(reduced){ vaultActive=true; vault.style.pointerEvents='auto'; }
-
   function clamp01(n){ return n<0?0:(n>1?1:n); }
 
   function measure(){
@@ -1504,7 +1507,20 @@
     // surfaced check: a Surface exit retires the dive for good, and it must be
     // by PHASE — surfacedReset re-arms flyRan, so the email path's still-pending
     // 1500ms timer would otherwise dive a page that has already surfaced.
-    if(flyRan || reduced || guidePhase==='closing' || guidePhase==='surfaced') return; flyRan=true;
+    if(flyRan || guidePhase==='closing' || guidePhase==='surfaced') return; flyRan=true;
+    if(reduced){
+      vaultArming=true; entryGen++;
+      scrollTo(0,vaultY());
+      seamRise=1; seamLift.style.opacity='0';
+      if(seamsecEl) seamsecEl.style.pointerEvents='none';
+      shroud.style.opacity='1';
+      dive.style.transform='scale(1)'; dive.style.filter='none';
+      vault.style.opacity='1'; vault.style.visibility='visible'; vault.style.pointerEvents='auto';
+      vaultActive=true; guidePhase='vault'; hideCue();
+      if(!vaultRevealed) revealVaultTitle();
+      document.body.classList.remove('guiding');
+      return;
+    }
     vaultArming=true;                          // sole entry into the vault; there is no door path
     var fadeEls=[document.querySelector('.sg1'), document.querySelector('.sgh'),
                  document.querySelector('.sgr'), document.querySelector('.sg2'),
@@ -2005,6 +2021,7 @@
     entryGen++;                         // belt-and-braces: also reached directly, not only via armVaultClose
     surfacing=true;                     // updateScroll stands down while we reposition
     scrollTo(0,0);                      // instant — invisible under the held flash
+    document.documentElement.classList.remove('journey-held');
     setStageRetired(false);
     // vault + drag state down
     dragging=false; dragId=null; samples=[]; vault.classList.remove('dragging');
