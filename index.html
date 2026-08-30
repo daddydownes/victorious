@@ -1288,6 +1288,12 @@
     if(guidePhase!=='film') return;
     guidePhase='toEmail'; hideCue();
     document.body.classList.add('guiding'); // phone: JS owns touch through the whole glide/hold/dive so the compositor can't steal the swipe
+    /* Hold the scrollbar WITHOUT letting the reserved gutter collapse. The document is
+       scrollable at this point (unlock() ran at film end), so the bar's real cost is
+       measurable here and NOT after the class hides it. Pad by exactly that much:
+       where the bar is overlay the cost is 0, the padding is 0, and this is a no-op. */
+    var _sbCost=window.innerWidth-document.documentElement.clientWidth;
+    if(_sbCost>0) document.documentElement.style.paddingRight=_sbCost+'px';
     document.documentElement.classList.add('journey-held');
     var so=document.querySelector('.scroll-on'); if(so) so.style.display='none';
     if(reduced){
@@ -2022,6 +2028,7 @@
     surfacing=true;                     // updateScroll stands down while we reposition
     scrollTo(0,0);                      // instant — invisible under the held flash
     document.documentElement.classList.remove('journey-held');
+    document.documentElement.style.paddingRight=''; // release the gutter compensation with it
     setStageRetired(false);
     // vault + drag state down
     dragging=false; dragId=null; samples=[]; vault.classList.remove('dragging');
