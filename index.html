@@ -1041,7 +1041,7 @@
       if(!seamFullyOpen||seamGap<seamGapMax()-0.5) return;
       var heldWords=seamWordEls();
       for(var j=0;j<heldWords.length;j++){
-        heldWords[j].style.transition='opacity .5s ease';
+        heldWords[j].style.transition='opacity 1.4s cubic-bezier(.45,0,.55,1)'; // a dissolve, not a cut: symmetric ease, long enough to read as the light going out (Jacob, 2026-09-02)
         heldWords[j].style.opacity='0';
       }
       seamWordsHidden=true;
