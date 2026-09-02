@@ -111,7 +111,7 @@
      POURS down the mark — that pour IS the white→gold handoff (Liquid gold descent). */
   .card-cover{position:absolute; inset:0; display:none; opacity:0;
     background:#000; pointer-events:none}
-  .film-logo{position:absolute; display:none; opacity:0; pointer-events:none}
+  .film-logo{position:absolute; display:none; opacity:0; pointer-events:none; z-index:10} /* above .stage-dim (z9): after the film the mark RIDES the wall out of frame at full gold — it is never dimmed */
   .film-logo .mk{position:absolute; inset:0}
   .film-logo .mk-gold{color:var(--gold-hot)}   /* the metal, uncovered by the pour */
   .film-logo .mk-white{color:#fff}              /* the film's white V, erased top→tip */
@@ -1227,6 +1227,7 @@
      field = interact, a scroll gesture = advance), then a little scroll auto-kicks
      the dive into the vault. It only tweens scrollY — the existing render follows. */
   var guidePhase='film';                 // film → toEmail → email → toVault → vault
+  var vRides=false, vLastY=0, vHidden=false; // TILT DOWN: after the film the gold mark rides the page out the top of frame (see updateScroll)
   var guideTimer=null, scrollIntent=0, ADVANCE=240, gtY=0, gStartY=0, gBlurred=false, SWIPE_MIN=24;
   var isDesktop=matchMedia('(hover:hover) and (pointer:fine)').matches;
   var guideCue=document.getElementById('guideCue');
@@ -1309,6 +1310,20 @@
        into the seam so the whole split plays slowing down. No dead beat
        between them: an easeInQuad ends at maximum velocity, so a stop there
        is a hitch, not an impact. */
+    /* TILT DOWN OFF THE TITLE (Jacob, 2026-09-02): the mark stops being pinned to the
+       screen and rides the black wall like a title — the same glide that carries it out
+       the top of frame carries OPEN in from the bottom (updateScroll does the riding).
+       Pre-beat: over 350ms of the 450ms beat the glow GATHERS — radius in, alpha up —
+       mass before the move. (A swell reads as a UI cue; tightening reads as weight.) */
+    if(logoShown){
+      vRides=true; vLastY=scrollY; vHidden=false;
+      filmLogo.style.willChange='transform';
+      var _g0=Date.now(), _gIv=setInterval(function(){
+        var q=Math.min(1,(Date.now()-_g0)/350); q=q*q; // ease-in
+        filmLogo.style.filter='drop-shadow(0 0 '+(3.5-1.5*q).toFixed(2)+'px rgba(240,212,146,'+(0.30+0.08*q).toFixed(3)+'))';
+        if(q>=1) clearInterval(_gIv);
+      },16);
+    }
     setTimeout(function(){
       var d1=Math.max(1,seamDocTop()-scrollY), d2=Math.max(1,emailY()-seamDocTop());
       var vj=(2*d1+3*d2)/3800, D1=Math.min(3000,Math.max(700,2*d1/vj)), D2=Math.min(3200,Math.max(1200,3*d2/vj));
@@ -1625,6 +1640,20 @@
     setStageRetired(false);
     // Keep the authored black-tide reset while the original chapter is active.
     stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
+    /* TILT DOWN: the mark rides the wall at exactly page speed (K=1 — the seam track
+       starts one stage-height down, so the mark's tip clears the top edge ~120ms after
+       OPEN's cap enters the bottom: no dead frame). A short trail hangs below it and
+       lengthens with speed (cap 14px — longer reads as a cheap drop shadow). Once it is
+       off the top it goes visibility:hidden and the promoted layer is released; both
+       reverse if the page ever comes back up. y>0 guard: the gather owns the filter
+       during the beat. Reduced motion never sets vRides. */
+    if(vRides){
+      var _vdy=Math.max(0,y-vLastY), _vtr=Math.min(14,_vdy*0.45); vLastY=y;
+      filmLogo.style.transform='translateY('+(-y).toFixed(1)+'px)';
+      if(y>0) filmLogo.style.filter='drop-shadow(0 0 2px rgba(240,212,146,0.38))'+(_vtr>0.2?' drop-shadow(0 '+_vtr.toFixed(1)+'px 6px rgba(240,212,146,'+(0.28*_vtr/14).toFixed(3)+'))':'');
+      var _vhid=y>vh*0.65;
+      if(_vhid!==vHidden){ vHidden=_vhid; filmLogo.style.visibility=_vhid?'hidden':''; filmLogo.style.willChange=_vhid?'':'transform'; }
+    }
     /* CLOSED used to be carried into frame at full opacity by the black tide —
        the most loaded word on the site had no moment of its own. Driven off the
        APPROACH, not seamScroll's sp (which is pinned at 0 for the whole ~100vh
@@ -2030,6 +2059,8 @@
     document.documentElement.classList.remove('journey-held');
     document.documentElement.style.paddingRight=''; // release the gutter compensation with it
     setStageRetired(false);
+    vRides=false; vHidden=false; filmLogo.style.transform=''; filmLogo.style.visibility=''; filmLogo.style.willChange=''; // TILT DOWN released: the resting mark is back on the card
+    filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
     // vault + drag state down
     dragging=false; dragId=null; samples=[]; vault.classList.remove('dragging');
     stopInertia(); velX=velY=0; setHot(null);
