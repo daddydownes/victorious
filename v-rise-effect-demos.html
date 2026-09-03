@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-AU">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VCTRS — V Rise Effect Demos</title>
+<style>
+  :root{--gold:#f0d492;--bone:#f7f5ef;--ink:#070706}
+  *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--bone)}
+  body{font-family:Georgia,'Times New Roman',serif}
+  .demo-nav{position:fixed;z-index:50;left:50%;top:max(14px,env(safe-area-inset-top));transform:translateX(-50%);
+    display:flex;gap:6px;padding:6px;background:rgba(5,5,4,.78);border:1px solid rgba(240,212,146,.24);backdrop-filter:blur(12px)}
+  .demo-nav button{min-height:35px;border:1px solid transparent;background:transparent;color:rgba(247,245,239,.62);
+    padding:0 13px;font:600 9px/1 Consolas,monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap}
+  .demo-nav button.on{color:var(--gold);border-color:rgba(240,212,146,.46);background:rgba(240,212,146,.07)}
+  .demo-tag{position:fixed;z-index:50;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);
+    color:rgba(247,245,239,.52);font:9px/1.4 Consolas,monospace;letter-spacing:.17em;text-align:center;white-space:nowrap}
+  .scene,.next{position:fixed;inset:0;overflow:hidden}.scene{z-index:1;background:#000}
+  .film-grain{position:absolute;inset:0;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E")}
+  .next{z-index:2;display:grid;place-items:center;transform:translateY(100%);visibility:hidden;
+    background:linear-gradient(180deg,rgba(2,4,5,.74),rgba(2,4,5,.5) 42%,rgba(2,4,5,.8)),url('og.jpg') center/cover no-repeat}
+  .next-card{width:min(700px,calc(100vw - 34px));padding:52px 24px;text-align:center;opacity:0;transform:translateY(14px)}
+  .wordmark{width:min(470px,76vw);aspect-ratio:766/285;margin:auto;background:var(--bone);
+    -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
+    filter:drop-shadow(0 0 9px rgba(240,212,146,.22))}
+  .kicker{margin-top:28px;color:var(--gold);font:600 11px/1 Georgia,serif;letter-spacing:.38em;text-indent:.38em}
+  .rule{width:72px;height:1px;margin:23px auto;background:var(--gold)}
+  h1{margin:0;font:500 clamp(30px,5vw,56px)/1.02 Georgia,serif;letter-spacing:.02em}
+  .email{display:flex;width:min(450px,100%);height:50px;margin:34px auto 0;border:1px solid rgba(247,245,239,.32);background:rgba(0,0,0,.27)}
+  .email span{flex:1;padding:17px;text-align:left;color:rgba(247,245,239,.38);font:11px/1 Consolas,monospace;letter-spacing:.1em}
+  .email b{display:grid;place-items:center;padding:0 20px;border-left:1px solid rgba(240,212,146,.35);color:var(--gold);font:9px/1 Consolas,monospace;letter-spacing:.18em}
+  .transfer{position:fixed;z-index:10;left:50%;top:53%;width:clamp(125px,18vw,210px);aspect-ratio:295.5/357.7;
+    transform:translate(-50%,-50%);color:var(--gold);filter:drop-shadow(0 0 9px rgba(240,212,146,.4));isolation:isolate}
+  .transfer svg{position:relative;z-index:3;width:100%;height:100%;display:block}
+  .fx{position:absolute;z-index:1;left:50%;top:28%;pointer-events:none}
+  .restart{animation:none!important}.restart *{animation:none!important}
+
+  body.play .next{visibility:visible;animation:pageRise 1.25s .12s cubic-bezier(.72,0,.16,1) both}
+  body.play .next-card{animation:cardIn .62s .86s ease-out both}
+  body.play .transfer{animation:vRise 1.45s cubic-bezier(.64,0,.2,1) both}
+  @keyframes pageRise{to{transform:translateY(0)}}
+  @keyframes cardIn{to{opacity:1;transform:none}}
+  @keyframes vRise{0%{transform:translate(-50%,-50%) translateY(0) scale(1);opacity:1}
+    18%{transform:translate(-50%,-50%) translateY(-2vh) scale(1.08);opacity:1;filter:drop-shadow(0 0 9px rgba(240,212,146,.48))}
+    55%{transform:translate(-50%,-50%) translateY(-32vh) scale(.82);opacity:1;filter:drop-shadow(0 0 16px rgba(240,212,146,.58))}
+    100%{transform:translate(-50%,-50%) translateY(-70vh) scale(.35);opacity:0;filter:drop-shadow(0 0 24px rgba(240,212,146,.72))}}
+
+  /* 2 — one restrained lens halo, with no crossing beams. */
+  body[data-demo="halo"] .fx{width:28px;height:28px;border:1px solid rgba(240,212,146,.72);border-radius:50%;
+    box-shadow:0 0 12px rgba(240,212,146,.32),inset 0 0 9px rgba(240,212,146,.22)}
+  body.play[data-demo="halo"] .fx{animation:halo 1.05s .05s cubic-bezier(.18,.82,.22,1) both}
+  body[data-demo="halo"] .fx::after{content:'';position:absolute;inset:50%;border-radius:50%;background:#fff7dc;box-shadow:0 0 18px 8px rgba(240,212,146,.34)}
+  @keyframes halo{0%{transform:translate(-50%,-50%) scale(.15);opacity:0}22%{opacity:.9}58%{transform:translate(-50%,-50%) scale(3.5);opacity:.38}100%{transform:translate(-50%,-50%) scale(4.4);opacity:0}}
+
+  /* 3 — a soft vertical comet wake and a few floating gold motes. */
+  body[data-demo="wake"] .fx{top:34%;width:2px;height:44vh;transform:translateX(-50%);transform-origin:50% 0;
+    background:linear-gradient(180deg,rgba(255,247,220,.82),rgba(240,212,146,.32) 18%,transparent 78%);
+    filter:blur(.25px);box-shadow:0 0 9px rgba(240,212,146,.42)}
+  body.play[data-demo="wake"] .fx{animation:wake 1.15s .08s cubic-bezier(.2,.75,.25,1) both}
+  body[data-demo="wake"] .mote{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);box-shadow:0 0 7px var(--gold);opacity:0}
+  body[data-demo="wake"] .m1{left:-13px;top:14%}body[data-demo="wake"] .m2{left:10px;top:25%}body[data-demo="wake"] .m3{left:-7px;top:38%}body[data-demo="wake"] .m4{left:15px;top:49%}
+  body.play[data-demo="wake"] .mote{animation:mote 1s var(--d) ease-out both}
+  @keyframes wake{0%{transform:translateX(-50%) scaleY(0);opacity:0}22%{opacity:.8}60%{transform:translateX(-50%) scaleY(1);opacity:.54}100%{transform:translateX(-50%) scaleY(1.18);opacity:0}}
+  @keyframes mote{0%{transform:translate(0,0) scale(.2);opacity:0}28%{opacity:.8}100%{transform:translate(var(--x),28px) scale(0);opacity:0}}
+  @media(max-width:620px){.demo-nav{top:max(9px,env(safe-area-inset-top));gap:2px}.demo-nav button{padding:0 8px;font-size:8px}.demo-tag{font-size:8px}.next-card{padding-inline:18px}.transfer{top:55%}}
+</style>
+<body data-demo="none">
+  <nav class="demo-nav" aria-label="Choose V rise demo">
+    <button data-pick="none" class="on">1 · NO LASER</button>
+    <button data-pick="halo">2 · GOLD HALO</button>
+    <button data-pick="wake">3 · LIGHT WAKE</button>
+    <button data-replay>↻ REPLAY</button>
+  </nav>
+  <div class="demo-tag" id="tag">DEMO 1 — CLEAN RISE · NO EFFECT</div>
+  <main class="scene"><div class="film-grain"></div></main>
+  <section class="next" aria-label="VCTRS pop-up details preview">
+    <div class="next-card"><div class="wordmark" role="img" aria-label="VCTRS"></div><div class="kicker">POP-UP STORE</div><div class="rule"></div>
+      <h1>DETAILS<br>DROPPING SOON</h1><div class="email"><span>YOUR EMAIL</span><b>JOIN</b></div></div>
+  </section>
+  <div class="transfer" aria-hidden="true">
+    <div class="fx"><i class="mote m1" style="--d:.12s;--x:-14px"></i><i class="mote m2" style="--d:.2s;--x:12px"></i><i class="mote m3" style="--d:.27s;--x:-9px"></i><i class="mote m4" style="--d:.34s;--x:16px"></i></div>
+    <svg viewBox="170.4 94.8 295.5 357.7" role="img" aria-label="V"><path fill="currentColor" d="M410.079 103.744c-1.332 2.066-6.202 8.866-10.822 15.111l-8.4 11.355-19.429-.355c-10.685-.195-19.428-.049-19.428.326 0 .374 4.542 6.899 10.094 14.5 11.883 16.269 12.434 17.397 10.403 21.326-.824 1.591-1.497 3.361-1.497 3.933 0 .572-2.281 7.163-5.069 14.648-2.788 7.484-4.871 13.805-4.63 14.047.242.241 2.748-.472 5.571-1.584 2.822-1.113 11.045-3.839 18.273-6.058 15.351-4.714 11.712-5.841 31.039 9.618l13.316 10.652.5-20.1.5-20.1 12-8.107c6.6-4.459 13.696-9.061 15.768-10.226 2.073-1.166 3.611-2.593 3.418-3.172-.193-.58-8.414-3.704-18.269-6.943-9.854-3.24-18.042-5.991-18.195-6.114-.352-.283-7.089-24.348-8.678-31.001-1.475-6.172-3.3-6.668-6.465-1.756M379 203.47c-42.891 13.678-70.566 22.986-71.239 23.96-.407.589-.452 1.745-.101 2.57.352.825 1.753 5.325 3.114 10 1.361 4.675 2.804 8.862 3.205 9.304.401.443 4.508.027 9.125-.923 14.067-2.895 20.748.795 21.675 11.97 1.572 18.956-17.927 93.74-28.719 110.142-5.815 8.838-6.131 8.157-18.582-39.993-5.12-19.8-11.809-45.675-14.863-57.5-5.559-21.524-8.603-37.18-8.611-44.29-.002-2.084-.952-5.684-2.112-8-3.374-6.741-14.195-20.678-16.541-21.303-1.281-.342-6.736 1.109-13.5 3.589-39.356 14.431-65.511 24.408-66.538 25.38-.912.864-.622 3.062 1.25 9.487 1.34 4.6 2.437 9.227 2.437 10.282 0 2.629 2.236 3.262 6.524 1.847 16.142-5.327 23.896 9.79 47.966 93.508 21.726 75.563 26.892 88.106 39.922 96.923 7.752 5.244 13.868 6.607 32.683 7.279 21.139.755 21.225.732 23.834-6.243 2.598-6.941 17.185-48.792 24.99-71.691 6.511-19.105 8.998-26.18 19.247-54.768 16.825-46.928 26.686-67.735 37.459-79.042 4.122-4.326 4.311-7.427.989-16.252-4.975-13.216-10.921-21.798-14.968-21.602-1.18.057-9.571 2.472-18.646 5.366"/></svg>
+  </div>
+<script>
+  const labels={none:'DEMO 1 — CLEAN RISE · NO EFFECT',halo:'DEMO 2 — SOFT GOLD HALO',wake:'DEMO 3 — CINEMATIC LIGHT WAKE'};
+  function play(kind){document.body.classList.remove('play');document.body.dataset.demo=kind;document.getElementById('tag').textContent=labels[kind];
+    document.querySelectorAll('[data-pick]').forEach(b=>b.classList.toggle('on',b.dataset.pick===kind));void document.body.offsetWidth;document.body.classList.add('play')}
+  document.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>play(b.dataset.pick)));
+  document.querySelector('[data-replay]').addEventListener('click',()=>play(document.body.dataset.demo));
+  addEventListener('load',()=>setTimeout(()=>play('none'),250));
+</script>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VCTRS — Classy Gold Transfer Demo</title>
+<style>
+  :root{--ink:#070706;--bone:#efe9dc;--gold:#d4af5f;--gold-hot:#f0d492}
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050505;color:var(--bone)}
+  body{font-family:Consolas,"Cascadia Mono",monospace}
+  .scene{position:fixed;inset:0;overflow:hidden;background:#070706;isolation:isolate}
+  .demo-note{position:fixed;z-index:20;top:18px;left:20px;color:rgba(239,233,220,.38);font-size:9px;letter-spacing:.2em}
+  .source,.vault{position:absolute;inset:0;display:grid;place-items:center;transform-origin:50% 46%;will-change:transform,opacity}
+  .source{z-index:5;background:radial-gradient(circle at 50% 38%,rgba(212,175,95,.065),transparent 38%),#070706}
+  .source::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 74% 70% at 50% 44%,transparent 35%,rgba(0,0,0,.52) 100%);pointer-events:none}
+  .card{position:relative;z-index:2;width:min(760px,calc(100vw - 42px));padding:clamp(30px,5vw,66px);text-align:center}
+  .source-slot{width:min(520px,78vw);aspect-ratio:766/285;margin:0 auto}
+  .wordmark{display:block;width:100%;height:100%;background:#f7f5ef;
+    -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.18));will-change:transform,background-color,filter}
+  .kicker{margin-top:clamp(22px,4vh,40px);color:var(--gold-hot);font:600 11px/1 Georgia,serif;letter-spacing:.38em;text-indent:.38em}
+  .rule{width:74px;height:1px;margin:24px auto;background:var(--gold-hot)}
+  h1{margin:0;color:var(--bone);font:500 clamp(30px,5vw,56px)/1.03 Georgia,serif;letter-spacing:.025em}
+  .email{width:min(460px,100%);margin:clamp(28px,4.5vh,46px) auto 0}
+  .email label{display:block;margin-bottom:11px;color:rgba(239,233,220,.58);font-size:10px;letter-spacing:.24em}
+  .email-row{display:flex;border:1px solid rgba(239,233,220,.3);background:rgba(0,0,0,.2)}
+  .email-row span{flex:1;padding:15px;text-align:left;color:rgba(239,233,220,.33);font-size:14px}
+  .email-row b{display:grid;place-items:center;padding:0 20px;border-left:1px solid rgba(212,175,95,.38);color:var(--gold-hot);font:600 10px Georgia,serif;letter-spacing:.18em}
+  .enter{width:min(460px,100%);min-height:54px;margin:18px auto 0;border:1px solid rgba(212,175,95,.5);background:rgba(0,0,0,.2);color:var(--gold-hot);cursor:pointer;font:10px Consolas,monospace;letter-spacing:.19em}
+  .enter:hover,.enter:focus-visible{outline:none;border-color:var(--gold-hot)}
+  .vault{z-index:1;opacity:0;background:#000}
+  .plane{position:absolute;inset:-4%;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:12px;padding:8%;transform:scale(.78);will-change:transform}
+  .photo{background:linear-gradient(145deg,#282828,#090909);border:1px solid rgba(212,175,95,.13);box-shadow:0 18px 50px rgba(0,0,0,.78)}
+  .photo:nth-child(2){grid-column:span 2}.photo:nth-child(5){grid-column:span 2}.photo:nth-child(3),.photo:nth-child(7){transform:translateY(12%)}
+  .vault::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 49%,transparent 43%,rgba(0,0,0,.7) 100%);pointer-events:none}
+  .hud{position:absolute;inset:0;z-index:3;pointer-events:none}
+  .surface{position:absolute;top:clamp(20px,4vw,44px);left:clamp(20px,4vw,44px);color:var(--gold);font-size:10px;letter-spacing:.2em}
+  .vault-lockup{position:absolute;left:50%;top:50%;width:clamp(148px,18vw,176px);transform:translate(-50%,-50%);text-align:center}
+  .target-slot{width:100%;aspect-ratio:766/285}
+  .vault-name{margin-top:11px;color:var(--gold-hot);opacity:0;transform:translateY(7px);font:600 9px/1 Georgia,serif;letter-spacing:.42em;text-indent:.42em}
+  .drag{position:absolute;left:50%;bottom:clamp(22px,4vw,46px);transform:translateX(-50%);color:var(--gold);font-size:10px;letter-spacing:.28em}
+  .replay{position:fixed;right:18px;top:14px;z-index:30;border:1px solid rgba(212,175,95,.45);background:#070706;color:var(--gold-hot);padding:10px 13px;cursor:pointer;font:9px Consolas,monospace;letter-spacing:.16em;opacity:0;pointer-events:none}
+  .done .replay{opacity:1;pointer-events:auto}
+  @media(max-width:620px){.card{padding:30px 18px}.source-slot{width:min(440px,80vw)}.kicker{margin-top:20px}h1{font-size:clamp(29px,9vw,44px)}.email{margin-top:26px}.plane{grid-template-columns:repeat(3,1fr);padding:12% 8%}.photo:nth-child(2){grid-column:span 1}.demo-note{top:12px;left:13px}.replay{top:8px;right:8px}}
+  @media(prefers-reduced-motion:reduce){.enter{display:none}.source{display:none}.vault{opacity:1}.plane{transform:none}.wordmark{background:var(--gold-hot)}.vault-name{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="scene" id="scene">
+  <div class="demo-note">TRANSFER DEMO · REAL SITE UNCHANGED</div>
+  <section class="source" id="source">
+    <div class="card">
+      <div class="source-slot" id="sourceSlot"><span class="wordmark" id="wordmark" role="img" aria-label="VCTRS"></span></div>
+      <div class="kicker">POP-UP STORE</div><div class="rule"></div>
+      <h1>DETAILS<br>DROPPING SOON</h1>
+      <div class="email"><label>BE FIRST TO KNOW</label><div class="email-row"><span>YOUR EMAIL</span><b>JOIN</b></div></div>
+      <button class="enter" id="enter" type="button">CLICK TO PREVIEW VAULT TRANSFER</button>
+    </div>
+  </section>
+  <section class="vault" id="vault">
+    <div class="plane" id="plane"><i class="photo"></i><i class="photo"></i><i class="photo"></i><i class="photo"></i><i class="photo"></i><i class="photo"></i><i class="photo"></i><i class="photo"></i></div>
+    <div class="hud"><div class="surface">▲ SURFACE</div><div class="vault-lockup"><div class="target-slot" id="targetSlot"></div><div class="vault-name" id="vaultName">THE VAULT</div></div><div class="drag">DRAG TO EXPLORE</div></div>
+  </section>
+</div>
+<button class="replay" id="replay" type="button">REPLAY</button>
+<script>
+(function(){
+  var scene=document.getElementById('scene'),source=document.getElementById('source'),vault=document.getElementById('vault'),
+      plane=document.getElementById('plane'),sourceSlot=document.getElementById('sourceSlot'),targetSlot=document.getElementById('targetSlot'),
+      mark=document.getElementById('wordmark'),name=document.getElementById('vaultName'),enter=document.getElementById('enter'),replay=document.getElementById('replay'),running=false;
+  function play(){
+    if(running)return;running=true;var sr=mark.getBoundingClientRect();sourceSlot.style.height=sr.height+'px';
+    mark.style.position='fixed';mark.style.left=sr.left+'px';mark.style.top=sr.top+'px';mark.style.width=sr.width+'px';mark.style.height=sr.height+'px';mark.style.zIndex='15';
+    document.body.appendChild(mark);vault.style.opacity='0';plane.style.transform='scale(.78)';name.style.opacity='0';name.style.transform='translateY(7px)';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      var tr=targetSlot.getBoundingClientRect(),dx=tr.left+tr.width/2-(sr.left+sr.width/2),dy=tr.top+tr.height/2-(sr.top+sr.height/2),s=tr.width/sr.width,D=1650,
+          t=function(x,y,z,r){return 'translate('+x+'px,'+y+'px) scale('+z+') rotate('+r+'deg)'};
+      var logo=mark.animate([
+        {offset:0,transform:t(0,0,1,0),backgroundColor:'#f7f5ef',filter:'drop-shadow(0 0 8px rgba(255,255,255,.18))',easing:'cubic-bezier(.42,0,.7,1)'},
+        {offset:.11,transform:t(0,4,.978,-.25),backgroundColor:'#f7f5ef',easing:'cubic-bezier(.2,.8,.2,1)'},
+        {offset:.23,transform:t(dx*.06,dy*.04-8,1.018,.35),backgroundColor:'#f2e5c7',easing:'cubic-bezier(.16,.84,.22,1)'},
+        {offset:.72,transform:t(dx*.94+9,dy*.9,s*.87,-.28),backgroundColor:'#f0d492',filter:'drop-shadow(0 0 11px rgba(240,212,146,.34))',easing:'cubic-bezier(.2,.9,.25,1)'},
+        {offset:.86,transform:t(dx,dy,s*1.06,.12),backgroundColor:'#f0d492',easing:'cubic-bezier(.2,.9,.25,1)'},
+        {offset:1,transform:t(dx,dy,s,0),backgroundColor:'#f0d492',filter:'drop-shadow(0 0 7px rgba(240,212,146,.22))'}
+      ],{duration:D,easing:'linear',fill:'forwards'});
+      var src=source.animate([{opacity:1,transform:'scale(1)'},{offset:.16,opacity:.98,transform:'scale(1.003)'},{offset:.64,opacity:0,transform:'scale(1.028)'},{opacity:0,transform:'scale(1.028)'}],{duration:D,easing:'linear',fill:'forwards'});
+      var va=vault.animate([{opacity:0},{offset:.12,opacity:.04},{offset:.64,opacity:1},{opacity:1}],{duration:D,easing:'linear',fill:'forwards'});
+      var pl=plane.animate([{transform:'scale(.78)'},{offset:.68,transform:'scale(1.022)'},{offset:.86,transform:'scale(.992)'},{transform:'scale(1)'}],{duration:D,easing:'linear',fill:'forwards'});
+      logo.finished.then(function(){
+        [logo,src,va,pl].forEach(function(a){a.cancel()});mark.removeAttribute('style');mark.style.background='#f0d492';targetSlot.appendChild(mark);
+        source.style.opacity='0';source.style.visibility='hidden';vault.style.opacity='1';plane.style.transform='scale(1)';
+        name.animate([{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}],{duration:380,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'});
+        scene.classList.add('done');
+      });
+    })});
+  }
+  function reset(){running=false;scene.classList.remove('done');source.style.cssText='';vault.style.cssText='';plane.style.cssText='';name.style.cssText='';mark.removeAttribute('style');sourceSlot.style.cssText='';sourceSlot.appendChild(mark)}
+  enter.addEventListener('click',play);replay.addEventListener('click',reset);
+})();
+</script>
+</body>
+</html>

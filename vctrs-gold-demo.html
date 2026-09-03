@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VCTRS — Gold Colour Studies</title>
+<style>
+  :root{--ink:#050505;--bone:#f2eee5}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:#030303;color:var(--bone)}
+  body{padding:clamp(18px,4vw,48px);font-family:Consolas,"Cascadia Mono",monospace}
+  header{max-width:1120px;margin:0 auto 24px;display:flex;justify-content:space-between;align-items:end;gap:20px}
+  h1{margin:0;font:500 clamp(19px,2.5vw,29px)/1 Georgia,serif;letter-spacing:.08em}
+  header p{margin:0;color:rgba(242,238,229,.45);font-size:9px;letter-spacing:.2em;text-align:right}
+  main{max-width:1120px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,32px)}
+  article{min-width:0}
+  .frame{--gold:#c7a04a;--gold-hi:#ead083;position:relative;aspect-ratio:4/5;overflow:hidden;
+    border:1px solid color-mix(in srgb,var(--gold) 32%,transparent);background:#050505;isolation:isolate}
+  .frame.deep{--gold:#b98932;--gold-hi:#d6ad5d}
+  .vault{position:absolute;inset:-2%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12%;
+    opacity:0;transform:scale(.78);background:#050505}
+  .tile{background:linear-gradient(145deg,#252525,#080808);border:1px solid rgba(242,238,229,.1);box-shadow:0 16px 35px #000}
+  .tile:nth-child(2),.tile:nth-child(6){transform:translateY(14%)}.tile:nth-child(4){grid-column:span 2}
+  .vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 68% 58% at 50% 49%,transparent 42%,rgba(0,0,0,.76) 100%)}
+  .traveller{position:absolute;left:50%;top:38%;z-index:4;width:72%;aspect-ratio:766/285;transform:translate(-50%,-50%)}
+  .traveller .white{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;
+    filter:brightness(0) invert(1) drop-shadow(0 0 7px rgba(255,255,255,.2))}
+  .gold,.final-gold{display:block;background:linear-gradient(105deg,#806025 0%,#ba9448 31%,#e1c77f 48%,#b58d40 65%,#74521e 100%);
+    -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
+    filter:drop-shadow(0 0 7px rgba(199,160,74,.2))}
+  .gold{position:absolute;inset:0;clip-path:inset(0 0 100% 0)}
+  .lockup{position:absolute;left:50%;top:50%;z-index:5;width:clamp(142px,18vw,172px);opacity:0;transform:translate(-50%,-50%);text-align:center}
+  .final-gold{width:100%;aspect-ratio:766/285}
+  .deep .gold,.deep .final-gold{background:linear-gradient(105deg,#65471b 0%,#99702b 30%,#c4a15a 49%,#936923 67%,#583b14 100%);
+    filter:drop-shadow(0 0 7px rgba(185,137,50,.18))}
+  .name{margin-top:11px;color:var(--gold-hi);font:600 9px/1 Georgia,serif;letter-spacing:.42em;text-indent:.42em}
+  .run .traveller{animation:flight 2.25s linear both}
+  .run .white{animation:whiteOut 2.25s linear both}
+  .run .gold{animation:goldPour 2.25s cubic-bezier(.42,0,.2,1) both}
+  .run .vault{animation:vaultIn 2.25s linear both}
+  .run .lockup{animation:lockupIn 2.25s linear both}
+  @keyframes flight{
+    0%,12%{transform:translate(-50%,-50%) scale(1) rotate(0)}
+    20%{transform:translate(-50%,-48%) scale(1.025) rotate(.35deg)}
+    70%{transform:translate(-50%,30%) scale(.205) rotate(-.25deg);opacity:1}
+    83%{transform:translate(-50%,34%) scale(.155) rotate(0);opacity:1}
+    92%{transform:translate(-50%,32%) scale(.18);opacity:.55}
+    100%{transform:translate(-50%,32%) scale(.172);opacity:0}}
+  @keyframes whiteOut{0%,27%{opacity:1}54%{opacity:.42}72%,100%{opacity:0}}
+  @keyframes goldPour{0%,18%{clip-path:inset(0 0 100% 0);opacity:0}28%{opacity:1}
+    62%,100%{clip-path:inset(0 0 0 0);opacity:1}}
+  @keyframes vaultIn{0%,24%{opacity:0;transform:scale(.78)}66%{opacity:1;transform:scale(1.025)}84%{transform:scale(.992)}100%{opacity:1;transform:scale(1)}}
+  @keyframes lockupIn{0%,87%{opacity:0}94%,100%{opacity:1}}
+  .caption{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:12px}
+  .label b{display:block;color:var(--gold-hi);font:600 11px/1 Georgia,serif;letter-spacing:.17em}
+  .label span{display:block;margin-top:6px;color:rgba(242,238,229,.46);font-size:9px;letter-spacing:.11em}
+  button{border:1px solid color-mix(in srgb,var(--gold) 62%,transparent);background:transparent;color:var(--gold-hi);
+    padding:10px 14px;cursor:pointer;font:10px/1 Consolas,monospace;letter-spacing:.16em}
+  button:hover,button:focus-visible{outline:none;border-color:var(--gold-hi)}
+  @media(max-width:720px){main{grid-template-columns:1fr}.frame{aspect-ratio:9/11}header{align-items:start}header p{max-width:140px}}
+  @media(prefers-reduced-motion:reduce){.traveller{display:none}.vault,.lockup{opacity:1;transform:none}.lockup{transform:translate(-50%,-50%)}}
+</style>
+</head>
+<body>
+<header><h1>VCTRS — GOLD LANDING</h1><p>COLOUR DEMO ONLY · REAL SITE UNCHANGED</p></header>
+<main>
+  <article>
+    <div class="frame classic" id="classic">
+      <div class="vault"><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i></div><div class="vignette"></div>
+      <div class="traveller"><img class="white" src="vctrs-wordmark.svg" alt=""><span class="gold" role="img" aria-label="VCTRS"></span></div>
+      <div class="lockup"><span class="final-gold" role="img" aria-label="VCTRS"></span><div class="name">THE VAULT</div></div>
+    </div>
+    <div class="caption"><div class="label"><b>A · CLASSIC GOLD</b><span>RICH · WARM · LESS YELLOW</span></div><button data-for="classic">REPLAY A</button></div>
+  </article>
+  <article>
+    <div class="frame deep" id="deep">
+      <div class="vault"><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i><i class="tile"></i></div><div class="vignette"></div>
+      <div class="traveller"><img class="white" src="vctrs-wordmark.svg" alt=""><span class="gold" role="img" aria-label="VCTRS"></span></div>
+      <div class="lockup"><span class="final-gold" role="img" aria-label="VCTRS"></span><div class="name">THE VAULT</div></div>
+    </div>
+    <div class="caption"><div class="label"><b>B · DEEP GOLD</b><span>DARKER · METALLIC · MOST RESTRAINED</span></div><button data-for="deep">REPLAY B</button></div>
+  </article>
+</main>
+<script>
+function play(id){var el=document.getElementById(id);el.classList.remove('run');void el.offsetWidth;el.classList.add('run')}
+document.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){play(b.dataset.for)})});
+setTimeout(function(){play('classic');play('deep')},250);
+</script>
+</body>
+</html>
