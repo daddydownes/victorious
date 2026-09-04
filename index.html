@@ -456,13 +456,26 @@
   /* rest = small + dim ONLY — no blur. Brightness is inherited by each bounded
      photo instead of filtering the full 3781×3557 plane as one giant surface. */
   #dive{position:absolute; inset:0; will-change:transform; transform-origin:50% 50%;
-    transform:scale(.55); --vault-brightness:.5}
+    transform:scale(.55); --vault-brightness:.5; z-index:1}
   /* the pass-through flash of the dive — above everything, touched only by flyIn()
      and the Surface exit. Fully opaque at peak (window-light core → near-black edge,
      sampled from the decks photo) so the scroll-jump behind it can never flash through. */
   #flybloom{position:fixed; inset:0; z-index:300; pointer-events:none; opacity:0;
     background:radial-gradient(circle at 50% 42%, #b9b5ae 0%, #35322d 42%, #0a0908 100%)}
+  .vault-pan-space{position:absolute; inset:0}
   .vault-plane{position:absolute; top:0; left:0; will-change:transform}
+  /* On primary-touch devices the LANDED archive becomes a native 2D scroll node.
+     Entry still uses the exact same viewport-sized #dive choreography; this class
+     is added only after it has reached scale(1). The explicit scaled pan-space is
+     what gives WebKit scroll extents — transformed descendants are not reliable
+     scroll geometry on iOS. */
+  .vault.native-pan-active{touch-action:auto; cursor:default}
+  .vault.native-pan-active #dive{overflow:auto; touch-action:pan-x pan-y pinch-zoom;
+    overscroll-behavior:none; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    overflow-anchor:none; transform:scale(1); will-change:auto}
+  .vault.native-pan-active #dive::-webkit-scrollbar{display:none; width:0; height:0}
+  .vault.native-pan-active .vault-pan-space{position:relative; inset:auto}
+  .vault.native-pan-active .vault-plane{will-change:auto}
   .vault-plane img{position:absolute; display:block; height:auto;
     filter:saturate(.92) contrast(1.03) brightness(var(--vault-brightness,1)); background:var(--ink-2);
     border:1px solid rgba(212,175,95,.16); box-shadow:0 18px 50px rgba(0,0,0,.75);
@@ -778,7 +791,7 @@
 <div class="vault" id="vault" tabindex="0" role="region"
   aria-label="The Vault — draggable archive of brand photographs. Use arrow keys to pan.">
   <canvas id="dust" aria-hidden="true"></canvas>
-  <div id="dive"><div class="vault-plane" id="plane"></div></div>
+  <div id="dive"><div class="vault-pan-space" id="vaultPanSpace"><div class="vault-plane" id="plane"></div></div></div>
   <div class="vault-hud">
     <div class="vault-hud-top mono">
       <button class="surface-btn" id="surfaceBtn" type="button">▲ Surface</button>
@@ -836,6 +849,13 @@
   var stage=document.getElementById('stage');
   var motionQuery=matchMedia('(prefers-reduced-motion: reduce)');
   var reduced=motionQuery.matches;
+  /* The phone vault uses the browser's compositor-owned scroll path. Desktop and
+     reduced motion deliberately keep the proven translated-plane engine. The
+     query override is a production-safe rollback/A-B switch. */
+  var vaultPanQuery=new URLSearchParams(location.search).get('vaultPan');
+  var nativeVaultEligible=!reduced && vaultPanQuery!=='legacy' &&
+    (vaultPanQuery==='native' || (matchMedia('(pointer:coarse)').matches &&
+    CSS.supports('touch-action','pan-x') && CSS.supports('overscroll-behavior','none')));
   function refreshMotionPreference(){ location.reload(); }
   if(motionQuery.addEventListener) motionQuery.addEventListener('change',refreshMotionPreference);
   else if(motionQuery.addListener) motionQuery.addListener(refreshMotionPreference);
@@ -1772,6 +1792,10 @@
   var descent=document.getElementById('descent'), shroud=document.getElementById('shroud'),
       vault=document.getElementById('vault');
   var dive=document.getElementById('dive');
+  var vaultPanSpace=document.getElementById('vaultPanSpace');
+  var nativePanActive=false, nativePanScrolling=false, nativePanPointerDown=false,
+      nativePanInputArmed=false, nativePanUserMoved=false, nativeSettleTimer=0, nativeExpectedX=null,
+      nativeExpectedY=null, nativeTravel=0, nativeResizePending=false, nativeScrollEpoch=0;
   var stageDim=document.getElementById('stageDim');
   function primeVaultUnderSeam(){ vault.style.visibility='visible'; vault.style.opacity='1'; }
   if(reduced){ // no entry choreography: the archive sits landed
@@ -1797,7 +1821,7 @@
     if(needCenter && vw>0 && vh>0){ needCenter=false; px=(vw-PW*S)/2; py=(vh-PH*S)/2; }
     else if(keepFocus){ px=vw/2-focusX*S; py=vh/2-focusY*S; }
     clampPan(); applyPan();
-    if(dragging){ rawX+=px-oldPx; rawY+=py-oldPy; }
+    if(dragging && !nativePanActive){ rawX+=px-oldPx; rawY+=py-oldPy; }
     // reduced motion returns early from seamScroll, so this is the ONLY thing that
     // resizes the gold panel — without it a rotate leaves it at the old width
     if(reduced && seamTrack) seamApply(seamGapMax());
@@ -1842,6 +1866,7 @@
       if(t>=1){
         if(entryMotion===job) entryMotion=null;
         dive.style.transform='scale(1)'; dive.style.setProperty('--vault-brightness','1'); dive.style.willChange='transform';
+        activateNativePan();
         vaultActive=true; vault.style.pointerEvents='auto';
         if(!vaultRevealed) revealVaultTitle();
         guidePhase='vault'; hideCue();       // re-arms the wheel-up trap too
@@ -1890,6 +1915,7 @@
       surfacing=false;
       vault.style.opacity='1'; vault.style.visibility='visible'; vault.style.pointerEvents='auto';
       dive.style.transform='scale(1)'; dive.style.setProperty('--vault-brightness','1'); dive.style.willChange='transform';
+      activateNativePan();
       vaultActive=true; guidePhase='vault';
       if(!vaultRevealed) revealVaultTitle();
       vaultIdentityInFlight=false;
@@ -2035,6 +2061,7 @@
         for(var j=0;j<fadeEls.length;j++) fadeEls[j].el.style.opacity='';
         flybloom.style.opacity='0';
         dive.style.transform='scale(1)'; dive.style.setProperty('--vault-brightness','1'); dive.style.willChange='transform';
+        activateNativePan();
         vaultActive=true; vault.style.pointerEvents='auto';
         guidePhase='vault';
         document.body.classList.remove('guiding');
@@ -2136,8 +2163,20 @@
   // still catches layout shifts and embedders that occasionally miss events.
   function queueScrollUpdate(){ if(scrollY===lastY) return; motionScrollPending=true; wakeMotion(); }
   addEventListener('scroll',queueScrollUpdate,{passive:true});
-  addEventListener('resize',measure);
-  if(window.visualViewport) visualViewport.addEventListener('resize',measure);
+  var measureQueued=false;
+  function queueMeasure(){
+    if(document.hidden) return;
+    if(nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
+    if(measureQueued) return;
+    measureQueued=true;
+    requestAnimationFrame(function(){
+      measureQueued=false;
+      if(nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
+      measure();
+    });
+  }
+  addEventListener('resize',queueMeasure);
+  if(window.visualViewport) visualViewport.addEventListener('resize',queueMeasure);
   setInterval(function(){ if(!document.hidden && scrollY!==lastY) queueScrollUpdate(); },200);
   /* measure() forces layout (getBoundingClientRect + offsetTop + scrollHeight).
      Once the page has settled nothing changes, so gate it — the interval stays
@@ -2148,7 +2187,7 @@
     if(document.hidden) return;
     var sh=document.documentElement.scrollHeight;
     if(innerWidth!==_lw||innerHeight!==_lh||sh!==_lsh||needCenter){
-      _lw=innerWidth; _lh=innerHeight; _lsh=sh; measure();
+      _lw=innerWidth; _lh=innerHeight; _lsh=sh; queueMeasure();
     }
   },1500);
 
@@ -2197,7 +2236,7 @@
     setInterval(function(){
       if(document.hidden) return;
       if(parseFloat(vault.style.opacity||'0')<=0) return;   // vault not on screen
-      if(dragging || inertia) return; // keep the decorative 20fps canvas off the critical pan/coast path
+      if(dragging || inertia || nativePanScrolling || nativePanPointerDown || nativePanInputArmed) return; // keep the decorative 20fps canvas off the critical pan/coast path
       // backing store was in CSS px and the compositor stretched it to the real
       // pixel grid — every gold mote arrived as a soft blur on a phone
       var _dpr=Math.min(2, devicePixelRatio||1);
@@ -2273,6 +2312,7 @@
      pointerout could kill the light that is meant to STAY lit after a pan. */
   plane.addEventListener('pointerover',function(e){
     if(e.pointerType==='touch'||e.pointerType==='pen') return;
+    if(nativePanActive && nativePanScrolling) return;
     if(!dragging && e.target.tagName==='IMG') setHot(e.target);
   });
   plane.addEventListener('pointerout',function(e){
@@ -2286,13 +2326,156 @@
   // centrepiece photo doesn't swallow the viewport (desktop stays 1:1)
   var S=1;
   function calcScale(){ S=Math.min(1, Math.max(0.45, vw/1100)); }
+  var nativePadX=0, nativePadY=0, nativeFracX=0, nativeFracY=0;
   function clampAxis(v,view,size){
     if(size<=view) return (view-size)/2;   // plane smaller than viewport: center it
     return Math.max(view-size, Math.min(0,v));
   }
   function clampPan(){ px=clampAxis(px,vw,PW*S); py=clampAxis(py,vh,PH*S); }
-  function applyPan(){ plane.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0) scale('+S+')'; }
+  function sizeNativeSpace(){
+    nativePadX=Math.max(0,(vw-PW*S)/2); nativePadY=Math.max(0,(vh-PH*S)/2);
+    vaultPanSpace.style.width=Math.max(vw,PW*S)+'px'; vaultPanSpace.style.height=Math.max(vh,PH*S)+'px';
+    plane.style.left=nativePadX+'px'; plane.style.top=nativePadY+'px';
+  }
+  function syncNativePosition(){
+    if(!nativePanActive) return;
+    px=nativePadX-dive.scrollLeft+nativeFracX;
+    py=nativePadY-dive.scrollTop+nativeFracY;
+    rawX=px; rawY=py;
+  }
+  function applyPan(){
+    if(nativePanActive){
+      sizeNativeSpace();
+      var wantedX=px, wantedY=py;
+      var sx=Math.max(0,nativePadX-wantedX), sy=Math.max(0,nativePadY-wantedY);
+      nativeExpectedX=sx; nativeExpectedY=sy;
+      dive.scrollLeft=sx; dive.scrollTop=sy;
+      /* WebKit quantizes scroll offsets on some DPRs. Keep the subpixel remainder
+         as a static plane translation so switching engines has no landing snap;
+         it is never rewritten during a native finger pan. */
+      nativeFracX=wantedX-(nativePadX-dive.scrollLeft);
+      nativeFracY=wantedY-(nativePadY-dive.scrollTop);
+      plane.style.transform='translate3d('+nativeFracX.toFixed(3)+'px,'+nativeFracY.toFixed(3)+'px,0) scale('+S+')';
+      px=wantedX; py=wantedY;
+      return;
+    }
+    plane.style.left='0px'; plane.style.top='0px';
+    plane.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0) scale('+S+')';
+  }
   plane.style.transformOrigin='0 0';
+
+  function settleNativePan(){
+    if(!nativePanActive) return;
+    if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+    /* A resize clamp can emit scrollend even though its scroll event was rejected
+       above. Only a genuine movement run may replace the authoritative logical
+       coordinates. */
+    if(nativePanScrolling || nativePanUserMoved) syncNativePosition();
+    nativePanScrolling=false;
+    if(nativePanUserMoved) lightCentre();
+    nativePanUserMoved=false;
+    nativePanInputArmed=false;
+    if(nativeResizePending){ nativeResizePending=false; queueMeasure(); }
+  }
+  function queueNativeSettle(delay){
+    if(nativeSettleTimer) clearTimeout(nativeSettleTimer);
+    var epoch=nativeScrollEpoch;
+    nativeSettleTimer=setTimeout(function(){
+      nativeSettleTimer=0;
+      if(!nativePanActive) return;
+      if(nativePanPointerDown || epoch!==nativeScrollEpoch){ queueNativeSettle(140); return; }
+      settleNativePan();
+    },delay||140);
+  }
+  function activateNativePan(){
+    if(!nativeVaultEligible || nativePanActive) return;
+    stopInertia(); motionPanPending=false; dragging=false; dragId=null; samples=[];
+    vault.classList.remove('dragging','gliding'); followHot=false;
+    nativePanActive=true; nativePanScrolling=false; nativePanPointerDown=false; nativePanInputArmed=false;
+    nativePanUserMoved=false; nativeTravel=0; nativeScrollEpoch++;
+    vault.classList.add('native-pan-active');
+    dive.style.transform='scale(1)'; dive.style.willChange='auto';
+    applyPan();
+  }
+  function freezeNativePan(){
+    if(!nativePanActive) return;
+    syncNativePosition();
+    if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+    nativePanScrolling=false; nativePanPointerDown=false; nativePanInputArmed=false; nativePanUserMoved=false;
+    nativeResizePending=false; nativePanActive=false;
+    vault.classList.remove('native-pan-active');
+    dive.scrollLeft=0; dive.scrollTop=0;
+    vaultPanSpace.style.width=''; vaultPanSpace.style.height='';
+    nativeExpectedX=nativeExpectedY=null;
+    nativeFracX=nativeFracY=0;
+    plane.style.left='0px'; plane.style.top='0px';
+    applyPan(); dive.style.willChange='transform';
+  }
+  dive.addEventListener('scroll',function(){
+    if(!nativePanActive) return;
+    var expected=nativeExpectedX!==null && Math.abs(dive.scrollLeft-nativeExpectedX)<1 &&
+      nativeExpectedY!==null && Math.abs(dive.scrollTop-nativeExpectedY)<1;
+    if(expected){ syncNativePosition(); nativeExpectedX=nativeExpectedY=null; return; }
+    /* WebKit may clamp the scroll offset before delivering resize/orientation
+       events. Keep the last logical position authoritative until measure() has
+       rebuilt the new extents, otherwise the clamped event becomes a visible
+       focal jump. */
+    if(document.documentElement.clientWidth!==vw || innerHeight!==vh ||
+       (!nativePanInputArmed && !nativePanScrolling)){
+      nativeResizePending=true; queueMeasure(); return;
+    }
+    var oldPx=px, oldPy=py;
+    syncNativePosition();
+    nativeExpectedX=nativeExpectedY=null;
+    nativePanUserMoved=true;
+    nativeScrollEpoch++;
+    nativeTravel+=Math.abs(px-oldPx)+Math.abs(py-oldPy);
+    if(nativeTravel>60) retireDragCue();
+    nativePanScrolling=true;
+    queueNativeSettle(140);
+  },{passive:true});
+  if('onscrollend' in dive) dive.addEventListener('scrollend',function(){
+    if(nativePanActive && !nativePanPointerDown) queueNativeSettle(100);
+  },{passive:true});
+  dive.addEventListener('pointerdown',function(e){
+    if(nativePanActive && (e.pointerType==='touch'||e.pointerType==='pen')){
+      nativePanPointerDown=true; nativePanInputArmed=true;
+    }
+  },{passive:true});
+  function nativePointerReleased(e){
+    if(!nativePanPointerDown) return;
+    nativePanPointerDown=false;
+    /* pointercancel is the normal signal when the browser takes ownership of a
+       native pan. Keep the gesture armed so its first compositor scroll is not
+       mistaken for a resize clamp. */
+    if(e && e.type==='pointercancel') queueNativeSettle(220);
+    else if(nativePanScrolling || nativePanUserMoved) queueNativeSettle(140);
+    else nativePanInputArmed=false;
+    if(nativeResizePending && !nativePanScrolling){ nativeResizePending=false; queueMeasure(); }
+  }
+  dive.addEventListener('pointerup',nativePointerReleased,{passive:true});
+  dive.addEventListener('pointercancel',nativePointerReleased,{passive:true});
+  dive.addEventListener('wheel',function(){
+    if(!nativePanActive) return;
+    nativePanInputArmed=true;
+    /* A wheel aimed past an archive edge produces no scroll event. Give that
+       no-op gesture its own release so dust and deferred resize cannot remain
+       paused forever; real scroll events replace this deadline. */
+    queueNativeSettle(180);
+  },{passive:true});
+  window.__vaultPan={
+    get mode(){ return nativeVaultEligible?'native':'legacy'; },
+    get active(){ return nativePanActive; },
+    get moving(){ return nativePanScrolling; },
+    position:function(){ return {x:px,y:py,left:dive.scrollLeft,top:dive.scrollTop}; },
+    scrollSize:function(){ return {width:dive.scrollWidth,height:dive.scrollHeight}; },
+    scrollTo:function(left,top){
+      if(!nativePanActive) return;
+      nativePanScrolling=true; nativePanInputArmed=true; nativePanUserMoved=true; nativeScrollEpoch++;
+      dive.scrollTo(left,top);
+      queueNativeSettle(140);
+    }
+  };
 
   /* One display clock for interactive motion. rAF keeps transforms aligned with
      the monitor; the 250ms watchdog advances only when an embedder has left rAF
@@ -2362,6 +2545,8 @@
   }
   addEventListener('visibilitychange',function(){
     if(document.hidden){
+      if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+      if(nativePanActive){ syncNativePosition(); nativePanScrolling=false; nativePanPointerDown=false; nativePanInputArmed=false; nativePanUserMoved=false; }
       if(!motionHiddenAt) motionHiddenAt=performance.now();
       motionTicket++;
       if(motionRaf){ cancelAnimationFrame(motionRaf); motionRaf=0; }
@@ -2391,6 +2576,7 @@
 
   function stopInertia(){ inertia=null; motionVaultStep=null; vault.classList.remove('gliding'); }
   function startInertia(){
+    if(nativeVaultEligible) return;
     if(reduced){ velX=velY=0; return; }    // reduced motion: direct pan only
     stopInertia();
     vault.classList.add('gliding');        // the follow-light keeps its fast ease through the glide
@@ -2442,6 +2628,7 @@
     dl.style.animation='none'; dl.style.transition='opacity .6s ease'; dl.style.opacity='0';
   }
   vault.addEventListener('pointerdown',function(e){
+    if(nativeVaultEligible) return;
     if(!vaultActive || e.button>0) return;
     // never start a drag from the Surface button — capturing the pointer here
     // would retarget the click to the vault and swallow the button press
@@ -2461,6 +2648,7 @@
     if(vault.setPointerCapture){ try{ vault.setPointerCapture(e.pointerId); }catch(_){} }
   });
   vault.addEventListener('pointermove',function(e){
+    if(nativeVaultEligible) return;
     if(!dragging || e.pointerId!==dragId) return;
     rawX+=e.clientX-lx; rawY+=e.clientY-ly;
     lx=e.clientX; ly=e.clientY;
@@ -2477,6 +2665,7 @@
     while(samples.length>2 && now-samples[0].t>120) samples.shift();
   });
   function endDrag(e){
+    if(nativeVaultEligible) return;
     if(!dragging || (e && e.pointerId!==dragId)) return;
     if(motionPanPending){ motionPanPending=false; applyPan(); if(followHot) lightCentre(); }
     dragging=false; dragId=null;
@@ -2529,7 +2718,10 @@
   addEventListener('wheel',function(e){
     // BOTH directions: scrolling down crawled the scrollbar through the descent
     // while the fixed vault filled the screen and nothing visibly changed
-    if(vaultActive && guidePhase==='vault') e.preventDefault();
+    if(vaultActive && guidePhase==='vault'){
+      if(nativePanActive && (e.target===dive || dive.contains(e.target))) return;
+      e.preventDefault();
+    }
   },{passive:false});
   // same trap for the keyboard: PageDown/Space/Home scrolled the document
   // invisibly behind the fixed vault (arrows stay free — they pan the plane)
@@ -2556,6 +2748,7 @@
     vRides=false; vHidden=false; filmLogo.style.transform=''; filmLogo.style.visibility=''; filmLogo.style.willChange=''; // TILT DOWN released: the resting mark is back on the card
     filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
     // vault + drag state down
+    freezeNativePan();
     dragging=false; dragId=null; samples=[]; vault.classList.remove('dragging');
     stopInertia(); velX=velY=0; setHot(null);
     vaultActive=false; vaultRevealed=false;   // the loop is retired — nothing re-enters the vault
@@ -2613,7 +2806,7 @@
   function armVaultClose(){
     if(vaultClosing) return;
     entryGen++;                 // retire any entry still in flight before we reverse it
-    stopInertia(); velX=velY=0; setHot(null);
+    freezeNativePan(); stopInertia(); velX=velY=0; setHot(null);
     vaultClosing=true; guidePhase='closing';               // block input via the guide handlers
     // never entered / reduced motion → no dive to reverse: cover, reset, uncover
     if(!vaultArming || reduced){ flybloom.style.opacity='1'; surfacedReset(); fadeFlash(); return; }
