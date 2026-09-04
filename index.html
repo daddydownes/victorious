@@ -711,7 +711,7 @@
   </div>
 </section>
 
-<section class="next-drop" id="nextDrop" aria-label="Victorious next pop-up" aria-hidden="true">
+<section class="next-drop" id="nextDrop" aria-label="Victorious next pop-up" aria-hidden="true" inert>
   <div class="next-drop-card">
     <div class="next-drop-mark"><span class="vctrs-glyph" role="img" aria-label="VCTRS"></span></div>
     <div class="next-drop-kicker">POP-UP STORE</div>
@@ -1012,6 +1012,25 @@
     stopCam();
     startNextDrop();
   }
+  /* Keep the fixed, hidden chapter out of sequential focus. `inert` covers
+     current Safari/Chromium; the tabindex snapshot is the small WebView fallback. */
+  function setNextDropInert(el,inert){
+    if(!el) return;
+    el.inert=inert;
+    var focusable=el.querySelectorAll('input,button,a[href],[tabindex]');
+    for(var i=0;i<focusable.length;i++){
+      var node=focusable[i];
+      if(inert){
+        if(!node.hasAttribute('data-next-tab')) node.setAttribute('data-next-tab',node.hasAttribute('tabindex')?node.getAttribute('tabindex'):'__none__');
+        node.setAttribute('tabindex','-1');
+      }else if(node.hasAttribute('data-next-tab')){
+        var old=node.getAttribute('data-next-tab');
+        if(old==='__none__') node.removeAttribute('tabindex'); else node.setAttribute('tabindex',old);
+        node.removeAttribute('data-next-tab');
+      }
+    }
+  }
+  setNextDropInert(document.getElementById('nextDrop'),true);
   function startNextDrop(){
     if(document.body.classList.contains('next-drop-entering')) return;
     scrollTo(0,0);
@@ -1035,7 +1054,7 @@
       setTimeout(function(){ transfer.remove(); },1600);
     }
     document.body.classList.add('next-drop-entering');
-    if(destination) destination.setAttribute('aria-hidden','false');
+    if(destination){ destination.setAttribute('aria-hidden','false'); setNextDropInert(destination,false); }
     setTimeout(function(){ document.body.classList.add('next-drop-landed'); },reduced?50:1750);
   }
   film.addEventListener('ended',finish);
@@ -1871,7 +1890,7 @@
     document.body.classList.remove('next-drop-entering','next-drop-landed','next-vault-opening','guiding');
     document.body.classList.add('next-vault-open');
     var next=document.getElementById('nextDrop');
-    if(next) next.setAttribute('aria-hidden','true');
+    if(next){ next.setAttribute('aria-hidden','true'); setNextDropInert(next,true); }
     var btn=document.getElementById('nextVaultHold'); if(btn) btn.disabled=true;
     try{ vault.focus({preventScroll:true}); }catch(_e){ vault.focus(); }
   }
@@ -2023,7 +2042,14 @@
     // while a Seal exit repositions to the top UNDER the sealed doors, updateScroll
     // must stand down — otherwise it snaps vault opacity/visibility from scroll and
     // fights the fade-to-film
-    if(!surfacing && guidePhase!=='surfaced'){
+    if(vaultActive && guidePhase==='vault'){
+      /* Reduced motion enters without a scroll-driven dive. Once the vault owns
+         the journey, scroll bookkeeping must never hide the completed state. */
+      shroud.style.opacity='1';
+      vault.style.opacity='1';
+      vault.style.visibility='visible';
+      vault.style.pointerEvents='auto';
+    }else if(!surfacing && guidePhase!=='surfaced'){
       shroud.style.opacity=clamp01(p/0.55).toFixed(3);
       // vault snaps FULLY opaque the instant the rise begins — the lifting word
       // still covers the screen then, so the snap is invisible and the reveal
@@ -2507,7 +2533,8 @@
   surfaceBtn.addEventListener('click',armVaultClose);
   vault.addEventListener('keydown',function(e){
     if(!vaultActive||guidePhase!=='vault'||e.key!=='Tab') return;
-    if(!e.shiftKey&&document.activeElement===surfaceBtn){ e.preventDefault(); vault.focus(); }
+    if(!e.shiftKey&&document.activeElement===vault){ e.preventDefault(); surfaceBtn.focus(); }
+    else if(!e.shiftKey&&document.activeElement===surfaceBtn){ e.preventDefault(); vault.focus(); }
     else if(e.shiftKey&&document.activeElement===vault){ e.preventDefault(); surfaceBtn.focus(); }
   });
 
