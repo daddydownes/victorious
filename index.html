@@ -869,20 +869,18 @@
   // document is still parsing (script runs last) — JS owns visibility from here
   document.getElementById('titleBlock').style.opacity='';
 
-  /* ============ V-FIRST INTRO (Jacob's pick, ported from demo-v-intro) ============
-     The film holds its first frame; over it the white V emerges, gold pours
-     top→tip (liquid-descent tune: F20 warm380), the lone V holds its mystery
-     beat, VICTORIOUS assembles around it — then the film ROLLS ITSELF and the
-     usual chain takes over (finish → glide → CLOSED seam → email is the first
-     thing to touch). A tap during the intro skips straight to the film. */
+  /* ============ V-FIRST INTRO ============
+     The film holds its first frame while the real V emerges, warms to gold and
+     breathes once with a soft halo. Then the V fades directly into the moving
+     film. No intermediate word build. A tap still skips straight to the film. */
   var vslot=document.getElementById('vslot'),
       vbase=document.getElementById('vbase'),
-      vpour=document.getElementById('vpour'),
-      vLetters=(function(){
-        var all=wordmark.querySelectorAll('.l'), out=[];
-        for(var i=0;i<all.length;i++){ if(all[i]!==vslot) out.push(all[i]); }
-        return out;
-      })();
+      vpour=document.getElementById('vpour');
+  (function(){
+    var all=wordmark.querySelectorAll('.l');
+    for(var i=0;i<all.length;i++){ if(all[i]!==vslot) all[i].remove(); }
+    wordmark.setAttribute('aria-label','V');
+  })();
   var VWHITE=[255,255,255], VGOLD=[240,212,146];
   function vs2l(c){c/=255;return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}
   function vl2sf(l){l=l<0?0:l>1?1:l;var v=l<=0.0031308?l*12.92:1.055*Math.pow(l,1/2.4)-0.055;return (v*255).toFixed(2);}
@@ -890,23 +888,20 @@
   function vclamp(p){return p<0?0:p>1?1:p;}
   function vout(p){return 1-Math.pow(1-p,3);}
   function vinout(p){return p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;}
-  /* quicker cut (Jacob): ~4.2s all-up. The film LAUNCHES the moment the last
-     letter lands — its first motion rides under the wordmark's own fade-out,
-     so the handoff is one continuous move, never stop-then-jerk */
-  var VI={FADE:500, WHITE:500, POUR:800, HOLD:500, TRAVEL:700, LEAD:200, STAG:60, LETTER:600, SUB:500, F:20, WARM:320};
-  /* the solo V centres its BOUNDING BOX, but the star fills that box's top-right:
+  /* Compact opening: reveal, gold pour, one restrained glow, then motion. */
+  var VI={FADE:500, WHITE:500, POUR:800, HOLD:600, EXIT:320, F:20, WARM:320};
+  /* the solo V centres its BODY, but the star fills the mark's top-right:
      measured on the traced path, V-body mid-x = 42.0% of mark width, bbox mid-x
      = 49.9% — so a bbox-centred mark parks the V body ~8% of its width LEFT of
      screen centre and reads off-centre. Bias the solo position right by that.
      ×k: dx lands in UNSCALED parent px but the offset lives on the k-scaled mark;
-     0.122 = the 8% body offset + the vSLOT's .1em trailing margin (vRect is the
-     slot, not the svg). Verified: body mid-x within ~1px of true centre @1440. */
+     0.122 accounts for the body offset and the vSLOT's .1em trailing margin.
+     Verified: the V body sits on the visual centre at desktop and mobile sizes. */
   VI.STARX=0.122;
-  VI.travelA=VI.FADE+VI.WHITE+VI.POUR+VI.HOLD;
-  VI.lettersA=VI.travelA+VI.LEAD;
-  VI.lettersEnd=VI.lettersA+VI.STAG*(vLetters.length-1)+VI.LETTER;
-  VI.subA=VI.lettersEnd-480; VI.end=VI.subA+VI.SUB; // rule+sub land WITH the last letters, not after the launch
-  VI.launch=VI.lettersEnd;
+  VI.glowA=VI.FADE+VI.WHITE+VI.POUR;
+  VI.exitA=VI.glowA+VI.HOLD;
+  VI.launch=VI.exitA+VI.EXIT;
+  VI.end=VI.launch;
   var vRect=null, vStart=0, vFired=false, vIv=null;
   /* measured ONCE with the transform cleared — a per-tick read would feed the
      last frame's transform back into the measurement (the demo bug) */
@@ -923,7 +918,6 @@
   function vRender(te){
     var fade=vinout(vclamp(te/VI.FADE));
     var pourT=vclamp((te-(VI.FADE+VI.WHITE))/VI.POUR), pv=vout(pourT);
-    var travelled=vinout(vclamp((te-VI.travelA)/VI.TRAVEL));
     vbase.style.color=vlerp(VWHITE,VGOLD,vout(vclamp((te-(VI.FADE+VI.WHITE))/VI.WARM)));
     var pos=pv*(100+2*VI.F)-VI.F;
     var m='linear-gradient(to bottom, rgba(0,0,0,0) '+(pos-VI.F).toFixed(2)+'%, #000 '+(pos+VI.F).toFixed(2)+'%, #000 100%)';
@@ -931,22 +925,17 @@
     vpour.style.webkitMaskImage=m; vpour.style.maskImage=m;
     var crest=pourT>0&&pourT<1?Math.sin(pourT*Math.PI):0;
     var pool=pourT>0.72?Math.sin((pourT-0.72)/0.28*Math.PI):0;
-    var gA=0.30*crest+0.26*pool, gR=7*crest+10*pool;
+    var glowT=vclamp((te-VI.glowA)/VI.HOLD), halo=Math.sin(glowT*Math.PI);
+    var exit=1-vinout(vclamp((te-VI.exitA)/VI.EXIT));
+    var gA=0.30*crest+0.26*pool+0.34*halo, gR=7*crest+10*pool+18*halo;
     vslot.style.filter=gA>0.004?'drop-shadow(0 0 '+gR.toFixed(2)+'px rgba(240,212,146,'+gA.toFixed(3)+'))':'';
     var soloH=Math.min(innerHeight*0.38,320), k=soloH/vRect.height;
-    /* clientWidth, not innerWidth: innerWidth counts the scrollbar, so with classic
-       bars the V would sit ~8px RIGHT of the CSS-centred wordmark it must land in */
+    /* clientWidth, not innerWidth: innerWidth counts a classic scrollbar and
+       would push the otherwise centred V several pixels to the right. */
     var dx=document.documentElement.clientWidth/2-(vRect.left+vRect.width/2)+vRect.width*k*VI.STARX, dy=innerHeight/2-(vRect.top+vRect.height/2);
-    var inv=1-travelled;
-    vslot.style.transform='translate('+(dx*inv).toFixed(1)+'px,'+(dy*inv).toFixed(1)+'px) scale('+(1+(k-1)*inv).toFixed(4)+')';
-    vslot.style.opacity=fade.toFixed(3);
-    for(var i=0;i<vLetters.length;i++){
-      var e=vout(vclamp((te-(VI.lettersA+i*VI.STAG))/VI.LETTER));
-      vLetters[i].style.opacity=e.toFixed(3);
-      vLetters[i].style.transform='translateY('+(0.35*(1-e)).toFixed(3)+'em)';
-      vLetters[i].style.filter=e>=1?'':'blur('+(6*(1-e)).toFixed(2)+'px)';
-    }
-    if(te>=VI.launch && !vFired){ vFired=true; play(); } // the film rolls itself — mid-fade, so motion never stops
+    vslot.style.transform='translate('+dx.toFixed(1)+'px,'+dy.toFixed(1)+'px) scale('+k.toFixed(4)+')';
+    vslot.style.opacity=(fade*exit).toFixed(3);
+    if(te>=VI.launch && !vFired){ vFired=true; play(); }
   }
   if(!reduced){
     vMeasure(); vStart=Date.now();

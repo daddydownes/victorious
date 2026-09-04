@@ -61,7 +61,8 @@ If one pass fails, the sequence is not considered stable. Fix or classify the is
 - [ ] There is no initial jump, reload-like flash, white frame, horizontal shift, or scrollbar flicker.
 - [ ] The V appears once and remains optically centred.
 - [ ] White-to-gold motion is continuous.
-- [ ] The VICTORIOUS lettering resolves without duplicated or offset characters.
+- [ ] No extra lettering appears; the opening contains only the single V mark.
+- [ ] The V fades fully before the moving film begins.
 - [ ] The film starts muted and plays without a black stall.
 - [ ] Resizing or rotating does not restart the intro unexpectedly.
 - [ ] Returning from a background tab does not skip or snap the intro.
@@ -244,4 +245,3 @@ These are intentionally not part of a small-fix release:
 - Extract embedded photographs/posters into cacheable files and defer hidden vault image decoding.
 - Profile long-lived interval watchdogs for CPU and battery cost.
 - Compare any major visual transition change against the current shared-element handoff on all required devices.
-
