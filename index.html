@@ -386,23 +386,28 @@
     animation:controlSignal 6s ease-in-out infinite}
   @keyframes controlSignal{0%,100%{border-color:rgba(239,233,220,.35);box-shadow:inset 0 0 0 0 rgba(240,212,146,0)}
     50%{border-color:rgba(240,212,146,.68);box-shadow:inset 0 0 24px rgba(240,212,146,.045)}}
-  /* DEMO v1 — THE POUR: molten gold fills the engraving while you hold */
+  /* Hold control: a centred gold charge, calm at rest and luminous under pressure. */
   .vhold{position:relative;display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;
-    min-height:56px;background:rgba(2,10,12,.38);border:1px solid rgba(239,233,220,.45);cursor:pointer;border-radius:0;
+    min-height:56px;background:rgba(2,10,12,.38);border:1px solid rgba(239,233,220,.38);cursor:pointer;border-radius:2px;
     font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:15px;letter-spacing:.3em;text-indent:.3em;
     touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;
-    -webkit-tap-highlight-color:transparent;transition:transform .12s ease;overflow:hidden;padding:0 12px}
-  .vhold.holding{transform:translateY(1px)}
-  .vh-base{color:var(--gold);opacity:.38}
-  .vh-fill{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;
-    color:var(--gold-hot);-webkit-clip-path:inset(0 100% 0 0);clip-path:inset(0 100% 0 0);
-    letter-spacing:.3em;text-indent:.3em;text-shadow:0 0 14px rgba(240,212,146,.35)}
-  .vh-line{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold-hot);box-shadow:0 0 10px rgba(240,212,146,.55)}
-  .vhold.full .vh-fill{color:var(--bone);text-shadow:0 0 18px rgba(240,212,146,.85)}
+    -webkit-tap-highlight-color:transparent;isolation:isolate;overflow:hidden;padding:0 12px;
+    box-shadow:inset 0 0 0 1px rgba(240,212,146,.025);
+    transition:transform .12s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease}
+  .vhold.holding{transform:translateY(1px);border-color:rgba(240,212,146,.72);
+    box-shadow:inset 0 0 28px rgba(240,212,146,.09),0 0 18px rgba(240,212,146,.08)}
+  .vh-base{position:relative;z-index:2;color:rgba(212,175,95,.62);transition:color .2s ease,text-shadow .2s ease}
+  .vhold.holding .vh-base{color:var(--gold-hot);text-shadow:0 0 13px rgba(240,212,146,.3)}
+  .vh-fill{position:absolute;z-index:0;inset:3px;background:linear-gradient(90deg,
+    rgba(212,175,95,.015) 0%,rgba(240,212,146,.16) 50%,rgba(212,175,95,.015) 100%);
+    transform:scaleX(0);transform-origin:50% 50%;will-change:transform;pointer-events:none}
+  .vh-line{position:absolute;z-index:1;left:50%;bottom:0;height:2px;width:100%;transform:translateX(-50%) scaleX(0);transform-origin:50% 50%;
+    background:linear-gradient(90deg,rgba(240,212,146,0),var(--gold-hot) 18%,var(--gold-hot) 82%,rgba(240,212,146,0));
+    box-shadow:0 0 12px rgba(240,212,146,.62);will-change:transform;pointer-events:none}
+  .vhold.full{border-color:var(--gold-hot);background:rgba(212,175,95,.12);
+    box-shadow:inset 0 0 34px rgba(240,212,146,.16),0 0 22px rgba(240,212,146,.13)}
+  .vhold.full .vh-base{color:var(--bone);text-shadow:0 0 16px rgba(240,212,146,.62)}
   .vhold:focus-visible{outline:1px solid var(--gold-hot);outline-offset:3px}
-  @supports not ((clip-path:inset(0 100% 0 0)) or (-webkit-clip-path:inset(0 100% 0 0))){
-    .vh-fill{display:none} /* museum browsers: the hairline alone meters the pour; entry still works */
-  }
   .seam-gold .signup input[type=email]{flex:1 1 150px; border-color:rgba(239,233,220,.45); color:var(--bone)}
   .seam-gold .signup input[type=email]::placeholder{color:rgba(239,233,220,.6); opacity:1}
   .seam-gold .signup input[type=email]:focus{border-color:var(--gold-hot)}
@@ -546,7 +551,7 @@
     .stagger .l{opacity:1; animation:none}
     .vault-plane img{transition:box-shadow .45s ease, border-color .45s ease}
     .vault-plane img.hot{transform:none !important}
-    .signup button:active,.flap-play:active,.surface-btn:active{transform:none}
+    .vhold,.vh-base,.signup button:active,.flap-play:active,.surface-btn:active{transition:none}
   }
 
   /* NEXT DROP — the completed film V lifts the next chapter into view. */
@@ -732,7 +737,7 @@
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
       <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
     </form>
-    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Hold here to enter the vault"><span class="vh-base">HOLD HERE TO ENTER THE VAULT</span><span class="vh-fill" aria-hidden="true">HOLD HERE TO ENTER THE VAULT</span><span class="vh-line" aria-hidden="true"></span></button>
+    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Hold here to enter the vault"><span class="vh-base">HOLD HERE TO ENTER THE VAULT</span><span class="vh-fill" aria-hidden="true"></span><span class="vh-line" aria-hidden="true"></span></button>
   </div>
 </section>
 
@@ -759,7 +764,7 @@
               <div class="signed-line">Received.</div>
             </div>
           </div>
-          <button type="button" id="vaultHold" class="vhold" aria-label="Hold to enter the vault"><span class="vh-base">HOLD TO ENTER</span><span class="vh-fill" aria-hidden="true">HOLD TO ENTER</span><span class="vh-line" aria-hidden="true"></span></button>
+          <button type="button" id="vaultHold" class="vhold" aria-label="Hold to enter the vault"><span class="vh-base">HOLD TO ENTER</span><span class="vh-fill" aria-hidden="true"></span><span class="vh-line" aria-hidden="true"></span></button>
         </div>
         </div>
       </div>
@@ -1669,7 +1674,7 @@
     if([' ','ArrowDown','ArrowUp','PageDown','PageUp','Home','End'].indexOf(e.key)>=0) e.preventDefault();
   });
   window.__guide={ start:startGuide, toVault:advanceToVault, phase:function(){return guidePhase;}, heroPhase:function(){return phase;} }; // test hook
-  /* DEMO v1 — THE POUR: hold the bar, gold pours into the letters, the vault yields */
+  /* The hold charge opens from the centre so it reads as pressure, not a sideways wipe. */
   (function(){
     var vhBtn=document.getElementById('vaultHold'); if(!vhBtn) return;
     var vhFill=vhBtn.querySelector('.vh-fill'), vhLine=vhBtn.querySelector('.vh-line');
@@ -1677,9 +1682,9 @@
     var CHARGE_MS=1000;
     function vhLocked(){ return vhFired||guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced'; }
     function vhPaint(){
-      var e=vhCharge*vhCharge*(3-2*vhCharge), c='inset(0 '+((1-e)*100).toFixed(2)+'% 0 0)';
-      vhFill.style.clipPath=c; vhFill.style.webkitClipPath=c;
-      vhLine.style.width=(e*100).toFixed(2)+'%';
+      var e=vhCharge*vhCharge*(3-2*vhCharge);
+      vhFill.style.transform='scaleX('+e.toFixed(4)+')';
+      vhLine.style.transform='translateX(-50%) scaleX('+e.toFixed(4)+')';
     }
     function vhRun(){ if(!vhTimer){ vhLast=motionNow(); vhTimer=addMotionTask(vhTick); } }
     function vhStop(){ if(vhTimer){ cancelMotionTask(vhTimer); vhTimer=null; } }
@@ -1731,7 +1736,7 @@
   })();
 
   /* The new next-drop chapter hands directly into the original vault. It keeps
-     the same hold-to-pour language, but does not replay the retired OPEN doors. */
+     the same hold-to-charge language, but does not replay the retired OPEN doors. */
   (function(){
     var btn=document.getElementById('nextVaultHold'); if(!btn) return;
     var fill=btn.querySelector('.vh-fill'), line=btn.querySelector('.vh-line');
@@ -1739,8 +1744,8 @@
     var HOLD_MS=1000;
     function locked(){ return fired||document.body.classList.contains('next-vault-opening')||document.body.classList.contains('next-vault-open'); }
     function paint(){
-      var e=charge*charge*(3-2*charge), clip='inset(0 '+((1-e)*100).toFixed(2)+'% 0 0)';
-      fill.style.clipPath=clip; fill.style.webkitClipPath=clip; line.style.width=(e*100).toFixed(2)+'%';
+      var e=charge*charge*(3-2*charge);
+      fill.style.transform='scaleX('+e.toFixed(4)+')'; line.style.transform='translateX(-50%) scaleX('+e.toFixed(4)+')';
     }
     function stop(){ if(timer){ cancelMotionTask(timer); timer=null; } }
     function commit(){
