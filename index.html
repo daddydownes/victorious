@@ -714,14 +714,41 @@
 
 </style>
 
+<style id="black-v-demo">
+  /* Demo: the original V emerges on true black before the new film. */
+  .stage{background:#000}
+  .stage #film{opacity:0;transition:opacity 320ms ease}
+  .stage.playing #film,.stage.done #film{opacity:1}
+  .stage:not(.playing):not(.done) .wash{visibility:hidden}
+  .stage .hud-top{visibility:hidden}
+  /* A separate silhouette paints the light; the sharp, masked V is unfiltered. */
+  .intro-v-halo{background:none;border-radius:0;transform:none;overflow:visible}
+  .intro-v-halo svg{display:block;width:100%;height:100%;overflow:visible}
+  @media(prefers-reduced-motion:reduce){.stage #film{transition:none}}
+</style>
 <body class="locked">
 <div class="stage" id="stage" tabindex="-1" role="region" aria-label="VCTRS — scroll to continue">
-  <video id="film" muted playsinline preload="auto" aria-hidden="true" src="film.mp4" poster="assets/film-poster-44ecb1a17bf6.jpg"></video>
+  <video id="film" muted playsinline preload="auto" aria-hidden="true" src="assets/hero-film-51129a88918e.mp4" poster="assets/hero-poster-311ec34583b0.jpg"></video>
   <div class="wash"></div>
   <div class="card-cover" id="cardCover" aria-hidden="true"></div>
   <div class="film-logo" id="filmLogo" aria-hidden="true"><div class="mk mk-gold"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="mk mk-white"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div></div>
   <div class="underglow" id="underglow" aria-hidden="true"></div>
-  <div class="intro-v-halo" id="introVHalo" aria-hidden="true"></div>
+  <div class="intro-v-halo" id="introVHalo" aria-hidden="true"><svg viewBox="170.4 94.8 295.5 357.7" aria-hidden="true" focusable="false">
+    <defs>
+    <linearGradient id="introVEmission" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0d492"/>
+      <stop id="introGlowFront" offset="0" stop-color="#f0d492"/>
+      <stop id="introGlowTail" offset="0" stop-color="#f0d492" stop-opacity="0"/>
+      <stop offset="1" stop-color="#f0d492" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="introVLight" x="-90%" y="-75%" width="280%" height="250%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="edge"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="bloom"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="42" result="air"/>
+      <feMerge><feMergeNode in="air"/><feMergeNode in="bloom"/><feMergeNode in="edge"/></feMerge>
+    </filter></defs>
+    <path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="url(#introVEmission)" filter="url(#introVLight)"/>
+  </svg></div>
   <div class="hud">
     <div class="hud-top mono">
       <span style="font-size:9px; opacity:.8">CANBERRA · EST. LOCAL</span>
@@ -1087,6 +1114,8 @@
       vbase=document.getElementById('vbase'),
       vpour=document.getElementById('vpour'),
       introVHalo=document.getElementById('introVHalo');
+  var introGlowFront=document.getElementById('introGlowFront'),
+      introGlowTail=document.getElementById('introGlowTail'), glowFrontLast='', glowTailLast='';
   (function(){
     var all=wordmark.querySelectorAll('.l');
     for(var i=0;i<all.length;i++){ if(all[i]!==vslot) all[i].remove(); }
@@ -1113,7 +1142,7 @@
   VI.exitA=VI.glowA+VI.HOLD;
   VI.launch=VI.exitA+VI.EXIT;
   VI.end=VI.launch;
-  var vRect=null, vStart=0, vFired=false, introTask=null;
+  var vRect=null, vGlowRect=null, glowNeedsPlacement=true, vStart=0, vFired=false, introTask=null;
   /* measured ONCE with the transform cleared — a per-tick read would feed the
      last frame's transform back into the measurement (the demo bug) */
   function vMeasure(){
@@ -1121,6 +1150,7 @@
     // pin the pour copy 1:1 over the BASE svg (CSS height:100% tracked the slot's
     // line box — font-strut tall — and painted a second offset V during the pour)
     var br=vbase.getBoundingClientRect();
+    vGlowRect=br; glowNeedsPlacement=true;
     vpour.style.left=(br.left-vRect.left).toFixed(2)+'px';
     vpour.style.top=(br.top-vRect.top).toFixed(2)+'px';
     vpour.style.width=br.width.toFixed(2)+'px';
@@ -1134,11 +1164,16 @@
     var m='linear-gradient(to bottom, rgba(0,0,0,0) '+(pos-VI.F).toFixed(2)+'%, #000 '+(pos+VI.F).toFixed(2)+'%, #000 100%)';
     vpour.style.opacity=(pourT>=1?0:1); vpour.style.color='#fff';
     vpour.style.webkitMaskImage=m; vpour.style.maskImage=m;
-    var crest=pourT>0&&pourT<1?Math.sin(pourT*Math.PI):0;
-    var pool=pourT>0.72?Math.sin((pourT-0.72)/0.28*Math.PI):0;
-    var glowT=vclamp((te-VI.glowA)/VI.HOLD), halo=Math.sin(glowT*Math.PI);
+    // Emit light only from the part of the V already becoming gold. This
+    // gradient is inside the blur, so its travelling edge stays soft.
+    var front=vclamp((pos-8)/100).toFixed(4), tail=vclamp((pos+12)/100).toFixed(4);
+    if(front!==glowFrontLast){introGlowFront.setAttribute('offset',front);glowFrontLast=front;}
+    if(tail!==glowTailLast){introGlowTail.setAttribute('offset',tail);glowTailLast=tail;}
     var exit=1-vinout(vclamp((te-VI.exitA)/VI.EXIT));
-    var gA=0.30*crest+0.26*pool+0.34*halo;
+    // One continuous swell crests as the pour completes, then rests warm.
+    var ignition=vout(vclamp(pourT/0.75));
+    var breath=Math.sin(Math.PI*vclamp((te-(VI.FADE+VI.WHITE+400))/850));
+    var gA=ignition*(0.34+0.34*breath);
     introVHalo.style.opacity=(fade*exit*gA).toFixed(3);
     var soloH=Math.min(innerHeight*0.38,320), k=soloH/vRect.height;
     /* clientWidth, not innerWidth: innerWidth counts a classic scrollbar and
@@ -1146,6 +1181,15 @@
     var dx=document.documentElement.clientWidth/2-(vRect.left+vRect.width/2)+vRect.width*k*VI.STARX, dy=innerHeight/2-(vRect.top+vRect.height/2);
     vslot.style.transform='translate('+dx.toFixed(1)+'px,'+dy.toFixed(1)+'px) scale('+k.toFixed(4)+')';
     vslot.style.opacity=(fade*exit).toFixed(3);
+    if(glowNeedsPlacement){
+      // Place once per measurement, outside the scaled/masked title wrapper.
+      var host=stage.getBoundingClientRect();
+      introVHalo.style.left=(vRect.left+vRect.width/2+dx+(vGlowRect.left-vRect.left-vRect.width/2)*k-host.left).toFixed(2)+'px';
+      introVHalo.style.top=(vRect.top+vRect.height/2+dy+(vGlowRect.top-vRect.top-vRect.height/2)*k-host.top).toFixed(2)+'px';
+      introVHalo.style.width=(vGlowRect.width*k).toFixed(2)+'px';
+      introVHalo.style.height=(vGlowRect.height*k).toFixed(2)+'px';
+      glowNeedsPlacement=false;
+    }
     if(te>=VI.launch && !vFired){ vFired=true; play(); }
   }
   if(!reduced){
@@ -1195,13 +1239,10 @@
     started=motionNow();                  // hidden time is excluded from the stall budget
     timer=setInterval(function(){
       if(document.hidden) return; // throttled to ~1Hz while hidden, but Date.now keeps running
-      var d=film.duration||10.9;
-      // cover the video just BEFORE its baked V card lands (100ms poll — timeupdate is too coarse
-      // to hit this window reliably, which let the old V flash through)
-      if(film.currentTime>=LOGO_T-0.45 && !logoShown) showFilmLogo(false);
+      var d=film.duration||3.734;
       // watchdog: if the video stalls (power saving, hidden tab, decode failure),
       // never leave the page locked — fail open once the clip should long be over
-      if(film.ended){ finish(); }                                   // normal end: mark already painted
+      if(film.ended){ showFilmLogo(false); }                        // full cut, then the existing V pour
       else if((motionNow()-started)/1000 > d+4){ failOpen(); }        // stalled: paint it ourselves
     },100);
   }
@@ -1260,16 +1301,16 @@
     if(destination){ destination.setAttribute('aria-hidden','false'); setNextDropInert(destination,false); }
     afterMotion(reduced?50:1750,function(){ document.body.classList.add('next-drop-landed'); });
   }
-  film.addEventListener('ended',finish);
+  film.addEventListener('ended',function(){
+    if(phase==='playing') showFilmLogo(false);
+  });
 
   /* ===== film-end logo handoff =====
-     The clip's last ~5.9s is a black card carrying the white V+star. The DOM
-     mark is laid exactly over it and tinted white → gold-hot; finish() fires
-     ~1.3s after the card lands so the page never sits in dead black — the film
-     keeps rolling its card underneath while the tide rises over it. */
+     This edit has no baked logo card. Play it in full, then run the existing
+     cover, white V and gold pour. Its completion still starts the next drop.
+     Keep the original reference geometry so the V stays the same size. */
   var filmLogo=document.getElementById('filmLogo');
-  var LOGO_T=4.96;                            // card start in the clip (measured)
-  var VNAT={w:1276,h:718};                    // clip native pixels
+  var VNAT={w:1276,h:718};                    // original logo reference canvas
   var LOGOPX={cx:645.5,cy:349,w:107,h:130};   // white mark bbox in those pixels
   var logoShown=false, logoTintTask=null;
   function placeFilmLogo(){
@@ -1301,7 +1342,7 @@
     function _oc(p){return 1-Math.pow(1-p,3);}
     function _sm(p){return p*p*p*(p*(p*6-15)+10);}
     function _cl(p){return p<0?0:p>1?1:p;}
-    var _rest='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';   // the resting mark's own soft glow
+    var _rest='drop-shadow(0 0 2px rgba(240,212,146,0.46)) drop-shadow(0 0 9px rgba(240,212,146,0.24)) drop-shadow(0 0 22px rgba(212,175,95,0.12))';
     mkWhite.style.color='#ffffff';                                // OUR white V (the layer poured away)
     if(instant){ // reduced-motion: land straight on the poured gold mark
       cardCover.style.opacity='1'; filmLogo.style.opacity='1';
@@ -1323,8 +1364,8 @@
       mkWhite.style.opacity=(f>=POUR?'0':'1');
       mkWhite.style.webkitMaskImage=m; mkWhite.style.maskImage=m;
       var crest=Math.sin(pv*Math.PI), pool=(pv>0.72)?Math.sin((pv-0.72)/0.28*Math.PI):0, base=(now-COVER-REVEAL-WHITEHOLD<0?0:pv*pv*(3-2*pv));
-      var gR=(6*crest+8*pool+3.5*base).toFixed(2), gA=(0.24*crest+0.22*pool+0.30*base).toFixed(3);
-      filmLogo.style.filter='drop-shadow(0 0 '+gR+'px rgba(240,212,146,'+gA+'))';
+      var light=base+0.35*crest+0.18*pool;
+      filmLogo.style.filter='drop-shadow(0 0 '+(2+2*crest).toFixed(2)+'px rgba(240,212,146,'+(0.46*light).toFixed(3)+')) drop-shadow(0 0 '+(9+4*crest).toFixed(2)+'px rgba(240,212,146,'+(0.24*light).toFixed(3)+')) drop-shadow(0 0 '+(22+10*crest).toFixed(2)+'px rgba(212,175,95,'+(0.12*light).toFixed(3)+'))';
       filmLogo.style.transform='scale('+(1+0.008*(1-_oc(_cl((f-(POUR-220))/220)))).toFixed(4)+')';
       if(now-COVER-REVEAL-WHITEHOLD>=POUR){ // land clean on the resting gold mark + its soft glow
         mkGold.style.color='var(--gold-hot)'; mkWhite.style.opacity='0';
@@ -1335,24 +1376,19 @@
       }
     });
   }
-  film.addEventListener('timeupdate',function(){
-    if(phase!=='playing'||document.hidden) return;
-    if(film.currentTime>=LOGO_T+3.1) finish();  // our V reveal + white-hold + the SLOW pour must complete before the guide glides (showFilmLogo now fires from the 100ms poll)
-  });
-
   /* ===== COVER+ — the virtual camera (Jacob's pick from the fit demo) =====
-     The original film plays full-bleed, with a gentle crop drift within each
-     shot. Reframing belongs on the SAME frame as the source cut. Exact cut
-     PTS values use the film's 1/11988 time base; rounding cuts to hundredths
-     delayed the first two reframes by one frame and added a visible jump.
-     Frame callbacks keep the crop tied to decoded video, with rAF fallback.
-     The approved face positions and sweep are unchanged. */
+     Same full-bleed fit, gentle drift and decoded-frame callbacks. Reframe
+     on this edit's actual 30fps cuts, keeping the hat, bike and faces in the
+     phone crop. The footage itself is the user's complete, unchanged cut. */
   var SHOTS=[
-    [0,5500/11988,             35,35, 37,35, 1.05,1.05],
-    [5500/11988,22500/11988,    25,30, 85,32, 1.04,1.03],
-    [22500/11988,47500/11988,   55,35, 50,35, 1.03,1.03],
-    [47500/11988,59500/11988,   23,32, 26.5,33, 1.030,1.004],
-    [59500/11988,99,           50,50, 50,50, 1.00,1.00]
+    [0,17/30,                 44,35, 45,35, 1.05,1.05],
+    [17/30,36/30,             48,40, 49,40, 1.04,1.03],
+    [36/30,48/30,             55,40, 56,40, 1.03,1.03],
+    [48/30,76/30,             55,45, 57,45, 1.03,1.03],
+    [76/30,90/30,             53,35, 54,35, 1.03,1.03],
+    [90/30,97/30,             54,35, 54,35, 1.03,1.03],
+    [97/30,112/30,            50,40, 50,40, 1.030,1.004],
+    [112/30,99,               50,50, 50,50, 1.004,1.004]
   ];
   function camAt(t){
     var s=SHOTS[SHOTS.length-1];
