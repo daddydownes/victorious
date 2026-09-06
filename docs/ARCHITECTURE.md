@@ -74,10 +74,23 @@ The main button uses one continuous gold surface without an inset frame. A decor
 
 The post-Surface `underglow` DOM/CSS and motion task were removed, including all start/stop hooks. Vault container focus no longer outlines the full viewport; `.vault:focus-visible .drag-label` provides a local underline. Stage focus uses `outline:none`. Button focus indicators remain. Do not restore the flashing screen-edge effect from historical revisions.
 
-## Flappy V difficulty candidate
+## Flappy V redesign candidate
 
-The `demo/flappy-stacked-difficulty` candidate uses four sections: gates1–25 fixed,26–50 falling pins,51–75 pins and sway,76 onward pins/sway plus a smaller breathing opening and1.2× gate width. `flapLevel()` caps at3; each gate takes its tier from its zero-based serial when spawned, so the first new obstacle follows exactly25/50/75 clears without mutating near-player obstacles. `flapPace()` ramps from.42 to a.72W/s cap. `flapGateUpdate()` uses that maximum to settle geometry at least approximately.642s before contact (the.65s threshold minus one120Hz tick).
+Branch `demo/flappy-v-redesign` contains the new game; `033db26` is the earlier stacked prototype, not the redesigned reference or a production release. The core stays tap/click/Space flight using the site's original V-and-star path, with the existing gravity and flap impulse.
 
-Final openings range74–90% of `gapH()` rather than the previous100–124%. After100, returning winners continue at the capped final difficulty. Reward/storage keys,120Hz physics, input timing, resize/background pause and reduced-motion poster remain. The34px minimum V size still makes landscape proportionally more generous; do not claim identical difficulty on all aspect ratios.
+The canvas has a fixed 420×720 logical arena, uniformly fitted inside `.flap-flight-space`. Native HUD, pause/exit and stage progress sit outside it. Non-control overlay space accepts flight input so landscape margins remain useful. `flapSize()` changes raster resolution on physical resize, pauses play and preserves all logical geometry. The DPR/backing raster is bounded. Landscape displays a smaller arena rather than changing the course difficulty.
 
-`python3 tools/flappy-demo.py` serves `http://127.0.0.1:8938/demo` with buttons to start at0/25/50/75. It reads the current index, adds local-only controls and uses separate demo storage keys. These shortcuts are not added to the production page.
+| Gates | Cumulative challenge | Final opening | Width |
+| --- | --- | --- | --- |
+|1–25|Fixed gates|156→148|50|
+|26–50|Falling pins|144→138|54|
+|51–75|Pins and shifting openings|136→126|58|
+|76–100|Pins, shifts and squeezing locks|116→104|70→82|
+
+Values are logical pixels. `flapLevel()` uses zero-based gate serial and caps at3; spawn-time score cannot delay or mutate the next tier. `flapPace()` targets185→260 logical units/s with exponential settling, while `flapInterval()` gradually shortens spacing. `flapSpawn()` builds 3–5-gate climb/descend/alternating/level phrases. `flapRandom()` uses per-run xorshift state independent of cosmetic randomness. `flapGateUpdate()` eases deployment/shift/squeeze to rest before collision range, measuring warning against maximum world speed and the logo's full circumradius.
+
+`flapTraceLogo()` flattens the same source SVG used by `Path2D`; `flapLogoContours()` caches the rotated V and star. `flapCollision()` compares those separate concave contours to `flapPolePolygon()` using edge contact and containment. The V's empty centre is preserved. Curve approximation is below 0.048 logical pixels, but120Hz collision sampling and raster antialiasing are not literal pixel-perfect continuous collision. Pole rendering uses 14px caps with 6px clipped corners; partially revealed caps scale vertically, and the collider matches that scale. Keep the visible shape and collider changes coordinated. Score waits for the actual silhouette to clear the trailing edge.
+
+Sprites cache the shaded front/side faces and gold bevels. The playfield has no travelling words, floating score text, camera flash or bokeh streaks. A short simulation-derived trail accompanies the unchanged logo. UI uses clear ENTRY / FALLING PINS / SHIFT / LOCKDOWN labels and 0/25/50/75/100 progress. Reward keys and code remain; the reward action says Play again because it resets the run. Explicit retry works immediately, while canvas accidental-tap protection stays.
+
+`python3 tools/flappy-demo.py` serves `http://127.0.0.1:8938/demo` with 0/25/50/75 shortcuts and a static Pole detail study. It reads the current index, adds local-only controls and uses separate demo storage keys. These shortcuts are not added to the production page. `/` serves the unmodified candidate for real journey testing.

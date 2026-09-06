@@ -250,36 +250,55 @@
   .flap-play:focus-visible{outline:1px solid var(--gold-hot); outline-offset:3px}
   .flap-best{margin-top:18px; letter-spacing:.24em; font-size:10px; color:var(--gold);
     text-transform:uppercase; opacity:.85; min-height:1em}
-  /* the locked-in overlay */
-  .flap-overlay{position:fixed; inset:0; z-index:400; background:#000; display:none;
-    overscroll-behavior:contain; touch-action:none;
-    -webkit-tap-highlight-color:transparent;   /* the blue flash on every Chrome tap */
-    -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
+  /* Flappy V — one consistent arena, native controls outside the flight path. */
+  .flap-overlay{position:fixed;inset:0;z-index:400;background:#060605;display:none;
+    overscroll-behavior:contain;touch-action:none;-webkit-tap-highlight-color:transparent;
+    user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;color:var(--bone);
+    background-image:radial-gradient(ellipse at 50% 48%,#17150e 0,transparent 65%)}
   .flap-overlay.on{display:block}
-  #flap{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none;
-    cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent;
-    -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
-  .flap-exit{position:absolute; top:calc(14px + env(safe-area-inset-top)); right:16px; z-index:2;
-    background:rgba(11,10,8,.62); border:1px solid var(--line); color:var(--gold);
-    font-family:'Cascadia Mono',Consolas,monospace; font-size:10px; letter-spacing:.28em;
-    text-transform:uppercase; padding:11px 16px; cursor:pointer; border-radius:0;
-    transition:border-color .25s ease}
-  .flap-exit:hover{border-color:var(--gold)}
-
-  /* Flappy V: native text stays sharp at every display scale. */
-  .flap-hud{position:absolute;left:max(20px,env(safe-area-inset-left));top:calc(20px + env(safe-area-inset-top));pointer-events:none;color:var(--gold);font:10px Consolas,monospace;letter-spacing:.18em}
-  .flap-hud strong{display:block;font:500 32px/1.1 Consolas,monospace;letter-spacing:-.06em;color:var(--bone)}
-  .flap-hud small{font-size:11px;color:var(--gold);letter-spacing:0}
-  .flap-pause{right:120px;letter-spacing:.08em}
-  .flap-tier{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:20px;right:20px;text-align:center;color:var(--gold);font:11px/1.8 Consolas,monospace;letter-spacing:.12em;pointer-events:none}
-  .flap-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(400px,calc(100% - 40px));padding:28px 20px;text-align:center;background:rgba(8,7,5,.92);border:1px solid rgba(212,175,95,.28);box-sizing:border-box}
+  .flap-flight-space{position:absolute;inset:calc(64px + env(safe-area-inset-top)) 12px calc(64px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
+  .flap-arena{position:relative;
+    width:min(100%,calc((100vh - 128px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));
+    width:min(100%,calc((100dvh - 128px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));aspect-ratio:7/12;
+    background:#080806;box-shadow:0 0 0 1px rgba(212,175,95,.13),0 24px 90px #0008;overflow:hidden}
+  #flap{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;
+    cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+  .flap-top{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));
+    right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;gap:16px;pointer-events:none}
+  .flap-name{font:600 12px Consolas,monospace;letter-spacing:.19em;color:var(--gold);margin-right:auto}
+  .flap-name small{display:block;font:9px Consolas,monospace;letter-spacing:.12em;color:#8c8779;margin-top:5px}
+  .flap-hud{display:flex;align-items:baseline;gap:6px;font:10px Consolas,monospace;color:var(--gold)}
+  .flap-hud strong{font:500 30px/1 Consolas,monospace;letter-spacing:-.05em;color:var(--bone)}
+  .flap-hud small{font:10px Consolas,monospace;color:#a39a84;letter-spacing:0}
+  .flap-exit{min-height:44px;min-width:44px;pointer-events:auto;padding:10px 13px;
+    color:var(--bone);background:#ffffff05;border:1px solid #ffffff1c;border-radius:4px;
+    font:10px Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .flap-exit:hover{background:#d4af5f16;border-color:#d4af5f70}
+  .flap-exit:active{background:#d4af5f28}
+  .flap-pause[hidden]{display:none}
+  .flap-bottom{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+    width:min(390px,calc(100% - 32px));pointer-events:none}
+  .flap-tier{text-align:center;color:var(--gold);font:10px/1.5 Consolas,monospace;letter-spacing:.16em;margin-bottom:8px;min-height:15px}
+  .flap-progress{display:flex;gap:5px;height:3px}
+  .flap-progress i{display:block;flex:1;position:relative;background:#ffffff17;overflow:hidden}
+  .flap-progress i::after{content:'';display:block;height:100%;background:var(--gold);transform:scaleX(var(--fill,0));transform-origin:left}
+  .flap-milestones{display:flex;justify-content:space-between;font:8px Consolas,monospace;color:#817a69;margin-top:5px}
+  .flap-panel{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(360px,calc(100% - 40px));padding:32px 24px;text-align:center;box-sizing:border-box;
+    background:linear-gradient(155deg,#18160ff5,#080807fa);border:1px solid #d4af5f38;
+    border-radius:8px;box-shadow:0 22px 70px #0009}
   .flap-panel[hidden]{display:none}
-  .flap-panel .eyebrow{color:var(--gold);font:10px Consolas,monospace;letter-spacing:.26em}
-  .flap-panel h2{font:500 clamp(24px,5vw,34px)/1.15 Consolas,monospace;letter-spacing:-.05em;color:var(--bone);margin:16px 0}
-  .flap-panel p{color:var(--bone-dim);font:12px/1.8 Consolas,monospace;margin:0 0 22px}
-  .flap-panel button{min-height:44px}
-  .flap-overlay button:focus-visible{outline:2px solid var(--gold-hot);outline-offset:4px}
-  @media(max-height:440px){.flap-panel{padding:16px}.flap-panel h2{margin:10px 0}.flap-panel p{margin-bottom:12px}}
+  .flap-panel .eyebrow{color:#b6a680;font:9px Consolas,monospace;letter-spacing:.23em}
+  .flap-panel h2{font:500 clamp(26px,5vw,38px)/1.06 Consolas,monospace;letter-spacing:-.05em;color:var(--bone);margin:20px 0 14px}
+  .flap-panel p{color:#b9b3a5;font:12px/1.8 Consolas,monospace;margin:0 0 24px}
+  .flap-panel button{min-height:48px;width:100%;border-radius:3px;letter-spacing:.16em}
+  .flap-overlay button:focus-visible{outline:2px solid var(--gold-hot);outline-offset:3px}
+  .flap-orientation{display:none}
+  @media(max-width:400px){.flap-top{gap:8px}.flap-name{font-size:10px}.flap-name small{font-size:8px}.flap-exit{padding:10px}.flap-hud strong{font-size:26px}}
+  @media(max-height:480px){.flap-flight-space{top:calc(56px + env(safe-area-inset-top));bottom:calc(56px + env(safe-area-inset-bottom))}.flap-arena{width:min(100%,calc((100vh - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));width:min(100%,calc((100dvh - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333))}
+    .flap-top{top:6px}.flap-bottom{bottom:6px}.flap-panel{padding:18px 22px;width:min(360px,calc(100% - 40px))}
+    .flap-panel h2{font-size:25px;margin:12px 0}.flap-panel p{margin-bottom:12px;font-size:11px;line-height:1.5}
+    .flap-panel .eyebrow{font-size:8px}.flap-orientation{display:block;margin-top:8px;font-size:9px;color:#8c8779}}
 
   /* ---- closed + email ---- */
   /* rides up over the pinned film as the black tide; gold rim on its leading edge */
@@ -933,19 +952,27 @@
 
 <div class="shroud" id="shroud" aria-hidden="true"></div>
 <div id="flybloom" aria-hidden="true"></div>
-<div class="flap-overlay" id="flapOverlay" role="dialog" aria-modal="true" aria-label="Flappy-V game">
-  <canvas id="flap" tabindex="-1"
-    aria-label="Flappy-V: tap, click or press Space to fly the gold V through the gaps. Escape exits."></canvas>
-  <div class="flap-hud">DROPS<strong id="flapScore">0 <small>/ 100</small></strong></div>
-  <button class="flap-exit flap-pause" id="flapPause" type="button">Pause</button>
-  <div class="flap-tier" id="flapTier" role="status"></div>
-  <div class="flap-panel" id="flapPanel" aria-live="polite">
-    <div class="eyebrow">VICTORIOUS / FLAPPY V</div>
-    <h2 id="flapTitle">Fly through the seam.</h2>
-    <p id="flapHint">Tap, click or press Space to fly.<br>A new challenge every 25 drops.<br>Reach 100. The vault pays.</p>
-    <button class="flap-play" id="flapAction" type="button">Start flying</button>
+<div class="flap-overlay" id="flapOverlay" role="dialog" aria-modal="true" aria-label="Flappy V game">
+  <div class="flap-flight-space"><div class="flap-arena">
+    <canvas id="flap" tabindex="-1" aria-label="Flappy V: tap, click or press Space to fly the V logo through gaps. Escape exits."></canvas>
+  </div></div>
+  <div class="flap-top">
+    <div class="flap-name">FLAPPY V<small>VICTORIOUS</small></div>
+    <div class="flap-hud"><strong id="flapScore">0 <small>/ 100</small></strong></div>
+    <button class="flap-exit flap-pause" id="flapPause" type="button">Pause</button>
+    <button class="flap-exit" id="flapExit" type="button" title="Exit game (Escape)">Exit</button>
   </div>
-  <button class="flap-exit" id="flapExit" type="button" title="Exit game (Escape)">✕ Exit</button>
+  <div class="flap-bottom">
+    <div class="flap-tier" id="flapTier" role="status"></div>
+    <div class="flap-progress" aria-hidden="true"><i id="flapProgress0"></i><i id="flapProgress1"></i><i id="flapProgress2"></i><i id="flapProgress3"></i></div>
+    <div class="flap-milestones" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+  </div>
+  <div class="flap-panel" id="flapPanel" aria-live="polite">
+    <div class="eyebrow">VICTORIOUS / THE VAULT</div>
+    <h2 id="flapTitle">FLAPPY V</h2>
+    <p id="flapHint">Tap, click or press Space to rise.<br>Clear 100 gates. A new challenge every 25.</p>
+    <button class="flap-play" id="flapAction" type="button">Start run</button>
+  </div>
 </div>
 <div class="guide-cue mono" id="guideCue" aria-hidden="true"></div>
 
@@ -3401,6 +3428,90 @@
     var _vp=document.querySelector('.vmark path');
     var VPATH=_vp ? new Path2D(_vp.getAttribute('d')) : null;
     var VB={x:170.4,y:94.8,w:295.5,h:357.7};
+    /* Flatten the actual filled SVG once. A control-polygon/chord bound of .5
+       SVG units is <.048 logical px at the 34px logo height. Separate contours
+       keep the star and the concave V, including its open centre, distinct. */
+    function flapTraceLogo(d){
+      var tokens=(d||'').match(/[MLCZmlcz]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)||[],out=[],p=null,x=0,y=0,cmd='',i=0;
+      function curve(ax,ay,bx,by,cx,cy,dx,dy,depth){
+        var ux=dx-ax,uy=dy-ay,len=Math.hypot(ux,uy);
+        // Distance to the finite chord also bounds collinear overshoot.
+        function dist(px,py){var t=len?Math.max(0,Math.min(1,((px-ax)*ux+(py-ay)*uy)/(len*len))):0;return Math.hypot(px-ax-t*ux,py-ay-t*uy);}
+        if(depth>=16 || Math.max(dist(bx,by),dist(cx,cy))<=.5){p.push([dx,dy]);return;}
+        var abx=(ax+bx)/2,aby=(ay+by)/2,bcx=(bx+cx)/2,bcy=(by+cy)/2,cdx=(cx+dx)/2,cdy=(cy+dy)/2;
+        var ex=(abx+bcx)/2,ey=(aby+bcy)/2,fx=(bcx+cdx)/2,fy=(bcy+cdy)/2,mx=(ex+fx)/2,my=(ey+fy)/2;
+        curve(ax,ay,abx,aby,ex,ey,mx,my,depth+1);curve(mx,my,fx,fy,cdx,cdy,dx,dy,depth+1);
+      }
+      while(i<tokens.length){
+        if(/^[MLCZmlcz]$/.test(tokens[i]))cmd=tokens[i++];
+        if(cmd==='M'){x=+tokens[i++];y=+tokens[i++];p=[[x,y]];out.push(p);cmd='L';}
+        else if(cmd==='L'){x=+tokens[i++];y=+tokens[i++];p.push([x,y]);}
+        else if(cmd==='C'){var bx=+tokens[i++],by=+tokens[i++],cx=+tokens[i++],cy=+tokens[i++],dx=+tokens[i++],dy=+tokens[i++];curve(x,y,bx,by,cx,cy,dx,dy,0);x=dx;y=dy;}
+        else if(cmd==='Z'||cmd==='z'){cmd='';}
+        else break; // This source path uses absolute M/L/C and implicit closure.
+      }
+      return out;
+    }
+    var FLAP_LOGO_CONTOURS=flapTraceLogo(_vp?_vp.getAttribute('d'):'');
+    var FLAP_LOGO_RADIUS=0;
+    FLAP_LOGO_CONTOURS.forEach(function(contour){contour.forEach(function(point){
+      FLAP_LOGO_RADIUS=Math.max(FLAP_LOGO_RADIUS,Math.hypot(point[0]-VB.x-VB.w/2,point[1]-VB.y-VB.h/2)*34/VB.h);
+    });});
+    FLAP_LOGO_RADIUS+=0.05; // Includes the curve-flattening bound, at every rotation.
+
+    var flapLogoCache={y:NaN,rot:NaN,w:0,h:0,contours:[],left:0,right:0,top:0,bottom:0};
+    function flapLogoContours(y,rot,s){
+      var cache=flapLogoCache;
+      if(cache.y===y&&cache.rot===rot&&cache.w===s.w&&cache.h===s.h)return cache;
+      cache.y=y;cache.rot=rot;cache.w=s.w;cache.h=s.h;
+      cache.left=cache.top=Infinity;cache.right=cache.bottom=-Infinity;
+      var k=vh(s)/VB.h,co=Math.cos(rot),si=Math.sin(rot),ox=VB.x+VB.w/2,oy=VB.y+VB.h/2;
+      for(var n=0;n<FLAP_LOGO_CONTOURS.length;n++){
+        var src=FLAP_LOGO_CONTOURS[n],dst=cache.contours[n]||(cache.contours[n]=[]);
+        for(var j=0;j<src.length;j++){
+          var px=(src[j][0]-ox)*k,py=(src[j][1]-oy)*k,q=dst[j]||(dst[j]=[0,0]);
+          q[0]=s.w*.24+px*co-py*si;q[1]=y*s.h+px*si+py*co;
+          cache.left=Math.min(cache.left,q[0]);cache.right=Math.max(cache.right,q[0]);cache.top=Math.min(cache.top,q[1]);cache.bottom=Math.max(cache.bottom,q[1]);
+        }
+      }
+      return cache;
+    }
+    // Matches the rendered 14px cap, including its compressed partial reveal.
+    function flapPolePolygon(g,s,top){
+      var x=g.x,w=flapGateWidth(g,s),edge=top?g.top:g.bottom,len=top?edge:s.h-edge;
+      var bx=Math.min(w/2,6*g.widthScale),by=6*Math.min(1,Math.max(0,len)/14);
+      return top?[[x,0],[x+w,0],[x+w,edge-by],[x+w-bx,edge],[x+bx,edge],[x,edge-by]]:
+        [[x+bx,edge],[x+w-bx,edge],[x+w,edge+by],[x+w,s.h],[x,s.h],[x,edge+by]];
+    }
+    function flapPointInPolygon(p,poly){
+      var inside=false;
+      for(var i=0,j=poly.length-1;i<poly.length;j=i++){
+        var a=poly[i],b=poly[j];
+        if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))inside=!inside;
+      }
+      return inside;
+    }
+    function flapSegmentsTouch(a,b,c,d){
+      function cross(p,q,r){return(q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]);}
+      var e=1e-8;
+      if(Math.max(a[0],b[0])+e<Math.min(c[0],d[0])||Math.max(c[0],d[0])+e<Math.min(a[0],b[0])||Math.max(a[1],b[1])+e<Math.min(c[1],d[1])||Math.max(c[1],d[1])+e<Math.min(a[1],b[1]))return false;
+      var u=cross(a,b,c),v=cross(a,b,d),w=cross(c,d,a),z=cross(c,d,b);
+      return ((u>=-e&&v<=e)||(u<=e&&v>=-e))&&((w>=-e&&z<=e)||(w<=e&&z>=-e));
+    }
+    function flapPolygonsTouch(a,b){
+      for(var i=0;i<a.length;i++)for(var j=0;j<b.length;j++)if(flapSegmentsTouch(a[i],a[(i+1)%a.length],b[j],b[(j+1)%b.length]))return true;
+      return flapPointInPolygon(a[0],b)||flapPointInPolygon(b[0],a);
+    }
+    function flapCollision(g,s){
+      var logo=flapLogoContours(FG.y,FG.rot,s);
+      if(logo.right<g.x||logo.left>g.x+flapGateWidth(g,s))return false;
+      for(var side=0;side<2;side++){
+        if(side===0?(g.top<=0||logo.top>g.top):(g.bottom>=s.h||logo.bottom<g.bottom))continue;
+        var pole=flapPolePolygon(g,s,side===0);
+        for(var n=0;n<logo.contours.length;n++)if(flapPolygonsTouch(logo.contours[n],pole))return true;
+      }
+      return false;
+    }
     // persistent bests + coupon unlock
     var fBest=0, fWon=false;
     try{
@@ -3414,9 +3525,9 @@
         : (fBest>0 ? 'BEST SO FAR: '+fBest+' / '+COUPON_THRESHOLD : '');
     }
     flapBestLine();
-    /* All speeds/heights are fractions of canvas CSS height (H) or width (W),
-       so phone and desktop play identically. Base ratios from a 512-tall
-       logical frame (the FlapPyBird measurements): */
+    /* Physics always uses a 420 × 720 logical arena. CSS uniformly fits that
+       arena to the available display; resize changes raster detail, never the
+       route, hitbox or flight timing. Velocity remains expressed in H/s. */
     var FG=null, flapIv=null, flapRaf=0, flapLast=0, flapFocus=null, flapOpen=false, flapScrollY=0;
     /* THE GAME'S LAW-1 EXCEPTION — rAF drives the loop, the interval is only a
        watchdog. Chrome/Android's renderer scheduler BLOCKS timer tasks for
@@ -3427,9 +3538,19 @@
        below still feeds flapTick if an embedder throttles rAF (the case LAW 1
        exists for); physics are dt-driven so cadence never changes speed. */
     var FLAP_LAYERS=['FALLING PINS','PINS + SWAY','FINAL LOCK / PINS + SWAY + SQUEEZE'];
-    var FLAP_MAX_SPEED=0.72;
+    var FLAP_MAX_SPEED=260/420;
     function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}
-    function flapPace(score){return Math.min(FLAP_MAX_SPEED,0.42+Math.max(0,score)*0.003);}
+    function flapCourseProgress(serial){return Math.min(1,Math.max(0,(serial%25)/24));}
+    function flapPace(score){
+      var level=flapLevel(score), t=score>=100?1:flapCourseProgress(score);
+      return ([185,205,225,245][level]+15*t)/420;
+    }
+    function flapInterval(serial){
+      var level=flapLevel(serial), t=serial>=100?1:flapCourseProgress(serial);
+      var starts=[1.35,1.28,1.20,1.12], ends=[1.28,1.20,1.12,1.08];
+      return starts[level]+(ends[level]-starts[level])*t;
+    }
+    function flapSmooth(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
     var fTier=document.getElementById('flapTier');
     var fPaused=false, fAccumulator=0, fEffectsLast=0, fPanelKey='', fScoreKey=-1;
     var fFrames=[],fFrameHead=-1,fFrameCount=0,fSimTime=0,fRenderFloor=0;
@@ -3471,23 +3592,27 @@
     }
     function flapPanels(){
       var level=flapLevel(FG.score);
-      var notice=FG.noticeT>0?FG.notice:(level?FLAP_LAYERS[level-1]:'FALLING PINS AT 25 / LAYERS STACK EVERY 25');
+      var notice=['01 / ENTRY','02 / FALLING PINS','03 / SHIFT','04 / LOCKDOWN'][level];
       if(fTier.textContent!==notice) fTier.textContent=notice;
       var key=reduced?'motion':fPaused?'paused':FG.state;
       if(fScoreKey!==FG.score){
         fScoreKey=FG.score;
-        fScore.style.fontSize=Math.min(32,144/(String(FG.score).length+2))+'px';
+        fScore.style.fontSize=Math.min(30,144/(String(FG.score).length+2))+'px';
         fScore.innerHTML=FG.score+' <small>/ 100</small>';
+        for(var segment=0;segment<4;segment++){
+          var bar=document.getElementById('flapProgress'+segment);
+          if(bar) bar.style.setProperty('--fill',Math.max(0,Math.min(1,(FG.score-segment*25)/25)));
+        }
       }
       if(key===fPanelKey) return;
       fPause.hidden=FG.state!=='play'||reduced;
       fPause.textContent=fPaused?'Resume':'Pause';
       fPanelKey=key; fPanel.hidden=key==='play'||key==='dying';
-      var copy={idle:['Fly through the seam.','Tap, click or press Space to fly.<br>A new challenge every 25 drops.<br>Reach 100. The vault pays.','Start flying'],
-        paused:['Flight paused.','Your place is held.<br>Resume when you’re ready.','Resume flight'],
-        dead:['The vault claims another.','DROPS '+FG.score+' / BEST '+fBest,'Fly again'],
-        won:['The vault pays.',COUPON_CODE+'<br>'+COUPON_LINE,'Keep flying'],
-        motion:['The game sleeps.','Motion is turned off in your device preferences.','Exit game']}[key];
+      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Clear 100 gates. A new challenge every 25.<span class="flap-orientation">Portrait gives you a larger view.</span>','Start run'],
+        paused:['PAUSED','Your run is on hold.<br>Continue when you’re ready.','Resume'],
+        dead:['RUN ENDED',FG.score+' cleared &nbsp;·&nbsp; Best '+fBest,'Try again'],
+        won:['VAULT UNLOCKED',COUPON_CODE+'<br>'+COUPON_LINE,'Play again'],
+        motion:['MOTION IS OFF','The game is paused for your motion preference.','Exit game']}[key];
       if(copy){fTitle.textContent=copy[0];fHint.innerHTML=copy[1];fAction.textContent=copy[2];}
     }
     function flapLoop(){
@@ -3503,79 +3628,90 @@
     }
     function flapNewState(){
       return { y:0.45, vy:0, rot:0,              // V centre-y (frac H), vel (frac H/s)
-        gates:[], parts:[], pops:[],
+        gates:[], parts:[], pops:[], courseSeed:(Math.random()*4294967296)>>>0 || 1,
         spawnT:1.0, score:0, state:'idle',       // idle | play | dying | dead | won
-        gateSerial:0, notice:'', noticeT:0, speed:0.42,                              // world scroll, frac W/s — ramps
+        gateSerial:0, routeKind:-1, routeLeft:0, routeDir:1, notice:'', noticeT:0, speed:185/420,                              // world scroll, frac W/s — ramps
         trauma:0, shakeX:0, shakeY:0, stopT:0,   // hit-stop timer (s)
         flash:0, deadT:0, scorePop:0, bg:null };
     }
-    /* Reuse viewport metrics; resize also preserves the current gate layout. */
-    var FS={w:0,h:0,d:1};
+    /* Fixed logical geometry; physical size only controls the backing raster. */
+    var FS={w:420,h:720,d:1,cssW:0,cssH:0};
     function flapSize(){
-      var w=Math.max(1,flapCv.clientWidth), h=Math.max(1,flapCv.clientHeight);
-      // Two-times raster detail; native text remains full-resolution at every DPR.
-      var d=Math.min(2,devicePixelRatio||1,Math.sqrt(6000000/(w*h)));
-      if(FG && FS.w && FS.h && (FS.w!==w || FS.h!==h)){
-        var gapScale=(Math.max(34,h*0.047)*5)/(Math.max(34,FS.h*0.047)*5);
-        FG.gates.forEach(function(g){
-          g.x*=w/FS.w;g.y*=h/FS.h;g.baseY*=h/FS.h;g.anchor*=h/FS.h;
-          if(g.target!==null) g.target*=h/FS.h;
-          g.opening*=gapScale;
-          g.y=Math.max(g.opening/2,Math.min(h-g.opening/2,g.y));
-          g.top=(g.y-g.opening/2)*g.reveal;
-          g.bottom=h-(h-g.y-g.opening/2)*g.reveal;
-        });
-        FG.parts=[]; FG.pops=[]; FG.bg=null;
+      var cssW=Math.max(1,flapCv.clientWidth), cssH=Math.max(1,flapCv.clientHeight);
+      var d=Math.min((cssW/420)*Math.min(2,devicePixelRatio||1),Math.sqrt(6000000/(420*720)));
+      if(FG && FS.cssW && (FS.cssW!==cssW || FS.cssH!==cssH)){
+        // Rotation/resize cannot advance the course or alter a gate near the V.
+        // Keep all logical positions and pause the existing flight for consent.
         flapResetFrames();
         if(FG.state==='play') fPaused=true;
         fAccumulator=0; flapLast=performance.now();
       }
-      var W=Math.round(w*d), H=Math.round(h*d);
-      if(flapCv.width!==W||flapCv.height!==H){ flapCv.width=W; flapCv.height=H;
-        /* a width/height write resets ALL context state to defaults — without
-           this the panels fall back to start-aligned and park right of centre */
-        fctx.textAlign='center'; }
-      FS.w=w; FS.h=h; FS.d=d;
+      var W=Math.max(1,Math.round(420*d)), H=Math.max(1,Math.round(720*d));
+      if(flapCv.width!==W||flapCv.height!==H){
+        flapCv.width=W; flapCv.height=H;
+        fctx.textAlign='center';
+      }
+      FS.cssW=cssW; FS.cssH=cssH; FS.d=d;
       return FS;
     }
-    function vh(s){ return Math.max(34, s.h*0.047); }      // V drawn height px (gap = 5×)
-    function gapH(s){ return vh(s)*5; }
-    function gateW(s){ return Math.max(52, s.w*0.075); }
+    function vh(s){ return 34; } // Logo height; collision follows the rotated filled SVG.
+    function gapH(s){ return 156; }
+    function gateW(s){ return 50; }
+    // Course randomness is isolated from dust, particles and presentation cadence.
+    function flapRandom(){
+      var seed=FG.courseSeed;seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;
+      FG.courseSeed=seed>>>0;return FG.courseSeed/4294967296;
+    }
     function flapSpawn(s){
-      var gh=gapH(s), m=gh/2+s.h*0.10;
-      var ny=m+Math.random()*Math.max(0,s.h-2*m);
-      var previous=FG.gates.length?FG.gates[FG.gates.length-1].y:s.h*0.45;
-      ny=Math.max(previous-s.h*0.16,Math.min(previous+s.h*0.16,ny));
-      // Index the course, not spawn-time score: gate 26 introduces pins exactly
-      // after 25 clears, even when it was queued ahead of the milestone.
+      // Gate serial fixes its complete challenge before it enters the arena.
       var serial=FG.gateSerial++, level=flapLevel(serial);
-      FG.gates.push({x:s.w+gateW(s), y:ny, baseY:ny, anchor:previous,
-        counted:false, level:level, serial:serial, phase:Math.random()*Math.PI*2,
-        age:0, locked:false, target:null, opening:gh, reveal:level?0:1,
-        widthScale:level>=3?1.20:1});
+      var progress=serial>=100?1:flapCourseProgress(serial);
+      var gh=[156,144,136,116][level]-[8,6,10,12][level]*progress;
+      var width=[50,54,58,70][level]+(level===3?12*progress:0);
+      var previous=FG.gates.length?FG.gates[FG.gates.length-1].target:s.h*0.45;
+      // Short authored-shaped phrases replace unrelated random vertical jumps.
+      // A phrase lasts 3–5 gates: climb, descend, alternate, or hold a line.
+      if(FG.routeLeft<=0){
+        FG.routeKind=(FG.routeKind+1+Math.floor(flapRandom()*3))%4;
+        FG.routeLeft=3+Math.floor(flapRandom()*3);
+        FG.routeDir=flapRandom()<0.5?-1:1;
+      }
+      var bound=[80,96,112,124][level], delta=0;
+      if(FG.routeKind<2) delta=(FG.routeKind===0?-1:1)*bound*(0.55+flapRandom()*0.35);
+      else if(FG.routeKind===2){delta=FG.routeDir*bound*(0.65+flapRandom()*0.35);FG.routeDir*=-1;}
+      else delta=(flapRandom()-0.5)*bound*0.25;
+      FG.routeLeft--;
+      // Keep enough vertical travel margin to follow climbs without ceiling taps.
+      var margin=gh/2+62;
+      var ny=Math.max(margin,Math.min(s.h-margin,previous+delta));
+      var shift=level>=2?(flapRandom()<0.5?-1:1)*(18+flapRandom()*10):0;
+      var initialY=Math.max(margin,Math.min(s.h-margin,ny-shift));
+      FG.gates.push({x:s.w+width, y:initialY, baseY:initialY, anchor:previous,
+        counted:false, level:level, serial:serial, phase:flapRandom()*Math.PI*2,
+        age:0, locked:false, target:ny, finalOpening:gh,
+        opening:gh+(level>=3?26:0), reveal:level?0:1,
+        widthScale:width/50});
     }
     function flapGateWidth(g,s){return gateW(s)*g.widthScale;}
     function flapGateUpdate(g,s,dt){
       g.age+=dt;
-      // Use the maximum future pace so score ramps cannot steal warning time.
-      var safeLead=(g.x-s.w*0.24-vh(s)*0.32)/(FLAP_MAX_SPEED*s.w);
+      // Worst-case future speed proves lead time even during a pace ramp.
+      // Smoothstep endpoints have zero velocity: no snap at the lock boundary.
+      var safeLead=(g.x-s.w*0.24-FLAP_LOGO_RADIUS)/(FLAP_MAX_SPEED*s.w);
       if(!g.locked){
-        var y=g.baseY;
-        if(g.level>=2) y+=Math.sin(g.age*3.5+g.phase)*s.h*0.045;
-        // Final 25: a visibly breathing, smaller gap plus longer slabs. Earlier
-        // pins and sway stay active. Everything settles before collision range.
-        if(g.level>=3) g.opening=gapH(s)*(0.82+0.08*Math.sin(g.age*4+g.phase));
-        var margin=g.opening/2+s.h*0.025;
-        g.y=Math.max(margin,Math.min(s.h-margin,Math.max(g.anchor-s.h*0.20,Math.min(g.anchor+s.h*0.20,y))));
-        if(g.level>=1) g.reveal=Math.max(0,Math.min(1,(1.10-safeLead)/0.45));
-        if(safeLead<=0.65){g.locked=true;g.reveal=1;}
+        var shiftT=flapSmooth((1.45-safeLead)/(1.45-0.72));
+        g.y=g.baseY+(g.target-g.baseY)*shiftT;
+        if(g.level>=1) g.reveal=flapSmooth((1.35-safeLead)/(1.35-0.74));
+        if(g.level>=3) g.opening=g.finalOpening+26*(1-flapSmooth((1.15-safeLead)/(1.15-0.72)));
+        // All movement has ended by .72s. The .70s latch leaves >.69s at 120Hz,
+        // comfortably exceeding the .65s guaranteed stationary approach.
+        if(safeLead<=0.70){g.locked=true;g.reveal=1;g.y=g.target;g.opening=g.finalOpening;}
       }
       g.top=(g.y-g.opening/2)*g.reveal;
       g.bottom=s.h-(s.h-g.y-g.opening/2)*g.reveal;
     }
     /* THE MONOLITH gates (design direction A from the render research): obsidian
-       slabs, razor edge-light, a gold bevel where light pools at the gap, CLOSED
-       laser-etched vertically in the opening. Everything static is baked into
+       slabs, razor edge-light and a gold bevel where light pools at the gap. Everything static is baked into
        offscreen sprites (9-slice: stretchable body + bevel caps) — zero gradients
        or text per frame, no shadowBlur anywhere. Rebuilt only when size/dpr changes. */
     var FSPR=null;
@@ -3588,28 +3724,35 @@
         var g=c.getContext('2d'); g.scale(s.d,s.d); fn(g,w,h);
         return c;
       }
-      function bodyFill(g,w,h){ // obsidian: a barely-there swell across the slab
-        var lg=g.createLinearGradient(0,0,w,0);
-        lg.addColorStop(0,'#000'); lg.addColorStop(0.5,'#141210'); lg.addColorStop(1,'#000');
-        g.fillStyle=lg; g.fillRect(0,0,w,h);
-        g.fillStyle='rgba(240,212,146,.5)'; g.fillRect(0,0,1,h);   // left razor edge
-        g.fillStyle='rgba(239,233,220,.07)'; g.fillRect(w-4,0,4,h); // ambient bounce, not a line
+      function bodyFill(g,w,h){
+        // A lit front face and darker right return give the pillars real depth.
+        var metal=g.createLinearGradient(0,0,w,0);
+        metal.addColorStop(0,'#343128');metal.addColorStop(.09,'#181712');
+        metal.addColorStop(.65,'#29271f');metal.addColorStop(.78,'#343025');
+        metal.addColorStop(.80,'#15130f');metal.addColorStop(1,'#0b0a08');
+        g.fillStyle=metal;g.fillRect(0,0,w,h);
+        g.fillStyle='rgba(244,221,164,.35)';g.fillRect(0,0,1,h);
+        g.fillStyle='rgba(244,221,164,.12)';g.fillRect(w*.78,0,1,h);
+        g.fillStyle='rgba(0,0,0,.4)';g.fillRect(w-1,0,1,h);
       }
-      var body=mk(gw,8,bodyFill);                       // tileable: horizontal detail only
-      var capH=12;
-      function bevel(g,w,h,atBottom){                   // gold pooling at the gap-facing lip
-        bodyFill(g,w,h);
-        var by=atBottom?h-3:0;
-        var dg=g.createLinearGradient(0,atBottom?0:3,0,atBottom?h-3:h);
-        dg.addColorStop(0,'rgba(0,0,0,0)'); dg.addColorStop(1,'rgba(0,0,0,.5)');
-        g.fillStyle=dg; g.fillRect(0,atBottom?0:3,w,h-3);
-        var gg=g.createLinearGradient(0,by,0,by+3);     // the bevel: hot lip → gold → dark
-        gg.addColorStop(0,atBottom?'#f0d492':'#3a2c0f');
-        gg.addColorStop(0.5,'#d4af5f');
-        gg.addColorStop(1,atBottom?'#3a2c0f':'#f0d492');
-        g.fillStyle=gg; g.fillRect(0,by,w,3);
-        g.fillStyle='rgba(255,251,232,.75)';            // 1px specular on the lip
-        g.fillRect(0,atBottom?by:by+2,w,1);
+      var body=mk(gw,8,bodyFill);
+      var capH=14;
+      function bevel(g,w,h,atBottom){
+        // Six-unit clipped corners are the collision polygon's exact footprint.
+        // Lighting stays INSIDE that shape; decorative glow never expands it.
+        g.save();g.beginPath();
+        if(atBottom){g.moveTo(0,0);g.lineTo(w,0);g.lineTo(w,h-6);g.lineTo(w-6,h);g.lineTo(6,h);g.lineTo(0,h-6);}
+        else{g.moveTo(6,0);g.lineTo(w-6,0);g.lineTo(w,6);g.lineTo(w,h);g.lineTo(0,h);g.lineTo(0,6);}
+        g.closePath();g.clip();bodyFill(g,w,h);
+        var light=g.createLinearGradient(0,0,w,h);
+        light.addColorStop(0,'#f0d492');light.addColorStop(.38,'#b89a5b');light.addColorStop(.75,'#e5c887');light.addColorStop(1,'#786035');
+        g.fillStyle=light;g.beginPath();
+        if(atBottom){g.moveTo(0,h-6);g.lineTo(6,h);g.lineTo(w-6,h);g.lineTo(w,h-6);g.lineTo(w-3,h-9);g.lineTo(w-8,h-4);g.lineTo(8,h-4);g.lineTo(3,h-9);}
+        else{g.moveTo(0,6);g.lineTo(6,0);g.lineTo(w-6,0);g.lineTo(w,6);g.lineTo(w-3,9);g.lineTo(w-8,4);g.lineTo(8,4);g.lineTo(3,9);}
+        g.closePath();g.fill();
+        g.fillStyle='rgba(255,243,210,.70)';
+        g.fillRect(7,atBottom?h-1:0,w-14,1);
+        g.restore();
       }
       var capB=mk(gw,capH,function(g,w,h){ bevel(g,w,h,true); });
       var capT=mk(gw,capH,function(g,w,h){ bevel(g,w,h,false); });
@@ -3633,30 +3776,8 @@
         var light=g.createRadialGradient(w*.58,h*.72,0,w*.58,h*.72,Math.max(w,h)*.8);
         light.addColorStop(0,'#141108');light.addColorStop(.5,'#090805');light.addColorStop(1,'#000');
         g.fillStyle=light;g.fillRect(0,0,w,h);
-        g.strokeStyle='rgba(212,175,95,.075)';g.lineWidth=.35;
-        for(var line=0;line<9;line++){
-          g.beginPath();g.moveTo(w*.5,h*.75);g.lineTo((line-2)*w/4,h);g.stroke();
-        }
-        for(var row=0;row<5;row++){
-          var yy=h*(.78+.22*Math.pow(row/4,1.7));
-          g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
-        }
       });
       FSPR.mote=disc(3,0.3);
-      FSPR.bokeh=disc(32,0.12);
-      // tapered streak sprite: hot core fading to nothing at both ends
-      FSPR.streak=mk(64,2,function(g){
-        var lg=g.createLinearGradient(0,0,64,0);
-        lg.addColorStop(0,'rgba(240,212,146,0)');
-        lg.addColorStop(0.5,'rgba(240,212,146,.85)');
-        lg.addColorStop(1,'rgba(240,212,146,0)');
-        g.fillStyle=lg; g.fillRect(0,0,64,2);
-      });
-      // Text that travels with gates is rasterised only when this cache rebuilds.
-      FSPR.labels={};
-      ['WATCH THE GOLD','JUST KIDDING','VIP? JUST KIDDING'].forEach(function(text){
-        FSPR.labels[text]=mk(150,16,function(g){g.fillStyle='#f0d492';g.font='11px Consolas,monospace';g.textAlign='center';g.fillText(text,75,12);});
-      });
       return FSPR;
     }
     /* Background counts scale with area and cap at 120/24/6.
@@ -3667,7 +3788,7 @@
     function flapBgInit(s){
       var area=(s.w*s.h)/(1920*1080), R=Math.random;
       function n(base){ return Math.min(base,Math.max(4,Math.round(base*area))); }
-      var bg={mid:[],near:[],streaks:[],farX:0};
+      var bg={mid:[],farX:0};
       bg.farC=document.createElement('canvas');
       // Far dust deliberately uses CSS resolution; foreground retains retina detail.
       bg.farC.width=Math.max(2,Math.round(s.w)); bg.farC.height=Math.max(2,Math.round(s.h));
@@ -3678,7 +3799,6 @@
         fg.fillRect(Math.round(R()*s.w),Math.round(R()*s.h),1,1);
       }
       for(i=0;i<n(24);i++) bg.mid.push({x:R()*s.w,y:R()*s.h,up:6+R()*8,sc:0.6+R()*0.8,a:0.15+R()*0.15});
-      for(i=0;i<n(6);i++) bg.near.push({x:R()*s.w,y:R()*s.h,up:8+R()*6,sc:0.75+R()*1.25,a:0.04+R()*0.05});
       return bg;
     }
     function flapBurst(x,y,n,gold){
@@ -3708,7 +3828,7 @@
     }
     function flapStart(){
       fPaused=false; fAccumulator=0; flapLast=performance.now(); fEffectsLast=flapLast;
-      FG=flapNewState(); FG.state='play'; flapSpawn(flapSize()); flapGateUpdate(FG.gates[0],flapSize(),0); FG.spawnT=1.1;
+      FG=flapNewState(); FG.state='play'; flapSpawn(flapSize()); flapGateUpdate(FG.gates[0],flapSize(),0); FG.spawnT=flapInterval(FG.gateSerial);
       FG.vy=-0.62;                                           // opening flap
       flapResetFrames();
     }
@@ -3752,17 +3872,18 @@
       if(FG.stopT>0){ FG.stopT-=dt; return; }   // hit-stop: render, don't integrate
       var st=FG.state;
       // Bounded pace and spacing; the last tier stacks a tighter, longer opening.
-      FG.speed=flapPace(FG.score);
+      // Score changes set a target, never a one-frame speed jump for live gates.
+      FG.speed+=(flapPace(FG.score)-FG.speed)*(1-Math.exp(-dt/0.65));
       FG.noticeT=Math.max(0,FG.noticeT-dt);
-      var interval=Math.max(0.96, 1.16-FG.score*0.0025);
+      var interval=flapInterval(FG.gateSerial);
       if(st==='play'||st==='dying'){
         var g = st==='play' ? 2.60 : 3.5;                    // dying: double gravity slam
         FG.vy=Math.min(0.70, FG.vy+g*dt);                    // terminal = 1.12× flap (reference ratio)
         FG.y+=FG.vy*dt;
         // rotation maps to velocity — the V telegraphs its physics
         var r=(FG.vy+0.62)/(0.70+0.62);                      // 0 at full flap → 1 at terminal
-        var rotT=(-0.42+r*1.85)*(st==='dying'?1.4:1);        // -24° nose-up → +80°+ spin-down
-        rotT=Math.max(-0.42,Math.min(1.57,rotT));
+        var rotT=(-0.35+r*1.31)*(st==='dying'?1.4:1);        // Logo stays legible through ascent and descent.
+        rotT=Math.max(-0.35,Math.min(st==='dying'?1.35:0.96,rotT));
         /* ease toward the target, never assign: flap is a velocity ASSIGNMENT,
            so a directly-mapped rot teleports ~106° in one tick on every tap —
            phones read that single-frame flip as a frozen frame (the per-tap
@@ -3774,8 +3895,9 @@
         if(st==='dying'){ FG.deadT+=dt; if(FG.y>1.1){ FG.state='dead'; } }
         // ceiling: clamp, don't kill. floor: dead.
         if(st==='play'){
-          if(FG.y*s.h < vh(s)/2){ FG.y=vh(s)/2/s.h; FG.vy=Math.max(0,FG.vy); }
-          if(FG.y*s.h > s.h-vh(s)*0.4) flapDie(s);
+          var logoBounds=flapLogoContours(FG.y,FG.rot,s);
+          if(logoBounds.top<0){FG.y-=logoBounds.top/s.h;FG.vy=Math.max(0,FG.vy);logoBounds=flapLogoContours(FG.y,FG.rot,s);}
+          if(logoBounds.bottom>=s.h) flapDie(s);
         }
         var vx=s.w*0.24, dx=FG.speed*s.w*dt;
         FG.spawnT-=dt;
@@ -3783,7 +3905,7 @@
         for(var i=0;i<FG.gates.length;i++){
           var gt=FG.gates[i]; gt.x-=dx; flapGateUpdate(gt,s,dt);
           if(st==='play'){
-            if(FG.state==='play' && !gt.counted && gt.x+flapGateWidth(gt,s)<vx-vh(s)*0.4){
+            if(FG.state==='play' && !gt.counted && gt.x+flapGateWidth(gt,s)<flapLogoContours(FG.y,FG.rot,s).left){
               gt.counted=true; FG.score++; FG.scorePop=1;
               if(FG.score%25===0 && FG.score<=100){
                 var unlocked=flapLevel(FG.score);
@@ -3791,12 +3913,9 @@
                 FG.noticeT=3;
               }
               FG.trauma=Math.min(1,FG.trauma+0.08);
-              FG.pops.push({x:gt.x+gateW(s)/2,y:gt.y,t:0,txt:'+1'});
               if(FG.score>=COUPON_THRESHOLD && !fWon){ flapWin(s); }
             }
-            var rr=vh(s)*0.32;                // forgiving circle hitbox
-            if(FG.state==='play' && vx+rr>gt.x && vx-rr<gt.x+flapGateWidth(gt,s) &&
-               (FG.y*s.h-rr<gt.top || FG.y*s.h+rr>gt.bottom)) flapDie(s);
+            if(FG.state==='play' && flapCollision(gt,s)) flapDie(s);
           }
         }
         for(var gi=FG.gates.length-1;gi>=0;gi--){              // in-place prune —
@@ -3813,34 +3932,15 @@
     // Cosmetic work runs once per presented frame, not once per physics substep.
     function flapEffects(dt,s){
       var st=FG.state;
-      // GILDED VAULT ambience — runs in every state, so the idle screen breathes.
-      // Layers: far dust 0.18×, mid motes 0.45× + upward drift (the vault's motes),
-      // Near bokeh 0.85× additive; at most eight restrained speed streaks.
+      // Fine baked dust moves slowly behind the gates; no bokeh or speed flashes.
       if(!FG.bg || FG.bgW!==s.w || FG.bgH!==s.h){ FG.bg=flapBgInit(s); FG.bgW=s.w; FG.bgH=s.h; }
       var bg=FG.bg, wdx=FG.speed*s.w*dt;
       FG.bgT=performance.now()/1000;
-      bg.farX=(bg.farX+wdx*0.18)%s.w;                    // parallax on the baked strip
-      var j;
-      for(j=0;j<bg.mid.length;j++){
-        var md=bg.mid[j]; md.x-=wdx*0.45*md.sc; md.y-=md.up*dt;
-        if(md.x<-6){ md.x+=s.w+12; md.y=Math.random()*s.h; }
-        if(md.y<-6) md.y+=s.h+12;
-      }
-      for(j=0;j<bg.near.length;j++){
-        var nb=bg.near[j]; nb.x-=wdx*0.85*nb.sc; nb.y-=nb.up*dt;
-        if(nb.x<-64){ nb.x+=s.w+128; nb.y=Math.random()*s.h; }
-        if(nb.y<-64) nb.y+=s.h+128;
-      }
-      // streaks: spawn in 2–3 loose lanes, alpha/length scale with excess speed
-      var excess=(FG.speed-0.36)/0.18;                 // 0 at 1.2× base → 1 at cap
-      if(st==='play' && excess>0 && bg.streaks.length<8 && Math.random()<dt*6){
-        bg.streaks.push({x:s.w, y:s.h*(0.2+0.3*Math.floor(Math.random()*3))+ (Math.random()-0.5)*s.h*0.1,
-          len:s.w*(0.10+0.15*Math.random()), t:0});
-      }
-      for(j=bg.streaks.length-1;j>=0;j--){
-        var sk=bg.streaks[j]; sk.x-=wdx*1.6; sk.t+=dt;
-        sk.a=Math.min(0.30, Math.max(0,excess))*0.9*Math.min(1,sk.t*6);
-        if(sk.x+sk.len<0 || excess<=0) bg.streaks.splice(j,1);
+      bg.farX=(bg.farX+wdx*0.12)%s.w;
+      for(var j=0;j<bg.mid.length;j++){
+        var md=bg.mid[j];md.x-=wdx*.24*md.sc;md.y-=md.up*dt;
+        if(md.x<-6){md.x+=s.w+12;md.y=Math.random()*s.h;}
+        if(md.y<-6)md.y+=s.h+12;
       }
       for(var p=FG.parts.length-1;p>=0;p--){
         var pt=FG.parts[p]; pt.t+=dt;
@@ -3887,18 +3987,7 @@
           fctx.drawImage(spr.mote,md.x-ms/2,md.y-ms/2,ms,ms);
         }
         fctx.globalAlpha=1;
-        fctx.globalCompositeOperation='lighter';               // bokeh blooms on black
-        for(j=0;j<bg.near.length;j++){
-          var nb=bg.near[j], ns=64*nb.sc;
-          fctx.globalAlpha=nb.a;
-          fctx.drawImage(spr.bokeh,nb.x-ns/2,nb.y-ns/2,ns,ns);
-        }
-        for(j=0;j<bg.streaks.length;j++){
-          var sk=bg.streaks[j];
-          fctx.globalAlpha=sk.a||0;
-          fctx.drawImage(spr.streak,sk.x,sk.y,sk.len,2);
-        }
-        fctx.globalAlpha=1; fctx.globalCompositeOperation='source-over';
+        fctx.globalAlpha=1;
       }
       // gates: monolith slabs from pre-baked sprites — 3 blits per slab, no
       // per-frame gradients, text, or shadowBlur
@@ -3912,13 +4001,11 @@
         var gy=flapMix(ga.y,gbPose.y,frame.blend), opening=flapMix(ga.opening,gbPose.opening,frame.blend);
         var gt=Math.max(0,flapMix(ga.top,gbPose.top||0,frame.blend)), gb=flapMix(ga.bottom,gbPose.bottom===undefined?s.h:gbPose.bottom,frame.blend);
         if(g.level && !g.locked){
-          fctx.strokeStyle='rgba(240,212,146,.45)';fctx.lineWidth=1;
+          fctx.strokeStyle='rgba(240,212,146,.26)';fctx.lineWidth=1;
           fctx.setLineDash([4,5]);
           fctx.strokeRect(x,0,gw,Math.max(0,gy-opening/2));
           fctx.strokeRect(x,gy+opening/2,gw,Math.max(0,s.h-gy-opening/2));
           fctx.setLineDash([]);
-          var label='WATCH THE GOLD';
-          fctx.drawImage(spr.labels[label],Math.min(s.w-75,x+gw/2)-75,gy-21,150,16);
         }
         if(gt>0){
           if(gt>ch){fctx.drawImage(spr.body,x,0,gw,gt-ch);fctx.drawImage(spr.capB,x,gt-ch,gw,ch);}
@@ -3929,6 +4016,18 @@
           if(s.h-gb-ch>0) fctx.drawImage(spr.body,x,gb+ch,gw,s.h-gb-ch);
         }
       }
+      if(FG.state==='play' && !reduced){
+        fctx.strokeStyle='rgba(240,212,146,.20)';fctx.lineWidth=2;fctx.lineCap='round';
+        fctx.beginPath();
+        var started=false;
+        for(var trail=fFrameCount-1;trail>=0;trail--){
+          var point=fFrames[(fFrameHead-trail+8)%8];
+          if(point.time>frame.time) continue;
+          var tx=s.w*.24-(frame.time-point.time)*FG.speed*s.w-9,ty=point.y*s.h;
+          if(!started){fctx.moveTo(tx,ty);started=true;}else fctx.lineTo(tx,ty);
+        }
+        fctx.stroke();
+      }
       flapDrawV(s.w*0.24,flapMix(frame.a?frame.a.y:FG.y,frame.b?frame.b.y:FG.y,frame.blend)*s.h,flapMix(frame.a?frame.a.rot:FG.rot,frame.b?frame.b.rot:FG.rot,frame.blend),1,s);
       // particles — additive gold glow on black
       fctx.globalCompositeOperation='lighter';
@@ -3938,21 +4037,11 @@
         fctx.fillRect(pt.x,pt.y,pt.sz,pt.sz);
       }
       fctx.globalAlpha=1; fctx.globalCompositeOperation='source-over';
-      // score pops
-      fctx.font='13px "Cascadia Mono",Consolas,monospace';
-      for(var qi=0;qi<FG.pops.length;qi++){
-        var pp=FG.pops[qi], pa=pp.t<0.66?1:1-(pp.t-0.66)/0.44;
-        fctx.globalAlpha=Math.max(0,pa); fctx.fillStyle='#f0d492';
-        fctx.fillText(pp.txt,pp.x,pp.y-20-pp.t*55);
-      }
       fctx.globalAlpha=1;
       fctx.restore();
       // HUD — unshaken so the shake reads
       flapPanels();
-      if(FG.flash>0){
-        fctx.fillStyle='rgba(240,212,146,'+(FG.flash*0.08).toFixed(3)+')';
-        fctx.fillRect(0,0,s.w,s.h);
-      }
+
     }
     /* ---- overlay open/close: scroll lock + focus management ---- */
     function flapOpenFn(){
@@ -4011,6 +4100,10 @@
       flapDraw(flapSize()); fAction.focus({preventScroll:true});
     };
     flapCv.addEventListener('pointerdown',function(e){ if(e.button!==0 || !e.isPrimary) return; e.preventDefault(); flapTap(); });
+    flapOverlay.addEventListener('pointerdown',function(e){
+      if(e.target===flapCv || e.target.closest('button') || e.button!==0 || !e.isPrimary) return;
+      e.preventDefault();flapTap();
+    });
     // phones: kill the things a fingertip drags in with it — long-press context
     // menu, and iOS rubber-banding / pull-to-refresh over the locked body
     flapCv.addEventListener('contextmenu',function(e){ e.preventDefault(); });

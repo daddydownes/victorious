@@ -1,6 +1,6 @@
 # Current status
 
-Updated September 6, 2026. Latest application change: Gold Lift Surface button and removal of the top-right circular vault logo. See [release record](reviews/surface-release-2026-09-06.md) for exact coverage.
+Updated September 6, 2026. Production remains at the screen-edge cleanup (`d1b046d`, latest production docs `5f098d6`). This branch, `demo/flappy-v-redesign`, contains a new Flappy V candidate that has **not been deployed**. `033db26` preserves the preceding prototype.
 
 ## Current production state
 
@@ -17,11 +17,17 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 - Page and social title: **VICTORIOUS — The Vault**.
 - Meta description, Open Graph and Twitter description: **Discover VCTRS (Victorious), a Canberra clothing brand. Explore the vault and sign up for updates.** Keep this evergreen.
 
-## Next work
+## Current work — Flappy V redesign candidate
 
-Screen-edge cleanup approved after user reported intermittent gold outlines on mobile. Removed the vault-wide gold focus outline, bottom underglow markup/CSS, pulsing motion task and all lifecycle calls. Stage focus has no viewport outline; keyboard focus remains visible on actual controls and the vault drag cue. Reveal, Surface input50-loop, press and scrolling suites pass. Mobile visual check was interrupted when Chrome stopped exposing a usable automation view, so this is not recorded as a fresh browser pass. Published in `d1b046d`; Pages reported built, canonical live source matched the release exactly, and underglow/viewport-outline code was confirmed absent. Existing Gold Lift and calm pressed state are unchanged.
+The user requested much harder cumulative challenges every 25 gates, then expanded the task to a full visual/gameplay polish with many sequential specialist reviews. They explicitly preserved the core Flappy mechanic and the V-and-star logo as the bird. They also requested dimensional poles and accurate visible contact.
 
-The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
+Implemented fixed 420×720 logical geometry across screens, smooth patterned routes, falling pins at 25, shifts at 50 and tight/wide squeezing locks at 75. The logo's original SVG drives both drawing and rotated silhouette collision. Pole bevels match their collider. Travelling words and visual clutter are removed; native score/stage/progress controls stay outside the course. Stored rewards and original flap/gravity remain. See [architecture](ARCHITECTURE.md#flappy-v-redesign-candidate) and the [redesign review](reviews/flappy-redesign-2026-09-06.md).
+
+Run `python3 tools/flappy-demo.py` and open `http://127.0.0.1:8938/demo`. Stage shortcuts and Pole detail are local review controls, with separate demo storage. `/` is the unmodified candidate. The earlier prototype is historical and its circle-hitbox test results must not be confused with current silhouette results.
+
+Current automated evidence: 12,500 gate fixtures across five CSS sizes, 36 full100-gate paths replayed through actual silhouette collision, 50 dedicated geometry checks and 102 lifecycle fixtures. Reveal, press, Surface and scrolling regression suites pass. These are not human difficulty measurements or physical-device performance proof. Browser review scope and remaining release matrix are recorded in the review. The candidate still needs player assessment and remaining browser/device release checks before an authorized production publication.
+
+Screen-edge removal already live: no viewport-wide vault focus outline or pulsing bottom glow. The PC scroll retune remains separate from phone touch behavior.
 
 ## Google status — pending observation
 

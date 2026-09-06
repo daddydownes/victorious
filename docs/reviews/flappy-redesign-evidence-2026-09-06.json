@@ -1,0 +1,1099 @@
+{
+  "difficulty": {
+    "pass": true,
+    "seededCourses": 100,
+    "uniqueSeeds": 20,
+    "gates": 12500,
+    "sizes": [
+      [
+        320,
+        507
+      ],
+      [
+        375,
+        667
+      ],
+      [
+        667,
+        375
+      ],
+      [
+        1440,
+        594
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "minLockedWarningSeconds": 0.6916846852846033,
+    "minGapHitboxClearancePx": 66.27603634799726,
+    "minAdjacentHitboxSpacePx": 159.7260363479973,
+    "checks": [
+      "25/50/75 course boundaries",
+      "cumulative tiers and monotonically harder pace/spacing",
+      "cosmetic RNG does not change course",
+      "settled geometry before contact",
+      "non-overlapping obstacles",
+      "gap fits steady flap arc",
+      "rotated V/star tangency and separation",
+      "no premature score before silhouette clears",
+      "reward/retry persistence",
+      "CSS size and DPR preserve identical logical course",
+      "resize pauses without changing geometry",
+      "continued flight after prior reward",
+      "30\u2013144Hz cadence",
+      "suspend/reduced motion"
+    ]
+  },
+  "lifecycle": {
+    "pass": true,
+    "cases": 102,
+    "checks": [
+      "pause/foreground/resume at all tiers",
+      "eight resize gate states across four sizes",
+      "40 scheduler/focus cycles",
+      "reduced-motion open without scheduler",
+      "bounded frame and gate storage",
+      "primary and repeated input",
+      "eight live narrow-gap input/resize/resume survival cases"
+    ],
+    "limits": "Extracted handlers and stubbed drawing; not browser performance or physical-device testing."
+  },
+  "flights": [
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 1,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 92,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 37,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 15,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 354,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 2,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 79,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 34,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 19,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 336,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 3,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 28,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 4,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 353,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 4,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 70,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 27,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 339,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 5,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 84,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 26,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 335,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 6,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 85,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 31,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 338,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 7,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 68,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 31,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 347,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 8,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 81,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 39,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 11,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 341,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 9,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 97,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 47,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 333,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 10,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 30,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 322,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 11,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 75,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 20,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 330,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 12,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 77,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 21,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 22,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 382,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 13,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 73,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 29,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 11,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 355,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 14,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 100,
+          "state": "play"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 65,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 18,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 350,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 15,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 100,
+          "state": "play"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 29,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 3,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 353,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 16,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 83,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 30,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 357,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 17,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 96,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 34,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 3,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 351,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 18,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 91,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 43,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 322,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 19,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 94,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 37,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 340,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 20,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 30,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 348,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 21,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 66,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 26,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 338,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 22,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 87,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 50,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 12,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 332,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 23,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 78,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 36,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 4,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 327,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 24,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 80,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 31,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 12,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 351,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 25,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 27,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 17,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 358,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 26,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 79,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 34,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 347,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 27,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 100,
+          "state": "play"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 37,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 13,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 331,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 28,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 39,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 7,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 339,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 29,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 69,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 28,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 344,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 30,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 76,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 39,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 347,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 31,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 86,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 31,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 11,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 341,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 32,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 79,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 32,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 18,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 343,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 33,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 89,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 26,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 17,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 364,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 34,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 81,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 27,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 334,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 35,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 68,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 13,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 5,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 351,
+      "peakSearchStates": 500
+    },
+    {
+      "w": 420,
+      "h": 720,
+      "seed": 36,
+      "found": true,
+      "score": 100,
+      "minActualHitboxSpacePx": 160.48236968133023,
+      "imperfect": [
+        {
+          "mode": "one-frame-delay",
+          "score": 79,
+          "state": "dying"
+        },
+        {
+          "mode": "50ms-delay",
+          "score": 25,
+          "state": "dying"
+        },
+        {
+          "mode": "miss-every-25th",
+          "score": 6,
+          "state": "dying"
+        }
+      ],
+      "seconds": 121.68,
+      "tapCount": 327,
+      "peakSearchStates": 500
+    },
+    {
+      "pass": true,
+      "sensitivity": [
+        {
+          "mode": "one-frame-delay",
+          "min": 66,
+          "median": 79,
+          "max": 100
+        },
+        {
+          "mode": "50ms-delay",
+          "min": 13,
+          "median": 31,
+          "max": 65
+        },
+        {
+          "mode": "miss-every-25th",
+          "min": 3,
+          "median": 6,
+          "max": 22
+        }
+      ],
+      "courses": 36,
+      "clears": 3600,
+      "limits": "Seeded executable physics witnesses, not human difficulty, exhaustive reachability, rendering or physical-device testing."
+    }
+  ]
+}

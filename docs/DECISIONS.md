@@ -36,6 +36,8 @@ After the Gold Lift release, user found the pressed animation unclean and asked 
 
 User reported an intermittent gold outline around the mobile screen after Surface and requested complete removal. Retired both the viewport-wide vault focus outline and the pulsing bottom underglow, including its runtime work. Keep keyboard control focus cues local, without outlining the whole screen.
 
-## Flappy V stacked difficulty candidate
+## Flappy V redesign candidate
 
-User requested cumulative challenges every25 points with falling pins first and a much harder final25, followed by five agent passes in sequence. Preserve readable gold previews and settle obstacles before contact: difficulty should come from tighter routes and timing, not geometry appearing on the player. The demo replaces post100 extra mechanics with a capped final lock after75. Player assessment and browser coverage remain separate from automated collision/physics evidence.
+User first requested stacking challenges every 25 points and five sequential agent reviews. They then explicitly treated that implementation as a prototype and requested a full, heavily reviewed redesign because it was too easy, movement needed work and moving words looked odd. Preserve the core Flappy mechanic and the exact V-and-star logo as the bird. Redesign the surrounding experience, not that identity.
+
+Use a fixed logical arena so changing device orientation does not make gaps easier. Keep graphical hazard previews and ease gates to rest before contact. The final 25 combine pins, shifts, narrow openings and longer gates. Native stage labels replace copy moving between obstacles. User further requested dimensional, beveled poles and visibly accurate hits: derive logo collision from the actual rotating SVG and keep pole clipping shared with visual geometry. No invisible forgiving circle. Saved rewards remain intact; local demos use separate storage. See the redesign review for tests and the distinction between mathematical reachability and human difficulty.

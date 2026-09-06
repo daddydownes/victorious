@@ -22,7 +22,7 @@ for(const tier of [0,1,2,3])for(const locked of [false,true]){
  g.x=locked?100:330;c.flapGateUpdate(g,s,0);
  for(const [w,h] of [[667,375],[320,507],[1440,594],[390,844]]){
   elements.flap.clientWidth=w;elements.flap.clientHeight=h;const size=c.flapSize();
-  assert(c.fPaused);assert.equal(c.fAccumulator,0);assert(g.top>=0&&g.bottom<=h&&g.top<g.bottom);
+  assert(c.fPaused);assert.equal(c.fAccumulator,0);assert(g.top>=0&&g.bottom<=size.h&&g.top<g.bottom);
   const geometry=[g.y,g.opening,g.top,g.bottom];if(g.locked){c.flapGateUpdate(g,size,1/120);assert.deepEqual([g.y,g.opening,g.top,g.bottom],geometry);}
   c.flapTap();assert(!c.fPaused);cases++;
  }
@@ -56,9 +56,22 @@ for(const tier of [0,1,2,3]){
  events.keydown({key:' ',repeat:true,preventDefault(){},stopPropagation(){}});assert.equal(c.FG.vy,.3);
  pointer.isPrimary=true;elements.flap.events.pointerdown(pointer);assert.equal(c.FG.vy,-.62);cases++;
 }
+// Real silhouette remains alive through input, a live gate, resize and resume.
+// This exercises a narrow final gap rather than an empty-arena input assignment.
+for(const tier of [0,1,2,3])for(const input of ['pointer','keyboard']){
+ const {c,s,elements,events}=setup();c.flapStart();c.FG.gateSerial=tier*25;c.FG.gates=[];c.flapSpawn(s);
+ const gate=c.FG.gates[0];Object.assign(gate,{x:s.w*.24,locked:true,reveal:1,y:s.h*.5,target:s.h*.5,opening:104,finalOpening:104});
+ c.FG.y=.5;c.FG.rot=0;c.FG.vy=.3;c.FG.spawnT=100;c.document.activeElement=elements.flap;
+ if(input==='pointer')elements.flap.events.pointerdown({button:0,isPrimary:true,preventDefault(){}});
+ else events.keydown({key:' ',repeat:false,preventDefault(){},stopPropagation(){}});
+ assert.equal(c.FG.vy,-.62);c.flapAdvance(s,1/60);assert.equal(c.FG.state,'play');
+ const physical=()=>JSON.stringify(c.FG),before=physical();elements.flap.clientWidth=667;elements.flap.clientHeight=375;const size=c.flapSize();
+ assert(c.fPaused);assert.equal(physical(),before);c.flapTap();assert(!c.fPaused);assert.equal(physical(),before);
+ c.flapAdvance(size,1/60);assert.equal(c.FG.state,'play');cases++;
+}
 // Explicit reward action is immediately usable while canvas retains its tap lockout.
 {
  const {c,s,elements,storage}=setup();c.flapStart();c.FG.score=100;c.flapWin(s);assert.equal(c.FG.deadT,0);
  c.flapTap();assert.equal(c.FG.state,'won');elements.flapAction.events.click();assert.equal(c.FG.state,'play');assert.equal(c.FG.score,0);assert.equal(storage.get('flapv_won'),'1');assert.equal(storage.get('flapv_best'),'100');cases++;
 }
-console.log(JSON.stringify({pass:true,cases,checks:['pause/foreground/resume at all tiers','eight resize gate states across four sizes','40 scheduler/focus cycles','reduced-motion open without scheduler','bounded frame and gate storage','primary and repeated input'],limits:'Extracted handlers and stubbed drawing; not browser performance or physical-device testing.'},null,2));
+console.log(JSON.stringify({pass:true,cases,checks:['pause/foreground/resume at all tiers','eight resize gate states across four sizes','40 scheduler/focus cycles','reduced-motion open without scheduler','bounded frame and gate storage','primary and repeated input','eight live narrow-gap input/resize/resume survival cases'],limits:'Extracted handlers and stubbed drawing; not browser performance or physical-device testing.'},null,2));
