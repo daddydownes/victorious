@@ -1,5 +1,7 @@
 # VCTRS Website Test Plan
 
+Current project context: [agent guide](AGENTS.md), [status and known issues](docs/STATUS.md), [portable setup and checks](docs/WORKFLOW.md). Historical reports apply only to their recorded commits.
+
 This is the release checklist for `vctrsclo.com`. Run it before every production deployment and after any change to animation, layout, media, forms, or navigation.
 
 ## Release rule
@@ -102,11 +104,13 @@ Test empty, malformed, and valid values.
 
 Do not repeatedly submit real addresses during routine QA. Use an approved test address and confirm the external form endpoint separately when release testing requires it.
 
-## Critical journey D — hold and vault transfer
+## Critical journey D — PRESS HERE and vault transfer
 
-- [ ] Pointer/touch hold visibly fills the control.
-- [ ] Releasing an actual hold early drains the fill and cancels entry.
-- [ ] Keyboard activation and assistive-technology click use the accessible automatic fill.
+- [ ] The main invitation reads PRESS HERE / ENTER THE VAULT.
+- [ ] Tap/click activates entry without requiring a hold.
+- [ ] Keyboard and assistive-technology activation enter the same transfer.
+- [ ] The light sweep stays behind readable text and repeats twice per synchronized logo cycle.
+- [ ] The reveal settles without a timer-induced opacity or position snap.
 - [ ] Entry fires only once.
 - [ ] Exactly one `.vault-entry-mark` exists during flight.
 - [ ] The old drop copy fades before the photograph grid becomes visually busy.
@@ -138,7 +142,7 @@ At every required viewport:
 - [ ] No horizontal document overflow.
 - [ ] The drop card remains within the viewport.
 - [ ] The email row remains usable without browser zoom.
-- [ ] The hold control is fully visible or reachable.
+- [ ] The entry control is fully visible or reachable.
 - [ ] Safe-area insets do not cover controls.
 - [ ] VCTRS does not clip at either edge.
 - [ ] The vault landing target remains centred.
@@ -158,7 +162,7 @@ Enable **Reduce Motion** at the operating-system level before opening the page.
 - [ ] The VCTRS glyph does not pulse or shine indefinitely.
 - [ ] The vault identity label and rule render immediately and remain visible.
 - [ ] Essential content and controls are present without waiting for an animation event.
-- [ ] Hold/activation remains operable.
+- [ ] Tap/click/keyboard entry remains operable.
 - [ ] No state is left invisible because an animation was disabled.
 
 ### Apple checks
