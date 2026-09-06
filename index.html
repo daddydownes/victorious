@@ -3018,15 +3018,16 @@
     var sign=Math.sign(delta);
     if(now-postWheelLast>220 || sign!==postWheelSign){
       postWheelSpent=0;
-      postWheelBudget=Math.max(420,Math.min(1100,innerHeight*1.15));
+      postWheelBudget=Math.max(336,Math.min(880,innerHeight*0.92));
       postScrollTarget=scrollY;
       postWheelSign=sign;
     }else{
-      postWheelSpent=Math.max(0,postWheelSpent-Math.max(0,now-postWheelLast)*innerHeight/1000);
+      postWheelSpent=Math.max(0,postWheelSpent-Math.max(0,now-postWheelLast)*innerHeight*0.8/1000);
     }
     postWheelLast=now;
     var remaining=Math.max(0,postWheelBudget-postWheelSpent);
-    var accepted=Math.max(-remaining,Math.min(remaining,delta*1.15));
+    // Keep wheel/trackpad travel measured without slowing touch or response time.
+    var accepted=Math.max(-remaining,Math.min(remaining,delta*0.92));
     postWheelSpent+=Math.abs(accepted);
     e.preventDefault();
     if(accepted) addPostScroll(accepted,now);
