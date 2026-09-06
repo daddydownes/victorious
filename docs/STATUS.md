@@ -18,6 +18,8 @@ Updated September 6, 2026. Latest application change: approved frameless press f
 
 Frameless gold-touch feedback is live, released in [`a3d0e63`](https://github.com/daddydownes/victorious/commit/a3d0e63). GitHub Pages reported built; canonical live homepage exactly matched committed source. A live normal-motion Chrome intro → press → vault smoke test completed with focus on the archive. Reduced motion passed four consecutive fresh local browser runs on the identical code. See [release record](reviews/press-release-2026-09-06.md) for exact coverage and physical-device limits. No further press-animation task is pending.
 
+New design task: three animated Surface-button studies on branch `demo/surface-buttons`, in `demos/surface-buttons/`. Ascend, Halo, Gold Lift. User has not selected one; no production Surface change.
+
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
 ## Google status — pending observation
