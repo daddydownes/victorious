@@ -85,6 +85,8 @@ The current branch supersedes the rejected portrait-frame candidate `44401b5`; h
 | 50–74 | SLANT | Diagonal corridors, retaining deployment and approach movement |
 | 75–99 | IRIS | Heavy, rounded two-lobe jaws, retaining diagonal/deployment/squeeze behavior |
 
+Obstacle reference widths are 42, 54, 60 and 68→78 per stage, scaled by logical viewport width / 420. Pillar ends use 12 samples per quarter-ellipse; collision and drawing share these rounded contours. Material passage strokes include short curved segments to avoid broken corner highlights.
+
 `flapAperture()` defines the open passage; `flapHazardPolygons()` supplies both collision and interpolated rendering. Jaws use a shared sampled cosine profile, including lobe centres, to keep their smooth drawing and collision boundaries identical. The neutral jaw opening widens by 48 units; opposing 24-unit lobes preserve the authored minimum opening of 104. Straight outer backs make the jaws visibly heavier than slalom rails.
 
 `flapTraversal()` requires entry, continuous passage and full exit before awarding one point. Going outside a floating object is safe but scores nothing; there are no invisible lethal extensions. `flapCollision()` runs before scoring and compares actual rotated V/star contours with the shared obstacle polygons. Queued types use earned score plus pending unmissed objects; already visible objects do not morph after a miss. Spawn spacing follows that same anticipated progress rather than raw serial count. Gate motion settles at least approximately 0.69 seconds before the tested earliest contact.

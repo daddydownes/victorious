@@ -45,3 +45,7 @@ Use a fixed logical arena so changing device orientation does not make gaps easi
 ## Return to the original fullscreen atmosphere
 
 The user rejected the narrow portrait playfield and removed ambience, specifying the original live .com game as the reference. Restore fullscreen, moving gold particles/bokeh/parallax and the unchanged logo. Introduce genuinely different passage shapes every 25 clears instead of only tightening poles. The user subsequently requested smooth, matching forms without harsh sharp edges; final jaws therefore use prominent rounded lobes with solid backs, superseding angular fang experiments. All stages share one black-metal/brass material. Floating obstacles can be bypassed without invisible collision, but only a complete passage scores. Keep the new visuals as a candidate until reviewed for release.
+
+## Compact obstacle proportions
+
+Following `5c16dc0`, the user found bars too long and pillars insufficiently smooth. Shorten horizontal widths about 16–21%, round the pillar ends and soften the shared brass/metal shading. Keep vertical openings and core flap physics unchanged. Shorter passages reduce time spent inside each obstacle; executable flights establish reachability, not human difficulty balance. Continue preview iteration before release.

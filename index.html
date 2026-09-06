@@ -3473,12 +3473,21 @@
       }
       return cache;
     }
-    // Matches the rendered 14px cap, including its compressed partial reveal.
+    // Rounded ends share the same sampled silhouette for drawing and collision.
     function flapPolePolygon(g,s,top){
-      var x=g.x,w=flapGateWidth(g,s),edge=top?g.top:g.bottom,len=top?edge:s.h-edge;
-      var bx=Math.min(w/2,6*g.widthScale),by=6*Math.min(1,Math.max(0,len)/14);
-      return top?[[x,0],[x+w,0],[x+w,edge-by],[x+w-bx,edge],[x+bx,edge],[x,edge-by]]:
-        [[x+bx,edge],[x+w-bx,edge],[x+w,edge+by],[x+w,s.h],[x,s.h],[x,edge+by]];
+      var x=g.x,w=flapGateWidth(g,s),len=Math.max(0,top?g.top:s.h-g.bottom);
+      var rx=Math.min(w*.24,12*g.widthScale),ry=Math.min(12,len*.45);
+      var p=[[x,0],[x+w,0]],steps=12;
+      for(var i=0;i<=steps;i++){
+        var a=i/steps*Math.PI/2;
+        p.push([x+w-rx+rx*Math.cos(a),len-ry+ry*Math.sin(a)]);
+      }
+      for(var j=0;j<=steps;j++){
+        var b=Math.PI/2+j/steps*Math.PI/2;
+        p.push([x+rx+rx*Math.cos(b),len-ry+ry*Math.sin(b)]);
+      }
+      if(!top)p=p.map(function(q){return[q[0],s.h-q[1]];}).reverse();
+      return p;
     }
     function flapPointInPolygon(p,poly){
       var inside=false;
@@ -3671,7 +3680,7 @@
       var serial=FG.gateSerial++, ordinal=FG.score+pending, level=flapLevel(ordinal);
       var progress=ordinal>=100?1:flapCourseProgress(ordinal);
       var gh=[156,144,132,116][level]-[8,6,6,12][level]*progress;
-      var width=[50,68,76,86][level]+(level===3?12*progress:0);
+      var width=[42,54,60,68][level]+(level===3?10*progress:0);
       var previous=FG.gates.length?FG.gates[FG.gates.length-1].target:s.h*0.45;
       // Short authored-shaped phrases replace unrelated random vertical jumps.
       // A phrase lasts 3–5 gates: climb, descend, alternate, or hold a line.
@@ -3860,9 +3869,9 @@
     /* Broad sculpted face: warm crown, black core and a narrow cold reflection.
        This gradient is baked here and never rebuilt in the presentation loop. */
     g.fillStyle = addStopGradient(g, 0, 0, w, 0, [
-      [0, '#090908'], [.055, '#39352b'], [.12, '#171611'],
-      [.43, '#25231d'], [.59, '#0d0d0b'], [.72, '#302c22'],
-      [.755, '#4a412e'], [.79, '#16140f'], [1, '#030303']
+      [0, '#090908'], [.12, '#28261f'], [.30, '#302d24'],
+      [.52, '#1a1914'], [.68, '#242219'], [.80, '#353024'],
+      [.92, '#15140f'], [1, '#050504']
     ]);
     g.fillRect(0, 0, w, h);
 
@@ -3870,7 +3879,7 @@
     var panel = 48;
     for (var y = -panel; y < h + panel; y += panel) {
       g.fillStyle = 'rgba(240,212,146,.035)'; g.fillRect(w * .11, y + 1, w * .55, 1);
-      g.fillStyle = 'rgba(0,0,0,.34)'; g.fillRect(w * .10, y + panel - 2, w * .67, 2);
+      g.fillStyle = 'rgba(0,0,0,.16)'; g.fillRect(w * .10, y + panel - 2, w * .67, 2);
     }
 
     /* The right return is a real-looking dark plane, still wholly inside the collider. */
@@ -3909,7 +3918,7 @@
     for (i = 0; i < p.length; i++) {
       var a = p[i], z = p[(i + 1) % p.length];
       var dx = z[0] - a[0], dy = z[1] - a[1], len = Math.hypot(dx, dy);
-      if (len < 2) continue;
+      if (len < .01) continue;
       /* Shoelace sign works in canvas coordinates as written. */
       var ny = area >= 0 ? -dx / len : dx / len;
       if ((side === 0 && ny > .22) || (side === 1 && ny < -.22)) out.push([a, z]);
@@ -3953,9 +3962,9 @@
     var rail = Math.max(10, Math.min(22, b.w * .27));
     var segs = passageSegments(polygon, side);
     var bands = [
-      [rail * 2, '#2b2416'], [rail * 1.68, '#c5a35e'],
-      [rail * 1.32, '#674e27'], [rail * .92, '#9d7c3d'],
-      [rail * .48, '#e1c17a'], [Math.max(1.2, rail * .10), '#fff1c5']
+      [rail * 2, '#332b1c'], [rail * 1.68, '#665334'],
+      [rail * 1.32, '#927644'], [rail * .92, '#b49759'],
+      [rail * .48, '#dbc080'], [Math.max(1.2, rail * .10), '#f2dfae']
     ];
     for (var bi = 0; bi < bands.length; bi++) {
       ctx.lineJoin = 'round'; ctx.lineCap = 'round';

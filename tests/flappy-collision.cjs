@@ -23,13 +23,15 @@ const k=34/c.VB.h,world=(x,y)=>[420*.24+(x-(c.VB.x+c.VB.w/2))*k,360+(y-(c.VB.y+c
 const square=(p,r=.03)=>[[p[0]-r,p[1]-r],[p[0]+r,p[1]-r],[p[0]+r,p[1]+r],[p[0]-r,p[1]+r]];
 assert(!logo.contours.some(p=>c.flapPolygonsTouch(p,square(world(310,300)))),'V centre is empty');
 assert(logo.contours.some(p=>c.flapPolygonsTouch(p,square(world(267,350)))),'V stroke is solid');checks+=2;
-// Beveled corners are genuinely absent, rather than invisible square hitboxes.
+// Rounded corners are genuinely absent, rather than invisible square hitboxes.
 for(const top of [true,false])for(const len of [7,14,220]){
  const g={x:100,widthScale:1.64,top:len,bottom:720-len},poly=c.flapPolePolygon(g,s,top),edge=top?len:720-len;
  assert(!c.flapPolygonsTouch(square([100.05,edge+(top?-.05:.05)],.01),poly));
  assert(c.flapPolygonsTouch(square([141,edge+(top?-.05:.05)],.01),poly));
- const bevel=6*Math.min(1,len/14);
- assert(Math.abs(poly[top?2:2][1]-(edge+(top?-bevel:bevel)))<1e-10);checks+=3;
+ assert(poly.length>20,'rounded ends need a continuous sampled contour');
+ assert(poly.every(p=>p[0]>=100-1e-9&&p[0]<=182+1e-9&&p[1]>=-1e-9&&p[1]<=720+1e-9));
+ const face=poly.filter(p=>Math.abs(p[1]-edge)<1e-9);
+ assert(face.length>=2,'rounded end retains a flat central contact face');checks+=5;
 }
 // Crossing edges, collinear tangency, containment, disjoint polygons.
 assert(c.flapPolygonsTouch([[0,0],[4,0],[4,1],[0,1]],[[1,-1],[2,-1],[2,2],[1,2]]));
