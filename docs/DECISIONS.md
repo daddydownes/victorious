@@ -49,3 +49,7 @@ The user rejected the narrow portrait playfield and removed ambience, specifying
 ## Compact obstacle proportions
 
 Following `5c16dc0`, the user found bars too long and pillars insufficiently smooth. Shorten horizontal widths about 16–21%, round the pillar ends and soften the shared brass/metal shading. Keep vertical openings and core flap physics unchanged. Shorter passages reduce time spent inside each obstacle; executable flights establish reachability, not human difficulty balance. Continue preview iteration before release.
+
+## Minimal obstacle finish
+
+The user likes the base but finds the obstacle treatment overworked. Replace ornamental machining, moving glints and layered bevel bands with one smooth dark satin face and a narrow brass opening edge. Preserve the shorter geometry, rounded pillar ends, stage mechanics and shared collider. Favour a consistent restrained material over extra visual effects.

@@ -3533,9 +3533,9 @@
         : (fBest>0 ? 'BEST SO FAR: '+fBest+' / '+COUPON_THRESHOLD : '');
     }
     flapBestLine();
-    /* Physics always uses a 420 × 720 logical arena. CSS uniformly fits that
-       arena to the available display; resize changes raster detail, never the
-       route, hitbox or flight timing. Velocity remains expressed in H/s. */
+    /* Fullscreen arena uses 720 logical height and the viewport aspect ratio.
+       Resize preserves vertical route geometry and pauses an active flight.
+       Velocity remains expressed in H/s. */
     var FG=null, flapIv=null, flapRaf=0, flapLast=0, flapFocus=null, flapOpen=false, flapScrollY=0;
     /* THE GAME'S LAW-1 EXCEPTION — rAF drives the loop, the interval is only a
        watchdog. Chrome/Android's renderer scheduler BLOCKS timer tasks for
@@ -3866,48 +3866,12 @@
     var c = makeCanvas(cw, ch), g = c.getContext('2d');
     g.scale(rasterD, rasterD);
 
-    /* Broad sculpted face: warm crown, black core and a narrow cold reflection.
-       This gradient is baked here and never rebuilt in the presentation loop. */
+    // One continuous satin face; no panel seams, machining or painted stripes.
     g.fillStyle = addStopGradient(g, 0, 0, w, 0, [
-      [0, '#090908'], [.12, '#28261f'], [.30, '#302d24'],
-      [.52, '#1a1914'], [.68, '#242219'], [.80, '#353024'],
-      [.92, '#15140f'], [1, '#050504']
+      [0, '#151511'], [.24, '#302d24'], [.55, '#27251e'], [1, '#11110e']
     ]);
     g.fillRect(0, 0, w, h);
 
-    /* Tall, low-contrast forged panels stop a large pillar reading as a flat bar. */
-    var panel = 48;
-    for (var y = -panel; y < h + panel; y += panel) {
-      g.fillStyle = 'rgba(240,212,146,.035)'; g.fillRect(w * .11, y + 1, w * .55, 1);
-      g.fillStyle = 'rgba(0,0,0,.16)'; g.fillRect(w * .10, y + panel - 2, w * .67, 2);
-    }
-
-    /* The right return is a real-looking dark plane, still wholly inside the collider. */
-    var returnW = Math.max(7, Math.min(18, w * .23));
-    g.fillStyle = addStopGradient(g, w - returnW, 0, w, 0, [
-      [0, 'rgba(0,0,0,.08)'], [.12, 'rgba(240,212,146,.13)'],
-      [.18, 'rgba(0,0,0,.58)'], [1, 'rgba(0,0,0,.88)']
-    ]);
-    g.fillRect(w - returnW, 0, returnW, h);
-
-    /* Variant-specific machining, subtle enough to remain in the site's original vibe. */
-    g.lineWidth = 1;
-    if (kind === 'arch' || kind === 'iris') {
-      for (var a = 18; a < h; a += 34) {
-        g.strokeStyle = 'rgba(212,175,95,.09)';
-        g.beginPath(); g.moveTo(w * .13, a); g.lineTo(w * .66, a - 9); g.stroke();
-      }
-    } else if (kind === 'slant') {
-      g.strokeStyle = 'rgba(240,212,146,.10)';
-      for (var z = -h; z < w + h; z += 28) {
-        g.beginPath(); g.moveTo(z, 0); g.lineTo(z - h * .18, h); g.stroke();
-      }
-    } else {
-      for (var r = 24; r < h; r += 52) {
-        g.fillStyle = 'rgba(0,0,0,.5)'; g.fillRect(w * .18, r, w * .45, 1);
-        g.fillStyle = 'rgba(240,212,146,.07)'; g.fillRect(w * .18, r + 1, w * .45, 1);
-      }
-    }
     return cachePut(key, c);
   }
 
@@ -3943,43 +3907,21 @@
     ctx.save();
     pathPolygon(ctx, polygon, 0, 0);
     ctx.clip();
-    var tileH = 192;
-    for (var tileY = b.y; tileY < b.y + b.h; tileY += tileH) {
-      var drawH = Math.min(tileH, b.y + b.h - tileY);
-      ctx.drawImage(sprite, 0, 0, sprite.width, Math.round(drawH / tileH * sprite.height), b.x, tileY, b.w, drawH);
-    }
+    // The satin gradient is constant vertically: stretch once to avoid tile seams.
+    ctx.drawImage(sprite, 0, 0, sprite.width, sprite.height, b.x, b.y, b.w, b.h);
 
-    /* The moving glint is cheap geometry over the cached metal, kept restrained
-       like the original live game's bokeh rather than a new-world effect. */
-    var sweep = b.x + ((((phase || 0) % 1) + 1) % 1) * (b.w + 18) - 9;
-    ctx.fillStyle = 'rgba(255,239,190,.075)';
-    ctx.fillRect(sweep - 3, b.y, 6, b.h);
-    ctx.fillStyle = 'rgba(255,248,218,.12)';
-    ctx.fillRect(sweep, b.y, 1, b.h);
-
-    /* The passage-facing rail is oversized and sculptural. Its layers remain
-       inside the exact obstacle polygon because the world-space clip is active. */
-    var rail = Math.max(10, Math.min(22, b.w * .27));
+    // A restrained brass lip makes the opening readable without stacked bands.
     var segs = passageSegments(polygon, side);
-    var bands = [
-      [rail * 2, '#332b1c'], [rail * 1.68, '#665334'],
-      [rail * 1.32, '#927644'], [rail * .92, '#b49759'],
-      [rail * .48, '#dbc080'], [Math.max(1.2, rail * .10), '#f2dfae']
-    ];
-    for (var bi = 0; bi < bands.length; bi++) {
-      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-      ctx.lineWidth = bands[bi][0]; ctx.strokeStyle = bands[bi][1];
-      strokeSegments(ctx, segs);
-    }
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.lineWidth = 8; ctx.strokeStyle = '#6f6041';
+    strokeSegments(ctx, segs);
+    ctx.lineWidth = 3; ctx.strokeStyle = '#c5ae77';
+    strokeSegments(ctx, segs);
 
-    /* All strokes are clipped, so their exterior half cannot inflate the obstacle. */
+    // The entire finish stays inside the shared collision silhouette.
     pathPolygon(ctx, polygon, 0, 0);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'rgba(240,212,146,.32)';
-    ctx.stroke();
-    pathPolygon(ctx, polygon, 0, 0);
-    ctx.lineWidth = .65;
-    ctx.strokeStyle = 'rgba(255,244,214,.72)';
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(219,198,149,.48)';
     ctx.stroke();
 
     ctx.restore();
