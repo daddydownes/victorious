@@ -942,7 +942,7 @@
   <div class="flap-panel" id="flapPanel" aria-live="polite">
     <div class="eyebrow">VICTORIOUS / FLAPPY V</div>
     <h2 id="flapTitle">Fly through the seam.</h2>
-    <p id="flapHint">Tap, click or press Space to fly.<br>Survive 100 drops. The vault pays.</p>
+    <p id="flapHint">Tap, click or press Space to fly.<br>A new challenge every 25 drops.<br>Reach 100. The vault pays.</p>
     <button class="flap-play" id="flapAction" type="button">Start flying</button>
   </div>
   <button class="flap-exit" id="flapExit" type="button" title="Exit game (Escape)">✕ Exit</button>
@@ -3426,10 +3426,10 @@
        — and gives true 90/120Hz on high-refresh phones. The 250ms watchdog
        below still feeds flapTick if an embedder throttles rAF (the case LAW 1
        exists for); physics are dt-driven so cadence never changes speed. */
-    var FLAP_LAYERS=['SHUTTERS / WATCH THE GOLD','SWAY / FIND THE LINE','BREATHING ROOM / IN. OUT.',
-      'FAKE OUT / TRUST THE SOLID EDGE','THE BOUNCER / NOT ON THE LIST','THICK SKIN / LONGER WAY THROUGH'];
-    function flapLevel(score){return Math.floor(score/25);}
-    function flapPace(score){return Math.min(0.70,0.42+Math.min(score,80)*0.003+Math.max(0,flapLevel(score)-6)*0.004);}
+    var FLAP_LAYERS=['FALLING PINS','PINS + SWAY','FINAL LOCK / PINS + SWAY + SQUEEZE'];
+    var FLAP_MAX_SPEED=0.72;
+    function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}
+    function flapPace(score){return Math.min(FLAP_MAX_SPEED,0.42+Math.max(0,score)*0.003);}
     var fTier=document.getElementById('flapTier');
     var fPaused=false, fAccumulator=0, fEffectsLast=0, fPanelKey='', fScoreKey=-1;
     var fFrames=[],fFrameHead=-1,fFrameCount=0,fSimTime=0,fRenderFloor=0;
@@ -3471,7 +3471,7 @@
     }
     function flapPanels(){
       var level=flapLevel(FG.score);
-      var notice=FG.noticeT>0?FG.notice:(level?Math.min(6,level)+' LAYERS ACTIVE'+(level>6?' / REMIX '+(level-6):''):'NEXT CHALLENGE / 25 DROPS');
+      var notice=FG.noticeT>0?FG.notice:(level?FLAP_LAYERS[level-1]:'FALLING PINS AT 25 / LAYERS STACK EVERY 25');
       if(fTier.textContent!==notice) fTier.textContent=notice;
       var key=reduced?'motion':fPaused?'paused':FG.state;
       if(fScoreKey!==FG.score){
@@ -3483,7 +3483,7 @@
       fPause.hidden=FG.state!=='play'||reduced;
       fPause.textContent=fPaused?'Resume':'Pause';
       fPanelKey=key; fPanel.hidden=key==='play'||key==='dying';
-      var copy={idle:['Fly through the seam.','Tap, click or press Space to fly.<br>Survive 100 drops. The vault pays.','Start flying'],
+      var copy={idle:['Fly through the seam.','Tap, click or press Space to fly.<br>A new challenge every 25 drops.<br>Reach 100. The vault pays.','Start flying'],
         paused:['Flight paused.','Your place is held.<br>Resume when you’re ready.','Resume flight'],
         dead:['The vault claims another.','DROPS '+FG.score+' / BEST '+fBest,'Fly again'],
         won:['The vault pays.',COUPON_CODE+'<br>'+COUPON_LINE,'Keep flying'],
@@ -3546,31 +3546,29 @@
       var ny=m+Math.random()*Math.max(0,s.h-2*m);
       var previous=FG.gates.length?FG.gates[FG.gates.length-1].y:s.h*0.45;
       ny=Math.max(previous-s.h*0.16,Math.min(previous+s.h*0.16,ny));
-      var level=flapLevel(FG.score), serial=FG.gateSerial++;
+      // Index the course, not spawn-time score: gate 26 introduces pins exactly
+      // after 25 clears, even when it was queued ahead of the milestone.
+      var serial=FG.gateSerial++, level=flapLevel(serial);
       FG.gates.push({x:s.w+gateW(s), y:ny, baseY:ny, anchor:previous,
         counted:false, level:level, serial:serial, phase:Math.random()*Math.PI*2,
         age:0, locked:false, target:null, opening:gh, reveal:level?0:1,
-        widthScale:level>=6?1.25+(level>6?(level%3)*0.025:0):1, fake:level>=4});
+        widthScale:level>=3?1.20:1});
     }
     function flapGateWidth(g,s){return gateW(s)*g.widthScale;}
     function flapGateUpdate(g,s,dt){
       g.age+=dt;
-      var lead=(g.x-s.w*0.24-vh(s)*0.32)/(FG.speed*s.w);
-      // Show about 0.4 seconds of approach animation, then hold at least 0.64s.
-      // Freeze to maximum possible speed, so later score ramps cannot steal warning time.
-      var safeLead=(g.x-s.w*0.24-vh(s)*0.32)/(0.70*s.w);
+      // Use the maximum future pace so score ramps cannot steal warning time.
+      var safeLead=(g.x-s.w*0.24-vh(s)*0.32)/(FLAP_MAX_SPEED*s.w);
       if(!g.locked){
-        var y=g.baseY, amplitude=s.h*(0.045+Math.min(0.02,Math.max(0,g.level-6)*0.002));
-        if(g.level>=2) y+=Math.sin(g.age*(3.5+(g.level>6?(g.level%3)*0.3:0))+g.phase)*amplitude;
-        if(g.level>=5){
-          if(g.target===null && lead<1.65) g.target=Math.max(g.baseY-s.h*0.055,Math.min(g.baseY+s.h*0.055,FG.y*s.h));
-          if(g.target!==null) y+=(g.target-g.baseY)*Math.min(1,g.age*3);
-        }
-        var margin=gapH(s)*0.63+s.h*0.025;
-        g.y=Math.max(margin,Math.min(s.h-margin,Math.max(g.anchor-s.h*0.22,Math.min(g.anchor+s.h*0.22,y))));
-        if(g.level>=3) g.opening=gapH(s)*(1.12+0.12*Math.sin(g.age*(4+(g.level>6?(g.level%4)*0.35:0))+g.phase));
+        var y=g.baseY;
+        if(g.level>=2) y+=Math.sin(g.age*3.5+g.phase)*s.h*0.045;
+        // Final 25: a visibly breathing, smaller gap plus longer slabs. Earlier
+        // pins and sway stay active. Everything settles before collision range.
+        if(g.level>=3) g.opening=gapH(s)*(0.82+0.08*Math.sin(g.age*4+g.phase));
+        var margin=g.opening/2+s.h*0.025;
+        g.y=Math.max(margin,Math.min(s.h-margin,Math.max(g.anchor-s.h*0.20,Math.min(g.anchor+s.h*0.20,y))));
         if(g.level>=1) g.reveal=Math.max(0,Math.min(1,(1.10-safeLead)/0.45));
-        if(safeLead<=0.65){g.locked=true;g.reveal=1;g.fake=false;}
+        if(safeLead<=0.65){g.locked=true;g.reveal=1;}
       }
       g.top=(g.y-g.opening/2)*g.reveal;
       g.bottom=s.h-(s.h-g.y-g.opening/2)*g.reveal;
@@ -3753,7 +3751,7 @@
       fSimTime+=dt;
       if(FG.stopT>0){ FG.stopT-=dt; return; }   // hit-stop: render, don't integrate
       var st=FG.state;
-      // Faster opening pace; bounded ramp and minimum 0.96s between gate spawns.
+      // Bounded pace and spacing; the last tier stacks a tighter, longer opening.
       FG.speed=flapPace(FG.score);
       FG.noticeT=Math.max(0,FG.noticeT-dt);
       var interval=Math.max(0.96, 1.16-FG.score*0.0025);
@@ -3787,17 +3785,16 @@
           if(st==='play'){
             if(FG.state==='play' && !gt.counted && gt.x+flapGateWidth(gt,s)<vx-vh(s)*0.4){
               gt.counted=true; FG.score++; FG.scorePop=1;
-              if(FG.score%25===0){
+              if(FG.score%25===0 && FG.score<=100){
                 var unlocked=flapLevel(FG.score);
-                FG.notice=unlocked<=6?FLAP_LAYERS[unlocked-1]+' / ADDED NEXT GATE':
-                  'REMIX '+(unlocked-6)+' / SWAY + BREATH + WIDTH';
+                FG.notice=FG.score<100?FLAP_LAYERS[unlocked-1]+' / NOW ACTIVE':'100 CLEARED / FINAL LOCK CONTINUES';
                 FG.noticeT=3;
               }
               FG.trauma=Math.min(1,FG.trauma+0.08);
               FG.pops.push({x:gt.x+gateW(s)/2,y:gt.y,t:0,txt:'+1'});
               if(FG.score>=COUPON_THRESHOLD && !fWon){ flapWin(s); }
             }
-            var rr=vh(s)*0.32, gh2=gapH(s)/2;                // forgiving circle hitbox
+            var rr=vh(s)*0.32;                // forgiving circle hitbox
             if(FG.state==='play' && vx+rr>gt.x && vx-rr<gt.x+flapGateWidth(gt,s) &&
                (FG.y*s.h-rr<gt.top || FG.y*s.h+rr>gt.bottom)) flapDie(s);
           }
@@ -3919,9 +3916,8 @@
           fctx.setLineDash([4,5]);
           fctx.strokeRect(x,0,gw,Math.max(0,gy-opening/2));
           fctx.strokeRect(x,gy+opening/2,gw,Math.max(0,s.h-gy-opening/2));
-          if(g.fake){fctx.beginPath();fctx.moveTo(x,gy);fctx.lineTo(x+gw,gy);fctx.stroke();}
           fctx.setLineDash([]);
-          var label=g.fake?(g.level>=5?'VIP? JUST KIDDING':'JUST KIDDING'):'WATCH THE GOLD';
+          var label='WATCH THE GOLD';
           fctx.drawImage(spr.labels[label],Math.min(s.w-75,x+gw/2)-75,gy-21,150,16);
         }
         if(gt>0){
@@ -3990,7 +3986,7 @@
       if(reduced){flapCloseFn();return;}
       // The explicit retry button is a fresh action; keep the short accidental
       // tap guard on the canvas without swallowing a visible button press.
-      if(FG.state==='dead') flapStart(); else flapTap();
+      if(FG.state==='dead'||FG.state==='won') flapStart(); else flapTap();
       flapDraw(flapSize());
       if(FG.state==='play') flapCv.focus({preventScroll:true});
     });

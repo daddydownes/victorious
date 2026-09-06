@@ -73,3 +73,11 @@ The main button uses one continuous gold surface without an inset frame. A decor
 ## Screen-edge effects retired
 
 The post-Surface `underglow` DOM/CSS and motion task were removed, including all start/stop hooks. Vault container focus no longer outlines the full viewport; `.vault:focus-visible .drag-label` provides a local underline. Stage focus uses `outline:none`. Button focus indicators remain. Do not restore the flashing screen-edge effect from historical revisions.
+
+## Flappy V difficulty candidate
+
+The `demo/flappy-stacked-difficulty` candidate uses four sections: gates1–25 fixed,26–50 falling pins,51–75 pins and sway,76 onward pins/sway plus a smaller breathing opening and1.2× gate width. `flapLevel()` caps at3; each gate takes its tier from its zero-based serial when spawned, so the first new obstacle follows exactly25/50/75 clears without mutating near-player obstacles. `flapPace()` ramps from.42 to a.72W/s cap. `flapGateUpdate()` uses that maximum to settle geometry at least approximately.642s before contact (the.65s threshold minus one120Hz tick).
+
+Final openings range74–90% of `gapH()` rather than the previous100–124%. After100, returning winners continue at the capped final difficulty. Reward/storage keys,120Hz physics, input timing, resize/background pause and reduced-motion poster remain. The34px minimum V size still makes landscape proportionally more generous; do not claim identical difficulty on all aspect ratios.
+
+`python3 tools/flappy-demo.py` serves `http://127.0.0.1:8938/demo` with buttons to start at0/25/50/75. It reads the current index, adds local-only controls and uses separate demo storage keys. These shortcuts are not added to the production page.

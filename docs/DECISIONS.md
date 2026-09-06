@@ -35,3 +35,7 @@ After the Gold Lift release, user found the pressed animation unclean and asked 
 ## Remove screen-edge decoration
 
 User reported an intermittent gold outline around the mobile screen after Surface and requested complete removal. Retired both the viewport-wide vault focus outline and the pulsing bottom underglow, including its runtime work. Keep keyboard control focus cues local, without outlining the whole screen.
+
+## Flappy V stacked difficulty candidate
+
+User requested cumulative challenges every25 points with falling pins first and a much harder final25, followed by five agent passes in sequence. Preserve readable gold previews and settle obstacles before contact: difficulty should come from tighter routes and timing, not geometry appearing on the player. The demo replaces post100 extra mechanics with a capped final lock after75. Player assessment and browser coverage remain separate from automated collision/physics evidence.
