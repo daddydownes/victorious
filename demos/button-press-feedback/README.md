@@ -4,7 +4,7 @@ Preview branch only, not deployed. Serve the repository and open `/demos/button-
 
 ## Current treatment
 
-The pressed gold face has a precise inset rim, darker engraved lettering and a localized light at the point of contact. Release expands that light across the face in 280ms, before the existing outgoing card starts fading. Keyboard activation resets the light to the centre. The label uses only a 1px vertical press displacement, never scale or opacity. Reduced motion disables the moving light and displacement, leaving static pressure feedback.
+The pressed gold face is a continuous surface with no inset rim or inner rectangle. Soft edge-to-edge gold shading and a localized light at the point of contact provide feedback; dark lettering remains crisp. Release expands that light across the face in 280ms, before the existing outgoing card starts fading. Keyboard activation resets the light to the centre. The label uses only a 1px vertical press displacement, never scale or opacity. Reduced motion disables the moving light and displacement, leaving static pressure feedback.
 
 Idle lighting retains its shared 5.4-second clock and two button sweeps per logo cycle. No new assets or network requests are required in production. A decorative aria-hidden span and a small origin-setting helper are the only production markup/JS additions; the existing activation guards and vault choreography remain intact.
 

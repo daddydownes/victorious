@@ -15,7 +15,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-Button refinement is on branch `demo/button-press-feedback`, preview path `demos/button-press-feedback/`. The latest study adds light at the pointer contact, expanding on release, with keyboard centering and static reduced-motion feedback. It retains crisp text and the existing entry/fade timing. Use the preview’s previous-version link for comparison. Three portable suites pass, including actual input guards and origin handling. Desktop and 375px phone preview inspected; the new candidate completed a phone-sized Chrome intro → press → visible vault journey. Full repeated/device release QA remains; not deployed.
+Button refinement is on branch `demo/button-press-feedback`, preview path `demos/button-press-feedback/`. The latest refinement removes the pressed inner rectangle and inset shadows, keeping one continuous gold surface. Pointer-contact light still expands on release, with keyboard centering and static reduced-motion feedback. The CSS refinement passes press-handler and reveal checks; rendered review is pending. It retains crisp text and the existing entry/fade timing. Use the preview’s previous-version link for comparison. Three portable suites pass, including actual input guards and origin handling. Desktop and 375px phone preview inspected; the new candidate completed a phone-sized Chrome intro → press → visible vault journey. Full repeated/device release QA remains; not deployed.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
