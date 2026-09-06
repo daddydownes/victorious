@@ -26,6 +26,7 @@ With Node.js installed:
 ```sh
 node tests/reveal.cjs
 node tests/post-surface-scroll.cjs
+node tests/press-feedback.cjs
 git diff --check
 ```
 

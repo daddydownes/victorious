@@ -1,0 +1,66 @@
+[
+  {
+    "run": "release-reduced-1",
+    "viewport": [
+      885,
+      594
+    ],
+    "reduced": true,
+    "errors": [],
+    "arrival": {
+      "visible": "visible",
+      "opacity": "1",
+      "focus": "vault",
+      "liveMarks": 1,
+      "entryMarks": 0
+    }
+  },
+  {
+    "run": "release-reduced-2",
+    "viewport": [
+      885,
+      594
+    ],
+    "reduced": true,
+    "errors": [],
+    "arrival": {
+      "visible": "visible",
+      "opacity": "1",
+      "focus": "vault",
+      "liveMarks": 1,
+      "entryMarks": 0
+    }
+  },
+  {
+    "run": "release-reduced-3",
+    "viewport": [
+      885,
+      594
+    ],
+    "reduced": true,
+    "errors": [],
+    "arrival": {
+      "visible": "visible",
+      "opacity": "1",
+      "focus": "vault",
+      "liveMarks": 1,
+      "entryMarks": 0
+    }
+  },
+  {
+    "run": "release-reduced-4",
+    "viewport": [
+      885,
+      594
+    ],
+    "reduced": true,
+    "errors": [],
+    "arrival": {
+      "visible": "visible",
+      "opacity": "1",
+      "focus": "vault",
+      "liveMarks": 1,
+      "entryMarks": 0
+    }
+  }
+]

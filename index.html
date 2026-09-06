@@ -635,7 +635,42 @@
     box-shadow:0 5px 24px rgba(212,175,95,.16);
     opacity:0;transform:translateY(12px);pointer-events:none}
   .next-vault-hold:hover{background:linear-gradient(135deg,#f5dfad,#e2be72)}
-  .next-vault-hold:active{background:#d4af5f}
+  /* One continuous gold face: light has no inset frame or hard inner edge.
+     Confirmation finishes within 280ms, before the card starts its exit. */
+  .next-vault-hold::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+    border:0;border-radius:inherit;opacity:0;
+    background:radial-gradient(ellipse at var(--press-x,50%) var(--press-y,50%),rgba(255,250,223,.24),transparent 74%),
+      linear-gradient(115deg,rgba(146,91,22,.06),rgba(255,248,217,.2) 42%,rgba(255,249,226,.1) 62%,rgba(146,91,22,.05));
+    transition:opacity .09s ease-out}
+  .next-vault-hold .vh-press-light{position:absolute;left:var(--press-x,50%);top:var(--press-y,50%);
+    width:300px;height:180px;z-index:1;pointer-events:none;border-radius:50%;opacity:0;
+    background:radial-gradient(ellipse,rgba(255,254,232,.82) 0%,rgba(255,240,189,.42) 30%,rgba(255,232,165,.12) 52%,transparent 72%);
+    transform:translate(-50%,-50%) scale(.65);transition:opacity .1s ease-out,transform .16s cubic-bezier(.2,.8,.2,1)}
+  .next-vault-hold:active .vh-press-light{opacity:.9;transform:translate(-50%,-50%) scale(1)}
+  .next-vault-hold:active,body.next-vault-opening .next-vault-hold{
+    background:linear-gradient(115deg,#d3ab62 0%,#e9c986 35%,#f1d89b 56%,#dab66e 100%);
+    border-color:#e9cf91;
+    box-shadow:0 2px 12px rgba(212,175,95,.16),0 0 30px rgba(240,212,146,.12)}
+  .next-vault-hold:active::after,body.next-vault-opening .next-vault-hold::after{opacity:1}
+  .next-vault-hold .vh-base{transition:transform .09s ease-out;text-shadow:0 1px 0 rgba(255,248,220,.22)}
+  .next-vault-hold:active .vh-base{transform:translateY(1px);color:#100e09}
+  body.next-vault-opening .next-vault-hold .vh-base{transform:none;color:#100e09}
+  @media(prefers-reduced-motion:no-preference){
+    body.next-vault-opening .next-vault-hold::after{animation:nextVaultConfirm .28s ease-out both}
+    body.next-vault-opening .next-vault-hold .vh-press-light{animation:nextVaultBloom .28s cubic-bezier(.16,.8,.25,1) both}}
+  @keyframes nextVaultBloom{
+    0%{opacity:.9;transform:translate(-50%,-50%) scale(1)}
+    55%{opacity:.55}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(2.2)}}
+  @keyframes nextVaultConfirm{
+    0%{opacity:.55}
+    36%{opacity:1}
+    100%{opacity:.62}}
+  @media(prefers-reduced-motion:reduce){
+    .next-vault-hold::after,.next-vault-hold .vh-base{transition:none}
+    .next-vault-hold .vh-press-light{display:none}
+    .next-vault-hold:active .vh-base{transform:none}}
+
   /* A separate highlight keeps the label and entrance animation still. */
   .next-vault-hold::before{content:'';position:absolute;inset:-30% auto -30% -60%;width:50%;
     z-index:1;pointer-events:none;opacity:0;
@@ -834,7 +869,7 @@
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
       <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
     </form>
-    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
+    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-press-light" aria-hidden="true"></span><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
   </div>
 </section>
 
@@ -2028,8 +2063,19 @@
   }
   addEventListener('pointerup',releaseNextEntryContact,true);
   addEventListener('pointercancel',releaseNextEntryContact,true);
+  function setNextPressOrigin(x,y){
+    var r=nextEntryButton.getBoundingClientRect();
+    nextEntryButton.style.setProperty('--press-x',Math.max(0,Math.min(r.width,x-r.left))+'px');
+    nextEntryButton.style.setProperty('--press-y',Math.max(0,Math.min(r.height,y-r.top))+'px');
+  }
+  nextEntryButton.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){
+      nextEntryButton.style.removeProperty('--press-x'); nextEntryButton.style.removeProperty('--press-y');
+    }
+  });
   nextEntryButton.addEventListener('pointerdown',function(e){
     if(!e.isPrimary || e.button>0 || nextEntryMulti) return;
+    setNextPressOrigin(e.clientX,e.clientY);
     nextEntrySkipClick=false; nextEntryPointer={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};
   });
   addEventListener('pointermove',function(e){
@@ -2055,6 +2101,9 @@
   document.addEventListener('visibilitychange',function(){if(document.hidden) resetNextEntryContacts();});
   nextEntryButton.addEventListener('click',function(e){
     if(nextEntryMulti || (e.detail && nextEntrySkipClick)){e.preventDefault();return;}
+    if(!e.detail){
+      nextEntryButton.style.removeProperty('--press-x'); nextEntryButton.style.removeProperty('--press-y');
+    }
     enterVaultFromNext();
   });
 

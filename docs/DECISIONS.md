@@ -17,3 +17,7 @@ This is a curated record of recent work, not a claim to reconstruct every earlie
 ## Organization decision
 
 Added a README, agent entry point, `docs/` and portable `tests/` without moving production assets, demos or historical QA reports. This makes the repository understandable across devices while preserving URLs and history. Code modularization or moving demos can be a separate future task with explicit path/dependency checks.
+
+## Approved frameless press feedback
+
+September6: user approved the final gold-touch study for production. Remove inset frame/box on press; retain contact-origin bloom and sharp dark text. Match held and released light state, centre keyboard/assistive activation, and disable movement for reduced motion. Preserve entry timing, idle logo synchronization and phone scrolling. Release and coverage are recorded in `reviews/press-release-2026-09-06.md`.

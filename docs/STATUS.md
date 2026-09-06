@@ -1,6 +1,6 @@
 # Current status
 
-Updated September 6, 2026. Latest application change: [`e7a7859`](https://github.com/daddydownes/victorious/commit/e7a7859). This document describes that code; later documentation commits do not change the site behavior.
+Updated September 6, 2026. Latest application change: approved frameless press feedback release, based on candidate `fe968bf`. See [release record](reviews/press-release-2026-09-06.md) for exact coverage.
 
 ## Current production state
 
@@ -8,6 +8,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 - Approved share card: opening white V/star on black, 1200×630, `assets/share-v-20260906.png`; `og.jpg` is the matching JPEG.
 - Main invitation: **PRESS HERE** with **ENTER THE VAULT** beneath. Tap/click/keyboard entry.
 - Reveal waits for the final animation, preventing the previous settling jitter.
+- Approved press feedback: continuous gold surface, contact-origin light and smooth release, no inset frame. Reduced motion disables the moving light and text displacement.
 - Button light sweep every 2.7s, synchronized with the logo’s 5.4s cycle. Reduced motion disables those effects.
 - Desktop post-Surface wheel/trackpad travel is 20% gentler than the previous accelerated version. Phone touch behavior is unchanged by the latest adjustment.
 - Page and social title: **VICTORIOUS — The Vault**.
@@ -15,7 +16,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-The frameless gold-touch candidate is ready for design review on [demo/button-press-feedback](https://github.com/daddydownes/victorious/tree/demo/button-press-feedback), commit `fe968bf`. The inner frame is removed, release continuity and assistive centering are corrected. [Sprint results](https://github.com/daddydownes/victorious/blob/demo/button-press-feedback/docs/reviews/press-sprint-2026-09-06.md) record four successful observed Chrome environments and three passing portable suites. It is not deployed; physical-device and full repeated release QA remain separate.
+Approved frameless gold-touch button is being released from the reviewed candidate `fe968bf`. It removes the inner frame, keeps contact-origin illumination and smooth release, and resets the origin for keyboard/assistive activation. Reduced motion uses static feedback. See [sprint results](reviews/press-sprint-2026-09-06.md) and the release record for exact test coverage. Publication status will be updated after live verification.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
