@@ -10,6 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 # This helper exists only in the response served at /demo. It uses the same
 # renderer/collision geometry, but is a static art study, not a flight test.
 STUDY = """
+    window.__flapWinStudy=function(){
+      flapStart(); FG.score=100; FG.gates=[]; FG.y=.5; FG.rot=-.2;
+      flapWin(flapSize()); flapResetFrames(); flapDraw(flapSize());
+    };
+
     window.__flapStudy=function(stage){
       flapStart(); fPaused=false; FG.state='idle'; FG.score=stage; FG.gateSerial=stage; FG.gates=[];
       var size=flapSize(); flapSpawn(size); var pole=FG.gates[0];
@@ -36,6 +41,7 @@ DEMO = """
   <button data-score="50">50 · SLALOM</button>
   <button data-score="75">75 · JAWS</button>
   <button id="playStage">PLAY THIS STAGE</button>
+  <button id="winStudy">PREVIEW WIN</button>
 </nav>
 <script>
 window.addEventListener('load',()=>{
@@ -49,6 +55,7 @@ document.getElementById('flightDemo').addEventListener('click',e=>{
     window.__flapStudy(selectedStage);
     return;
   }
+  if(e.target.id==='winStudy'){window.__flapWinStudy();return;}
   if(e.target.id!=='playStage') return;
   window.__flap.close(); window.__flap.open(); window.__flap.tap();
   const game=window.__flap.dbg();
