@@ -2938,10 +2938,9 @@
     if(e.key==='PageDown'||e.key==='PageUp'||e.key==='Home'||e.key==='End'||e.key===' ') e.preventDefault();
   });
 
-  /* Post-Surface scroll governor. A trackpad fling can otherwise cross all of
-     BEYOND before its first frame is painted. Each physical wheel/touch gesture
-     gets a viewport-sized travel allowance, followed by a short eased settle;
-     momentum events beyond that allowance are held until the next gesture. */
+  /* Post-Surface scrolling: respond promptly while bounding a single fling.
+     Wheel allowance recovers during sustained input so scrolling never hits
+     a dead stop just because the visitor keeps moving the wheel/trackpad. */
   var postScrollTask=null, postScrollTarget=0, postScrollLastInput=0;
   var postWheelLast=0, postWheelSpent=0, postWheelBudget=0, postWheelSign=0;
   var postTouch=null;
@@ -2979,9 +2978,8 @@
         if(now-postScrollLastInput>110){ postScrollTask=null; return false; }
         return;
       }
-      // About 92% settled in 180ms: enough coast to read as motion, short
-      // enough that a deliberate second gesture never queues behind it.
-      var ease=1-Math.exp(-Math.max(1,dt)/70);
+      // About 93% settled in 120ms, keeping the page close to the gesture.
+      var ease=1-Math.exp(-Math.max(1,dt)/45);
       var step=distance*ease;
       // Browsers may round scrollY to whole CSS pixels. Keep the last few
       // pixels moving so rounding cannot leave an idle animation task alive.
@@ -3008,13 +3006,15 @@
     var sign=Math.sign(delta);
     if(now-postWheelLast>220 || sign!==postWheelSign){
       postWheelSpent=0;
-      postWheelBudget=Math.max(280,Math.min(620,innerHeight*.68));
+      postWheelBudget=Math.max(420,Math.min(1100,innerHeight*1.15));
       postScrollTarget=scrollY;
       postWheelSign=sign;
+    }else{
+      postWheelSpent=Math.max(0,postWheelSpent-Math.max(0,now-postWheelLast)*innerHeight/1000);
     }
     postWheelLast=now;
     var remaining=Math.max(0,postWheelBudget-postWheelSpent);
-    var accepted=Math.max(-remaining,Math.min(remaining,delta*.82));
+    var accepted=Math.max(-remaining,Math.min(remaining,delta*1.15));
     postWheelSpent+=Math.abs(accepted);
     e.preventDefault();
     if(accepted) addPostScroll(accepted,now);
@@ -3027,7 +3027,7 @@
     var touch=e.touches[0], now=motionNow();
     stopPostScroll();
     postTouch={startY:touch.clientY,startScroll:scrollY,lastY:touch.clientY,lastT:now,
-      velocity:0,budget:Math.max(320,Math.min(720,innerHeight*.82))};
+      velocity:0,budget:Math.max(420,Math.min(1100,innerHeight*1.15))};
     postScrollTarget=scrollY; postScrollLastInput=now;
   },{passive:true});
   addEventListener('touchmove',function(e){
@@ -3038,7 +3038,7 @@
     var touch=e.touches[0], now=motionNow(), elapsed=Math.max(1,now-postTouch.lastT);
     postTouch.velocity=(postTouch.lastY-touch.clientY)/elapsed;
     postTouch.lastY=touch.clientY; postTouch.lastT=now;
-    var travel=(postTouch.startY-touch.clientY)*.92;
+    var travel=postTouch.startY-touch.clientY;
     travel=Math.max(-postTouch.budget,Math.min(postTouch.budget,travel));
     postScrollTarget=postTouch.startScroll+travel;
     postScrollLastInput=now; e.preventDefault(); runPostScroll();
@@ -3048,9 +3048,9 @@
     var now=motionNow(), travelled=postScrollTarget-postTouch.startScroll;
     // Only an immediate lift contributes a small tail; pausing before release
     // stops exactly where the finger left the page.
-    var coast=now-postTouch.lastT<80 ? postTouch.velocity*90 : 0;
+    var coast=now-postTouch.lastT<80 ? postTouch.velocity*150 : 0;
     var remaining=Math.max(0,postTouch.budget-Math.abs(travelled));
-    coast=Math.max(-Math.min(100,remaining),Math.min(Math.min(100,remaining),coast));
+    coast=Math.max(-Math.min(200,remaining),Math.min(Math.min(200,remaining),coast));
     postTouch=null;
     if(coast) postScrollTarget+=coast;
     postScrollLastInput=now; runPostScroll();
