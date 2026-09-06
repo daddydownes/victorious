@@ -2103,6 +2103,9 @@
   document.addEventListener('visibilitychange',function(){if(document.hidden) resetNextEntryContacts();});
   nextEntryButton.addEventListener('click',function(e){
     if(nextEntryMulti || (e.detail && nextEntrySkipClick)){e.preventDefault();return;}
+    if(!e.detail){
+      nextEntryButton.style.removeProperty('--press-x'); nextEntryButton.style.removeProperty('--press-y');
+    }
     enterVaultFromNext();
   });
 

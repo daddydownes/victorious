@@ -19,6 +19,7 @@ for(let run=0;run<4;run++){
  s=setup();s.down();s.event('pointerdown',{pointerId:2,isPrimary:false});s.event('pointerup');s.event('click',{},true);assert.equal(s.count(),0);
  s=setup();s.down({pointerType:'touch'});s.event('pointerup',{pointerType:'touch'});assert.equal(s.count(),1);
  s=setup();s.down();s.event('keydown',{key:'Enter'},true);assert.equal(s.style.size,0);s.event('click',{detail:0},true);assert.equal(s.count(),1);
+ s=setup();s.down();s.event('pointercancel');s.event('click',{detail:0},true);assert.equal(s.style.size,0);assert.equal(s.count(),1);
  s=setup();s.c.setNextPressOrigin(-20,1000);assert.equal(s.style.get('--press-x'),'0px');assert.equal(s.style.get('--press-y'),'78px');
 }
 console.log('PASS x4: press location, clamping, keyboard centering, tap entry, swipe/cancel/multiple-contact rejection');
