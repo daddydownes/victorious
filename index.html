@@ -635,7 +635,29 @@
     box-shadow:0 5px 24px rgba(212,175,95,.16);
     opacity:0;transform:translateY(12px);pointer-events:none}
   .next-vault-hold:hover{background:linear-gradient(135deg,#f5dfad,#e2be72)}
-  .next-vault-hold:active{background:#d4af5f}
+  /* Pressure changes the face, never the button opacity or its settled geometry.
+     Keep a dark readable label and use a separate inset highlight for feedback. */
+  .next-vault-hold::after{content:'';position:absolute;inset:3px;z-index:1;pointer-events:none;
+    border:1px solid rgba(255,247,218,.72);border-radius:1px;opacity:0;
+    background:radial-gradient(ellipse at 50% 100%,rgba(255,251,227,.55),transparent 72%);
+    box-shadow:inset 0 0 16px rgba(255,250,222,.25);transition:opacity .12s ease}
+  .next-vault-hold:active,body.next-vault-opening .next-vault-hold{
+    background:linear-gradient(135deg,#e4bd71,#d2a550);border-color:#fff0c2;
+    box-shadow:inset 0 3px 9px rgba(62,38,7,.25),0 0 26px rgba(240,212,146,.26)}
+  .next-vault-hold:active::after,body.next-vault-opening .next-vault-hold::after{opacity:1}
+  .next-vault-hold .vh-base{transition:transform .12s ease,color .2s ease,text-shadow .2s ease}
+  .next-vault-hold:active .vh-base,body.next-vault-opening .next-vault-hold .vh-base{
+    transform:translateY(1px) scale(.985);color:#100e09;text-shadow:0 1px 0 rgba(255,248,220,.35)}
+  @media(prefers-reduced-motion:no-preference){
+    body.next-vault-opening .next-vault-hold::after{animation:nextVaultConfirm .46s ease-out both}}
+  @keyframes nextVaultConfirm{
+    0%{opacity:.55;transform:scaleX(.82)}
+    38%{opacity:1;transform:scaleX(1)}
+    100%{opacity:.75;transform:scaleX(1)}}
+  @media(prefers-reduced-motion:reduce){
+    .next-vault-hold::after,.next-vault-hold .vh-base{transition:none}
+    .next-vault-hold:active .vh-base,body.next-vault-opening .next-vault-hold .vh-base{transform:none}}
+
   /* A separate highlight keeps the label and entrance animation still. */
   .next-vault-hold::before{content:'';position:absolute;inset:-30% auto -30% -60%;width:50%;
     z-index:1;pointer-events:none;opacity:0;
