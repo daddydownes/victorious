@@ -1,22 +1,23 @@
-# Button press feedback candidate
+# Gold touch button candidate
 
-Local candidate only; not deployed. Serve the repository and open `/demos/button-press-feedback/` to replay the look without the intro. Open `/` for the actual candidate journey.
+Preview branch only, not deployed. Serve the repository and open `/demos/button-press-feedback/`; open `/` for the full site. The preview offers normal/slow motion and the previous study for comparison. Rebuild it from the candidate CSS and button markup using `python3 demos/button-press-feedback/build.py` after edits.
 
-## Finding and proposed treatment
+## Current treatment
 
-The current button changes to a flat gold background while active, with no distinct confirmation effect. After acceptance the existing card choreography fades its contents from 297ms to 726ms into the 1650ms transfer; that naturally includes the button. This is a code-level explanation for its disappearance after release, not a claim to have reproduced every reported visual issue.
+The pressed gold face has a precise inset rim, darker engraved lettering and a localized light at the point of contact. Release expands that light across the face in 280ms, before the existing outgoing card starts fading. Keyboard activation resets the light to the centre. The label uses only a 1px vertical press displacement, never scale or opacity. Reduced motion disables the moving light and displacement, leaving static pressure feedback.
 
-This candidate adds an inset gold edge, a layered metallic gold face and a readable dark label during native press. Acceptance carries that face into a short 280ms gleam, finishing before the outgoing card begins fading, using a new `::after` layer. The button itself never receives a new opacity animation. The synchronized idle sweep stays on `::before`; all production JavaScript, entry/fade timing, focus and input guards are unchanged. Reduced motion uses static feedback without label movement or the confirmation animation.
+Idle lighting retains its shared 5.4-second clock and two button sweeps per logo cycle. No new assets or network requests are required in production. A decorative aria-hidden span and a small origin-setting helper are the only production markup/JS additions; the existing activation guards and vault choreography remain intact.
 
-## Validation and remaining review
+## Why disappearance is handled this way
 
-- `node tests/reveal.cjs`: pass, normal/reduced cases four times plus script syntax.
-- `node tests/post-surface-scroll.cjs`: pass, including unchanged 92px wheel response and touch cases.
-- All production script blocks compare byte-identical to the base commit.
-- `git diff --check`: pass.
-- Local standalone demo viewed in native desktop Chrome; click reached the replay-complete state and button stayed present.
-- Root refinement removes fractional label scaling, keeps an integer 1px press displacement, adds a precise inset rim and shortens confirmation to 280ms.
-- One full natural-intro desktop Chrome candidate journey completed: press feedback captured visibly and vault arrived with focus on the archive.
-- Full four-pass device matrix, frame sampling, phone emulation and physical Safari review remain before production release.
+The original outgoing card fades from about 297–726ms into the 1650ms vault transfer. The feedback completes before that fade, so the accepted press is visible before the intentional scene transition. The standalone demo keeps the button present for replay; it does not reproduce the parent card fade.
 
-The demo intentionally stays visible after click so the owner can inspect/replay the treatment. It does not claim to reproduce the actual outgoing card fade.
+## Validation
+
+- `node tests/reveal.cjs`: passes normal/reduced cases four times and script syntax.
+- `node tests/post-surface-scroll.cjs`: passes, including desktop retune and touch fixtures.
+- `node tests/press-feedback.cjs`: actual handler extraction passes four times: off-centre origin, bounds, keyboard centering, mouse/touch entry, swipe cancellation, pointer cancel and multi-contact rejection.
+- Desktop Chrome preview inspected at left-side press in slow motion; label remains readable and light comes from the contact point.
+- 375px phone emulation preview fits the button and shows confirmation. No console messages observed in this preview.
+- The prior CSS-only study completed a full natural-intro desktop vault journey. The new contact-light candidate also completed a full phone-sized Chrome intro → press → visible vault journey.
+- Four-pass full browser/device release matrix and physical Safari remain outstanding. This is a reviewable design candidate, not a production release.

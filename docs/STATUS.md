@@ -15,7 +15,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-Button press refinement is available on branch `demo/button-press-feedback`, in `demos/button-press-feedback/`. Background candidate refined by the primary agent: crisp inset gold rim, layered metallic press face, unscaled lettering, and a 280ms confirmation before the existing card fade. Production JavaScript/body markup are unchanged. Two portable test suites pass; one full natural-intro desktop Chrome journey reached the vault with correct focus. Preview includes replay and slow motion. This candidate is not deployed; full device/repeated visual QA remains before release.
+Button refinement is on branch `demo/button-press-feedback`, preview path `demos/button-press-feedback/`. The latest study adds light at the pointer contact, expanding on release, with keyboard centering and static reduced-motion feedback. It retains crisp text and the existing entry/fade timing. Use the preview’s previous-version link for comparison. Three portable suites pass, including actual input guards and origin handling. Desktop and 375px phone preview inspected; the new candidate completed a phone-sized Chrome intro → press → visible vault journey. Full repeated/device release QA remains; not deployed.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 

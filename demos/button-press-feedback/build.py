@@ -1,0 +1,20 @@
+"""Rebuild the standalone preview from the candidate's actual CSS and button."""
+from pathlib import Path
+import re,base64
+root=Path(__file__).resolve().parents[2]
+s=(root/'index.html').read_text()
+css=re.search(r'<style>(.*?)</style>',s,re.S).group(1)
+button=re.search(r'<button[^>]+id="nextVaultHold".*?</button>',s,re.S).group(0)
+logo=base64.b64encode((root/'vctrs-wordmark.svg').read_bytes()).decode()
+extra='''body{overflow:auto!important;background:radial-gradient(ellipse at 50% 38%,#19160f 0%,#080907 65%)!important;min-height:100vh;color:#efe9dc;display:grid;place-items:center;margin:0;padding:30px 24px;box-sizing:border-box}.demo{width:min(460px,100%);text-align:center}.demo h1{margin:0 0 30px}.demo h1 img{width:240px;max-width:70%;height:auto;filter:invert(1)}.demo p{font:11px/1.8 monospace;color:#b9b2a5}.demo .next-vault-hold{--next-light-cycle:5.4s}.demo .note{margin:25px 0}.tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.tools button{background:#15130e;border:1px solid #70603e;border-radius:3px;color:#efe9dc;padding:11px 16px;cursor:pointer;font:11px monospace}.tools button[aria-pressed=true]{background:#d4af5f;color:#100e09}.demo a{color:#d4af5f;font:11px monospace;text-underline-offset:4px}.slow.next-vault-opening .next-vault-hold::after,.slow.next-vault-opening .next-vault-hold .vh-press-light{animation-duration:1.12s}#state{min-height:40px;margin:20px 0 0}.kicker{letter-spacing:.18em;margin-bottom:22px}.demo .vh-base{position:relative}.demo .links{margin-top:26px}'''
+js='''const button=document.getElementById('nextVaultHold');let timer;
+function origin(e){const r=button.getBoundingClientRect();button.style.setProperty('--press-x',Math.max(0,Math.min(r.width,e.clientX-r.left))+'px');button.style.setProperty('--press-y',Math.max(0,Math.min(r.height,e.clientY-r.top))+'px')}
+button.addEventListener('pointerdown',origin);
+button.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){button.style.removeProperty('--press-x');button.style.removeProperty('--press-y')}});
+function confirmPress(){clearTimeout(timer);document.body.classList.remove('next-vault-opening');void button.offsetWidth;document.body.classList.add('next-vault-opening');document.getElementById('state').textContent='Light opens out from your press.';timer=setTimeout(()=>{document.body.classList.remove('next-vault-opening');document.getElementById('state').textContent='Try pressing near an edge, then in the centre.'},document.body.classList.contains('slow')?1500:850)}
+button.addEventListener('click',confirmPress);
+document.getElementById('replay').addEventListener('click',()=>{button.style.removeProperty('--press-x');button.style.removeProperty('--press-y');confirmPress()});
+document.getElementById('slow').addEventListener('click',e=>{const on=document.body.classList.toggle('slow');e.target.setAttribute('aria-pressed',on);e.target.textContent=on?'Normal speed':'Slow motion'});'''
+html='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VCTRS — Gold touch preview</title><style>'+css+extra+'</style><body class="next-drop-landed"><main class="demo"><h1><img alt="VCTRS" src="data:image/svg+xml;base64,'+logo+'"></h1><p class="kicker">GOLD TOUCH · SECOND STUDY</p>'+button+'<p id="state" aria-live="polite">Press anywhere on the gold.</p><p class="note">The light starts at your touch.<br>Release to let it open across the surface.</p><div class="tools"><button id="replay">Replay from centre</button><button id="slow" aria-pressed="false">Slow motion</button></div><p class="links"><a href="../../">Try the full entrance</a> &nbsp;·&nbsp; <a href="previous.html">Previous version</a></p></main><script>'+js+'</script></body></html>'
+(root/'demos/button-press-feedback/index.html').write_text(html)
+print('Rebuilt preview from current production candidate CSS and markup')
