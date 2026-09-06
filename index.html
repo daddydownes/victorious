@@ -589,7 +589,7 @@
 
   /* NEXT DROP — the completed film V lifts the next chapter into view. */
   .surface-bar{display:none!important}
-  .next-drop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;
+  .next-drop{--next-light-cycle:5.4s;position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;
     background:radial-gradient(circle at 50% 44%,rgba(212,175,95,.055),transparent 40%),#070706;
     background-position:center 38%;background-size:cover;background-repeat:no-repeat;
     color:var(--bone);visibility:hidden;transform:translateY(100%) translateZ(0);
@@ -603,16 +603,14 @@
     opacity:0;transform:translateY(18px)}
   .next-drop-mark::before,.next-drop-mark::after{content:'';position:absolute;inset:-4%;pointer-events:none;
     -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat}
-  .next-drop-mark::before{z-index:-1;background:var(--gold-hot);filter:blur(16px);opacity:.16;
-    animation:nextMarkAura 5.4s 1.7s ease-in-out infinite}
+  .next-drop-mark::before{z-index:-1;background:var(--gold-hot);filter:blur(16px);opacity:.1;transform:scale(.99)}
   .next-drop-mark::after{z-index:1;background:linear-gradient(105deg,transparent 26%,rgba(255,255,255,.92) 48%,
     rgba(240,212,146,.95) 53%,transparent 73%);background-size:260% 100%;background-position:130% 0;
-    opacity:.7;animation:nextMarkShine 5.4s 2.15s cubic-bezier(.55,0,.25,1) infinite}
+    opacity:0}
   .vctrs-glyph{display:block;background:#f7f5ef;
     -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat}
   .next-drop-mark .vctrs-glyph{width:100%;aspect-ratio:766/285;
-    filter:drop-shadow(0 0 9px rgba(255,255,255,.2));
-    animation:nextMarkGlow 5.4s 1.7s ease-in-out infinite}
+    filter:drop-shadow(0 0 7px rgba(255,255,255,.18))}
   .next-drop-kicker{margin-top:clamp(22px,4vh,42px);font:600 11px/1 'Cinzel',Georgia,serif;
     letter-spacing:.38em;text-indent:.38em;color:var(--gold-hot);opacity:0;transform:translateY(14px)}
   .next-drop-rule{width:74px;height:1px;margin:25px auto;background:var(--gold-hot);transform:scaleX(0)}
@@ -643,13 +641,26 @@
     z-index:1;pointer-events:none;opacity:0;
     background:linear-gradient(105deg,transparent,rgba(255,250,225,.75),transparent);
     transform:translateX(0)}
-  body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-vault-hold::before{
-    animation:nextVaultSweep 4s .2s ease-in-out infinite}
+  /* One shared clock starts after the entrance settles. The logo lights on
+     the first beat; the button repeats on both halves of the same cycle. */
+  @media(prefers-reduced-motion:no-preference){
+    body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-drop-mark::before{
+      animation:nextMarkAura var(--next-light-cycle) ease-in-out infinite}
+    body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-drop-mark::after{
+      animation:nextMarkShine var(--next-light-cycle) ease-in-out infinite}
+    body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-drop-mark .vctrs-glyph{
+      animation:nextMarkGlow var(--next-light-cycle) ease-in-out infinite}
+    body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-vault-hold::before{
+      animation:nextVaultSweep var(--next-light-cycle) ease-in-out infinite}}
   @keyframes nextVaultSweep{
     0%,12%{transform:translateX(0);opacity:0}
     18%{opacity:1}
     43%{transform:translateX(340%);opacity:1}
-    49%,100%{transform:translateX(340%);opacity:0}}
+    49%{transform:translateX(340%);opacity:0}
+    50%,62%{transform:translateX(0);opacity:0}
+    68%{opacity:1}
+    93%{transform:translateX(340%);opacity:1}
+    99%,100%{transform:translateX(340%);opacity:0}}
   @media(prefers-reduced-motion:reduce){
     body .next-vault-hold::before{display:none;animation:none!important}}
   body.next-vault-opening .next-drop{pointer-events:none}
@@ -687,10 +698,11 @@
     100%{transform:translateY(-70vh) scale(.35);opacity:0}}
   @keyframes nextDropSettle{to{opacity:1;transform:none}}
   @keyframes nextDropRule{to{transform:scaleX(1)}}
-  @keyframes nextMarkGlow{0%,100%{filter:drop-shadow(0 0 7px rgba(255,255,255,.18))}
-    48%,58%{filter:drop-shadow(0 0 14px rgba(240,212,146,.48))}}
-  @keyframes nextMarkAura{0%,100%{opacity:.1;transform:scale(.99)}48%,58%{opacity:.42;transform:scale(1.025)}}
-  @keyframes nextMarkShine{0%,36%{background-position:130% 0;opacity:0}46%{opacity:.82}62%,100%{background-position:-130% 0;opacity:0}}
+  @keyframes nextMarkGlow{0%,49%,100%{filter:drop-shadow(0 0 7px rgba(255,255,255,.18))}
+    18%,32%{filter:drop-shadow(0 0 14px rgba(240,212,146,.48))}}
+  @keyframes nextMarkAura{0%,49%,100%{opacity:.1;transform:scale(.99)}18%,32%{opacity:.42;transform:scale(1.025)}}
+  @keyframes nextMarkShine{0%,12%{background-position:130% 0;opacity:0}18%{opacity:.82}
+    43%{background-position:-130% 0;opacity:.82}49%,100%{background-position:-130% 0;opacity:0}}
   @media(max-width:700px){
     .next-drop-card{width:min(620px,calc(100vw - 30px));padding:34px 20px}
     .next-drop-mark{width:min(440px,80vw)}
