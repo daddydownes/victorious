@@ -21,3 +21,7 @@ The original outgoing card fades from about 297–726ms into the 1650ms vault tr
 - 375px phone emulation preview fits the button and shows confirmation. No console messages observed in this preview.
 - The prior CSS-only study completed a full natural-intro desktop vault journey. The new contact-light candidate also completed a full phone-sized Chrome intro → press → visible vault journey.
 - Four-pass full browser/device release matrix and physical Safari remain outstanding. This is a reviewable design candidate, not a production release.
+
+## Completed frameless sprint
+
+See [review and measured results](../../docs/reviews/press-sprint-2026-09-06.md). All four observed Chrome environments completed entry; inner frame removed and held/release continuity corrected. Still a preview, not live.
