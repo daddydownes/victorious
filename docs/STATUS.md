@@ -18,7 +18,7 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 
 ## Next work
 
-Gold Lift Surface and corner-logo removal are live in [`0f68397`](https://github.com/daddydownes/victorious/commit/0f68397). GitHub Pages reported built and the canonical homepage exactly matched committed source. Live Chrome confirmed the gold button, absent top-right circle, and successful Surface exit with focus on the stage. Eight pre-release browser journeys and50 Surface input fixture loops passed; the Space activation defect is fixed. See [release record](reviews/surface-release-2026-09-06.md) for exact emulation and physical-device limits. Earlier frameless PRESS HERE remains unchanged.
+Gold Lift press refinement: removed the extra arrow launch/reappearance, exit flash and text shift after user feedback. Normal Gold Lift look and idle reflection unchanged. Press now shades the gold gently while arrow/text stay steady through the existing exit. CSS-only change; production markup/JavaScript byte-identical to prior release. One full desktop Chrome exit sampled124 frames with stable arrow/label, correct stage focus and no runtime errors; Surface input50-loop and reveal suites pass. Reduced-motion shade has no transition. Publication verification follows. Top-right circle remains removed.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 

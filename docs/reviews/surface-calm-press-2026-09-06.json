@@ -1,0 +1,30 @@
+{
+  "run": "calm-desktop",
+  "viewport": [
+    1440,
+    594
+  ],
+  "reduced": false,
+  "errors": [],
+  "entry": {
+    "focus": "vault",
+    "button": {
+      "w": 122.1484375,
+      "h": 48,
+      "x": 48,
+      "y": 48,
+      "fits": true
+    },
+    "shine": "surfaceGoldRise"
+  },
+  "exit": {
+    "focus": "stage",
+    "vault": "hidden",
+    "shine": "none",
+    "rising": false,
+    "scroll": 0,
+    "overflow": false
+  },
+  "sampledFrames": 124,
+  "steadyArrowAndLabel": true
+}

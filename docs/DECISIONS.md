@@ -27,3 +27,7 @@ September6: user approved the final gold-touch study for production. Remove inse
 User selected option3 from the three Surface demos and authorized integration after testing. Keep a solid gold capsule, rising reflection, dark label and compact upward arrow. Idle animation is limited to the open vault; the exit cue finishes within280ms and does not delay the existing2050ms Surface transition. Preserve touch guards and native keyboard activation; reduced motion uses static gold styling.
 
 The same release removes the circular avatar from the vault’s top-right corner, explicitly requested by the user. Keep the main VCTRS identity and archive unchanged; the old asset remains in Git.
+
+## Surface press simplification
+
+After the Gold Lift release, user found the pressed animation unclean and asked to change only that state. Removed the arrow’s disappearing/restarting loop, the extra exit reflection and the1px text shift. Retained the idle appearance/shine; pressed and accepted state now softly shade the gold while text/arrow remain steady during the existing HUD fade. No input or scene timing changes.

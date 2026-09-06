@@ -540,7 +540,7 @@
       calc(clamp(20px,4vw,48px) + env(safe-area-inset-left,0px))}
   .vault-hud-top{display:flex; justify-content:space-between; align-items:flex-start; letter-spacing:.28em;
     font-size:12px; color:var(--gold); text-transform:uppercase}
-  /* Gold Lift: one warm capsule, a rising reflection, and a short exit cue. */
+  /* Gold Lift: rising light at rest; quiet, steady feedback during exit. */
   .surface-btn{pointer-events:auto;position:relative;display:inline-flex;align-items:center;justify-content:center;
     gap:10px;min-height:48px;padding:0 21px;border:0;border-radius:24px;overflow:hidden;isolation:isolate;
     background:linear-gradient(120deg,#f0d69e,#d6b16c);color:#231a09;
@@ -555,21 +555,18 @@
   .surface-arrow::before{content:'';position:absolute;top:5px;left:3px;width:8px;height:8px;
     border-left:1.6px solid currentColor;border-top:1.6px solid currentColor;transform:rotate(45deg)}
   @media(hover:hover){.surface-btn:hover{box-shadow:0 4px 25px rgba(213,179,104,.36)}}
-  .surface-btn:active{background:#d7b575}
-  .surface-btn:active .surface-label{transform:translateY(1px)}
+  /* Shade the face without changing its geometry or moving the label/arrow.
+     Keep the accepted state until the existing HUD fade has finished. */
+  .surface-btn::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    border-radius:inherit;background:rgba(74,45,8,.12);opacity:0;transition:opacity .09s ease-out}
+  .surface-btn:active::after,.vault.surface-rising .surface-btn::after{opacity:1}
+  .vault.surface-rising .surface-btn{box-shadow:0 2px 12px rgba(213,179,104,.12)}
   .surface-btn:focus-visible{outline:2px solid #fff1c7;outline-offset:4px}
   @media(prefers-reduced-motion:no-preference){
-    body.next-vault-open:not(.surfaced) .vault:not(.surface-rising) .surface-btn::before{animation:surfaceGoldRise 3.6s ease-in-out infinite}
-    .vault.surface-rising .surface-btn::before{animation:surfaceGoldExit .28s ease-out both}
-    .vault.surface-rising .surface-arrow{animation:surfaceArrowLift .28s ease-out both}}
+    body.next-vault-open:not(.surfaced) .vault:not(.surface-rising) .surface-btn::before{animation:surfaceGoldRise 3.6s ease-in-out infinite}}
   @keyframes surfaceGoldRise{0%,25%{transform:translateY(70%);opacity:0}42%{opacity:.8}
     70%,100%{transform:translateY(-70%);opacity:0}}
-  @keyframes surfaceGoldExit{0%{transform:translateY(65%);opacity:0}25%{opacity:.85}
-    100%{transform:translateY(-65%);opacity:0}}
-  @keyframes surfaceArrowLift{0%{transform:translateY(0);opacity:1}45%{transform:translateY(-12px);opacity:0}
-    46%{transform:translateY(9px);opacity:0}100%{transform:translateY(0);opacity:1}}
-  @media(prefers-reduced-motion:reduce){body .surface-btn{transition:none}
-    body .surface-btn:active .surface-label{transform:none}}
+  @media(prefers-reduced-motion:reduce){body .surface-btn,body .surface-btn::after{transition:none}}
   /* The old THE V-AULT headline is retired. The incoming VCTRS mark now becomes
      the vault identity itself, with THE VAULT as its quiet descriptor below. */
   .vault-title{position:absolute;left:50%;top:50%;width:clamp(148px,18vw,176px);text-align:center;
