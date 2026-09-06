@@ -19,7 +19,7 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 
 ## Next work
 
-Screen-edge cleanup approved after user reported intermittent gold outlines on mobile. Removed the vault-wide gold focus outline, bottom underglow markup/CSS, pulsing motion task and all lifecycle calls. Stage focus has no viewport outline; keyboard focus remains visible on actual controls and the vault drag cue. Reveal, Surface input50-loop, press and scrolling suites pass. Mobile visual check was interrupted when Chrome stopped exposing a usable automation view, so this is not recorded as a fresh browser pass. Publication verification follows. Existing Gold Lift and calm pressed state are unchanged.
+Screen-edge cleanup approved after user reported intermittent gold outlines on mobile. Removed the vault-wide gold focus outline, bottom underglow markup/CSS, pulsing motion task and all lifecycle calls. Stage focus has no viewport outline; keyboard focus remains visible on actual controls and the vault drag cue. Reveal, Surface input50-loop, press and scrolling suites pass. Mobile visual check was interrupted when Chrome stopped exposing a usable automation view, so this is not recorded as a fresh browser pass. Published in `d1b046d`; Pages reported built, canonical live source matched the release exactly, and underglow/viewport-outline code was confirmed absent. Existing Gold Lift and calm pressed state are unchanged.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
