@@ -250,21 +250,18 @@
   .flap-play:focus-visible{outline:1px solid var(--gold-hot); outline-offset:3px}
   .flap-best{margin-top:18px; letter-spacing:.24em; font-size:10px; color:var(--gold);
     text-transform:uppercase; opacity:.85; min-height:1em}
-  /* Flappy V — one consistent arena, native controls outside the flight path. */
+  /* Flappy V — the original immersive full-screen vault, with floating HUD. */
   .flap-overlay{position:fixed;inset:0;z-index:400;background:#060605;display:none;
     overscroll-behavior:contain;touch-action:none;-webkit-tap-highlight-color:transparent;
     user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;color:var(--bone);
     background-image:radial-gradient(ellipse at 50% 48%,#17150e 0,transparent 65%)}
   .flap-overlay.on{display:block}
-  .flap-flight-space{position:absolute;inset:calc(64px + env(safe-area-inset-top)) 12px calc(64px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center}
-  .flap-arena{position:relative;
-    width:min(100%,calc((100vh - 128px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));
-    width:min(100%,calc((100dvh - 128px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));aspect-ratio:7/12;
-    background:#080806;box-shadow:0 0 0 1px rgba(212,175,95,.13),0 24px 90px #0008;overflow:hidden}
+  .flap-flight-space{position:absolute;inset:0}
+  .flap-arena{position:absolute;inset:0;width:100%;height:100%;background:#000;overflow:hidden}
   #flap{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;
     cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
   .flap-top{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));
-    right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;gap:16px;pointer-events:none}
+    right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;gap:16px;pointer-events:none;text-shadow:0 2px 12px #000}
   .flap-name{font:600 12px Consolas,monospace;letter-spacing:.19em;color:var(--gold);margin-right:auto}
   .flap-name small{display:block;font:9px Consolas,monospace;letter-spacing:.12em;color:#8c8779;margin-top:5px}
   .flap-hud{display:flex;align-items:baseline;gap:6px;font:10px Consolas,monospace;color:var(--gold)}
@@ -295,7 +292,7 @@
   .flap-overlay button:focus-visible{outline:2px solid var(--gold-hot);outline-offset:3px}
   .flap-orientation{display:none}
   @media(max-width:400px){.flap-top{gap:8px}.flap-name{font-size:10px}.flap-name small{font-size:8px}.flap-exit{padding:10px}.flap-hud strong{font-size:26px}}
-  @media(max-height:480px){.flap-flight-space{top:calc(56px + env(safe-area-inset-top));bottom:calc(56px + env(safe-area-inset-bottom))}.flap-arena{width:min(100%,calc((100vh - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333));width:min(100%,calc((100dvh - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*.583333))}
+  @media(max-height:480px){
     .flap-top{top:6px}.flap-bottom{bottom:6px}.flap-panel{padding:18px 22px;width:min(360px,calc(100% - 40px))}
     .flap-panel h2{font-size:25px;margin:12px 0}.flap-panel p{margin-bottom:12px;font-size:11px;line-height:1.5}
     .flap-panel .eyebrow{font-size:8px}.flap-orientation{display:block;margin-top:8px;font-size:9px;color:#8c8779}}
@@ -970,7 +967,7 @@
   <div class="flap-panel" id="flapPanel" aria-live="polite">
     <div class="eyebrow">VICTORIOUS / THE VAULT</div>
     <h2 id="flapTitle">FLAPPY V</h2>
-    <p id="flapHint">Tap, click or press Space to rise.<br>Clear 100 gates. A new challenge every 25.</p>
+    <p id="flapHint">Tap, click or press Space to rise.<br>Fly through 100 openings. A new challenge every 25.</p>
     <button class="flap-play" id="flapAction" type="button">Start run</button>
   </div>
 </div>
@@ -3505,10 +3502,12 @@
     function flapCollision(g,s){
       var logo=flapLogoContours(FG.y,FG.rot,s);
       if(logo.right<g.x||logo.left>g.x+flapGateWidth(g,s))return false;
-      for(var side=0;side<2;side++){
-        if(side===0?(g.top<=0||logo.top>g.top):(g.bottom>=s.h||logo.bottom<g.bottom))continue;
-        var pole=flapPolePolygon(g,s,side===0);
-        for(var n=0;n<logo.contours.length;n++)if(flapPolygonsTouch(logo.contours[n],pole))return true;
+      var hazards=flapHazardPolygons(g,s);
+      for(var side=0;side<hazards.length;side++){
+        var poly=hazards[side],top=Infinity,bottom=-Infinity;
+        for(var j=0;j<poly.length;j++){top=Math.min(top,poly[j][1]);bottom=Math.max(bottom,poly[j][1]);}
+        if(logo.bottom<top||logo.top>bottom)continue;
+        for(var n=0;n<logo.contours.length;n++)if(flapPolygonsTouch(logo.contours[n],poly))return true;
       }
       return false;
     }
@@ -3592,7 +3591,7 @@
     }
     function flapPanels(){
       var level=flapLevel(FG.score);
-      var notice=['01 / ENTRY','02 / FALLING PINS','03 / SHIFT','04 / LOCKDOWN'][level];
+      var notice=['01 / THE VAULT','02 / GOLD ARCHES','03 / SLALOM','04 / FINAL LOCK'][level];
       if(fTier.textContent!==notice) fTier.textContent=notice;
       var key=reduced?'motion':fPaused?'paused':FG.state;
       if(fScoreKey!==FG.score){
@@ -3608,7 +3607,7 @@
       fPause.hidden=FG.state!=='play'||reduced;
       fPause.textContent=fPaused?'Resume':'Pause';
       fPanelKey=key; fPanel.hidden=key==='play'||key==='dying';
-      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Clear 100 gates. A new challenge every 25.<span class="flap-orientation">Portrait gives you a larger view.</span>','Start run'],
+      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Fly through 100 openings. A new challenge every 25.','Start run'],
         paused:['PAUSED','Your run is on hold.<br>Continue when you’re ready.','Resume'],
         dead:['RUN ENDED',FG.score+' cleared &nbsp;·&nbsp; Best '+fBest,'Try again'],
         won:['VAULT UNLOCKED',COUPON_CODE+'<br>'+COUPON_LINE,'Play again'],
@@ -3634,40 +3633,45 @@
         trauma:0, shakeX:0, shakeY:0, stopT:0,   // hit-stop timer (s)
         flash:0, deadT:0, scorePop:0, bg:null };
     }
-    /* Fixed logical geometry; physical size only controls the backing raster. */
+    /* Fullscreen arena: fixed logical height, aspect-dependent logical width. */
     var FS={w:420,h:720,d:1,cssW:0,cssH:0};
     function flapSize(){
       var cssW=Math.max(1,flapCv.clientWidth), cssH=Math.max(1,flapCv.clientHeight);
-      var d=Math.min((cssW/420)*Math.min(2,devicePixelRatio||1),Math.sqrt(6000000/(420*720)));
+      var w=720*cssW/cssH;
+      var d=Math.min((cssH/720)*Math.min(2,devicePixelRatio||1),Math.sqrt(6000000/(w*720)));
       if(FG && FS.cssW && (FS.cssW!==cssW || FS.cssH!==cssH)){
-        // Rotation/resize cannot advance the course or alter a gate near the V.
-        // Keep all logical positions and pause the existing flight for consent.
+        // Preserve horizontal course progress and every vertical target.
+        FG.gates.forEach(function(g){g.x*=w/FS.w;});
+        FS.w=w;
         flapResetFrames();
         if(FG.state==='play') fPaused=true;
         fAccumulator=0; flapLast=performance.now();
       }
-      var W=Math.max(1,Math.round(420*d)), H=Math.max(1,Math.round(720*d));
+      var W=Math.max(1,Math.round(w*d)), H=Math.max(1,Math.round(720*d));
       if(flapCv.width!==W||flapCv.height!==H){
         flapCv.width=W; flapCv.height=H;
         fctx.textAlign='center';
       }
-      FS.cssW=cssW; FS.cssH=cssH; FS.d=d;
+      FS.w=w; FS.cssW=cssW; FS.cssH=cssH; FS.d=d;
       return FS;
     }
     function vh(s){ return 34; } // Logo height; collision follows the rotated filled SVG.
     function gapH(s){ return 156; }
-    function gateW(s){ return 50; }
+    function gateW(s){ return 50*s.w/420; }
     // Course randomness is isolated from dust, particles and presentation cadence.
     function flapRandom(){
       var seed=FG.courseSeed;seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;
       FG.courseSeed=seed>>>0;return FG.courseSeed/4294967296;
     }
     function flapSpawn(s){
-      // Gate serial fixes its complete challenge before it enters the arena.
-      var serial=FG.gateSerial++, level=flapLevel(serial);
-      var progress=serial>=100?1:flapCourseProgress(serial);
-      var gh=[156,144,136,116][level]-[8,6,10,12][level]*progress;
-      var width=[50,54,58,70][level]+(level===3?12*progress:0);
+      // Queue ordinal anticipates successful clears, but skipped portals do not
+      // permanently advance difficulty. Existing visible gates never mutate.
+      var pending=0;
+      FG.gates.forEach(function(g){if(!g.counted&&!g.missed)pending++;});
+      var serial=FG.gateSerial++, ordinal=FG.score+pending, level=flapLevel(ordinal);
+      var progress=ordinal>=100?1:flapCourseProgress(ordinal);
+      var gh=[156,144,132,116][level]-[8,6,6,12][level]*progress;
+      var width=[50,68,76,86][level]+(level===3?12*progress:0);
       var previous=FG.gates.length?FG.gates[FG.gates.length-1].target:s.h*0.45;
       // Short authored-shaped phrases replace unrelated random vertical jumps.
       // A phrase lasts 3–5 gates: climb, descend, alternate, or hold a line.
@@ -3686,13 +3690,91 @@
       var ny=Math.max(margin,Math.min(s.h-margin,previous+delta));
       var shift=level>=2?(flapRandom()<0.5?-1:1)*(18+flapRandom()*10):0;
       var initialY=Math.max(margin,Math.min(s.h-margin,ny-shift));
-      FG.gates.push({x:s.w+width, y:initialY, baseY:initialY, anchor:previous,
-        counted:false, level:level, serial:serial, phase:flapRandom()*Math.PI*2,
+      FG.gates.push({x:s.w+width*s.w/420, y:initialY, baseY:initialY, anchor:previous,
+        counted:false, entered:false, missed:false, checkpassed:false,
+        kind:['PILLAR','ARCH','SLANT','IRIS'][level],tilt:level>=2?(flapRandom()<0.5?-18:18):0,
+        level:level, serial:serial, ordinal:ordinal, phase:flapRandom()*Math.PI*2,
         age:0, locked:false, target:ny, finalOpening:gh,
         opening:gh+(level>=3?26:0), reveal:level?0:1,
         widthScale:width/50});
     }
     function flapGateWidth(g,s){return gateW(s)*g.widthScale;}
+    // These cross-sections define both the visibly open mouth and its rails.
+    // No invisible collision walls span the space outside a floating portal.
+    function flapAperture(g,s,u,pose){
+      var p=pose||g,y=p.y===undefined?g.y:p.y,opening=p.opening===undefined?g.opening:p.opening;
+      var top=p.top===undefined?(y-opening/2)*g.reveal:p.top;
+      var bottom=p.bottom===undefined?s.h-(s.h-y-opening/2)*g.reveal:p.bottom;
+      u=Math.max(0,Math.min(1,u));
+      var iris=g.kind==='IRIS';
+      var flare=(g.kind==='ARCH'||iris)?22*Math.max(0,1-Math.min(u,1-u)/(iris?0.18:0.22)):0;
+      // Rounded, blunt lobes share one sampled profile with the solid jaws.
+      // Interpolating those exact knots keeps collision and aperture identical.
+      var jaw=0;
+      if(iris){
+        var profile=flapAperture.irisProfile;
+        if(!profile){
+          var knots=[0,.09,.18,.21,.24,.27,.30,.32,.34,.36,.38,.41,.44,.47,.50,.53,.56,.59,.62,.64,.66,.68,.70,.73,.76,.79,.82,.91,1];
+          profile=flapAperture.irisProfile=knots.map(function(v){
+            var distance=Math.min(Math.abs(v-.34),Math.abs(v-.66));
+            var tooth=distance<.13?12*(1+Math.cos(Math.PI*distance/.13)):0;
+            var edge=Math.min(v,1-v),mouth=edge<.18?11*(1+Math.cos(Math.PI*edge/.18)):0;
+            return [v,24-tooth+mouth];
+          });
+        }
+        var at=0;
+        while(at<profile.length-2&&u>profile[at+1][0])at++;
+        var a=profile[at],b=profile[at+1];
+        jaw=a[1]+(b[1]-a[1])*(u-a[0])/(b[0]-a[0]);
+        flare=0;
+      }
+      var tilt=(g.tilt||0)*(2*u-1);
+      return {top:top+tilt-flare-jaw,bottom:bottom+tilt+flare+jaw};
+    }
+    function flapHazardPolygons(g,s,pose){
+      var p=pose||g,x=p.x===undefined?g.x:p.x,w=flapGateWidth(g,s);
+      if(!g.kind||g.kind==='PILLAR'){
+        var pillar={x:x,widthScale:g.widthScale,top:p.top===undefined?g.top:p.top,bottom:p.bottom===undefined?g.bottom:p.bottom};
+        return [flapPolePolygon(pillar,s,true),flapPolePolygon(pillar,s,false)];
+      }
+      if(g.kind==='IRIS')flapAperture(g,s,0,p);
+      var sections=g.kind==='IRIS'?flapAperture.irisProfile.map(function(knot){return knot[0];}):[0,0.22,0.78,1],upper=[],lower=[],thickness=g.kind==='ARCH'?32:g.kind==='SLANT'?38:42;
+      for(var i=0;i<sections.length;i++){
+        var u=sections[i],edge=flapAperture(g,s,u,p);
+        upper.push([x+u*w,edge.top]);lower.push([x+u*w,edge.bottom]);
+      }
+      if(g.kind==='IRIS'){
+        // Straight backs make solid jaws; only their inner faces have teeth.
+        var mid=flapAperture(g,s,0.5,p),tilt=g.tilt||0;
+        upper.push([x+w,mid.top-thickness+tilt],[x,mid.top-thickness-tilt]);
+        lower.push([x+w,mid.bottom+thickness+tilt],[x,mid.bottom+thickness-tilt]);
+      }else for(var j=sections.length-1;j>=0;j--){
+        upper.push([upper[j][0],upper[j][1]-thickness]);
+        lower.push([lower[j][0],lower[j][1]+thickness]);
+      }
+      return [upper,lower];
+    }
+    function flapTraversal(g,s){
+      if(g.counted||g.checkpassed)return false;
+      var vx=s.w*.24,w=flapGateWidth(g,s),logo=flapLogoContours(FG.y,FG.rot,s);
+      if(!g.entered&&!g.missed&&vx>=g.x){
+        var mouth=flapAperture(g,s,0);
+        g.entered=FG.y*s.h>mouth.top&&FG.y*s.h<mouth.bottom;
+        g.missed=!g.entered;
+      }
+      // Crossing an outer route is safe but earns no point. Real rail contact
+      // is handled by polygon collision, including the V/star's precise shape.
+      if(g.entered&&vx>=g.x&&vx<=g.x+w){
+        var passage=flapAperture(g,s,(vx-g.x)/w);
+        if(FG.y*s.h<=passage.top||FG.y*s.h>=passage.bottom){g.missed=true;g.entered=false;}
+      }
+      if(g.x+w<logo.left){
+        g.checkpassed=true;
+        if(g.entered&&!g.missed){g.counted=true;return true;}
+        g.missed=true;
+      }
+      return false;
+    }
     function flapGateUpdate(g,s,dt){
       g.age+=dt;
       // Worst-case future speed proves lead time even during a pace ramp.
@@ -3714,6 +3796,196 @@
        slabs, razor edge-light and a gold bevel where light pools at the gap. Everything static is baked into
        offscreen sprites (9-slice: stretchable body + bevel caps) — zero gradients
        or text per frame, no shadowBlur anywhere. Rebuilt only when size/dpr changes. */
+    /* FLAPPY METAL BEGIN */
+/* Flappy V metal obstacle renderer.
+   The supplied polygon is the collision silhouette. Every painted pixel is
+   clipped to that polygon, including highlights and the apparent side return.
+   `s.d` is the backing-store DPR used by the destination canvas. */
+(function (root) {
+  'use strict';
+
+  var metalCache = new Map();
+  var CACHE_LIMIT = 64;
+  var CACHE_BYTE_LIMIT = 16 * 1024 * 1024, metalCacheBytes = 0;
+
+  function q(n, step) { return Math.round(n / step) * step; }
+  function pathPolygon(g, p, ox, oy) {
+    g.beginPath();
+    g.moveTo(p[0][0] - ox, p[0][1] - oy);
+    for (var i = 1; i < p.length; i++) g.lineTo(p[i][0] - ox, p[i][1] - oy);
+    g.closePath();
+  }
+  function bounds(p) {
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (var i = 0; i < p.length; i++) {
+      x0 = Math.min(x0, p[i][0]); y0 = Math.min(y0, p[i][1]);
+      x1 = Math.max(x1, p[i][0]); y1 = Math.max(y1, p[i][1]);
+    }
+    return { x: x0, y: y0, w: Math.max(1, x1 - x0), h: Math.max(1, y1 - y0) };
+  }
+  function cachePut(key, value) {
+    var bytes = value.width * value.height * 4;
+    if (bytes > CACHE_BYTE_LIMIT) return value;
+    while (metalCache.size >= CACHE_LIMIT || metalCacheBytes + bytes > CACHE_BYTE_LIMIT) {
+      var oldest = metalCache.keys().next().value, prior = metalCache.get(oldest);
+      metalCacheBytes -= prior.width * prior.height * 4;
+      metalCache.delete(oldest);
+    }
+    metalCache.set(key, value);
+    metalCacheBytes += bytes;
+    return value;
+  }
+  function makeCanvas(w, h) {
+    var c = document.createElement('canvas');
+    c.width = Math.max(2, w); c.height = Math.max(2, h);
+    return c;
+  }
+  function addStopGradient(g, x0, y0, x1, y1, stops) {
+    var gr = g.createLinearGradient(x0, y0, x1, y1);
+    for (var i = 0; i < stops.length; i++) gr.addColorStop(stops[i][0], stops[i][1]);
+    return gr;
+  }
+
+  function textureSprite(w, d, kind, side) {
+    /* Height, translation and animation phase deliberately stay out of this key.
+       One short vertical tile serves a pole while it deploys or moves. */
+    var h = 192, rasterD = Math.min(d, 2048 / Math.max(1, w));
+    var key = [q(w, 2), q(rasterD, .25), kind, side].join('|');
+    if (metalCache.has(key)) return metalCache.get(key);
+
+    var cw = Math.max(2, Math.ceil(w * rasterD)), ch = Math.max(2, Math.ceil(h * rasterD));
+    var c = makeCanvas(cw, ch), g = c.getContext('2d');
+    g.scale(rasterD, rasterD);
+
+    /* Broad sculpted face: warm crown, black core and a narrow cold reflection.
+       This gradient is baked here and never rebuilt in the presentation loop. */
+    g.fillStyle = addStopGradient(g, 0, 0, w, 0, [
+      [0, '#090908'], [.055, '#39352b'], [.12, '#171611'],
+      [.43, '#25231d'], [.59, '#0d0d0b'], [.72, '#302c22'],
+      [.755, '#4a412e'], [.79, '#16140f'], [1, '#030303']
+    ]);
+    g.fillRect(0, 0, w, h);
+
+    /* Tall, low-contrast forged panels stop a large pillar reading as a flat bar. */
+    var panel = 48;
+    for (var y = -panel; y < h + panel; y += panel) {
+      g.fillStyle = 'rgba(240,212,146,.035)'; g.fillRect(w * .11, y + 1, w * .55, 1);
+      g.fillStyle = 'rgba(0,0,0,.34)'; g.fillRect(w * .10, y + panel - 2, w * .67, 2);
+    }
+
+    /* The right return is a real-looking dark plane, still wholly inside the collider. */
+    var returnW = Math.max(7, Math.min(18, w * .23));
+    g.fillStyle = addStopGradient(g, w - returnW, 0, w, 0, [
+      [0, 'rgba(0,0,0,.08)'], [.12, 'rgba(240,212,146,.13)'],
+      [.18, 'rgba(0,0,0,.58)'], [1, 'rgba(0,0,0,.88)']
+    ]);
+    g.fillRect(w - returnW, 0, returnW, h);
+
+    /* Variant-specific machining, subtle enough to remain in the site's original vibe. */
+    g.lineWidth = 1;
+    if (kind === 'arch' || kind === 'iris') {
+      for (var a = 18; a < h; a += 34) {
+        g.strokeStyle = 'rgba(212,175,95,.09)';
+        g.beginPath(); g.moveTo(w * .13, a); g.lineTo(w * .66, a - 9); g.stroke();
+      }
+    } else if (kind === 'slant') {
+      g.strokeStyle = 'rgba(240,212,146,.10)';
+      for (var z = -h; z < w + h; z += 28) {
+        g.beginPath(); g.moveTo(z, 0); g.lineTo(z - h * .18, h); g.stroke();
+      }
+    } else {
+      for (var r = 24; r < h; r += 52) {
+        g.fillStyle = 'rgba(0,0,0,.5)'; g.fillRect(w * .18, r, w * .45, 1);
+        g.fillStyle = 'rgba(240,212,146,.07)'; g.fillRect(w * .18, r + 1, w * .45, 1);
+      }
+    }
+    return cachePut(key, c);
+  }
+
+  function passageSegments(p, side) {
+    var area = 0, out = [];
+    for (var i = 0, j = p.length - 1; i < p.length; j = i++)
+      area += p[j][0] * p[i][1] - p[i][0] * p[j][1];
+    for (i = 0; i < p.length; i++) {
+      var a = p[i], z = p[(i + 1) % p.length];
+      var dx = z[0] - a[0], dy = z[1] - a[1], len = Math.hypot(dx, dy);
+      if (len < 2) continue;
+      /* Shoelace sign works in canvas coordinates as written. */
+      var ny = area >= 0 ? -dx / len : dx / len;
+      if ((side === 0 && ny > .22) || (side === 1 && ny < -.22)) out.push([a, z]);
+    }
+    return out;
+  }
+  function strokeSegments(ctx, segments) {
+    ctx.beginPath();
+    for (var i = 0; i < segments.length; i++) {
+      ctx.moveTo(segments[i][0][0], segments[i][0][1]);
+      ctx.lineTo(segments[i][1][0], segments[i][1][1]);
+    }
+    ctx.stroke();
+  }
+
+  function flapDrawMetal(ctx, polygon, s, kind, side, phase) {
+    if (!ctx || !polygon || polygon.length < 3) return;
+    kind = kind || 'pillar'; side = side ? 1 : 0;
+    var b = bounds(polygon), d = Math.max(1, (s && s.d) || 1);
+    var sprite = textureSprite(b.w, d, kind, side);
+
+    ctx.save();
+    pathPolygon(ctx, polygon, 0, 0);
+    ctx.clip();
+    var tileH = 192;
+    for (var tileY = b.y; tileY < b.y + b.h; tileY += tileH) {
+      var drawH = Math.min(tileH, b.y + b.h - tileY);
+      ctx.drawImage(sprite, 0, 0, sprite.width, Math.round(drawH / tileH * sprite.height), b.x, tileY, b.w, drawH);
+    }
+
+    /* The moving glint is cheap geometry over the cached metal, kept restrained
+       like the original live game's bokeh rather than a new-world effect. */
+    var sweep = b.x + ((((phase || 0) % 1) + 1) % 1) * (b.w + 18) - 9;
+    ctx.fillStyle = 'rgba(255,239,190,.075)';
+    ctx.fillRect(sweep - 3, b.y, 6, b.h);
+    ctx.fillStyle = 'rgba(255,248,218,.12)';
+    ctx.fillRect(sweep, b.y, 1, b.h);
+
+    /* The passage-facing rail is oversized and sculptural. Its layers remain
+       inside the exact obstacle polygon because the world-space clip is active. */
+    var rail = Math.max(10, Math.min(22, b.w * .27));
+    var segs = passageSegments(polygon, side);
+    var bands = [
+      [rail * 2, '#2b2416'], [rail * 1.68, '#c5a35e'],
+      [rail * 1.32, '#674e27'], [rail * .92, '#9d7c3d'],
+      [rail * .48, '#e1c17a'], [Math.max(1.2, rail * .10), '#fff1c5']
+    ];
+    for (var bi = 0; bi < bands.length; bi++) {
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.lineWidth = bands[bi][0]; ctx.strokeStyle = bands[bi][1];
+      strokeSegments(ctx, segs);
+    }
+
+    /* All strokes are clipped, so their exterior half cannot inflate the obstacle. */
+    pathPolygon(ctx, polygon, 0, 0);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(240,212,146,.32)';
+    ctx.stroke();
+    pathPolygon(ctx, polygon, 0, 0);
+    ctx.lineWidth = .65;
+    ctx.strokeStyle = 'rgba(255,244,214,.72)';
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  flapDrawMetal.clearCache = function () { metalCache.clear(); metalCacheBytes = 0; };
+  flapDrawMetal.cacheSize = function () { return metalCache.size; };
+  flapDrawMetal.cacheBytes = function () { return metalCacheBytes; };
+  flapDrawMetal.passageSegmentCount = function (polygon, side) {
+    return passageSegments(polygon, side ? 1 : 0).length;
+  };
+  root.flapDrawMetal = flapDrawMetal;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+    /* FLAPPY METAL END */
     var FSPR=null;
     function flapSprites(s){
       var gw=Math.round(gateW(s));
@@ -3776,8 +4048,25 @@
         var light=g.createRadialGradient(w*.58,h*.72,0,w*.58,h*.72,Math.max(w,h)*.8);
         light.addColorStop(0,'#141108');light.addColorStop(.5,'#090805');light.addColorStop(1,'#000');
         g.fillStyle=light;g.fillRect(0,0,w,h);
+        g.strokeStyle='rgba(212,175,95,.075)';g.lineWidth=.35;
+        for(var line=0;line<9;line++){
+          g.beginPath();g.moveTo(w*.5,h*.75);g.lineTo((line-2)*w/4,h);g.stroke();
+        }
+        for(var row=0;row<5;row++){
+          var yy=h*(.78+.22*Math.pow(row/4,1.7));
+          g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
+        }
       });
       FSPR.mote=disc(3,0.3);
+      FSPR.bokeh=disc(32,0.12);
+      // tapered streak sprite: hot core fading to nothing at both ends
+      FSPR.streak=mk(64,2,function(g){
+        var lg=g.createLinearGradient(0,0,64,0);
+        lg.addColorStop(0,'rgba(240,212,146,0)');
+        lg.addColorStop(0.5,'rgba(240,212,146,.85)');
+        lg.addColorStop(1,'rgba(240,212,146,0)');
+        g.fillStyle=lg; g.fillRect(0,0,64,2);
+      });
       return FSPR;
     }
     /* Background counts scale with area and cap at 120/24/6.
@@ -3788,7 +4077,7 @@
     function flapBgInit(s){
       var area=(s.w*s.h)/(1920*1080), R=Math.random;
       function n(base){ return Math.min(base,Math.max(4,Math.round(base*area))); }
-      var bg={mid:[],farX:0};
+      var bg={mid:[],near:[],streaks:[],farX:0};
       bg.farC=document.createElement('canvas');
       // Far dust deliberately uses CSS resolution; foreground retains retina detail.
       bg.farC.width=Math.max(2,Math.round(s.w)); bg.farC.height=Math.max(2,Math.round(s.h));
@@ -3799,6 +4088,7 @@
         fg.fillRect(Math.round(R()*s.w),Math.round(R()*s.h),1,1);
       }
       for(i=0;i<n(24);i++) bg.mid.push({x:R()*s.w,y:R()*s.h,up:6+R()*8,sc:0.6+R()*0.8,a:0.15+R()*0.15});
+      for(i=0;i<n(6);i++) bg.near.push({x:R()*s.w,y:R()*s.h,up:8+R()*6,sc:0.75+R()*1.25,a:0.04+R()*0.05});
       return bg;
     }
     function flapBurst(x,y,n,gold){
@@ -3840,6 +4130,8 @@
         // Finish pre-input time using the OLD velocity. A delayed rAF must not
         // apply this tap retroactively to motion before the user's press.
         var s=flapSize(), now=performance.now(), elapsed=Math.max(0,(now-flapLast)/1000);
+        // A resize discovered by this input pauses first; it must not also flap.
+        if(fPaused){flapDraw(s);return;}
         if(elapsed>0.2){flapPauseFn();return;}
         flapLast=now;flapAdvance(s,elapsed);
         if(fAccumulator>1e-10){flapStep(fAccumulator,s);fAccumulator=0;}
@@ -3875,7 +4167,9 @@
       // Score changes set a target, never a one-frame speed jump for live gates.
       FG.speed+=(flapPace(FG.score)-FG.speed)*(1-Math.exp(-dt/0.65));
       FG.noticeT=Math.max(0,FG.noticeT-dt);
-      var interval=flapInterval(FG.gateSerial);
+      var pending=0;
+      for(var queued=0;queued<FG.gates.length;queued++)if(!FG.gates[queued].counted&&!FG.gates[queued].missed)pending++;
+      var interval=flapInterval(FG.score+pending);
       if(st==='play'||st==='dying'){
         var g = st==='play' ? 2.60 : 3.5;                    // dying: double gravity slam
         FG.vy=Math.min(0.70, FG.vy+g*dt);                    // terminal = 1.12× flap (reference ratio)
@@ -3905,8 +4199,9 @@
         for(var i=0;i<FG.gates.length;i++){
           var gt=FG.gates[i]; gt.x-=dx; flapGateUpdate(gt,s,dt);
           if(st==='play'){
-            if(FG.state==='play' && !gt.counted && gt.x+flapGateWidth(gt,s)<flapLogoContours(FG.y,FG.rot,s).left){
-              gt.counted=true; FG.score++; FG.scorePop=1;
+            if(FG.state==='play' && flapCollision(gt,s)) flapDie(s);
+            if(FG.state==='play' && flapTraversal(gt,s)){
+              FG.score++; FG.scorePop=1;
               if(FG.score%25===0 && FG.score<=100){
                 var unlocked=flapLevel(FG.score);
                 FG.notice=FG.score<100?FLAP_LAYERS[unlocked-1]+' / NOW ACTIVE':'100 CLEARED / FINAL LOCK CONTINUES';
@@ -3915,7 +4210,6 @@
               FG.trauma=Math.min(1,FG.trauma+0.08);
               if(FG.score>=COUPON_THRESHOLD && !fWon){ flapWin(s); }
             }
-            if(FG.state==='play' && flapCollision(gt,s)) flapDie(s);
           }
         }
         for(var gi=FG.gates.length-1;gi>=0;gi--){              // in-place prune —
@@ -3932,15 +4226,34 @@
     // Cosmetic work runs once per presented frame, not once per physics substep.
     function flapEffects(dt,s){
       var st=FG.state;
-      // Fine baked dust moves slowly behind the gates; no bokeh or speed flashes.
+      // GILDED VAULT ambience — runs in every state, so the idle screen breathes.
+      // Layers: far dust 0.18×, mid motes 0.45× + upward drift (the vault's motes),
+      // Near bokeh 0.85× additive; at most eight restrained speed streaks.
       if(!FG.bg || FG.bgW!==s.w || FG.bgH!==s.h){ FG.bg=flapBgInit(s); FG.bgW=s.w; FG.bgH=s.h; }
       var bg=FG.bg, wdx=FG.speed*s.w*dt;
       FG.bgT=performance.now()/1000;
-      bg.farX=(bg.farX+wdx*0.12)%s.w;
-      for(var j=0;j<bg.mid.length;j++){
-        var md=bg.mid[j];md.x-=wdx*.24*md.sc;md.y-=md.up*dt;
-        if(md.x<-6){md.x+=s.w+12;md.y=Math.random()*s.h;}
-        if(md.y<-6)md.y+=s.h+12;
+      bg.farX=(bg.farX+wdx*0.18)%s.w;                    // parallax on the baked strip
+      var j;
+      for(j=0;j<bg.mid.length;j++){
+        var md=bg.mid[j]; md.x-=wdx*0.45*md.sc; md.y-=md.up*dt;
+        if(md.x<-6){ md.x+=s.w+12; md.y=Math.random()*s.h; }
+        if(md.y<-6) md.y+=s.h+12;
+      }
+      for(j=0;j<bg.near.length;j++){
+        var nb=bg.near[j]; nb.x-=wdx*0.85*nb.sc; nb.y-=nb.up*dt;
+        if(nb.x<-64){ nb.x+=s.w+128; nb.y=Math.random()*s.h; }
+        if(nb.y<-64) nb.y+=s.h+128;
+      }
+      // streaks: spawn in 2–3 loose lanes, alpha/length scale with excess speed
+      var excess=(FG.speed-0.36)/0.18;                 // 0 at 1.2× base → 1 at cap
+      if(st==='play' && excess>0 && bg.streaks.length<8 && Math.random()<dt*6){
+        bg.streaks.push({x:s.w, y:s.h*(0.2+0.3*Math.floor(Math.random()*3))+ (Math.random()-0.5)*s.h*0.1,
+          len:s.w*(0.10+0.15*Math.random()), t:0});
+      }
+      for(j=bg.streaks.length-1;j>=0;j--){
+        var sk=bg.streaks[j]; sk.x-=wdx*1.6; sk.t+=dt;
+        sk.a=Math.min(0.30, Math.max(0,excess))*0.9*Math.min(1,sk.t*6);
+        if(sk.x+sk.len<0 || excess<=0) bg.streaks.splice(j,1);
       }
       for(var p=FG.parts.length-1;p>=0;p--){
         var pt=FG.parts[p]; pt.t+=dt;
@@ -3987,7 +4300,18 @@
           fctx.drawImage(spr.mote,md.x-ms/2,md.y-ms/2,ms,ms);
         }
         fctx.globalAlpha=1;
-        fctx.globalAlpha=1;
+        fctx.globalCompositeOperation='lighter';               // bokeh blooms on black
+        for(j=0;j<bg.near.length;j++){
+          var nb=bg.near[j], ns=64*nb.sc;
+          fctx.globalAlpha=nb.a;
+          fctx.drawImage(spr.bokeh,nb.x-ns/2,nb.y-ns/2,ns,ns);
+        }
+        for(j=0;j<bg.streaks.length;j++){
+          var sk=bg.streaks[j];
+          fctx.globalAlpha=sk.a||0;
+          fctx.drawImage(spr.streak,sk.x,sk.y,sk.len,2);
+        }
+        fctx.globalAlpha=1; fctx.globalCompositeOperation='source-over';
       }
       // gates: monolith slabs from pre-baked sprites — 3 blits per slab, no
       // per-frame gradients, text, or shadowBlur
@@ -4001,19 +4325,18 @@
         var gy=flapMix(ga.y,gbPose.y,frame.blend), opening=flapMix(ga.opening,gbPose.opening,frame.blend);
         var gt=Math.max(0,flapMix(ga.top,gbPose.top||0,frame.blend)), gb=flapMix(ga.bottom,gbPose.bottom===undefined?s.h:gbPose.bottom,frame.blend);
         if(g.level && !g.locked){
-          fctx.strokeStyle='rgba(240,212,146,.26)';fctx.lineWidth=1;
-          fctx.setLineDash([4,5]);
-          fctx.strokeRect(x,0,gw,Math.max(0,gy-opening/2));
-          fctx.strokeRect(x,gy+opening/2,gw,Math.max(0,s.h-gy-opening/2));
+          var preview=flapHazardPolygons(g,s,{x:x,y:g.target,opening:g.finalOpening,top:g.target-g.finalOpening/2,bottom:g.target+g.finalOpening/2});
+          fctx.strokeStyle='rgba(240,212,146,.26)';fctx.lineWidth=1;fctx.setLineDash([4,5]);
+          for(var pi=0;pi<preview.length;pi++){
+            var outline=preview[pi];fctx.beginPath();fctx.moveTo(outline[0][0],outline[0][1]);
+            for(var pj=1;pj<outline.length;pj++)fctx.lineTo(outline[pj][0],outline[pj][1]);
+            fctx.closePath();fctx.stroke();
+          }
           fctx.setLineDash([]);
         }
-        if(gt>0){
-          if(gt>ch){fctx.drawImage(spr.body,x,0,gw,gt-ch);fctx.drawImage(spr.capB,x,gt-ch,gw,ch);}
-          else fctx.drawImage(spr.capB,x,0,gw,gt);
-        }
-        if(gb<s.h){
-          fctx.drawImage(spr.capT,x,gb,gw,Math.min(ch,s.h-gb));
-          if(s.h-gb-ch>0) fctx.drawImage(spr.body,x,gb+ch,gw,s.h-gb-ch);
+        var shapes=flapHazardPolygons(g,s,{x:x,y:gy,opening:opening,top:gt,bottom:gb});
+        for(var side=0;side<shapes.length;side++){
+          window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,(FG.bgT||0)*.08+g.serial*.13);
         }
       }
       if(FG.state==='play' && !reduced){

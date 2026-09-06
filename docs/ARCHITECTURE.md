@@ -74,23 +74,23 @@ The main button uses one continuous gold surface without an inset frame. A decor
 
 The post-Surface `underglow` DOM/CSS and motion task were removed, including all start/stop hooks. Vault container focus no longer outlines the full viewport; `.vault:focus-visible .drag-label` provides a local underline. Stage focus uses `outline:none`. Button focus indicators remain. Do not restore the flashing screen-edge effect from historical revisions.
 
-## Flappy V redesign candidate
+## Fullscreen Flappy V candidate
 
-Branch `demo/flappy-v-redesign` contains the new game; `033db26` is the earlier stacked prototype, not the redesigned reference or a production release. The core stays tap/click/Space flight using the site's original V-and-star path, with the existing gravity and flap impulse.
+The current branch supersedes the rejected portrait-frame candidate `44401b5`; historical reviews describe their own versions. The original V/star, flap impulse, gravity, saved reward keys and 120 Hz simulation remain. The viewport is filled again: `FS.h=720`, `FS.w=720*CSS aspect`, and the backing raster follows CSS height with a six-million-pixel limit. Gate width and horizontal speed scale together with logical width. The logo scales uniformly with height, so contact timing is comparable rather than perfectly identical across aspect ratios. Resizing scales existing gate x positions, preserves vertical geometry and pauses before accepting another flap.
 
-The canvas has a fixed 420×720 logical arena, uniformly fitted inside `.flap-flight-space`. Native HUD, pause/exit and stage progress sit outside it. Non-control overlay space accepts flight input so landscape margins remain useful. `flapSize()` changes raster resolution on physical resize, pauses play and preserves all logical geometry. The DPR/backing raster is bounded. Landscape displays a smaller arena rather than changing the course difficulty.
+| Successful clears | Obstacle | New challenge |
+| --- | --- | --- |
+| 0–24 | PILLAR | Original paired pillars, now with sculpted metal/brass faces |
+| 25–49 | ARCH | Finite floating arches deploying from above and below |
+| 50–74 | SLANT | Diagonal corridors, retaining deployment and approach movement |
+| 75–99 | IRIS | Heavy, rounded two-lobe jaws, retaining diagonal/deployment/squeeze behavior |
 
-| Gates | Cumulative challenge | Final opening | Width |
-| --- | --- | --- | --- |
-|1–25|Fixed gates|156→148|50|
-|26–50|Falling pins|144→138|54|
-|51–75|Pins and shifting openings|136→126|58|
-|76–100|Pins, shifts and squeezing locks|116→104|70→82|
+`flapAperture()` defines the open passage; `flapHazardPolygons()` supplies both collision and interpolated rendering. Jaws use a shared sampled cosine profile, including lobe centres, to keep their smooth drawing and collision boundaries identical. The neutral jaw opening widens by 48 units; opposing 24-unit lobes preserve the authored minimum opening of 104. Straight outer backs make the jaws visibly heavier than slalom rails.
 
-Values are logical pixels. `flapLevel()` uses zero-based gate serial and caps at3; spawn-time score cannot delay or mutate the next tier. `flapPace()` targets185→260 logical units/s with exponential settling, while `flapInterval()` gradually shortens spacing. `flapSpawn()` builds 3–5-gate climb/descend/alternating/level phrases. `flapRandom()` uses per-run xorshift state independent of cosmetic randomness. `flapGateUpdate()` eases deployment/shift/squeeze to rest before collision range, measuring warning against maximum world speed and the logo's full circumradius.
+`flapTraversal()` requires entry, continuous passage and full exit before awarding one point. Going outside a floating object is safe but scores nothing; there are no invisible lethal extensions. `flapCollision()` runs before scoring and compares actual rotated V/star contours with the shared obstacle polygons. Queued types use earned score plus pending unmissed objects; already visible objects do not morph after a miss. Spawn spacing follows that same anticipated progress rather than raw serial count. Gate motion settles at least approximately 0.69 seconds before the tested earliest contact.
 
-`flapTraceLogo()` flattens the same source SVG used by `Path2D`; `flapLogoContours()` caches the rotated V and star. `flapCollision()` compares those separate concave contours to `flapPolePolygon()` using edge contact and containment. The V's empty centre is preserved. Curve approximation is below 0.048 logical pixels, but120Hz collision sampling and raster antialiasing are not literal pixel-perfect continuous collision. Pole rendering uses 14px caps with 6px clipped corners; partially revealed caps scale vertically, and the collider matches that scale. Keep the visible shape and collider changes coordinated. Score waits for the actual silhouette to clear the trailing edge.
+`flapDrawMetal()` is embedded between FLAPPY METAL BEGIN/END markers. It clips all shading, bevels and glints to the actual obstacle polygon, following angled passage edges. A reusable 192-unit material tile avoids gradient rebuilds during translation, height changes or reflection movement. The cache is bounded by 64 entries and 16 MiB, with a 2048px tile-width cap. This does not claim a total browser/GPU memory budget. Original baked far dust, motes, bokeh, parallax and streaks restore the live site's atmosphere. Cosmetic randomness is separate from the per-run course RNG.
 
-Sprites cache the shaded front/side faces and gold bevels. The playfield has no travelling words, floating score text, camera flash or bokeh streaks. A short simulation-derived trail accompanies the unchanged logo. UI uses clear ENTRY / FALLING PINS / SHIFT / LOCKDOWN labels and 0/25/50/75/100 progress. Reward keys and code remain; the reward action says Play again because it resets the run. Explicit retry works immediately, while canvas accidental-tap protection stays.
+`flapTraceLogo()` derives collision contours from the same SVG as `Path2D`, preserving the V's open centre and separate star. Approximation is below 0.048 logical pixels; antialiasing and discrete simulation are not literal continuous pixel-perfect collision. Pausing, reduced-motion poster, background interruption, retry and reward behavior remain. `flapTap()` rechecks pause after `flapSize()` so a newly detected resize cannot also inject velocity.
 
-`python3 tools/flappy-demo.py` serves `http://127.0.0.1:8938/demo` with 0/25/50/75 shortcuts and a static Pole detail study. It reads the current index, adds local-only controls and uses separate demo storage keys. These shortcuts are not added to the production page. `/` serves the unmodified candidate for real journey testing.
+`python3 tools/flappy-demo.py` serves `/demo` with stage-design selectors and a Play this stage control; only that response receives the study helper and isolated demo storage. Studies freeze obstacle movement but keep the original ambience animated. `/` is the unmodified candidate for integration testing. Tests cover geometry, silhouettes, material rendering discipline, lifecycle and executable full-flight witnesses; see the fullscreen review for exact limits.

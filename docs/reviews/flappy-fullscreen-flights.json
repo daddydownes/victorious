@@ -1,0 +1,436 @@
+[
+  {
+    "w": 404.7976011994003,
+    "h": 720,
+    "seed": 1,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 132.31848820868822,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 51,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.83,
+    "tapCount": 340,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 404.7976011994003,
+    "h": 720,
+    "seed": 2,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 132.31848820868822,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 37,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.83,
+    "tapCount": 361,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 404.7976011994003,
+    "h": 720,
+    "seed": 3,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 132.31848820868822,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 39,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 5,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.83,
+    "tapCount": 358,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 404.7976011994003,
+    "h": 720,
+    "seed": 4,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 132.31848820868822,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 54,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 5,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.83,
+    "tapCount": 353,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1152,
+    "h": 720,
+    "seed": 1,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 457.3536855009006,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 66,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 7,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 346,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1152,
+    "h": 720,
+    "seed": 2,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 457.3536855009006,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 31,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 373,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1152,
+    "h": 720,
+    "seed": 3,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 457.3536855009006,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 54,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 378,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1152,
+    "h": 720,
+    "seed": 4,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 457.3536855009006,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 32,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 342,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1280.64,
+    "h": 720,
+    "seed": 1,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 513.3077850610705,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 51,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 355,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1280.64,
+    "h": 720,
+    "seed": 2,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 513.3077850610705,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 25,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 16,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 351,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1280.64,
+    "h": 720,
+    "seed": 3,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 513.3077850610705,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 27,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 11,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 362,
+    "peakSearchStates": 500
+  },
+  {
+    "w": 1280.64,
+    "h": 720,
+    "seed": 4,
+    "found": true,
+    "score": 100,
+    "kindClears": {
+      "PILLAR": 25,
+      "ARCH": 25,
+      "SLANT": 25,
+      "IRIS": 25
+    },
+    "minActualHitboxSpacePx": 513.3077850610705,
+    "imperfect": [
+      {
+        "mode": "one-frame-delay",
+        "score": 100,
+        "state": "play"
+      },
+      {
+        "mode": "50ms-delay",
+        "score": 40,
+        "state": "dying"
+      },
+      {
+        "mode": "miss-every-25th",
+        "score": 6,
+        "state": "dying"
+      }
+    ],
+    "seconds": 121.78,
+    "tapCount": 331,
+    "peakSearchStates": 500
+  },
+  {
+    "pass": true,
+    "sensitivity": [
+      {
+        "mode": "one-frame-delay",
+        "min": 100,
+        "median": 100,
+        "max": 100
+      },
+      {
+        "mode": "50ms-delay",
+        "min": 25,
+        "median": 40,
+        "max": 66
+      },
+      {
+        "mode": "miss-every-25th",
+        "min": 5,
+        "median": 6,
+        "max": 16
+      }
+    ],
+    "courses": 12,
+    "clears": 1200,
+    "limits": "Seeded executable physics witnesses, not human difficulty, exhaustive reachability, rendering or physical-device testing."
+  }
+]

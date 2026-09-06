@@ -30,6 +30,7 @@ node tests/press-feedback.cjs
 node tests/surface-input.cjs
 node tests/flappy-difficulty.cjs
 node tests/flappy-collision.cjs
+node tests/flappy-material.cjs
 node tests/flappy-lifecycle.cjs
 node tests/flappy-reachability.cjs
 git diff --check

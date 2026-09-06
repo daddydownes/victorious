@@ -10,11 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 # This helper exists only in the response served at /demo. It uses the same
 # renderer/collision geometry, but is a static art study, not a flight test.
 STUDY = """
-    window.__flapStudy=function(){
-      flapStart(); fPaused=true; FG.score=99; FG.gateSerial=99; FG.gates=[];
-      flapSpawn(flapSize()); var pole=FG.gates[0];
-      pole.x=220; pole.target=360; flapGateUpdate(pole,flapSize(),0);
-      FG.y=.50; FG.rot=-.20; flapResetFrames(); flapDraw(flapSize());
+    window.__flapStudy=function(stage){
+      flapStart(); fPaused=false; FG.state='idle'; FG.score=stage; FG.gateSerial=stage; FG.gates=[];
+      var size=flapSize(); flapSpawn(size); var pole=FG.gates[0];
+      pole.x=size.w*.55; pole.target=360; pole.y=360;
+      pole.locked=true; pole.reveal=1; pole.opening=pole.finalOpening;
+      flapGateUpdate(pole,size,0);
+      FG.y=.50; FG.rot=-.20; flapResetFrames(); flapDraw(size);
       fPanel.hidden=true;
     };
 """
@@ -29,23 +31,28 @@ DEMO = """
 #flightDemo button:focus-visible{outline:2px solid white}
 </style>
 <nav id="flightDemo" aria-label="Demo controls, not part of the released game">
-  <button data-score="0">0 · ENTRY</button>
-  <button data-score="25">25 · PINS</button>
-  <button data-score="50">50 · SHIFT</button>
-  <button data-score="75">75 · LOCKDOWN</button>
-  <button id="poleStudy">POLE DETAIL</button>
+  <button data-score="0">0 · PILLARS</button>
+  <button data-score="25">25 · ARCHES</button>
+  <button data-score="50">50 · SLALOM</button>
+  <button data-score="75">75 · JAWS</button>
+  <button id="playStage">PLAY THIS STAGE</button>
 </nav>
 <script>
 window.addEventListener('load',()=>{
   document.getElementById('flapOverlay').appendChild(document.getElementById('flightDemo'));
   window.__flap.open();
 });
+let selectedStage=0;
 document.getElementById('flightDemo').addEventListener('click',e=>{
-  if(e.target.id==='poleStudy'){ window.__flapStudy(); return; }
-  if(!e.target.hasAttribute('data-score')) return;
+  if(e.target.hasAttribute('data-score')) {
+    selectedStage=Number(e.target.dataset.score);
+    window.__flapStudy(selectedStage);
+    return;
+  }
+  if(e.target.id!=='playStage') return;
   window.__flap.close(); window.__flap.open(); window.__flap.tap();
   const game=window.__flap.dbg();
-  game.score=Number(e.target.dataset.score); game.gateSerial=game.score;
+  game.score=selectedStage; game.gateSerial=selectedStage;
   game.gates=[]; game.spawnT=0;
   document.getElementById('flap').focus();
 });
