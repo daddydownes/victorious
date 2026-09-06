@@ -18,7 +18,7 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 
 ## Next work
 
-Gold Lift press refinement: removed the extra arrow launch/reappearance, exit flash and text shift after user feedback. Normal Gold Lift look and idle reflection unchanged. Press now shades the gold gently while arrow/text stay steady through the existing exit. CSS-only change; production markup/JavaScript byte-identical to prior release. One full desktop Chrome exit sampled124 frames with stable arrow/label, correct stage focus and no runtime errors; Surface input50-loop and reveal suites pass. Reduced-motion shade has no transition. Publication verification follows. Top-right circle remains removed.
+Gold Lift press refinement: removed the extra arrow launch/reappearance, exit flash and text shift after user feedback. Normal Gold Lift look and idle reflection unchanged. Press now shades the gold gently while arrow/text stay steady through the existing exit. CSS-only change; production markup/JavaScript byte-identical to prior release. One full desktop Chrome exit sampled124 frames with stable arrow/label, correct stage focus and no runtime errors; Surface input50-loop and reveal suites pass. Reduced-motion shade has no transition. Published in `408195e`; Pages reported built and the canonical live homepage exactly matched committed source. Top-right circle remains removed.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
