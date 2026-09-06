@@ -15,7 +15,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-A refined button-press candidate is saved on [demo/button-press-feedback](https://github.com/daddydownes/victorious/tree/demo/button-press-feedback), commit `5f391a3`. See that branch’s `demos/button-press-feedback/README.md` for preview and validation. It adds a crisp gold rim, metallic press shading and 280ms confirmation with unscaled lettering. It is not deployed. Two portable checks and one full desktop Chrome journey passed; full repeated/device visual QA remains before release.
+The frameless gold-touch candidate is ready for design review on [demo/button-press-feedback](https://github.com/daddydownes/victorious/tree/demo/button-press-feedback), commit `fe968bf`. The inner frame is removed, release continuity and assistive centering are corrected. [Sprint results](https://github.com/daddydownes/victorious/blob/demo/button-press-feedback/docs/reviews/press-sprint-2026-09-06.md) record four successful observed Chrome environments and three passing portable suites. It is not deployed; physical-device and full repeated release QA remain separate.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
