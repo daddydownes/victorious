@@ -18,4 +18,4 @@ These are eight total browser journeys, not four per viewport. Phone testing was
 
 ## Release verification
 
-Publish the authorized change, verify Pages build and canonical homepage bytes, then run a live vault→Surface smoke test. Store the actual outcome in STATUS.md.
+Release0f68397: Pages reported built; canonical homepage bytes exactly matched committed source. Live desktop Chrome verified Gold Lift, absent top-right circle, and completed vault→Surface exit with focus on stage. Normal motion and desktop view were restored after testing.
