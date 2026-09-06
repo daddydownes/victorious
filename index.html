@@ -1296,9 +1296,20 @@
       document.body.appendChild(transfer);
       afterMotion(1600,function(){ transfer.remove(); });
     }
+    // The button is the last reveal. A fixed timer used to cut its animation
+    // short, snapping its opacity and position to the landed styles.
+    var lastReveal=document.getElementById('nextVaultHold');
+    function finishNextDrop(){
+      if(lastReveal) lastReveal.removeEventListener('animationend',onNextDropRevealEnd);
+      if(document.body.classList.contains('next-drop-entering')) document.body.classList.add('next-drop-landed');
+    }
+    function onNextDropRevealEnd(event){
+      if(event.target===lastReveal && event.animationName==='nextDropSettle') finishNextDrop();
+    }
+    if(!reduced && lastReveal) lastReveal.addEventListener('animationend',onNextDropRevealEnd);
     document.body.classList.add('next-drop-entering');
     if(destination){ destination.setAttribute('aria-hidden','false'); setNextDropInert(destination,false); }
-    afterMotion(reduced?50:1750,function(){ document.body.classList.add('next-drop-landed'); });
+    if(reduced || !lastReveal) afterMotion(50,finishNextDrop);
   }
   film.addEventListener('ended',function(){
     if(phase==='playing') showFilmLogo(false);
