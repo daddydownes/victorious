@@ -69,3 +69,7 @@ The main button uses one continuous gold surface without an inset frame. A decor
 ## Gold Lift Surface control
 
 `surfaceBtn` retains the real Surface exit handler and tap/drag guards. A 48px gold capsule contains decorative `surface-arrow` and readable `surface-label` spans. `surfaceGoldRise` runs only in the open vault, stops when surfaced, and the accepted press uses a gentle90ms shade over the gold face, with steady arrow and label, before the existing HUD fade. Reduced motion disables the idle animation and press-shade transition. The keyboard scroll trap exempts Space only on the active Surface button, preserving native activation while keeping background scrolling locked.
+
+## Screen-edge effects retired
+
+The post-Surface `underglow` DOM/CSS and motion task were removed, including all start/stop hooks. Vault container focus no longer outlines the full viewport; `.vault:focus-visible .drag-label` provides a local underline. Stage focus uses `outline:none`. Button focus indicators remain. Do not restore the flashing screen-edge effect from historical revisions.

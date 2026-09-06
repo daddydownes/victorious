@@ -9,6 +9,7 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 - Main invitation: **PRESS HERE** with **ENTER THE VAULT** beneath. Tap/click/keyboard entry.
 - Reveal waits for the final animation, preventing the previous settling jitter.
 - Top-right circular vault logo removed at the user’s request.
+- Screen-edge effects removed: no viewport-wide vault focus outline or pulsing post-Surface bottom glow. Keyboard focus uses the local drag cue and control indicators.
 - Gold Lift Surface button: gold capsule, rising reflection, 48px target; reduced motion keeps static gold styling. The Space-key activation issue is fixed.
 - Approved press feedback: continuous gold surface, contact-origin light and smooth release, no inset frame. Reduced motion disables the moving light and text displacement.
 - Button light sweep every 2.7s, synchronized with the logo’s 5.4s cycle. Reduced motion disables those effects.
@@ -18,7 +19,7 @@ Updated September 6, 2026. Latest application change: Gold Lift Surface button a
 
 ## Next work
 
-Gold Lift press refinement: removed the extra arrow launch/reappearance, exit flash and text shift after user feedback. Normal Gold Lift look and idle reflection unchanged. Press now shades the gold gently while arrow/text stay steady through the existing exit. CSS-only change; production markup/JavaScript byte-identical to prior release. One full desktop Chrome exit sampled124 frames with stable arrow/label, correct stage focus and no runtime errors; Surface input50-loop and reveal suites pass. Reduced-motion shade has no transition. Published in `408195e`; Pages reported built and the canonical live homepage exactly matched committed source. Top-right circle remains removed.
+Screen-edge cleanup approved after user reported intermittent gold outlines on mobile. Removed the vault-wide gold focus outline, bottom underglow markup/CSS, pulsing motion task and all lifecycle calls. Stage focus has no viewport outline; keyboard focus remains visible on actual controls and the vault drag cue. Reveal, Surface input50-loop, press and scrolling suites pass. Mobile visual check was interrupted when Chrome stopped exposing a usable automation view, so this is not recorded as a fresh browser pass. Publication verification follows. Existing Gold Lift and calm pressed state are unchanged.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 

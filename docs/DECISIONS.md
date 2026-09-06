@@ -31,3 +31,7 @@ The same release removes the circular avatar from the vault’s top-right corner
 ## Surface press simplification
 
 After the Gold Lift release, user found the pressed animation unclean and asked to change only that state. Removed the arrow’s disappearing/restarting loop, the extra exit reflection and the1px text shift. Retained the idle appearance/shine; pressed and accepted state now softly shade the gold while text/arrow remain steady during the existing HUD fade. No input or scene timing changes.
+
+## Remove screen-edge decoration
+
+User reported an intermittent gold outline around the mobile screen after Surface and requested complete removal. Retired both the viewport-wide vault focus outline and the pulsing bottom underglow, including its runtime work. Keep keyboard control focus cues local, without outlining the whole screen.

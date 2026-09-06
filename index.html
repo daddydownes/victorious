@@ -75,7 +75,7 @@
      the scrollbar instead of leaving a 15px html-#000 strip on the right.
      object-fit:cover crops far more than those 15px, so nothing is lost. */
   .stage{position:sticky; top:0; z-index:0; height:100vh; overflow:hidden; background:var(--ink);
-    width:100vw; isolation:isolate}
+    width:100vw; isolation:isolate;outline:none}
   video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
   .wash{position:absolute; inset:0; pointer-events:none; background:
     linear-gradient(to bottom, rgba(11,10,8,.72), rgba(11,10,8,.12) 30%, rgba(11,10,8,.12) 65%, rgba(11,10,8,.88))}
@@ -137,9 +137,7 @@
      (nothing in there declares above 2) so the dim covers exactly what the
      filter did, including the gold mark during the handoff. */
   .stage-dim{position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; z-index:9}
-  .underglow{position:absolute; left:0; right:0; bottom:0; height:2px; display:none;
-    background:var(--gold-hot); pointer-events:none; z-index:2;
-    box-shadow:0 0 18px 3px rgba(240,212,146,.55), 0 0 60px 12px rgba(240,212,146,.22)}
+
 
   /* letter-stagger wordmark reveal (idea 06) — spans built in JS, delays inline;
      the .vwrap span makes the traced mark ride the same reveal as a letter */
@@ -475,8 +473,8 @@
   .vault.surface-rising{background:transparent; cursor:default}
   .vault.surface-rising::after{opacity:var(--surface-atmosphere,1)}
   .vault.surface-rising #dive{transform-origin:50% 35%; pointer-events:none}
-  /* keyboard users pan this region with arrows — give the focus SOMETHING visible */
-  .vault:focus-visible{outline:1px solid var(--gold); outline-offset:-1px}
+  /* Keep keyboard focus local to the drag cue, never around the viewport. */
+  .vault:focus-visible .drag-label{text-decoration:underline;text-underline-offset:5px}
   /* gold dust (idea 18) — motes drift up under the photos, over the black */
   #dust{position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none}
 
@@ -816,7 +814,6 @@
   <div class="wash"></div>
   <div class="card-cover" id="cardCover" aria-hidden="true"></div>
   <div class="film-logo" id="filmLogo" aria-hidden="true"><div class="mk mk-gold"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="mk mk-white"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div></div>
-  <div class="underglow" id="underglow" aria-hidden="true"></div>
   <div class="intro-v-halo" id="introVHalo" aria-hidden="true"><svg viewBox="170.4 94.8 295.5 357.7" aria-hidden="true" focusable="false">
     <defs>
     <linearGradient id="introVEmission" x1="0" y1="0" x2="0" y2="1">
@@ -1029,14 +1026,13 @@
     if(phase!=='done'){ location.reload(); return; }
     nativeVaultEligible=nativeVaultPreference();
     if(reduced){
-      freezeNativePan(); stopInertia(); stopUnderglow(); stopPostScroll();
+      freezeNativePan(); stopInertia(); stopPostScroll();
       motionCrewStep=null;
       if(tapEntryFinish) tapEntryFinish();
       if(vaultClosing) finishSurface();
     }else if(vaultActive && guidePhase==='vault'){
       activateNativePan();
-    }else if(guidePhase==='surfaced' && scrollY<=40){
-      startUnderglow();
+
     }
     if(refreshGameMotion) refreshGameMotion();
     if(refreshCrewMotion) refreshCrewMotion();
@@ -1544,28 +1540,6 @@
   film.addEventListener('pause',function(){ if(camRunning) cancelCamFrame(); });
   film.addEventListener('seeked',function(){ if(camRunning){ paintCam(film.currentTime||0); queueCam(); } });
   addEventListener('visibilitychange',function(){ if(document.hidden) cancelCamFrame(); else if(camRunning) queueCam(); });
-
-  /* ===== "light under the door" (post-Surface) =====
-     The vault is literally below you now: its gold light breathes along the
-     bottom edge, and every few seconds a 1px thread drips from beneath the V
-     down into it — the mark pointing at the light. The shared display clock
-     drives the glow and sleeps while hidden; scrolling retires the effect. */
-  var underglow=document.getElementById('underglow');
-  var underglowTask=null, ugT0=0;
-  function ugTick(_,now){ // the thread is retired; only the light breathes
-    var t=(now-ugT0)/1000;
-    underglow.style.opacity=(0.5+0.35*Math.sin(t*2*Math.PI/3.2)).toFixed(3);
-  }
-  function startUnderglow(){
-    if(reduced||underglowTask) return;
-    underglow.style.display='block';
-    ugT0=motionNow();
-    underglowTask=addMotionTask(ugTick); ugTick(0,ugT0);
-  }
-  function stopUnderglow(){
-    if(underglowTask){ cancelMotionTask(underglowTask); underglowTask=null; }
-    underglow.style.display='none';
-  }
 
   function arm(){ if(phase==='ready'){ play(); } }
   var armTouchY=null, ARM_SWIPE_MIN=16;
@@ -2466,7 +2440,7 @@
       var stageCovered=isDesktop && y>=vh;
       setStageRetired(stageCovered);
       if(!stageCovered) stageDim.style.opacity=(clamp01(y/Math.max(1,vh))*0.6).toFixed(3);
-      if(y>40){ hideCue(); stopUnderglow(); }
+      if(y>40) hideCue();
       return;
     }
     setStageRetired(false);
@@ -3224,7 +3198,6 @@
     filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
     showCue('Scroll <span class="g-chev">▼</span>');
     try{ stage.focus({preventScroll:true}); }catch(_focusErr){ stage.focus(); }
-    startUnderglow();
   }
   function armVaultClose(){
     if(vaultClosing || !vaultActive || guidePhase!=='vault') return;
