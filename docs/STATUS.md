@@ -16,7 +16,7 @@ Updated September 6, 2026. Latest application change: approved frameless press f
 
 ## Next work
 
-Approved frameless gold-touch button is being released from the reviewed candidate `fe968bf`. It removes the inner frame, keeps contact-origin illumination and smooth release, and resets the origin for keyboard/assistive activation. Reduced motion uses static feedback. See [sprint results](reviews/press-sprint-2026-09-06.md) and the release record for exact test coverage. Publication status will be updated after live verification.
+Frameless gold-touch feedback is live, released in [`a3d0e63`](https://github.com/daddydownes/victorious/commit/a3d0e63). GitHub Pages reported built; canonical live homepage exactly matched committed source. A live normal-motion Chrome intro → press → vault smoke test completed with focus on the archive. Reduced motion passed four consecutive fresh local browser runs on the identical code. See [release record](reviews/press-release-2026-09-06.md) for exact coverage and physical-device limits. No further press-animation task is pending.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 

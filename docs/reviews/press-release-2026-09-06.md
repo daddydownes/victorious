@@ -15,4 +15,4 @@ Browser tests used native macOS Chrome plus viewport/device emulation. Physical 
 
 ## Publication verification
 
-After Pages reports built, compare the canonical homepage bytes with the committed local source and complete a live normal-motion smoke check. Record the actual outcome in STATUS.md.
+Release `a3d0e63`: GitHub Pages reported built; canonical homepage bytes exactly matched committed source. Native Chrome on the real .com completed a normal-motion intro → press → vault smoke check, with focus on the archive. Normal motion was restored after the reduced-motion checks.
