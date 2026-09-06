@@ -1,6 +1,6 @@
 # Current status
 
-Updated September 6, 2026. Latest application change: approved frameless press feedback release, based on candidate `fe968bf`. See [release record](reviews/press-release-2026-09-06.md) for exact coverage.
+Updated September 6, 2026. Latest application change: Gold Lift Surface button and removal of the top-right circular vault logo. See [release record](reviews/surface-release-2026-09-06.md) for exact coverage.
 
 ## Current production state
 
@@ -8,6 +8,8 @@ Updated September 6, 2026. Latest application change: approved frameless press f
 - Approved share card: opening white V/star on black, 1200×630, `assets/share-v-20260906.png`; `og.jpg` is the matching JPEG.
 - Main invitation: **PRESS HERE** with **ENTER THE VAULT** beneath. Tap/click/keyboard entry.
 - Reveal waits for the final animation, preventing the previous settling jitter.
+- Top-right circular vault logo removed at the user’s request.
+- Gold Lift Surface button: gold capsule, rising reflection, 48px target; reduced motion keeps static gold styling. The Space-key activation issue is fixed.
 - Approved press feedback: continuous gold surface, contact-origin light and smooth release, no inset frame. Reduced motion disables the moving light and text displacement.
 - Button light sweep every 2.7s, synchronized with the logo’s 5.4s cycle. Reduced motion disables those effects.
 - Desktop post-Surface wheel/trackpad travel is 20% gentler than the previous accelerated version. Phone touch behavior is unchanged by the latest adjustment.
@@ -16,7 +18,7 @@ Updated September 6, 2026. Latest application change: approved frameless press f
 
 ## Next work
 
-Frameless gold-touch feedback is live, released in [`a3d0e63`](https://github.com/daddydownes/victorious/commit/a3d0e63). GitHub Pages reported built; canonical live homepage exactly matched committed source. A live normal-motion Chrome intro → press → vault smoke test completed with focus on the archive. Reduced motion passed four consecutive fresh local browser runs on the identical code. See [release record](reviews/press-release-2026-09-06.md) for exact coverage and physical-device limits. No further press-animation task is pending.
+Gold Lift Surface and corner-logo removal are approved for publication. Eight observed Chrome journeys and50 Surface input fixture loops passed. The Space activation defect is fixed. Live build/source verification and a production smoke test follow deployment. See the current release record for exact emulation and physical-device limits. Earlier frameless PRESS HERE remains unchanged.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
@@ -44,7 +46,6 @@ These findings were recorded in earlier QA and have not been fixed by the metada
 | --- | --- |
 | Extreme zoom clips controls | Desktop 400% zoom can put signup/vault controls below a wheel-locked viewport; 200% fit in prior checks. |
 | Premature footer receipt | Submit footer/legacy form with mocked delayed or failing transport; Received appears before completion and reverts on failure. |
-| Surface Space activation | Focus Surface and press Space; global scroll trap cancels it. Enter worked. |
 | Hidden form in reduced-motion tab order | Fresh reduced-motion load, then Tab; invisible legacy email controls can receive focus. |
 | Premature live-region receipt | Hidden `seamRcv` exposes receipt text before signup. |
 | Crew image sizing | Twelve generated lazy images omit intrinsic dimensions. |

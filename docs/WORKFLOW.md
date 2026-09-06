@@ -27,6 +27,7 @@ With Node.js installed:
 node tests/reveal.cjs
 node tests/post-surface-scroll.cjs
 node tests/press-feedback.cjs
+node tests/surface-input.cjs
 git diff --check
 ```
 

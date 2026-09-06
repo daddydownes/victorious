@@ -1,0 +1,226 @@
+[
+  {
+    "run": "desktop",
+    "viewport": [
+      1440,
+      594
+    ],
+    "reduced": false,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 122.1484375,
+        "h": 48,
+        "x": 48,
+        "y": 48,
+        "fits": true
+      },
+      "shine": "surfaceGoldRise"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "landscape",
+    "viewport": [
+      667,
+      375
+    ],
+    "reduced": false,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 26.6796875,
+        "y": 26.6796875,
+        "fits": true
+      },
+      "shine": "surfaceGoldRise"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "narrow",
+    "viewport": [
+      320,
+      507
+    ],
+    "reduced": false,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "surfaceGoldRise"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "portrait",
+    "viewport": [
+      375,
+      667
+    ],
+    "reduced": false,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "surfaceGoldRise"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "reduced1",
+    "viewport": [
+      320,
+      507
+    ],
+    "reduced": true,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "none"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "reduced2",
+    "viewport": [
+      320,
+      507
+    ],
+    "reduced": true,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "none"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "reduced3",
+    "viewport": [
+      320,
+      507
+    ],
+    "reduced": true,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "none"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "run": "reduced4",
+    "viewport": [
+      320,
+      507
+    ],
+    "reduced": true,
+    "errors": [],
+    "entry": {
+      "focus": "vault",
+      "button": {
+        "w": 116.1484375,
+        "h": 48,
+        "x": 20,
+        "y": 20,
+        "fits": true
+      },
+      "shine": "none"
+    },
+    "exit": {
+      "focus": "stage",
+      "vault": "hidden",
+      "shine": "none",
+      "rising": false,
+      "scroll": 0,
+      "overflow": false
+    }
+  }
+]

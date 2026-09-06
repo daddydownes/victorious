@@ -21,3 +21,9 @@ Added a README, agent entry point, `docs/` and portable `tests/` without moving 
 ## Approved frameless press feedback
 
 September6: user approved the final gold-touch study for production. Remove inset frame/box on press; retain contact-origin bloom and sharp dark text. Match held and released light state, centre keyboard/assistive activation, and disable movement for reduced motion. Preserve entry timing, idle logo synchronization and phone scrolling. Release and coverage are recorded in `reviews/press-release-2026-09-06.md`.
+
+## Gold Lift Surface selection
+
+User selected option3 from the three Surface demos and authorized integration after testing. Keep a solid gold capsule, rising reflection, dark label and compact upward arrow. Idle animation is limited to the open vault; the exit cue finishes within280ms and does not delay the existing2050ms Surface transition. Preserve touch guards and native keyboard activation; reduced motion uses static gold styling.
+
+The same release removes the circular avatar from the vault’s top-right corner, explicitly requested by the user. Keep the main VCTRS identity and archive unchanged; the old asset remains in Git.

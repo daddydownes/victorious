@@ -65,3 +65,7 @@ Shared easing time constant remains 45ms. Reduced motion, browser zoom, editable
 ## Published press feedback
 
 The main button uses one continuous gold surface without an inset frame. A decorative `vh-press-light` follows pointer contact through bounded `--press-x/y` coordinates and expands on release in280ms. Dark lettering remains unscaled; accepted entry keeps existing timing. Keyboard and assistive detail-zero clicks reset the light to the centre. Reduced motion hides the moving light and removes text displacement; entry does not wait for any press animation.
+
+## Gold Lift Surface control
+
+`surfaceBtn` retains the real Surface exit handler and tap/drag guards. A 48px gold capsule contains decorative `surface-arrow` and readable `surface-label` spans. `surfaceGoldRise` runs only in the open vault, stops when surfaced, and `surfaceGoldExit`/`surfaceArrowLift` provide a280ms exit cue before the HUD disappears. Reduced motion disables these animations and press displacement. The keyboard scroll trap exempts Space only on the active Surface button, preserving native activation while keeping background scrolling locked.

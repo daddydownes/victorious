@@ -540,11 +540,36 @@
       calc(clamp(20px,4vw,48px) + env(safe-area-inset-left,0px))}
   .vault-hud-top{display:flex; justify-content:space-between; align-items:flex-start; letter-spacing:.28em;
     font-size:12px; color:var(--gold); text-transform:uppercase}
-  .surface-btn{pointer-events:auto; background:transparent; border:1px solid var(--line); color:var(--gold);
-    font-family:'Cascadia Mono',Consolas,monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase;
-    padding:9px 14px; cursor:pointer; border-radius:0; transition:border-color .25s ease, transform .12s ease}
-  .surface-btn:hover{border-color:var(--gold)}
-  .surface-btn:active{border-color:var(--gold); transform:translateY(1px)}
+  /* Gold Lift: one warm capsule, a rising reflection, and a short exit cue. */
+  .surface-btn{pointer-events:auto;position:relative;display:inline-flex;align-items:center;justify-content:center;
+    gap:10px;min-height:48px;padding:0 21px;border:0;border-radius:24px;overflow:hidden;isolation:isolate;
+    background:linear-gradient(120deg,#f0d69e,#d6b16c);color:#231a09;
+    font:600 10px/1 'Cascadia Mono',Consolas,monospace;letter-spacing:.2em;text-transform:uppercase;
+    cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+    box-shadow:0 4px 20px rgba(213,179,104,.15);transition:box-shadow .18s ease,background .18s ease}
+  .surface-btn::before{content:'';position:absolute;inset:-90% -20%;z-index:0;pointer-events:none;opacity:0;
+    background:linear-gradient(0deg,transparent 30%,rgba(255,245,210,.58) 50%,transparent 70%);
+    transform:translateY(70%)}
+  .surface-btn .surface-label{position:relative;z-index:1}
+  .surface-arrow{position:relative;width:14px;height:16px;z-index:1;flex-shrink:0}
+  .surface-arrow::before{content:'';position:absolute;top:5px;left:3px;width:8px;height:8px;
+    border-left:1.6px solid currentColor;border-top:1.6px solid currentColor;transform:rotate(45deg)}
+  @media(hover:hover){.surface-btn:hover{box-shadow:0 4px 25px rgba(213,179,104,.36)}}
+  .surface-btn:active{background:#d7b575}
+  .surface-btn:active .surface-label{transform:translateY(1px)}
+  .surface-btn:focus-visible{outline:2px solid #fff1c7;outline-offset:4px}
+  @media(prefers-reduced-motion:no-preference){
+    body.next-vault-open:not(.surfaced) .vault:not(.surface-rising) .surface-btn::before{animation:surfaceGoldRise 3.6s ease-in-out infinite}
+    .vault.surface-rising .surface-btn::before{animation:surfaceGoldExit .28s ease-out both}
+    .vault.surface-rising .surface-arrow{animation:surfaceArrowLift .28s ease-out both}}
+  @keyframes surfaceGoldRise{0%,25%{transform:translateY(70%);opacity:0}42%{opacity:.8}
+    70%,100%{transform:translateY(-70%);opacity:0}}
+  @keyframes surfaceGoldExit{0%{transform:translateY(65%);opacity:0}25%{opacity:.85}
+    100%{transform:translateY(-65%);opacity:0}}
+  @keyframes surfaceArrowLift{0%{transform:translateY(0);opacity:1}45%{transform:translateY(-12px);opacity:0}
+    46%{transform:translateY(9px);opacity:0}100%{transform:translateY(0);opacity:1}}
+  @media(prefers-reduced-motion:reduce){body .surface-btn{transition:none}
+    body .surface-btn:active .surface-label{transform:none}}
   /* The old THE V-AULT headline is retired. The incoming VCTRS mark now becomes
      the vault identity itself, with THE VAULT as its quiet descriptor below. */
   .vault-title{position:absolute;left:50%;top:50%;width:clamp(148px,18vw,176px);text-align:center;
@@ -567,7 +592,7 @@
 
   /* phone/tablet vault: legible cue + real tap targets (desktop >=1024 untouched) */
   @media (max-width:768px){
-    .surface-btn{min-height:44px; display:inline-flex; align-items:center; padding:11px 16px}
+    .surface-btn{min-height:48px;padding:0 18px}
     .drag-label{font-size:10.5px; padding:7px 14px; border-radius:2px;
       background:rgba(11,10,8,.55); text-shadow:0 1px 2px #000, 0 0 12px rgba(0,0,0,.85)}
   }
@@ -936,8 +961,7 @@
   <div id="dive"><div class="vault-pan-space" id="vaultPanSpace"><div class="vault-plane" id="plane"></div></div></div>
   <div class="vault-hud">
     <div class="vault-hud-top mono">
-      <button class="surface-btn" id="surfaceBtn" type="button">▲ Surface</button>
-      <img class="brand-mark" alt="VCTRS" src="assets/vault-avatar-f8c6081217b8.jpg" alt="" aria-hidden="true">
+      <button class="surface-btn" id="surfaceBtn" type="button" aria-label="Surface"><span class="surface-arrow" aria-hidden="true"></span><span class="surface-label">Surface</span></button>
     </div>
     <div class="vault-title">
       <div class="vt stagger" id="vaultWordmark">THE <span class="l vwrap"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></span>AULT</div>
@@ -2996,6 +3020,8 @@
   addEventListener('keydown',function(e){
     if(vaultClosing && (e.key==='Tab'||e.key.indexOf('Arrow')===0)){ e.preventDefault(); return; }
     if(!(vaultClosing || (vaultActive && guidePhase==='vault'))) return;
+    // Space on the real button must retain its native click activation.
+    if(e.key===' ' && !vaultClosing && e.target===document.getElementById('surfaceBtn')) return;
     if(e.key==='PageDown'||e.key==='PageUp'||e.key==='Home'||e.key==='End'||e.key===' ') e.preventDefault();
   });
 

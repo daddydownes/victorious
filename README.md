@@ -29,6 +29,7 @@ Open http://127.0.0.1:8921/. With Node.js installed, run the focused, offline re
 node tests/reveal.cjs
 node tests/post-surface-scroll.cjs
 node tests/press-feedback.cjs
+node tests/surface-input.cjs
 ```
 
 These checks do not submit email or replace browser/device testing.
