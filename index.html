@@ -285,6 +285,10 @@
     background:linear-gradient(155deg,#18160ff5,#080807fa);border:1px solid #d4af5f38;
     border-radius:8px;box-shadow:0 22px 70px #0009}
   .flap-panel[hidden]{display:none}
+  @media(prefers-reduced-motion:no-preference){
+    .flap-panel:not([hidden]){animation:flapPanelIn 180ms ease-out both}
+  }
+  @keyframes flapPanelIn{from{opacity:0;transform:translate(-50%,calc(-50% + 6px))}to{opacity:1;transform:translate(-50%,-50%)}}
   .flap-panel .eyebrow{color:#b6a680;font:9px Consolas,monospace;letter-spacing:.23em}
   .flap-panel h2{font:500 clamp(26px,5vw,38px)/1.06 Consolas,monospace;letter-spacing:-.05em;color:var(--bone);margin:20px 0 14px}
   .flap-panel p{color:#b9b3a5;font:12px/1.8 Consolas,monospace;margin:0 0 24px}
@@ -3577,7 +3581,7 @@
     function flapResetFrames(){fFrameHead=-1;fFrameCount=0;fSimTime=0;fRenderFloor=0;flapSaveFrame();}
     function flapPresentation(alpha){
       fView.a=null;fView.b=null;fView.blend=1;fView.time=fSimTime;
-      if(alpha===undefined||fPaused||FG.state!=='play'){fRenderFloor=fSimTime;return fView;}
+      if(alpha===undefined||fPaused||(FG.state!=='play'&&FG.state!=='dying')){fRenderFloor=fSimTime;return fView;}
       var target=Math.max(fRenderFloor,fSimTime+fAccumulator-1/120),a=null,b=null;
       for(var i=fFrameCount-1;i>=0;i--){
         var frame=fFrames[(fFrameHead-i+8)%8];
@@ -4053,10 +4057,10 @@
     }
     function flapDie(s){
       if(FG.state!=='play') return;
-      FG.state='dying'; FG.deadT=0; FG.stopT=0; // continuous fall, no artificial freeze
-      FG.trauma=0; FG.flash=1;
-      FG.vy=0.16;                                            // knocked down
-      flapBurst(s.w*0.24, FG.y*s.h, 30, false);
+      FG.state='dying'; FG.deadT=0; FG.stopT=0;
+      FG.trauma=0; FG.flash=0;
+      FG.vy=-0.12; // Small recoil, followed by a soft fall and fade.
+      flapBurst(s.w*0.24, FG.y*s.h, 10, true);
       fBest=Math.max(fBest,FG.score);
       try{ localStorage.setItem('flapv_best',String(fBest)); }catch(_e){}
       flapBestLine();
@@ -4123,7 +4127,7 @@
       for(var queued=0;queued<FG.gates.length;queued++)if(!FG.gates[queued].counted&&!FG.gates[queued].missed)pending++;
       var interval=flapInterval(FG.score+pending);
       if(st==='play'||st==='dying'){
-        var g = st==='play' ? 2.60 : 3.5;                    // dying: double gravity slam
+        var g = st==='play' ? 2.60 : 1.8; // Death is a separate, gentler presentation.
         FG.vy=Math.min(0.70, FG.vy+g*dt);                    // terminal = 1.12× flap (reference ratio)
         FG.y+=FG.vy*dt;
         // rotation maps to velocity — the V telegraphs its physics
@@ -4138,7 +4142,7 @@
            tick can never teleport — the rot just lags a beat and catches up. */
         var _dr=(rotT-FG.rot)*Math.min(1,10*dt);
         FG.rot+=Math.max(-0.35,Math.min(0.35,_dr));
-        if(st==='dying'){ FG.deadT+=dt; if(FG.y>1.1){ FG.state='dead'; } }
+        if(st==='dying'){ FG.deadT+=dt; if(FG.deadT>=0.78){ FG.state='dead'; } }
         // ceiling: clamp, don't kill. floor: dead.
         if(st==='play'){
           var logoBounds=flapLogoContours(FG.y,FG.rot,s);
@@ -4146,6 +4150,7 @@
           if(logoBounds.bottom>=s.h) flapDie(s);
         }
         var vx=s.w*0.24, dx=FG.speed*s.w*dt;
+        if(st==='dying') dx*=Math.exp(-FG.deadT/0.12); // Ease the course to rest.
         FG.spawnT-=dt;
         if(st==='play' && FG.spawnT<=0){ FG.spawnT=interval; flapSpawn(s); }
         for(var i=0;i<FG.gates.length;i++){
@@ -4303,7 +4308,7 @@
         }
         fctx.stroke();
       }
-      flapDrawV(s.w*0.24,flapMix(frame.a?frame.a.y:FG.y,frame.b?frame.b.y:FG.y,frame.blend)*s.h,flapMix(frame.a?frame.a.rot:FG.rot,frame.b?frame.b.rot:FG.rot,frame.blend),1,s);
+      flapDrawV(s.w*0.24,flapMix(frame.a?frame.a.y:FG.y,frame.b?frame.b.y:FG.y,frame.blend)*s.h,flapMix(frame.a?frame.a.rot:FG.rot,frame.b?frame.b.rot:FG.rot,frame.blend),FG.state==='dead'?0:FG.state==='dying'?1-flapSmooth((FG.deadT-.24)/.5):1,s);
       // particles — additive gold glow on black
       fctx.globalCompositeOperation='lighter';
       for(var pi=0;pi<FG.parts.length;pi++){

@@ -32,6 +32,7 @@ node tests/flappy-difficulty.cjs
 node tests/flappy-collision.cjs
 node tests/flappy-material.cjs
 node tests/flappy-lifecycle.cjs
+node tests/flappy-death.cjs
 node tests/flappy-reachability.cjs
 git diff --check
 ```
