@@ -1,6 +1,6 @@
 # Current status
 
-Updated September 6, 2026. The user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Release source follows `77b3bd2`; deployment verification is pending the push to main. Prior production was `5f098d6`.
+Updated September 6, 2026. The user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Production is now `cf51ffc`: GitHub Pages reports built, and https://vctrsclo.com/ exactly matches the approved local index.html. Prior production was `5f098d6`. Preview-only statements below record earlier iteration stages; the approved game is now live.
 
 ## Current production state
 

@@ -9,3 +9,5 @@ All ten portable suites pass: reveal, scroll, press, Surface, difficulty, collis
 The complete TESTING.md four-pass matrix, physical iPhone, Windows, fresh Safari and full console/performance audit were not completed. These remain deferred to the next QA maintainer under the owner's explicit publication instruction; this is not a claim that the full release checklist passed. Existing unrelated site issues remain in STATUS. No real form submissions were made.
 
 Publishing is a fast-forward of main, preserving history and production paths. Verify GitHub Pages build commit and exact live homepage bytes after push. Rollback reference is `5f098d6`; preserve subsequent commits with a revert rather than destructive history reset.
+
+Deployment verified: `cf51ffcf08222271a54330144aeaa1b2b0d0acf0` reports `built` through GitHub Pages. The canonical HTTPS homepage is byte-identical to the approved index.html. Follow-up documentation does not alter production HTML.
