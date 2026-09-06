@@ -632,7 +632,7 @@
   .next-drop-result{min-height:14px;padding-top:10px;color:var(--gold-hot);
     font:9px/1 'Cascadia Mono',Consolas,monospace;letter-spacing:.16em}
   .next-vault-hold{width:min(460px,100%);margin:18px auto 0;min-height:76px;
-    padding:16px 12px;font-size:17px;letter-spacing:.1em;text-indent:.1em;
+    padding:12px;font-size:17px;letter-spacing:.1em;text-indent:.1em;
     background:linear-gradient(135deg,#f0d492,#d4af5f);border:1px solid #f3dfa7;color:#100e09;
     box-shadow:0 5px 24px rgba(212,175,95,.16);
     opacity:0;transform:translateY(12px);pointer-events:none}
@@ -707,8 +707,10 @@
     .next-vault-hold{pointer-events:auto}.next-drop-rule{transform:none}
     .vault-title.revealed .vault-brand-name{animation:none;opacity:1;transform:none}
     .vault-title.revealed .rule{animation:none;opacity:1;transform:none}}
-  .next-vault-hold .vh-base{display:block;line-height:1.35;color:#100e09}
+  .next-vault-hold .vh-base{display:block;font-size:30px;line-height:1.1;color:#100e09}
   .next-vault-hold small{display:block;margin-top:7px;font:10px/1.2 'Cascadia Mono',monospace;letter-spacing:.12em;color:#3c3019}
+  @media(max-width:700px){.next-vault-hold .vh-base{font-size:27px}}
+  @media(max-height:520px) and (min-width:560px){.next-vault-hold .vh-base{font-size:24px}}
   #vaultDJ{filter:none;border:0;box-shadow:none}
 
 </style>
@@ -806,7 +808,7 @@
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
       <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
     </form>
-    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Tap to enter the vault"><span class="vh-base">TAP TO ENTER THE VAULT<small>TOUCH OR CLICK ↓</small></span></button>
+    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
   </div>
 </section>
 
