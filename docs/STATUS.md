@@ -15,7 +15,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-A separate background task is investigating the main button becoming invisible while pressed. The user requested a new, attractive press animation. Candidate work should preserve readable/visible feedback, entry behavior, the synchronized idle sweep and reduced-motion support. It is not published yet.
+A refined button-press candidate is saved on [demo/button-press-feedback](https://github.com/daddydownes/victorious/tree/demo/button-press-feedback), commit `5f391a3`. See that branch’s `demos/button-press-feedback/README.md` for preview and validation. It adds a crisp gold rim, metallic press shading and 280ms confirmation with unscaled lettering. It is not deployed. Two portable checks and one full desktop Chrome journey passed; full repeated/device visual QA remains before release.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
