@@ -1,6 +1,6 @@
 # Current status
 
-Updated September 6, 2026. Production remains at the screen-edge cleanup (`d1b046d`, latest production docs `5f098d6`). This branch, `demo/flappy-v-redesign`, contains a new Flappy V candidate that has **not been deployed**. `033db26` preserves the preceding prototype.
+Updated September 6, 2026. The user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Release source follows `77b3bd2`; deployment verification is pending the push to main. Prior production was `5f098d6`.
 
 ## Current production state
 
@@ -17,7 +17,7 @@ Updated September 6, 2026. Production remains at the screen-edge cleanup (`d1b04
 - Page and social title: **VICTORIOUS — The Vault**.
 - Meta description, Open Graph and Twitter description: **Discover VCTRS (Victorious), a Canberra clothing brand. Explore the vault and sign up for updates.** Keep this evergreen.
 
-## Current work — fullscreen Flappy V candidate
+## Approved release — fullscreen Flappy V
 
 The user rejected the portrait-frame redesign (`44401b5`) and asked to retain the original live game's fullscreen black-and-gold atmosphere and animated background. The current candidate restores that presentation while introducing visibly different obstacles every 25 successful clears. The V-and-star logo and tap/click/Space physics remain.
 
@@ -35,7 +35,7 @@ The user requested five Sol and two Astra agents; runtime concurrency/thread lim
 
 Current evidence: 12,500 generated gates, 242 grouped collision checks with 16,016 boundary samples, 12 complete physics-driven flights (1,200 genuine clears, exactly 25 of each type), and 106 lifecycle cases. Material tests verify clipping and the 64-entry / 16 MiB sprite-cache limits. Native desktop Chrome checked all four design studies, fullscreen layout, original atmosphere and live pause/resume. These are not physical-phone, universal browser-performance or human difficulty guarantees. See the [fullscreen review](reviews/flappy-fullscreen-review.md).
 
-Run `python3 tools/flappy-demo.py`, then open `http://127.0.0.1:8938/demo`. Click a stage to inspect its design with moving ambience; **Play this stage** starts a real test flight. **Preview win** invokes the actual win presentation at 100 in isolated demo storage; desktop Chrome verified the VAULT UNLOCKED / VAULT-100 panel and gold burst. Preview storage is separate from saved live rewards. `/` serves the unmodified candidate. This branch is not deployed; main remains at `5f098d6`. Remaining work is player assessment and the unverified browser/device/full-site release matrix before authorized publication.
+Run `python3 tools/flappy-demo.py`, then open `http://127.0.0.1:8938/demo`. Click a stage to inspect its design with moving ambience; **Play this stage** starts a real test flight. **Preview win** invokes the actual win presentation at 100 in isolated demo storage; desktop Chrome verified the VAULT UNLOCKED / VAULT-100 panel and gold burst. Preview storage is separate from saved live rewards. `/` serves the unmodified candidate. Publication is explicitly authorized. The full four-pass browser/device matrix remains incomplete and is deferred for follow-up; do not describe this as a universal device QA pass. See the release record in `docs/reviews/flappy-release-2026-09-06.md`.
 
 Screen-edge removal already live: no viewport-wide vault focus outline or pulsing bottom glow. The PC scroll retune remains separate from phone touch behavior.
 
