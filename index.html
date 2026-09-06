@@ -638,6 +638,20 @@
     opacity:0;transform:translateY(12px);pointer-events:none}
   .next-vault-hold:hover{background:linear-gradient(135deg,#f5dfad,#e2be72)}
   .next-vault-hold:active{background:#d4af5f}
+  /* A separate highlight keeps the label and entrance animation still. */
+  .next-vault-hold::before{content:'';position:absolute;inset:-30% auto -30% -60%;width:50%;
+    z-index:1;pointer-events:none;opacity:0;
+    background:linear-gradient(105deg,transparent,rgba(255,250,225,.75),transparent);
+    transform:translateX(0)}
+  body.next-drop-landed:not(.next-vault-opening):not(.next-vault-open) .next-vault-hold::before{
+    animation:nextVaultSweep 4s .2s ease-in-out infinite}
+  @keyframes nextVaultSweep{
+    0%,12%{transform:translateX(0);opacity:0}
+    18%{opacity:1}
+    43%{transform:translateX(340%);opacity:1}
+    49%,100%{transform:translateX(340%);opacity:0}}
+  @media(prefers-reduced-motion:reduce){
+    body .next-vault-hold::before{display:none;animation:none!important}}
   body.next-vault-opening .next-drop{pointer-events:none}
   body.next-vault-opening .seam-gold-in{opacity:0!important}
   body.next-vault-opening .seamsec,body.next-vault-open .seamsec{visibility:hidden!important;pointer-events:none!important}
