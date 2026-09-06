@@ -62,7 +62,16 @@ for(const [w,h] of sizes)for(const score of [0,25,50,75,99]){
  const {c,s}=setup(w,h);const g=placeGate(c,s,score);crossGate(c,s,g);
  assert.equal(c.FG.score,score+1,'traversing an open channel awards exactly one');assert.equal(c.FG.state,score===99?'won':'play');
  c.flapStep(0,s);assert.equal(c.FG.score,score+1);traversals++;
- if(score){for(const bypass of [35,685]){const t=setup(w,h);const other=placeGate(t.c,t.s,score);crossGate(t.c,t.s,other,bypass);assert.equal(t.c.FG.state,'play','outside route has no invisible kill');assert.equal(t.c.FG.score,score,'bypass earns no score');assert(other.missed&&!other.counted);traversals++;}}
+ if(score){for(const bypass of [35,685]){const t=setup(w,h);const other=placeGate(t.c,t.s,score);crossGate(t.c,t.s,other,bypass);assert.equal(t.c.FG.state,'dying','missing a mandatory opening ends the run');assert.equal(t.c.FG.score,score,'bypass earns no score');assert(other.missed&&!other.counted);traversals++;}}
+}
+// The mandatory-route rule triggers at the mouth, not during approach.
+for(const score of [25,50,75])for(const y of [35,685]){
+ const {c,s}=setup();const g=placeGate(c,s,score);c.FG.y=y/s.h;
+ g.x=s.w*.24+.01;c.flapStep(0,s);
+ assert.equal(c.FG.state,'play','outside approach is still recoverable');
+ g.x=s.w*.24;c.flapStep(0,s);
+ assert.equal(c.FG.state,'dying','outside mouth crossing ends flight immediately');
+ assert.equal(c.FG.score,score);assert(!g.counted);traversals++;
 }
 // Skips do not grant higher tiers, while already spawned geometry is immutable.
 {const {c,s}=setup();c.FG.score=24;c.flapSpawn(s);const first=c.FG.gates[0];c.flapSpawn(s);assert.equal(first.level,0);assert.equal(c.FG.gates[1].level,1);c.FG.gates.forEach(g=>g.missed=true);c.flapSpawn(s);assert.equal(c.FG.gates.at(-1).level,0);assert.equal(first.kind,'PILLAR');}
@@ -79,5 +88,5 @@ const cadence=[];for(const hz of [30,60,90,120,144]){const {c,s}=setup();c.flapS
 // aspect ratios; pixel density changes raster detail only.
 let reference;for(const [w,h] of sizes)for(const dpr of [1,2,3]){const {c,s}=setup(w,h,19,dpr),course=[];for(let n=0;n<100;n++){c.flapSpawn(s);const g=c.FG.gates.at(-1);course.push([g.target,g.finalOpening,g.kind,g.tilt,c.flapGateWidth(g,s)/(c.flapPace(n)*s.w)]);}if(reference)course.forEach((row,i)=>row.forEach((v,j)=>typeof v==='number'?assert(Math.abs(v-reference[i][j])<1e-10):assert.equal(v,reference[i][j])));else reference=course;}
 {const a=setup(375,667,77),b=setup(375,667,77);for(let n=0;n<100;n++){for(let j=0;j<n%13;j++)b.c.Math.random();a.c.flapSpawn(a.s);b.c.flapSpawn(b.s);}assert.equal(JSON.stringify(a.c.FG.gates),JSON.stringify(b.c.FG.gates));}
-console.log(JSON.stringify({pass:true,seededCourses:100,uniqueSeeds:20,gates,sizes,traversals,minLockedWarningSeconds:minLead,minGapHitboxClearancePx:minClearance,minAdjacentHitboxSpacePx:minSpace,checks:['25/50/75 topology boundaries','finite passage clear and safe unscored bypass','collision before scoring','skips do not advance stage','settled warning','reward persistence','fullscreen responsive timing','resize pause','30–144Hz cadence','suspend/reduced motion'],limitation:'Aperture-following samples verify geometry/scoring, not human playability.'},null,2));
+console.log(JSON.stringify({pass:true,seededCourses:100,uniqueSeeds:20,gates,sizes,traversals,minLockedWarningSeconds:minLead,minGapHitboxClearancePx:minClearance,minAdjacentHitboxSpacePx:minSpace,checks:['25/50/75 topology boundaries','finite passage clear and fatal bypass','collision before scoring','skips do not advance stage','settled warning','reward persistence','fullscreen responsive timing','resize pause','30–144Hz cadence','suspend/reduced motion'],limitation:'Aperture-following samples verify geometry/scoring, not human playability.'},null,2));
 }

@@ -53,3 +53,7 @@ Following `5c16dc0`, the user found bars too long and pillars insufficiently smo
 ## Minimal obstacle finish
 
 The user likes the base but finds the obstacle treatment overworked. Replace ornamental machining, moving glints and layered bevel bands with one smooth dark satin face and a narrow brass opening edge. Preserve the shorter geometry, rounded pillar ends, stage mechanics and shared collider. Favour a consistent restrained material over extra visual effects.
+
+## Mandatory openings
+
+After the minimal finish, the user explicitly requested that flying underneath or above arches, slalom and jaws fail. This supersedes the earlier safe-unscored-bypass decision. Kill at the logo centre's outside mouth crossing or a channel departure; do not kill during a still-recoverable approach. Preserve visible obstacle geometry and precise physical-contact collision. Explain the rule in the start panel.

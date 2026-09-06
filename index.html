@@ -967,7 +967,7 @@
   <div class="flap-panel" id="flapPanel" aria-live="polite">
     <div class="eyebrow">VICTORIOUS / THE VAULT</div>
     <h2 id="flapTitle">FLAPPY V</h2>
-    <p id="flapHint">Tap, click or press Space to rise.<br>Fly through 100 openings. A new challenge every 25.</p>
+    <p id="flapHint">Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new challenge every 25.</p>
     <button class="flap-play" id="flapAction" type="button">Start run</button>
   </div>
 </div>
@@ -3616,7 +3616,7 @@
       fPause.hidden=FG.state!=='play'||reduced;
       fPause.textContent=fPaused?'Resume':'Pause';
       fPanelKey=key; fPanel.hidden=key==='play'||key==='dying';
-      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Fly through 100 openings. A new challenge every 25.','Start run'],
+      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new challenge every 25.','Start run'],
         paused:['PAUSED','Your run is on hold.<br>Continue when you’re ready.','Resume'],
         dead:['RUN ENDED',FG.score+' cleared &nbsp;·&nbsp; Best '+fBest,'Try again'],
         won:['VAULT UNLOCKED',COUPON_CODE+'<br>'+COUPON_LINE,'Play again'],
@@ -3771,12 +3771,13 @@
         g.entered=FG.y*s.h>mouth.top&&FG.y*s.h<mouth.bottom;
         g.missed=!g.entered;
       }
-      // Crossing an outer route is safe but earns no point. Real rail contact
-      // is handled by polygon collision, including the V/star's precise shape.
+      // Every opening is mandatory. Missing its mouth or leaving the passage
+      // ends the run; visible rail contact still uses precise polygon collision.
       if(g.entered&&vx>=g.x&&vx<=g.x+w){
         var passage=flapAperture(g,s,(vx-g.x)/w);
         if(FG.y*s.h<=passage.top||FG.y*s.h>=passage.bottom){g.missed=true;g.entered=false;}
       }
+      if(g.missed){flapDie(s);return false;}
       if(g.x+w<logo.left){
         g.checkpassed=true;
         if(g.entered&&!g.missed){g.counted=true;return true;}
