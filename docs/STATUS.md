@@ -15,7 +15,7 @@ Updated September 6, 2026. Latest application change: [`e7a7859`](https://github
 
 ## Next work
 
-A separate background task is investigating the main button becoming invisible while pressed. The user requested a new, attractive press animation. Candidate work should preserve readable/visible feedback, entry behavior, the synchronized idle sweep and reduced-motion support. It is not published yet.
+Button press refinement is available on branch `demo/button-press-feedback`, in `demos/button-press-feedback/`. Background candidate refined by the primary agent: crisp inset gold rim, layered metallic press face, unscaled lettering, and a 280ms confirmation before the existing card fade. Production JavaScript/body markup are unchanged. Two portable test suites pass; one full natural-intro desktop Chrome journey reached the vault with correct focus. Preview includes replay and slow motion. This candidate is not deployed; full device/repeated visual QA remains before release.
 
 The user can assess the latest desktop scroll feel; if adjusting it again, preserve phone touch tuning. Address the known issues below when requested, with focused reproduction before editing.
 
