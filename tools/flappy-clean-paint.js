@@ -160,16 +160,25 @@
     ctx.lineTo(x1, paintY(x1));
     ctx.stroke();
 
-    // Two unmistakable, rounded gravity drips remain wholly in the clipped face.
-    ctx.lineWidth = Math.max(1.8, lineW * .38);
-    ctx.beginPath();
+    // Two deliberate gravity drips use a soft shoulder, narrow neck and round
+    // terminal bulb. The upper bulbs retain the same five-unit gap clearance.
+    function roundedDrip(x, start, targetLength, available) {
+      var bulbW = Math.max(3.4, lineW * .72), bulbR = bulbW / 2;
+      var length = Math.min(targetLength, available) - bulbR;
+      if (length <= 1.5) return;
+      ctx.lineWidth = Math.max(1.6, lineW * .28);
+      ctx.beginPath(); ctx.moveTo(x, start); ctx.lineTo(x, start + length); ctx.stroke();
+      ctx.lineWidth = Math.max(2.2, lineW * .43);
+      ctx.beginPath(); ctx.moveTo(x, start); ctx.lineTo(x, start + Math.min(2.2, length * .28)); ctx.stroke();
+      ctx.lineWidth = bulbW;
+      ctx.beginPath(); ctx.moveTo(x, start + length); ctx.lineTo(x + .01, start + length); ctx.stroke();
+    }
     [-.22, .18].forEach(function (position, index) {
       var x = cx + span * position, start = paintY(x) + lineW * .25;
-      var length = drip * (index ? .62 : 1);
-      if (!side) length = Math.min(length, Math.max(0, passageY(segments, x, range.max) - clear - start));
-      if (length > 1) { ctx.moveTo(x, start); ctx.lineTo(x, start + length); }
+      var length = drip * (index ? .68 : 1);
+      var available = side ? length : Math.max(0, passageY(segments, x, range.max) - clear - start);
+      roundedDrip(x, start, length, available);
     });
-    ctx.stroke();
 
     // Three quiet flecks soften only the swash edge; no haze expands the hazard.
     var dot = Math.max(1, lineW * .18), y = paintY(cx) - lineW * .8;
