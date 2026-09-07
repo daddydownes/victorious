@@ -1,5 +1,11 @@
 # Current status
 
+## Final motion and release — September 7, 2026
+
+The Play the game artwork now stays complete during fast and reverse scrolling. A small scroll-driven rise settles the game card, while a restrained light breath keeps the original spray texture alive. Back to the vault retains its paint reveal. Gold capsule controls have a passing highlight and stable pressed/focus states; the signup invitation has a brief two-line entrance. Motion pauses outside the viewport, behind the game, when hidden, and under reduced motion.
+
+Removed the repeated VCTRS mark between Enter the vault and the six photographs at the user's request. The original game, 100-point reward, ten-clear styles, video/replay policy, original entrance and return navigation remain. The user explicitly authorized publication after the bug checks. See [final motion and release evidence](reviews/final-motion.md). Browser-engine checks are not physical-device certification.
+
 ## Dot-com release candidate — September 7, 2026
 
 Prepared the complete site for its existing GitHub Pages domain. The Back to the vault artwork, its button and button label now share one centre line; the VCTRS mark is centred above the six photos. Their artwork, spray reveal and existing navigation are preserved. The latest game remains the production engine with natural preview flaps, no V trail, ten-clear style changes and the original 100-point goal.

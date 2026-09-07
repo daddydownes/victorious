@@ -314,15 +314,12 @@ function paintTitle(titleId,sectionId,strokes,brushWidth){
   motion.addEventListener('change',()=>{if(motion.matches)finish();else queue()});
   document.getElementById(sectionId).addEventListener('focusin',finish);new MutationObserver(queue).observe(game,{attributes:true,attributeFilter:['class']});
 }
-paintTitle('play-title','play',[[[305,175],[320,445]],[[302,160],[428,153],[474,205],[453,266],[315,306]],
-  [[583,154],[565,441],[698,409]],[[806,429],[882,153],[1035,500]],[[838,326],[947,299]],
-  [[1063,168],[1154,290],[1248,151]],[[1154,290],[1145,446]],
-  [[90,631],[265,604]],[[174,620],[188,868]],[[317,618],[320,864]],[[320,757],[418,728]],[[421,616],[424,862]],
-  [[590,612],[500,625],[475,865],[604,835]],[[490,741],[570,710]],
-  [[835,631],[816,606],[760,660],[715,785],[726,851],[827,862],[878,806],[877,752],[800,777]],
-  [[932,851],[1013,610],[1053,841]],[[969,766],[1046,754]],
-  [[1130,846],[1133,631],[1191,739],[1251,630],[1233,850]],
-  [[1453,611],[1345,621],[1325,872],[1452,831]],[[1335,742],[1439,714]]],190);
+// The game invitation is readable on its first visible frame, even after a
+// fast scroll. Keep the full raster, including its existing spray texture.
+const playTitle=document.getElementById('play-title'),playArt=playTitle.querySelector('img');
+const playArtFailed=()=>playTitle.classList.add('paint-failed');
+playArt.addEventListener('error',playArtFailed,{once:true});
+if(playArt.complete&&!playArt.naturalWidth)playArtFailed();
 paintTitle('vault-title','vault-invite',[
   [[256,217],[204,433]],[[270,211],[406,204],[431,243],[379,288],[240,316]],[[249,313],[385,304],[423,351],[386,407],[222,444]],
   [[425,455],[531,200],[622,455]],[[465,364],[594,342]],
@@ -340,6 +337,27 @@ paintTitle('vault-title','vault-invite',[
   [[1391,562],[1514,551]],[[1445,567],[1409,812]]
 ],150);
 // PAINT_REVEAL_END
+// Event-driven arrival; native wheel and touch travel are never intercepted.
+(()=>{
+  const preference=matchMedia('(prefers-reduced-motion: reduce)'),play=document.getElementById('play');
+  const sections=[...document.querySelectorAll('#play-title,#journey-play,.vault-return,#restart-page,.signup-footer,.signup-footer .action')];
+  let frame=0;
+  function update(){frame=0;const paused=document.hidden||game.classList.contains('on')||preference.matches;
+    document.body.classList.toggle('polish-paused',paused);
+    if(paused)return;
+    const t=Math.max(0,Math.min(1,(innerHeight*.94-play.getBoundingClientRect().top)/(innerHeight*.7)));
+    play.style.setProperty('--play-arrival',(t*t*(3-2*t)).toFixed(4));
+  }
+  function queue(){if(!frame)frame=requestAnimationFrame(update)}
+  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    const visible=entry.isIntersecting&&entry.intersectionRatio>0;
+    entry.target.classList.toggle('polish-active',visible);
+    if(visible)entry.target.classList.add('polish-seen');
+  }),{threshold:[0,.01]});sections.forEach(section=>observer.observe(section));}
+  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);
+  document.addEventListener('visibilitychange',update);preference.addEventListener('change',update);
+  new MutationObserver(update).observe(game,{attributes:true,attributeFilter:['class']});update();
+})();
 if(!motion.matches&&'IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('journey-visible');observer.unobserve(entry.target)}}),{rootMargin:'0px 0px -10% 0px',threshold:.12});journeySections.forEach(section=>{section.classList.add('journey-motion');section.addEventListener('focusin',()=>section.classList.add('journey-visible'));observer.observe(section)});motion.addEventListener('change',()=>{if(motion.matches){journeySections.forEach(section=>section.classList.add('journey-visible'));observer.disconnect()}})}
 })();</script></body></html>`);
 
@@ -364,16 +382,51 @@ ${vault.match(/<link rel="icon"[^>]*>/)[0]}
 // The six final photographs retain their exact files and layout, but no longer
 // compete with the opening on a first mobile visit.
 story = story.replace(/(<figure class="end-photo[^>]*><img[^>]*loading=")eager/g, '$1lazy');
+// The photos follow the vault invitation without another VCTRS wordmark.
+const endingMark = story.match(/<div class="end-mark gold-lockup"[^>]*>[\s\S]*?<\/svg><\/div>/);
+if (!endingMark) throw new Error('Missing ending wordmark');
+story = replace(story, endingMark[0], '');
+story = replace(story, '<h2 id="signup-title">Be there next time.</h2>', '<h2 id="signup-title"><span>Be there</span> <span>next time.</span></h2>');
 story = replace(story, '</style>', `
-/* One centred invitation, followed by the centred mark above the photographs. */
+/* One centred invitation, followed directly by the photographs. */
 .vault-invite{grid-template-columns:minmax(0,1fr);justify-items:center;gap:24px;text-align:center}
 .vault-story{width:min(100%,490px)}
 .vault-story #vault-title{margin-left:auto;margin-right:auto}
 .vault-action-group{width:min(100%,360px);justify-self:center}
 .vault-return{position:relative;justify-self:center;justify-content:center;padding-left:58px;padding-right:58px}
 .vault-return .cta-arrow{position:absolute;right:18px}
-.ending-stage .end-mark.gold-lockup{margin-left:auto;margin-right:auto;justify-content:center}
 @media(max-width:700px){.vault-invite{gap:20px}.vault-story{max-width:440px}.vault-action-group{max-width:340px}}
+/* Complete lettering and a soft card arrival survive fast or reverse scroll. */
+#play [data-reveal]{opacity:1;transform:none;transition:none}
+#play .spray-arrow-art mask path{animation:none;stroke-dashoffset:0}
+#play .live-game-shell{opacity:calc(.68 + .32 * var(--play-arrival,1));transform:translate3d(0,calc(24px * (1 - var(--play-arrival,1))),0) scale(calc(.985 + .015 * var(--play-arrival,1)));transform-origin:center}
+#play:focus-within .live-game-shell{opacity:1;transform:none}
+#play-title .spray-headline{animation:paint-light 6.4s ease-in-out infinite;animation-play-state:paused}
+#play-title.polish-active .spray-headline{animation-play-state:running}
+#play .play-cue-arrow{animation-play-state:paused}
+#play #journey-play.polish-active .play-cue-arrow{animation-play-state:running}
+@keyframes paint-light{0%,100%{filter:brightness(1)}50%{filter:brightness(1.075)}}
+/* The original site's warm gold capsules, with a restrained passing highlight. */
+.vault-return,.signup-footer .action,.ending-copy #restart-page{position:relative;isolation:isolate;overflow:hidden;transition:background-color .22s,color .22s,border-color .22s,box-shadow .22s}
+.vault-return,.signup-footer .action{background:#d4af5f;color:#100d07;border-color:#d4af5f;font-weight:700}
+.vault-return:hover,.vault-return:focus-visible,.signup-footer .action:hover{background:#f0d492;color:#100d07;border-color:#f0d492;box-shadow:none}
+.vault-return::before,.signup-footer .action::before,.ending-copy #restart-page::before{content:'';position:absolute;inset:-45% -60%;z-index:-1;pointer-events:none;background:linear-gradient(110deg,transparent 38%,#fff8da00 43%,#fff8da52 50%,#fff8da00 57%,transparent 62%);transform:translateX(-65%);animation:button-light 6.4s cubic-bezier(.2,.65,.3,1) infinite;animation-play-state:paused}
+.vault-return.polish-active::before,.signup-footer .action.polish-active::before,#restart-page.polish-active::before{animation-play-state:running}
+.signup-footer .action::before{animation-delay:.8s}
+.ending-copy #restart-page::before{animation-delay:1.6s;opacity:.55}
+@keyframes button-light{0%,18%{transform:translateX(-65%)}43%,100%{transform:translateX(65%)}}
+.vault-return:active,.signup-footer .action:active,.ending-copy #restart-page:active{transform:none;opacity:1;background:#c5a04f;color:#100d07;box-shadow:inset 0 0 0 2px #100d0733}
+.vault-return:focus-visible,.ending-copy #restart-page:focus-visible{outline:2px solid #f0d492;outline-offset:5px}
+.ending-copy #restart-page span{display:inline-block;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.ending-copy #restart-page:hover span{transform:rotate(-45deg)}
+.signup-footer .action[aria-disabled=true]::before{animation-play-state:paused}
+.signup-footer #signup-title{font:900 clamp(42px,5.8vw,78px)/1.02 Impact,'Arial Black',sans-serif;letter-spacing:.005em;text-transform:uppercase;max-width:100%;margin-bottom:24px}
+.signup-footer #signup-title span{display:block}
+.signup-footer.polish-seen #signup-title span{animation:signup-arrival .8s cubic-bezier(.2,.75,.2,1) both}
+.signup-footer.polish-seen #signup-title span+span{animation-delay:.1s}
+@keyframes signup-arrival{from{opacity:.7;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.polish-paused #play-title .spray-headline,.polish-paused #play .play-cue-arrow,.polish-paused .vault-return::before,.polish-paused .signup-footer .action::before,.polish-paused #restart-page::before,.polish-paused #signup-title span{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){#play-title .spray-headline,.vault-return::before,.signup-footer .action::before,.ending-copy #restart-page::before,.signup-footer #signup-title span{animation:none!important}#play .live-game-shell{opacity:1;transform:none}.vault-return,.signup-footer .action,.ending-copy #restart-page,.ending-copy #restart-page span{transition:none}.ending-copy #restart-page:hover span{transform:none}}
 </style>`);
 vault = productionGame.tunePage(vault);
 story = productionGame.integrate(story);

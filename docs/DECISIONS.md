@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 7, 2026 — readable invitation and final controls
+
+Keep Play the game fully painted instead of tying its legibility to scroll progress. Animate a restrained brightness change without moving the title or adding a fuzzy glow. The preview card supplies the scroll entrance; native wheel/touch travel remains unchanged. Preserve Back to the vault's paint reveal. Observe individual animated controls so offscreen highlights stop.
+
+Use warm gold primary capsules, stable labels while pressed or submitting, an outlined restart control, and a condensed two-line signup invitation. Remove the repeated gallery wordmark; retain all six photos. The user subsequently authorized publishing the checked candidate to the existing domain. This supersedes the earlier local-only release boundary.
+
 ## September 7, 2026 — centred ending and release preparation
 
 Centre the painted vault invitation, place its button below it, centre the button label while retaining its separate arrow, and centre the VCTRS mark above the gallery. Preserve the established sizes, pigment and paint animation rather than creating another transition or camera layout.

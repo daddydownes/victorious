@@ -43,7 +43,8 @@ async function metadata(engine,width,height){
     assert(!requests.some(p=>p.endsWith('story-film.mp4')),'Story video waits for its scene');
     const initial=await page.evaluate(()=>performance.getEntriesByType('resource').map(e=>({path:new URL(e.name).pathname,bytes:e.encodedBodySize})));
     await page.locator('#ending').scrollIntoViewIfNeeded();await page.waitForFunction(()=>Array.from(document.querySelectorAll('.end-photo img')).every(img=>img.complete&&img.naturalWidth>0));
-    for(const selector of ['#vault-title','.vault-action-group','.end-mark']){
+    assert.equal(await page.locator('.end-mark').count(),0,'The repeated wordmark below the vault was removed');
+    for(const selector of ['#vault-title','.vault-action-group']){
       const centred=await page.locator(selector).evaluate(el=>{const r=el.getBoundingClientRect();return {centre:r.x+r.width/2,expected:document.querySelector('main').getBoundingClientRect().width/2}});
       assert(Math.abs(centred.centre-centred.expected)<1,'Centred vault element: '+selector+' '+JSON.stringify(centred));
     }
