@@ -54,7 +54,7 @@ function witness(w,h,seed){
  const replay=setup(cssW,cssH,seed);replay.c.fWon=true;replay.c.flapStart();
  let steps=0,tapCount=0;const cleared=new Set(),kindClears={PILLAR:0,ARCH:0,SLANT:0,IRIS:0};
  for(const tap of taps){if(tap){replay.c.FG.vy=-.62;tapCount++;}for(let sub=0;sub<2&&steps<frames.length;sub++,steps++){replay.c.flapStep(dt,replay.s);for(const g of replay.c.FG.gates){assert(!g.missed,'witness must pass every aperture rather than bypass');if(g.counted&&!cleared.has(g.serial)){cleared.add(g.serial);kindClears[g.kind]++;assert(g.entered&&g.checkpassed,'real traversal flags required');}}}assert.equal(replay.c.FG.state,'play','witness must survive real collision code');}
- assert.equal(replay.c.FG.score,100);assert.deepEqual(kindClears,{PILLAR:30,ARCH:30,SLANT:20,IRIS:20});
+ assert.equal(replay.c.FG.score,100);assert.deepEqual(kindClears,{PILLAR:25,ARCH:25,SLANT:25,IRIS:25});
  // Perturb the successful script, without repairing it using future knowledge.
  // These are sensitivity probes, not human players or estimated human win rates.
  const imperfect=[];

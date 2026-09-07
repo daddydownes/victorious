@@ -12,9 +12,13 @@ function replace(text, from, to) {
   if (!text.includes(from)) throw Error('Production game adapter anchor missing: ' + from);
   return text.replace(from, to);
 }
-// Change the course sequence without speeding up the original difficulty curve.
-// The immutable production snapshot remains the reference for all other mechanics.
-function tuneStages(js) {
+// Keep the playable game on the production 25-clear course progression. The
+// automatic card may cycle the four looks faster, but that preview-only cadence
+// must never change the game opened by either Play control.
+function tuneGameStages(js) {
+  return replace(js, "var FLAP_LAYERS=['FALLING PINS','PINS + SWAY','FINAL LOCK / PINS + SWAY + SQUEEZE'];", "var FLAP_LAYERS=['GOLD ARCHES','SLALOM','FINAL LOCK'];");
+}
+function tunePreviewStages(js) {
   js = replace(js, "var FLAP_LAYERS=['FALLING PINS','PINS + SWAY','FINAL LOCK / PINS + SWAY + SQUEEZE'];", "var FLAP_LAYERS=['PILLARS','GOLD ARCHES','SLALOM','FINAL LOCK'];");
   js = replace(js, 'function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}', 'function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}\n    function flapDifficultyLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}');
   js = replace(js, 'function flapCourseProgress(serial){return Math.min(1,Math.max(0,(serial%25)/24));}', 'function flapCourseProgress(serial){return Math.min(1,Math.max(0,(serial%10)/9));}\n    function flapDifficultyProgress(serial){return Math.min(1,Math.max(0,(serial%25)/24));}');
@@ -27,7 +31,7 @@ function tuneStages(js) {
   js = replace(js, "FG.notice=FG.score<100?FLAP_LAYERS[unlocked-1]+' / NOW ACTIVE':'100 CLEARED / FINAL LOCK CONTINUES';", "FG.notice=FLAP_LAYERS[unlocked]+' / NEXT';");
   return js.replaceAll('A new challenge every 25.', 'A new style every 10.');
 }
-function tuneMarkup(html) {
+function tunePreviewMarkup(html) {
   html = html.replace(/<div class="flap-progress" aria-hidden="true">[\s\S]*?<\/div>/, '<div class="flap-progress" aria-hidden="true">'+Array.from({length:10},(_,i)=>'<i id="flapProgress'+i+'"></i>').join('')+'</div>');
   html = html.replace(/<div class="flap-milestones" aria-hidden="true">[\s\S]*?<\/div>/, '<div class="flap-milestones" aria-hidden="true">'+Array.from({length:11},(_,i)=>'<span>'+i*10+'</span>').join('')+'</div>');
   return html.replaceAll('A new challenge every 25.', 'A new style every 10.');
@@ -39,10 +43,13 @@ function removeTrail(js) {
   if(start<0||end<start)throw Error('V trail renderer anchor missing');
   return js.slice(0,start)+js.slice(end);
 }
-const core = removeTrail(tuneStages(rawCore));
+const core = removeTrail(tuneGameStages(rawCore));
 const gameplay = core.slice(0, core.indexOf('    /* ---- overlay open/close:'));
+const previewCore = removeTrail(tunePreviewStages(rawCore));
+const previewGameplay = previewCore.slice(0, previewCore.indexOf('    /* ---- overlay open/close:'));
 const css = between(snapshot, '  /* ---- FLAPPY-V:', '  /* ---- closed + email ---- */');
-const markup = tuneMarkup(between(snapshot, '<div class="flap-overlay"', '<div class="guide-cue'));
+const markup = between(snapshot, '<div class="flap-overlay"', '<div class="guide-cue');
+const previewMarkup = tunePreviewMarkup(markup);
 const logo = snapshot.match(/class="film-logo"[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
 const palette = `.flap-overlay{--ink:#0b0a08;--bone:#efe9dc;--bone-dim:#b9b0a0;--gold:#d4af5f;--gold-hot:#f0d492;--line:rgba(212,175,95,.25);z-index:10000}
 body.flap-game-locked{overflow:hidden!important}
@@ -103,11 +110,11 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}
 #flapPlay,.flap-top,.flap-bottom,.flap-panel{display:none!important}
 .flap-overlay{display:block!important;position:absolute;pointer-events:none}
 </style></head><body><button id="flapPlay" type="button" hidden></button>
-${markup}<span class="flap-source-mark" aria-hidden="true">${logo}</span>
+${previewMarkup}<span class="flap-source-mark" aria-hidden="true">${logo}</span>
 <script>(()=>{
 ${motion}
 // PRODUCTION_GAMEPLAY_START
-${gameplay}
+${previewGameplay}
 // PRODUCTION_GAMEPLAY_END
     var requested=false,previewFrames=0,previewFrame=0,previewLast=0,previewAccumulator=0;
     var previewHops=0;
@@ -169,4 +176,4 @@ ${gameplay}
   }
 })();</script></body></html>`;
 }
-module.exports = { integrate, preview, core, gameplay, storyCore, css, markup, tuneStages, removeTrail, tunePage:html=>tuneMarkup(removeTrail(tuneStages(html))) };
+module.exports = { integrate, preview, core, gameplay, previewGameplay, storyCore, css, markup, tuneGameStages, tunePreviewStages, removeTrail, tunePage:html=>removeTrail(tuneGameStages(html)) };

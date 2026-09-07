@@ -314,13 +314,13 @@ body.flap-game-locked{overflow:hidden!important}
   </div>
   <div class="flap-bottom">
     <div class="flap-tier" id="flapTier" role="status"></div>
-    <div class="flap-progress" aria-hidden="true"><i id="flapProgress0"></i><i id="flapProgress1"></i><i id="flapProgress2"></i><i id="flapProgress3"></i><i id="flapProgress4"></i><i id="flapProgress5"></i><i id="flapProgress6"></i><i id="flapProgress7"></i><i id="flapProgress8"></i><i id="flapProgress9"></i></div>
-    <div class="flap-milestones" aria-hidden="true"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+    <div class="flap-progress" aria-hidden="true"><i id="flapProgress0"></i><i id="flapProgress1"></i><i id="flapProgress2"></i><i id="flapProgress3"></i></div>
+    <div class="flap-milestones" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
   </div>
   <div class="flap-panel" id="flapPanel" aria-live="polite">
     <div class="eyebrow">VICTORIOUS / THE VAULT</div>
     <h2 id="flapTitle">FLAPPY V</h2>
-    <p id="flapHint">Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new style every 10.</p>
+    <p id="flapHint">Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new challenge every 25.</p>
     <button class="flap-play" id="flapAction" type="button">Start run</button>
   </div>
 </div>
@@ -484,18 +484,16 @@ function storyGameLock(locked){
        — and gives true 90/120Hz on high-refresh phones. The 250ms watchdog
        below still feeds flapTick if an embedder throttles rAF (the case LAW 1
        exists for); physics are dt-driven so cadence never changes speed. */
-    var FLAP_LAYERS=['PILLARS','GOLD ARCHES','SLALOM','FINAL LOCK'];
+    var FLAP_LAYERS=['GOLD ARCHES','SLALOM','FINAL LOCK'];
     var FLAP_MAX_SPEED=260/420;
-    function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}
-    function flapDifficultyLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}
-    function flapCourseProgress(serial){return Math.min(1,Math.max(0,(serial%10)/9));}
-    function flapDifficultyProgress(serial){return Math.min(1,Math.max(0,(serial%25)/24));}
+    function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}
+    function flapCourseProgress(serial){return Math.min(1,Math.max(0,(serial%25)/24));}
     function flapPace(score){
-      var level=flapDifficultyLevel(score), t=score>=100?1:flapDifficultyProgress(score);
+      var level=flapLevel(score), t=score>=100?1:flapCourseProgress(score);
       return ([185,205,225,245][level]+15*t)/420;
     }
     function flapInterval(serial){
-      var level=flapDifficultyLevel(serial), t=serial>=100?1:flapDifficultyProgress(serial);
+      var level=flapLevel(serial), t=serial>=100?1:flapCourseProgress(serial);
       var starts=[1.35,1.28,1.20,1.12], ends=[1.28,1.20,1.12,1.08];
       return starts[level]+(ends[level]-starts[level])*t;
     }
@@ -548,16 +546,16 @@ function storyGameLock(locked){
         fScoreKey=FG.score;
         fScore.style.fontSize=Math.min(30,144/(String(FG.score).length+2))+'px';
         fScore.innerHTML=FG.score+' <small>/ 100</small>';
-        for(var segment=0;segment<10;segment++){
+        for(var segment=0;segment<4;segment++){
           var bar=document.getElementById('flapProgress'+segment);
-          if(bar) bar.style.setProperty('--fill',Math.max(0,Math.min(1,(FG.score-segment*10)/10)));
+          if(bar) bar.style.setProperty('--fill',Math.max(0,Math.min(1,(FG.score-segment*25)/25)));
         }
       }
       if(key===fPanelKey) return;
       fPause.hidden=FG.state!=='play'||reduced;
       fPause.textContent=fPaused?'Resume':'Pause';
       fPanelKey=key; fPanel.hidden=key==='play'||key==='dying';
-      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new style every 10.','Start run'],
+      var copy={idle:['FLAPPY V','Tap, click or press Space to rise.<br>Fly through every opening — going around one ends the run. A new challenge every 25.','Start run'],
         paused:['PAUSED','Your run is on hold.<br>Continue when you’re ready.','Resume'],
         dead:['RUN ENDED',FG.score+' cleared &nbsp;·&nbsp; Best '+fBest,'Try again'],
         won:['VAULT UNLOCKED',COUPON_CODE+'<br>'+COUPON_LINE,'Play again'],
@@ -619,7 +617,7 @@ function storyGameLock(locked){
       var pending=0;
       FG.gates.forEach(function(g){if(!g.counted&&!g.missed)pending++;});
       var serial=FG.gateSerial++, ordinal=FG.score+pending, level=flapLevel(ordinal);
-      var progress=flapCourseProgress(ordinal);
+      var progress=ordinal>=100?1:flapCourseProgress(ordinal);
       var gh=[156,144,132,116][level]-[8,6,6,12][level]*progress;
       var width=[42,54,60,68][level]+(level===3?10*progress:0);
       var previous=FG.gates.length?FG.gates[FG.gates.length-1].target:s.h*0.45;
@@ -1096,9 +1094,9 @@ function storyGameLock(locked){
             if(FG.state==='play' && flapCollision(gt,s)) flapDie(s);
             if(FG.state==='play' && flapTraversal(gt,s)){
               FG.score++; FG.scorePop=1;
-              if(FG.score%10===0){
+              if(FG.score%25===0 && FG.score<=100){
                 var unlocked=flapLevel(FG.score);
-                FG.notice=FLAP_LAYERS[unlocked]+' / NEXT';
+                FG.notice=FG.score<100?FLAP_LAYERS[unlocked-1]+' / NOW ACTIVE':'100 CLEARED / FINAL LOCK CONTINUES';
                 FG.noticeT=3;
               }
               FG.trauma=Math.min(1,FG.trauma+0.08);
@@ -1347,7 +1345,7 @@ filmWrap.querySelector('video').style.transform='translateZ(0) scale('+(cover/sx
 const endq=smooth(clamp((p2-.10)/.6)),pad=w*(m?.055:.09),gap=m?10:short?12:22,cw=(w-pad*2-gap*2)/3,ch=h*(m?.175:short?.17:.18),gy=h*(m?.28:short?.29:.29);$('.game-v')?.style.setProperty('--float',(reduce.matches?0:Math.sin(clamp(-$('#play').getBoundingClientRect().top/h)*Math.PI*2)*20)+'px');tracks.forEach((t,i)=>{t.dataset.progress=[p0,p1,p2][i].toFixed(4)});window.__vctrsScene={hero:null,motionEnds:.7,progress:[p0,p1,p2],reduced:reduce.matches}}
 function request(){if(!queued){queued=true;requestAnimationFrame(render)}}addEventListener('scroll',request,{passive:true});addEventListener('resize',request);reduce.addEventListener('change',request);document.fonts.ready.then(request);render();
 const vault=$('#sharedVault'),lightbox=$('#sharedLightbox');let vaultTrigger=null,photoTrigger=null,oldOverflow='';function lock(){oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden'}document.querySelectorAll('[data-vault]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();vaultTrigger=b;lock();vault.showModal()}));$('[data-close-vault]').onclick=()=>vault.close();vault.addEventListener('close',()=>{document.body.style.overflow=oldOverflow;vaultTrigger?.focus({preventScroll:true})});document.querySelectorAll('[data-lightbox]').forEach(b=>b.onclick=()=>{photoTrigger=b;$('#lightbox-image').src=b.dataset.lightbox;$('#lightbox-image').alt=b.querySelector('img').alt;$('#lightbox-caption').textContent=b.querySelector('img').alt;lightbox.showModal()});$('[data-close-lightbox]').onclick=()=>lightbox.close();lightbox.addEventListener('close',()=>photoTrigger?.focus({preventScroll:true}));
-})();</script><script>(()=>{const form=document.getElementById('signup-form'),input=document.getElementById('signup-email'),status=document.getElementById('signup-result'),button=form.querySelector('button');form.addEventListener('submit',async e=>{e.preventDefault();if(form.getAttribute('aria-busy')==='true'||!form.reportValidity())return;const email=input.value.trim(),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);button.setAttribute('aria-disabled','true');form.setAttribute('aria-busy','true');status.textContent='Sending…';try{const r=await fetch('https://formsubmit.co/ajax/8cf25c17f91b3e3e4c8c34d3a15336ee',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,src:location.href,_subject:'VCTRS list signup',_template:'table'})});if(!r.ok)throw Error();const data=await r.json();if(data.success!==true&&data.success!=='true')throw Error();if(input.value.trim()===email){status.textContent="You're on the list.";input.value='';}else status.textContent='';}catch{status.textContent=input.value.trim()===email?'Not sent. Please try again.':'';}finally{clearTimeout(timer);button.removeAttribute('aria-disabled');form.removeAttribute('aria-busy');}})})();</script><script>(()=>{const key='vctrs-live-position';try{const manual=sessionStorage.getItem('vctrs-manual-restart')==='1';sessionStorage.removeItem('vctrs-manual-restart');if(manual){sessionStorage.removeItem(key);history.scrollRestoration='manual';scrollTo(0,0);document.fonts.ready.then(()=>scrollTo(0,0))}const saved=manual?null:JSON.parse(sessionStorage.getItem(key)||'null');sessionStorage.removeItem(key);if(saved){const restore=()=>{scrollTo({top:Math.min(saved.y,document.documentElement.scrollHeight-innerHeight),behavior:'instant'})};requestAnimationFrame(()=>{restore();requestAnimationFrame(restore)});document.fonts.ready.then(restore)}}catch{}let version=252612018816429,pending=false,busy=false,lastScroll=0;addEventListener('scroll',()=>{lastScroll=Date.now()},{passive:true});async function check(){if(busy)return;busy=true;try{const r=await fetch('state.json',{cache:'no-store'});if(!r.ok)return;const data=await r.json();if(!Number.isFinite(data.version))return;if(version===null)version=data.version;else if(data.version!==version)pending=true;if(pending&&Date.now()-lastScroll>1500&&document.getElementById('story-film').paused&&!window.__vctrsRestarting&&!document.querySelector('dialog[open],#flapOverlay.on,form[aria-busy="true"]')&&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){sessionStorage.setItem(key,JSON.stringify({y:scrollY}));location.reload()}}catch{}finally{busy=false}}if(['127.0.0.1','localhost','[::1]'].includes(location.hostname)){setInterval(check,1200);check()}window.__vctrsLive={check,get pending(){return pending},get version(){return version}}})();</script><script>(()=>{const frame=document.getElementById('game-preview'),card=document.querySelector('.live-game-shell'),button=document.getElementById('flapPlay'),overlay=document.getElementById('flapOverlay'),reduce=matchMedia('(prefers-reduced-motion: reduce)');let visible=false;
+})();</script><script>(()=>{const form=document.getElementById('signup-form'),input=document.getElementById('signup-email'),status=document.getElementById('signup-result'),button=form.querySelector('button');form.addEventListener('submit',async e=>{e.preventDefault();if(form.getAttribute('aria-busy')==='true'||!form.reportValidity())return;const email=input.value.trim(),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);button.setAttribute('aria-disabled','true');form.setAttribute('aria-busy','true');status.textContent='Sending…';try{const r=await fetch('https://formsubmit.co/ajax/8cf25c17f91b3e3e4c8c34d3a15336ee',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email,src:location.href,_subject:'VCTRS list signup',_template:'table'})});if(!r.ok)throw Error();const data=await r.json();if(data.success!==true&&data.success!=='true')throw Error();if(input.value.trim()===email){status.textContent="You're on the list.";input.value='';}else status.textContent='';}catch{status.textContent=input.value.trim()===email?'Not sent. Please try again.':'';}finally{clearTimeout(timer);button.removeAttribute('aria-disabled');form.removeAttribute('aria-busy');}})})();</script><script>(()=>{const key='vctrs-live-position';try{const manual=sessionStorage.getItem('vctrs-manual-restart')==='1';sessionStorage.removeItem('vctrs-manual-restart');if(manual){sessionStorage.removeItem(key);history.scrollRestoration='manual';scrollTo(0,0);document.fonts.ready.then(()=>scrollTo(0,0))}const saved=manual?null:JSON.parse(sessionStorage.getItem(key)||'null');sessionStorage.removeItem(key);if(saved){const restore=()=>{scrollTo({top:Math.min(saved.y,document.documentElement.scrollHeight-innerHeight),behavior:'instant'})};requestAnimationFrame(()=>{restore();requestAnimationFrame(restore)});document.fonts.ready.then(restore)}}catch{}let version=89753142988492,pending=false,busy=false,lastScroll=0;addEventListener('scroll',()=>{lastScroll=Date.now()},{passive:true});async function check(){if(busy)return;busy=true;try{const r=await fetch('state.json',{cache:'no-store'});if(!r.ok)return;const data=await r.json();if(!Number.isFinite(data.version))return;if(version===null)version=data.version;else if(data.version!==version)pending=true;if(pending&&Date.now()-lastScroll>1500&&document.getElementById('story-film').paused&&!window.__vctrsRestarting&&!document.querySelector('dialog[open],#flapOverlay.on,form[aria-busy="true"]')&&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){sessionStorage.setItem(key,JSON.stringify({y:scrollY}));location.reload()}}catch{}finally{busy=false}}if(['127.0.0.1','localhost','[::1]'].includes(location.hostname)){setInterval(check,1200);check()}window.__vctrsLive={check,get pending(){return pending},get version(){return version}}})();</script><script>(()=>{const frame=document.getElementById('game-preview'),card=document.querySelector('.live-game-shell'),button=document.getElementById('flapPlay'),overlay=document.getElementById('flapOverlay'),reduce=matchMedia('(prefers-reduced-motion: reduce)');let visible=false;
 function syncPreview(){frame.contentWindow?.postMessage({type:'vctrs-preview',active:visible&&!document.hidden&&!overlay.classList.contains('on')&&!reduce.matches},location.origin)}
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.12;syncPreview()},{threshold:.12}).observe(card);new MutationObserver(syncPreview).observe(overlay,{attributes:true,attributeFilter:['class']});frame.addEventListener('load',syncPreview);document.addEventListener('visibilitychange',syncPreview);reduce.addEventListener('change',syncPreview);addEventListener('message',e=>{if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data?.type==='vctrs-preview-ready')syncPreview()});
 [button,document.getElementById('journey-play')].forEach(entry=>{let entryRect=null;entry.addEventListener('click',()=>{entryRect=card.getBoundingClientRect()},{capture:true});entry.addEventListener('click',()=>{overlay.getAnimations().forEach(a=>a.cancel());if(reduce.matches||!entryRect)return;const r=entryRect;overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});});});

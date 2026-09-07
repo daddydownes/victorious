@@ -7,7 +7,7 @@ const root=path.resolve(__dirname,'..'),out=process.argv[2]&&path.resolve(proces
 const base=process.env.DEMO_URL||'http://127.0.0.1:59408';
 const preview=fs.readFileSync(path.join(root,'experience/game-preview.html'),'utf8');
 function adapter(html){return html.slice(html.indexOf('    var requested=false,previewFrames=0'),html.indexOf('\n  }\n})();',html.indexOf('    var requested=false,previewFrames=0')));}
-function pilot(html,w,h,seed){const t=setup(w,h,seed);t.c.parent={postMessage(){}};t.c.location={origin:base};t.c.flapDraw=()=>{};vm.runInContext(adapter(html),t.c);return t;}
+function pilot(html,w,h,seed){const t=setup(w,h,seed,1,'','experience/game-preview.html');t.c.parent={postMessage(){}};t.c.location={origin:base};t.c.flapDraw=()=>{};vm.runInContext(adapter(html),t.c);return t;}
 function ballisticStep(c,s){
   const y=c.FG.y,vy=c.FG.vy,hops=c.previewHops,rot=c.FG.rot,dt=1/120;
   c.previewStep(dt,s);
@@ -17,16 +17,16 @@ function ballisticStep(c,s){
 }
 const trajectories=[];
 for(const [w,h] of [[1280,900],[390,280],[320,280]])for(const seed of [1,7,19]){
-  const {c,s,storage}=pilot(preview,w,h,seed),stored=Array.from(storage),kinds=new Set();let steps=0,minY=1,maxY=0,minInset=Infinity;
+  const {c,s,storage}=pilot(preview,w,h,seed),stored=Array.from(storage),kinds=new Set(),kindAtScore=new Map();let steps=0,minY=1,maxY=0,minInset=Infinity;
   while(c.FG.score<200){
     ballisticStep(c,s);steps++;assert(steps<60000,'Preview must continue through repeated courses');
     minY=Math.min(minY,c.FG.y);maxY=Math.max(maxY,c.FG.y);
     for(const g of c.FG.gates){
-      kinds.add(g.kind);assert(!c.flapCollision(g,s),'Pilot must visibly clear '+g.kind+' at '+g.serial);
+      kinds.add(g.kind);if(!kindAtScore.has(g.ordinal))kindAtScore.set(g.ordinal,g.kind);assert(!c.flapCollision(g,s),'Pilot must visibly clear '+g.kind+' at '+g.serial);
       if(g.kind!=='PILLAR')for(const poly of c.flapHazardPolygons(g,s))for(const p of poly){minInset=Math.min(minInset,p[1],s.h-p[1]);assert(p[1]>12&&p[1]<s.h-12,'Finite portals must fit fully inside the preview');}
     }
   }
-  assert.equal(kinds.size,4);assert(c.previewHops>300);assert(maxY-minY>.07,'Flaps have a visible vertical arc');assert.deepEqual(Array.from(storage),stored);
+  assert.equal(kinds.size,4);for(const [score,kind] of [[9,'PILLAR'],[10,'ARCH'],[19,'ARCH'],[20,'SLANT'],[29,'SLANT'],[30,'IRIS'],[39,'IRIS'],[40,'PILLAR']])assert.equal(kindAtScore.get(score),kind,'preview-only ten-clear style boundary '+score);assert(c.previewHops>300);assert(maxY-minY>.07,'Flaps have a visible vertical arc');assert.deepEqual(Array.from(storage),stored);
   trajectories.push({w,h,seed,clears:c.FG.score,hops:c.previewHops,steps,minY,maxY,minInset});
 }
 // Optional frozen old candidate proves that the regression rejects the guide.
