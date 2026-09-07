@@ -68,6 +68,9 @@ async function arrivalAndRealPlay(browser){
   await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview);
   await page.waitForFunction(()=>document.querySelector('#play-title img').currentSrc.includes('play-the-game-vstyle-v1.svg'));
   await page.waitForTimeout(150);assert.equal((await page.evaluate(()=>window.__motionAudit.filter(r=>r.element.matches('.live-game-shell')&&Number(r.options.duration)===980).length)),0,'card arrived before its artwork decoded');
+  await page.setViewportSize({width:1360,height:820});await page.locator('#flapPlay').scrollIntoViewIfNeeded();await page.waitForTimeout(75);
+  assert.equal(await page.evaluate(()=>window.__flapMotion?.arrivalPlayed()),false,'pre-arrival resize consumed the one-shot arrival');assert.equal(await page.evaluate(()=>window.__motionAudit.filter(r=>r.element.matches('.live-game-shell')&&Number(r.options.duration)===980).length),0,'pre-arrival resize started the card before artwork decoded');
+  await page.setViewportSize({width:1440,height:900});await page.locator('#flapPlay').scrollIntoViewIfNeeded();
   const titleBefore=await page.locator('#play-title').boundingBox();assert(playRequested,'play title request was not held');releasePlay();
   const arrival=await findMotion(page,0,'.live-game-shell',980),arrivalInfo=await motionInfo(page,arrival);assert.equal(arrivalInfo.delay,90);assert(String(arrivalInfo.frames[0].transform).includes('38px')&&String(arrivalInfo.frames[0].transform).includes('.965'),'card arrival lost its 38px/.965 origin');
   await finishMotion(page,arrival);await page.waitForFunction(()=>window.__flapMotion?.arrivalPlayed());const titleAfter=await page.locator('#play-title').boundingBox();for(const key of ['x','y','width','height'])approx(titleAfter[key],titleBefore[key],.2,'card arrival moved title '+key);
