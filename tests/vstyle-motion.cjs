@@ -14,7 +14,8 @@ function parseInset(value){
 }
 async function instrument(context){
  await context.addInitScript(()=>{
-  const nativeAnimate=Element.prototype.animate;window.__motionAudit=[];
+ const nativeAnimate=Element.prototype.animate;window.__motionAudit=[];
+  window.__escapeAudit=null;addEventListener('keydown',event=>{const overlay=document.getElementById('flapOverlay');if(event.key==='Escape'&&overlay)window.__escapeAudit={clipPath:getComputedStyle(overlay).clipPath,state:window.__flapMotion?.state()}},true);
   Element.prototype.animate=function(keyframes,options){
    const animation=nativeAnimate.call(this,keyframes,options),record={element:this,animation,keyframes,options:typeof options==='number'?{duration:options}:{...(options||{})},created:performance.now()};
    window.__motionAudit.push(record);return animation;
@@ -81,21 +82,22 @@ async function arrivalAndRealPlay(browser){
   assert((await auditCount(page))>=count,'motion audit unexpectedly lost records');
   const preview=page.frameLocator('#game-preview');await preview.locator('#flap').waitFor();await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview.active());const previewFrames=await preview.locator('body').evaluate(()=>window.__preview.frames());
   const opened=await openMotion(page,'#flapPlay');await finishOpen(page,opened.index);assert(!await page.evaluate(()=>document.querySelector('#game-preview').contentWindow.__preview.active()),'inline preview kept running behind playable game');await page.keyboard.press('Tab');assert(await page.locator('#flapOverlay').evaluate(el=>el.contains(document.activeElement)),'focus escaped the playable dialog');
-  await page.locator('#flapAction').click();await page.waitForFunction(()=>window.__flap.state()==='play'&&window.__flap.dbg().gates.length>0);const beforeTap=await page.evaluate(()=>({state:__flap.state(),vy:__flap.dbg().vy,kind:__flap.dbg().gates[0].kind}));
-  await page.locator('#flap').click({position:{x:360,y:420}});await page.waitForFunction(before=>window.__flap.dbg().vy<before,beforeTap.vy,{timeout:1000});assert.equal(beforeTap.state,'play');assert.equal(beforeTap.kind,'PILLAR');
+  await page.locator('#flapAction').click();await page.waitForFunction(()=>window.__flap.state()==='play'&&window.__flap.dbg().gates.length>0&&window.__flap.dbg().vy>-.45&&!window.__flap.paused());
+  await page.evaluate(()=>{window.__pointerWitness=null;document.getElementById('flap').addEventListener('pointerdown',()=>{const before={state:__flap.state(),vy:__flap.dbg().vy,kind:__flap.dbg().gates[0]?.kind};queueMicrotask(()=>window.__pointerWitness={before,after:{state:__flap.state(),vy:__flap.dbg().vy}})},{capture:true,once:true})});
+  await page.locator('#flap').click({position:{x:360,y:420}});await page.waitForFunction(()=>window.__pointerWitness?.after);const pointerWitness=await page.evaluate(()=>window.__pointerWitness);assert.equal(pointerWitness.before.state,'play');assert.equal(pointerWitness.before.kind,'PILLAR');assert.equal(pointerWitness.after.state,'play');assert(pointerWitness.after.vy<pointerWitness.before.vy&&pointerWitness.after.vy<=-.6,'real pointer did not apply the flap impulse: '+JSON.stringify(pointerWitness));
   await closeMotion(page,'flapPlay');approx(await page.evaluate(()=>scrollY),opened.scroll,1,'return scroll');await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview.active());assert((await preview.locator('body').evaluate(()=>window.__preview.frames()))>=previewFrames);
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!document.querySelector('#game-preview').contentWindow.__preview.active());await page.emulateMedia({reducedMotion:'no-preference'});await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview.active());
   await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'))});await page.waitForFunction(()=>!document.querySelector('#game-preview').contentWindow.__preview.active());await page.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'))});await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview.active());
   assert.equal(await page.locator('#flapOverlay iframe').count(),0,'motion substituted an automatic demo for the playable engine');
-  results.push({case:'decoded one-shot arrival and real playable entry',arrival:arrivalInfo,previewPausedBehindGame:true,startAndFlap:true,vaultRequestHeld:vaultRequested});
+  results.push({case:'decoded one-shot arrival and real playable entry',arrival:arrivalInfo,previewPausedBehindGame:true,startAndFlap:pointerWitness,vaultRequestHeld:vaultRequested});
  }finally{if(releasePlay)releasePlay();if(releaseVault)releaseVault();await context.close()}
 }
 async function earlyEscapeAndCycles(browser){
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});await instrument(context);await guard(context);const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  try{
   await gotoPlay(page,'early-escape');await waitArrival(page);await page.locator('#journey-play').scrollIntoViewIfNeeded();
-  const opened=await openMotion(page,'#journey-play');await waitInFlight(page,opened.index,55);const sampled=parseInset(await page.locator('#flapOverlay').evaluate(el=>getComputedStyle(el).clipPath));
-  await page.screenshot({path:path.join(out,'desktop-1440x900-entry-midflight.png')});const before=await auditCount(page);await page.keyboard.press('Escape');const closing=await findMotion(page,before,'#flapOverlay',430),closeInfo=await motionInfo(page,closing),closeStart=parseInset(closeInfo.frames[0].clipPath);
+  const opened=await openMotion(page,'#journey-play');await waitInFlight(page,opened.index,55);await page.screenshot({path:path.join(out,'desktop-1440x900-entry-midflight.png')});await waitInFlight(page,opened.index,55);
+  const before=await auditCount(page);await page.keyboard.press('Escape');const escapeAudit=await page.evaluate(()=>window.__escapeAudit);assert.equal(escapeAudit.state,'opening','Escape was not dispatched during opening');const sampled=parseInset(escapeAudit.clipPath),closing=await findMotion(page,before,'#flapOverlay',430),closeInfo=await motionInfo(page,closing),closeStart=parseInset(closeInfo.frames[0].clipPath);
   sampled.slice(0,4).forEach((value,i)=>approx(closeStart[i],value,2,'early Escape sampled clip '+i));await finishMotion(page,closing);await page.waitForFunction(()=>!document.getElementById('flapOverlay').classList.contains('on'));assert.equal(await page.evaluate(()=>document.activeElement.id),'journey-play');approx(await page.evaluate(()=>scrollY),opened.scroll,1,'early Escape scroll');
   for(const selector of ['#flapPlay','#journey-play','#flapPlay']){
    await page.locator(selector).scrollIntoViewIfNeeded();const next=await openMotion(page,selector);await finishOpen(page,next.index);await closeMotion(page,selector.slice(1));assert.equal(await page.locator('#flapOverlay').evaluate(el=>el.getAnimations().filter(a=>a.playState==='running').length),0);
