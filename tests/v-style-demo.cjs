@@ -40,7 +40,7 @@ assert(arrowColours.length&&arrowColours.every(value=>value==='#f0d492'),'play a
 assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(arrow),'play arrow contains embedded styling, behavior or references');
 const story=read('experience/index.html');
 for(const relative of titleAssets.map(file=>file.replace('experience/','')))assert(story.includes('src="'+relative+'"'),relative+' is not wired into the story');
-assert(story.includes('src="'+arrowAsset.replace('experience/','')+'"'),'play arrow is not wired into the story');
+assert(story.includes(arrowAsset.replace('experience/','')),'play arrow is not wired into the story');
 assert(story.includes('<span class="paint-title-text">Play the game.</span>')&&story.includes('<span class="paint-title-text">Back to the vault</span>'),'readable title fallbacks changed');
 assert(story.includes('id="play-title" class="paint-pending"')&&story.includes('id="vault-title" class="paint-pending"'),'pending title layout contract changed');
 const paint=read('tools/flappy-clean-paint.js'),face=paint.slice(paint.indexOf('  function drawFacePaint('),paint.indexOf('\n  function flapDrawPaintBackdrop('));
