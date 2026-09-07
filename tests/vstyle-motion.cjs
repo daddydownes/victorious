@@ -59,14 +59,14 @@ async function closeMotion(page,opener){
 async function arrivalAndRealPlay(browser){
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});await instrument(context);await guard(context);
  await context.addInitScript(()=>{const nativeDecode=HTMLImageElement.prototype.decode;HTMLImageElement.prototype.decode=function(){if(this.currentSrc.includes('back-to-the-vault-vstyle-v1.svg')||this.src.includes('back-to-the-vault-vstyle-v1.svg'))return new Promise(()=>{});return nativeDecode.call(this)}});
- let releasePlay,releaseVault,playRequested=false,vaultRequested=false;
- await context.route('**/assets/play-the-game-vstyle-v1.svg',async route=>{playRequested=true;await new Promise(resolve=>releasePlay=resolve);await route.continue()});
+ let releasePlay,releaseVault,playRequested=false,vaultRequested=false,markPlayRequested;const playRequest=new Promise(resolve=>markPlayRequested=resolve);
+ await context.route('**/assets/play-the-game-vstyle-v1.svg',async route=>{playRequested=true;markPlayRequested();await new Promise(resolve=>releasePlay=resolve);await route.continue()});
  await context.route('**/assets/back-to-the-vault-vstyle-v1.svg',async route=>{vaultRequested=true;await new Promise(resolve=>releaseVault=resolve);await route.continue()});
  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  try{
   await page.goto(base+'/experience/?motion=decoded-arrival#play',{waitUntil:'domcontentloaded'});await page.locator('#flapPlay').scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector('#game-preview').contentWindow.__preview);
-  await page.waitForFunction(()=>document.querySelector('#play-title img').currentSrc.includes('play-the-game-vstyle-v1.svg'));
+  await page.waitForFunction(()=>document.querySelector('#play-title img').getAttribute('src').includes('play-the-game-vstyle-v1.svg'));await playRequest;
   await page.waitForTimeout(150);assert.equal((await page.evaluate(()=>window.__motionAudit.filter(r=>r.element.matches('.live-game-shell')&&Number(r.options.duration)===980).length)),0,'card arrived before its artwork decoded');
   await page.setViewportSize({width:1360,height:820});await page.locator('#flapPlay').scrollIntoViewIfNeeded();await page.waitForTimeout(75);
   assert.equal(await page.evaluate(()=>window.__flapMotion?.arrivalPlayed()),false,'pre-arrival resize consumed the one-shot arrival');assert.equal(await page.evaluate(()=>window.__motionAudit.filter(r=>r.element.matches('.live-game-shell')&&Number(r.options.duration)===980).length),0,'pre-arrival resize started the card before artwork decoded');
