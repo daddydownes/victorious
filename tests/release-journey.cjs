@@ -110,7 +110,7 @@ async function capture(page, name) {
   try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
     await localOnly(context);
-    await context.route(/(?:play-the-game|back-to-the-vault|play-arrow)-spray-v1\.png/, route => route.abort());
+    await context.route(/(?:play-the-game-vstyle-v1\.svg|back-to-the-vault-vstyle-v1\.svg|play-arrow-spray-v1\.png)/, route => route.abort());
     const page = await context.newPage();
     await page.goto(base + '/experience/?image-failure-check');
     for (const id of ['play-title', 'vault-title']) {

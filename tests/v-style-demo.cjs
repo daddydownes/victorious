@@ -1,0 +1,35 @@
+'use strict';
+// Static guardrails for the local V-style concept. The new artwork may change;
+// the canonical V, course rules, collision geometry and saved media may not.
+const assert=require('node:assert/strict'),cp=require('node:child_process'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),baseline='81ab867';
+const read=file=>fs.readFileSync(path.join(root,file),'utf8');
+const saved=file=>cp.execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:32*1024*1024});
+function block(source,name){
+ const marker='    function '+name+'(',start=source.indexOf(marker);assert(start>=0,'missing '+name);
+ const next=source.indexOf('\n    function ',start+marker.length);return source.slice(start,next<0?source.length:next);
+}
+const protectedFunctions=['flapTraceLogo','flapLogoContours','flapPolePolygon','flapCollision','flapLevel','flapCourseProgress','flapPace','flapInterval','flapSpawn','flapAperture','flapHazardPolygons','flapTraversal','flapGateUpdate','flapStep','flapDrawV'];
+for(const file of ['index.html','experience/index.html','experience/game-preview.html']){
+ const current=read(file),before=saved(file);
+ for(const name of protectedFunctions)assert.equal(block(current,name),block(before,name),file+' changed protected '+name);
+}
+const canonical=saved('index.html').match(/class="vmark"[^>]*>[\s\S]*?<path d="([^"]+)"/)[1];
+for(const file of ['index.html','experience/index.html'])assert.equal(read(file).match(/class="vmark"[^>]*>[\s\S]*?<path d="([^"]+)"/)[1],canonical,file+' changed the canonical V/star path');
+const titleAssets=['experience/assets/play-the-game-vstyle-v1.svg','experience/assets/back-to-the-vault-vstyle-v1.svg'];
+for(const file of titleAssets){
+ assert(fs.existsSync(path.join(root,file)),'missing versioned title asset '+file);
+ const svg=read(file),head=svg.match(/<svg\b[^>]*>/)?.[0]||'';
+ assert(/\bwidth="1536"/.test(head)&&/\bheight="1024"/.test(head)&&/\bviewBox="0 0 1536 1024"/.test(head),file+' must retain the native 3:2 title canvas');
+ assert(!/<(?:filter|image|linearGradient|radialGradient|script|text)\b/i.test(svg),file+' must stay self-contained flat vector art');
+ const colours=[...svg.matchAll(/#[0-9a-f]{6}/gi)].map(m=>m[0].toLowerCase());assert(colours.length&&colours.every(value=>value==='#f0d492'),file+' uses a colour other than canonical #f0d492');
+ assert(/<(?:path|circle|ellipse)\b[^>]*(?:fill|stroke)="#f0d492"/i.test(svg),file+' has no canonical-gold artwork');
+ assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(svg),file+' contains embedded styling, behavior or references');
+}
+const story=read('experience/index.html');
+for(const relative of titleAssets.map(file=>file.replace('experience/','')))assert(story.includes('src="'+relative+'"'),relative+' is not wired into the story');
+assert(story.includes('<span class="paint-title-text">Play the game.</span>')&&story.includes('<span class="paint-title-text">Back to the vault</span>'),'readable title fallbacks changed');
+assert(story.includes('id="play-title" class="paint-pending"')&&story.includes('id="vault-title" class="paint-pending"'),'pending title layout contract changed');
+assert(read('index.html').includes('function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}'));
+assert(read('experience/game-preview.html').includes('function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}'));
+console.log(JSON.stringify({pass:true,baseline,protectedFunctions:protectedFunctions.length,routes:3,titleAssets,canonicalGold:'#f0d492',checks:['canonical V path','physics and collision source identity','actual 25 / preview 10 progression','flat self-contained title SVGs','readable pending fallbacks']}));
