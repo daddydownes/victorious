@@ -1,5 +1,13 @@
 # Current status
 
+## Live reconciliation and 25-clear repair candidate — September 7, 2026
+
+Fresh GitHub reconciliation found that the earlier `e972c19` checkout was stale. GitHub `main` and the latest successful Pages build were both `46226be139353d81947499ec5552c52547d68011`; fresh copies of `/`, `/experience/` and `/experience/game-preview.html` matched that commit byte for byte. The deployed adapter had unintentionally applied the automatic preview's ten-clear style cycle to both playable game routes.
+
+The current repair candidate restores the playable root and story games to four 25-clear sections: pillars at 0–24, arches at 25–49, slalom at 50–74 and final lock at 75–99. Speed, spacing and openings continue their original gradual progression inside those sections. Only the automatic, non-scoring preview cycles its visual styles every ten clears. The reward remains at 100.
+
+The authoritative source is `tools/production-game.cjs`; `node tools/build-experience.cjs` regenerates root `index.html`, `experience/index.html`, `experience/game-preview.html` and `experience/state.json`. The repair is saved locally as commit `a272869` on `fix/flappy-progression-20260907`. It is not live until it is published and verified against the canonical responses. See [the session audit](reviews/session-audit-2026-09-07.md) for baseline hashes, scope and validation.
+
 ## Film loading and continuous playback — September 7, 2026
 
 A reproduced WebKit media-backend pause immediately after the native loop returns to zero is handled with one guarded resume attempt. It runs only while the scene is visible and motion/playback are allowed, and resets after playback advances. This does not override offscreen, hidden, game or reduced-motion pauses.
@@ -12,11 +20,11 @@ Passed: real delayed HTTP media and native looping in Chromium/Firefox at 4x and
 
 The Play the game artwork now stays complete during fast and reverse scrolling. A small scroll-driven rise settles the game card, while a restrained light breath keeps the original spray texture alive. Back to the vault retains its paint reveal. Gold capsule controls have a passing highlight and stable pressed/focus states; the signup invitation has a brief two-line entrance. Motion pauses outside the viewport, behind the game, when hidden, and under reduced motion.
 
-Removed the repeated VCTRS mark between Enter the vault and the six photographs at the user's request. The original game, 100-point reward, ten-clear styles, video/replay policy, original entrance and return navigation remain. The user explicitly authorized publication after the bug checks. See [final motion and release evidence](reviews/final-motion.md). Browser-engine checks are not physical-device certification.
+Removed the repeated VCTRS mark between Enter the vault and the six photographs at the user's request. The original game, 100-point reward, video/replay policy, original entrance and return navigation remain. This historical release used ten-clear styles in the playable game; the current repair above supersedes that cadence. See [final motion and release evidence](reviews/final-motion.md). Browser-engine checks are not physical-device certification.
 
 ## Dot-com release candidate — September 7, 2026
 
-Prepared the complete site for its existing GitHub Pages domain. The Back to the vault artwork, its button and button label now share one centre line; the VCTRS mark is centred above the six photos. Their artwork, spray reveal and existing navigation are preserved. The latest game remains the production engine with natural preview flaps, no V trail, ten-clear style changes and the original 100-point goal.
+Prepared the complete site for its existing GitHub Pages domain. The Back to the vault artwork, its button and button label now share one centre line; the VCTRS mark is centred above the six photos. Their artwork, spray reveal and existing navigation are preserved. This historical candidate used ten-clear style changes in all game surfaces; the current repair above restores 25-clear playable sections while retaining the ten-clear automatic preview and 100-point goal.
 
 Fixed an offscreen film-start defect: IntersectionObserver reports an edge touch as intersecting even when none of the story section is visible. The film now waits for actual exposure, so it cannot finish behind the opening V. Retained the accepted end-only Replay control. The gallery loads lazily, and the story now has canonical/share metadata using the existing approved artwork and favicon. Added the two public routes to a sitemap; the automatic game preview is marked noindex.
 
@@ -26,7 +34,7 @@ Eight complete natural journeys passed, together with three production-origin au
 
 The preview now flies with the production tap impulse and gravity. Removed both the sinusoidal float and the subsequent route-guide corrections that pulled the V into position. The pilot chooses when to flap; it never adjusts the V's position to meet a gate. A centred, gently varying preview route keeps the full arches, slanted rails and rocky jaws inside the card. Preview openings are wider for this automatic demonstration; the playable openings remain unchanged.
 
-Root, story and preview now repeat pillars, arches, slanted rails and rocky jaws every ten clears. The actual game still unlocks its original reward at **100** and retains its original speed/spacing progression. Removed the short line following the V while preserving frame history for smooth rendering.
+At commit `31599b5`, root, story and preview repeated pillars, arches, slanted rails and rocky jaws every ten clears. That playable cadence is now superseded: root and story use 25-clear sections, while the automatic preview retains ten-clear visual cycling. The actual game still unlocks its original reward at **100** and retains gradual speed/spacing progression. Removed the short line following the V while preserving frame history for smooth rendering.
 
 Validation: nine complete preview simulations (1,800 clears) passed collision, silhouette bounds and physics-only position checks. The rejected guide-based preview fails the new motion regression. Chromium, WebKit and Firefox rendered-preview journeys passed, with stage screenshots, frame samples, reduced-motion handling and play/exit checks. Six playable-game browser journeys, all ten mandatory root suites and 13 integration/rebuild checks pass. Reachability covers twelve seeded 100-clear courses, not a human difficulty rating. Run `node tests/game-hop-cycle.cjs` for the new regression; `node tests/production-game.cjs` checks the original source plus the explicit approved adaptations.
 
@@ -109,7 +117,7 @@ The film surface keeps fixed layout dimensions and uses transforms for the expan
 
 Validation: `tests/full-experience.cjs` passes 13 checks; original reveal and Surface input checks also pass. All ten original mandatory suites passed earlier in this integration; only affected suites were rerun after the final control edits. Desktop in-app browser checked opening, expanding film, end-only replay, game entry/exit, real vault return, Surface landing and restart invitation. No physical-phone, Safari or real signup testing; no universal flicker-elimination claim. See `docs/reviews/full-experience.md`. Prior production history below is not a deployment of this candidate.
 
-Updated September 6, 2026. The user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Production is now `cf51ffc`: GitHub Pages reports built, and https://vctrsclo.com/ exactly matches the approved local index.html. Prior production was `5f098d6`. Preview-only statements below record earlier iteration stages; the approved game is now live.
+Historical September 6 snapshot: the user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Production at that point was `cf51ffc`; the verified September 7 live baseline is `46226be`. Preview-only statements below record earlier iteration stages. Use the top section for current state.
 
 ## Current production state
 

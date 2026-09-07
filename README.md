@@ -1,8 +1,8 @@
 # VCTRS — Victorious
 
-The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. This local release candidate follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
+The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. The published journey follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
 
-This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The candidate has not been published; see the [dot-com readiness review](docs/reviews/com-ready.md) for the current checks, release steps and device limits.
+This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and the relevant extractor, then regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. Commit `46226be` is the verified published baseline for the September 7 progression repair; see the [current status](docs/STATUS.md) and [session audit](docs/reviews/session-audit-2026-09-07.md) before continuing work.
 
 ## Start here
 

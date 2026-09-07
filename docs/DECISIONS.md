@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 7, 2026 — playable sections every 25, preview styles every 10
+
+The playable game reached from either the root page or the story must change obstacle section only after 25 successful clears: pillars at 0–24, arches at 25–49, slalom at 50–74 and final lock at 75–99. Preserve the original gradual speed, spacing and opening progression inside each section and the reward at 100.
+
+The automatic, non-scoring preview may cycle the four visual styles every ten clears to show the range quickly. Keep that cadence in preview-specific source and markup. Generate both playable routes and the preview from the pinned production snapshot, while testing their intentional cadence difference. This supersedes the earlier decision to apply ten-clear styles to root, story and preview alike.
+
 ## September 7, 2026 — looping story film
 
 The user explicitly replaces the previous once-and-Replay behavior with continuous looping. Preserve muted inline playback and offscreen/game/reduced-motion pauses. Show a moving, restrained placeholder during initial loading and buffering, then fade into the real video. Keep recovery controls exceptional, never an end-of-film Replay button. Replace the background wordmark glow with shaded gold and crisp extruded edges; do not alter its vector path or the statement copy.
@@ -18,9 +24,9 @@ Production links remain relative for local previews and the real domain. Canonic
 
 Require a nonzero visible portion of the film section before playback. A zero-area IntersectionObserver edge touch must not start or download the film. Keep the current accepted end-only Replay behavior; this readiness pass does not reverse the earlier restored demo. Load the six gallery photographs lazily without changing their files or layout.
 
-## September 7, 2026 — natural flaps, ten-clear styles, 100-point goal
+## September 7, 2026 — natural flaps and historical ten-clear rollout
 
-Keep the original game's 100-point reward. Repeat the four obstacle styles every ten clears, without accelerating the original speed and spacing curve. Apply the same explicit source adaptation to the root and story game so entering from either route plays the same rules. The immutable upstream snapshot remains unchanged.
+This historical decision repeated the four obstacle styles every ten clears in root, story and preview while retaining the 100-point reward and original speed/spacing curve. The current decision above supersedes the playable cadence: root and story now use 25-clear sections; only the automatic preview cycles every ten.
 
 Remove the V's trailing stroke, keeping the rendering interpolation history. In the automatic preview, move the V only through the original upward impulse and gravity: steer by flap timing, never by position nudges, clamps or a sine wave. Show a centred, gently varying course with settled portals and sufficient opening space to demonstrate uninterrupted natural flight. These presentation choices do not widen the actual game's gaps or bypass its collisions.
 

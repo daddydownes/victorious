@@ -1,0 +1,756 @@
+{
+  "at": "2026-09-07T13:34:47.720Z",
+  "base": "http://127.0.0.1:59419",
+  "results": [
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "rootLoadWallMs": 154,
+      "rootIdleFrames": {
+        "count": 109,
+        "medianMs": 17,
+        "p95Ms": 18,
+        "maxMs": 20,
+        "over34ms": 0,
+        "over50ms": 0
+      },
+      "rootInitial": {
+        "nav": {
+          "dcl": 29,
+          "load": 149,
+          "responseEnd": 8,
+          "transferSize": 316926,
+          "encodedBodySize": 316626
+        },
+        "resources": [
+          {
+            "path": "/assets/hero-poster-311ec34583b0.jpg",
+            "initiator": "video",
+            "duration": 1,
+            "transferSize": 39868,
+            "encodedBodySize": 39568,
+            "decodedBodySize": 39568
+          },
+          {
+            "path": "/vctrs-wordmark.svg",
+            "initiator": "css",
+            "duration": 3,
+            "transferSize": 9119,
+            "encodedBodySize": 8819,
+            "decodedBodySize": 8819
+          },
+          {
+            "path": "/assets/drop-backdrop-663166a67586.jpg",
+            "initiator": "css",
+            "duration": 2,
+            "transferSize": 70699,
+            "encodedBodySize": 70399,
+            "decodedBodySize": 70399
+          },
+          {
+            "path": "/assets/archive-01-58e7ac2e3a3b.jpg",
+            "initiator": "img",
+            "duration": 2,
+            "transferSize": 27834,
+            "encodedBodySize": 27534,
+            "decodedBodySize": 27534
+          },
+          {
+            "path": "/assets/archive-02-b82ff6db2eaa.jpg",
+            "initiator": "img",
+            "duration": 3,
+            "transferSize": 27381,
+            "encodedBodySize": 27081,
+            "decodedBodySize": 27081
+          },
+          {
+            "path": "/assets/archive-03-31ae90ed73de.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 14744,
+            "encodedBodySize": 14444,
+            "decodedBodySize": 14444
+          },
+          {
+            "path": "/assets/archive-04-a08c0140b9fc.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 19394,
+            "encodedBodySize": 19094,
+            "decodedBodySize": 19094
+          },
+          {
+            "path": "/assets/archive-05-278b09ff2a2e.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 18827,
+            "encodedBodySize": 18527,
+            "decodedBodySize": 18527
+          },
+          {
+            "path": "/assets/archive-06-104a3b59a0c2.jpg",
+            "initiator": "img",
+            "duration": 0,
+            "transferSize": 21442,
+            "encodedBodySize": 21142,
+            "decodedBodySize": 21142
+          },
+          {
+            "path": "/assets/archive-07-eb013a1343bd.jpg",
+            "initiator": "img",
+            "duration": 3,
+            "transferSize": 57239,
+            "encodedBodySize": 56939,
+            "decodedBodySize": 56939
+          },
+          {
+            "path": "/assets/archive-08-c42f310c66f0.jpg",
+            "initiator": "img",
+            "duration": 4,
+            "transferSize": 43020,
+            "encodedBodySize": 42720,
+            "decodedBodySize": 42720
+          },
+          {
+            "path": "/assets/archive-09-daa954e36e89.jpg",
+            "initiator": "img",
+            "duration": 4,
+            "transferSize": 26411,
+            "encodedBodySize": 26111,
+            "decodedBodySize": 26111
+          },
+          {
+            "path": "/assets/archive-10-526631f878ed.jpg",
+            "initiator": "img",
+            "duration": 5,
+            "transferSize": 24172,
+            "encodedBodySize": 23872,
+            "decodedBodySize": 23872
+          },
+          {
+            "path": "/assets/archive-11-361fca363d89.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 25287,
+            "encodedBodySize": 24987,
+            "decodedBodySize": 24987
+          },
+          {
+            "path": "/assets/archive-13-5a61f77a845b.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 15846,
+            "encodedBodySize": 15546,
+            "decodedBodySize": 15546
+          },
+          {
+            "path": "/assets/archive-12-89f848d6f748.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 20543,
+            "encodedBodySize": 20243,
+            "decodedBodySize": 20243
+          },
+          {
+            "path": "/assets/archive-14-dbbe9db163c1.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 52516,
+            "encodedBodySize": 52216,
+            "decodedBodySize": 52216
+          },
+          {
+            "path": "/assets/archive-15-2b8a7b549286.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 22708,
+            "encodedBodySize": 22408,
+            "decodedBodySize": 22408
+          },
+          {
+            "path": "/assets/archive-16-472aec1ad84e.jpg",
+            "initiator": "img",
+            "duration": 7,
+            "transferSize": 47390,
+            "encodedBodySize": 47090,
+            "decodedBodySize": 47090
+          },
+          {
+            "path": "/assets/hero-film-51129a88918e.mp4",
+            "initiator": "video",
+            "duration": 2,
+            "transferSize": 302,
+            "encodedBodySize": 2,
+            "decodedBodySize": 2
+          },
+          {
+            "path": "/assets/hero-film-51129a88918e.mp4",
+            "initiator": "video",
+            "duration": 6,
+            "transferSize": 5815449,
+            "encodedBodySize": 5815149,
+            "decodedBodySize": 5815149
+          }
+        ],
+        "longtasks": [],
+        "cls": 0,
+        "bodyClasses": "locked",
+        "guidePhase": "film",
+        "scrollY": 0
+      },
+      "heroFilm": {
+        "duration": 3.7333333333333334,
+        "readyState": 4,
+        "currentTime": 0.015813000666817328,
+        "paused": false,
+        "src": "/assets/hero-film-51129a88918e.mp4"
+      },
+      "introToInvitationMs": 8762,
+      "invitationState": {
+        "phase": "film",
+        "landed": true,
+        "focused": ""
+      },
+      "vaultEntryMs": 1750,
+      "vaultEntryFrames": {
+        "count": 127,
+        "medianMs": 17,
+        "p95Ms": 18,
+        "maxMs": 50,
+        "over34ms": 2,
+        "over50ms": 0
+      },
+      "vaultState": {
+        "phase": "vault",
+        "vaultVisible": "visible",
+        "vaultOpacity": "1",
+        "focus": "vault",
+        "scrollY": 2524
+      },
+      "rootAtVault": {
+        "nav": {
+          "dcl": 29,
+          "load": 149,
+          "responseEnd": 8,
+          "transferSize": 316926,
+          "encodedBodySize": 316626
+        },
+        "resources": [
+          {
+            "path": "/assets/hero-poster-311ec34583b0.jpg",
+            "initiator": "video",
+            "duration": 1,
+            "transferSize": 39868,
+            "encodedBodySize": 39568,
+            "decodedBodySize": 39568
+          },
+          {
+            "path": "/vctrs-wordmark.svg",
+            "initiator": "css",
+            "duration": 3,
+            "transferSize": 9119,
+            "encodedBodySize": 8819,
+            "decodedBodySize": 8819
+          },
+          {
+            "path": "/assets/drop-backdrop-663166a67586.jpg",
+            "initiator": "css",
+            "duration": 2,
+            "transferSize": 70699,
+            "encodedBodySize": 70399,
+            "decodedBodySize": 70399
+          },
+          {
+            "path": "/assets/archive-01-58e7ac2e3a3b.jpg",
+            "initiator": "img",
+            "duration": 2,
+            "transferSize": 27834,
+            "encodedBodySize": 27534,
+            "decodedBodySize": 27534
+          },
+          {
+            "path": "/assets/archive-02-b82ff6db2eaa.jpg",
+            "initiator": "img",
+            "duration": 3,
+            "transferSize": 27381,
+            "encodedBodySize": 27081,
+            "decodedBodySize": 27081
+          },
+          {
+            "path": "/assets/archive-03-31ae90ed73de.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 14744,
+            "encodedBodySize": 14444,
+            "decodedBodySize": 14444
+          },
+          {
+            "path": "/assets/archive-04-a08c0140b9fc.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 19394,
+            "encodedBodySize": 19094,
+            "decodedBodySize": 19094
+          },
+          {
+            "path": "/assets/archive-05-278b09ff2a2e.jpg",
+            "initiator": "img",
+            "duration": 1,
+            "transferSize": 18827,
+            "encodedBodySize": 18527,
+            "decodedBodySize": 18527
+          },
+          {
+            "path": "/assets/archive-06-104a3b59a0c2.jpg",
+            "initiator": "img",
+            "duration": 0,
+            "transferSize": 21442,
+            "encodedBodySize": 21142,
+            "decodedBodySize": 21142
+          },
+          {
+            "path": "/assets/archive-07-eb013a1343bd.jpg",
+            "initiator": "img",
+            "duration": 3,
+            "transferSize": 57239,
+            "encodedBodySize": 56939,
+            "decodedBodySize": 56939
+          },
+          {
+            "path": "/assets/archive-08-c42f310c66f0.jpg",
+            "initiator": "img",
+            "duration": 4,
+            "transferSize": 43020,
+            "encodedBodySize": 42720,
+            "decodedBodySize": 42720
+          },
+          {
+            "path": "/assets/archive-09-daa954e36e89.jpg",
+            "initiator": "img",
+            "duration": 4,
+            "transferSize": 26411,
+            "encodedBodySize": 26111,
+            "decodedBodySize": 26111
+          },
+          {
+            "path": "/assets/archive-10-526631f878ed.jpg",
+            "initiator": "img",
+            "duration": 5,
+            "transferSize": 24172,
+            "encodedBodySize": 23872,
+            "decodedBodySize": 23872
+          },
+          {
+            "path": "/assets/archive-11-361fca363d89.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 25287,
+            "encodedBodySize": 24987,
+            "decodedBodySize": 24987
+          },
+          {
+            "path": "/assets/archive-13-5a61f77a845b.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 15846,
+            "encodedBodySize": 15546,
+            "decodedBodySize": 15546
+          },
+          {
+            "path": "/assets/archive-12-89f848d6f748.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 20543,
+            "encodedBodySize": 20243,
+            "decodedBodySize": 20243
+          },
+          {
+            "path": "/assets/archive-14-dbbe9db163c1.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 52516,
+            "encodedBodySize": 52216,
+            "decodedBodySize": 52216
+          },
+          {
+            "path": "/assets/archive-15-2b8a7b549286.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 22708,
+            "encodedBodySize": 22408,
+            "decodedBodySize": 22408
+          },
+          {
+            "path": "/assets/archive-16-472aec1ad84e.jpg",
+            "initiator": "img",
+            "duration": 7,
+            "transferSize": 47390,
+            "encodedBodySize": 47090,
+            "decodedBodySize": 47090
+          },
+          {
+            "path": "/assets/hero-film-51129a88918e.mp4",
+            "initiator": "video",
+            "duration": 2,
+            "transferSize": 302,
+            "encodedBodySize": 2,
+            "decodedBodySize": 2
+          },
+          {
+            "path": "/assets/hero-film-51129a88918e.mp4",
+            "initiator": "video",
+            "duration": 6,
+            "transferSize": 5815449,
+            "encodedBodySize": 5815149,
+            "decodedBodySize": 5815149
+          }
+        ],
+        "longtasks": [],
+        "cls": 0,
+        "bodyClasses": "next-vault-open",
+        "guidePhase": "vault",
+        "scrollY": 2524
+      },
+      "surfaceToStoryMs": 2178,
+      "surfaceFrames": {
+        "count": 129,
+        "medianMs": 17,
+        "p95Ms": 18,
+        "maxMs": 28,
+        "over34ms": 0,
+        "over50ms": 0
+      },
+      "storyInitial": {
+        "nav": {
+          "dcl": 54,
+          "load": 60,
+          "responseEnd": 7,
+          "transferSize": 152512,
+          "encodedBodySize": 152212
+        },
+        "resources": [
+          {
+            "path": "/experience/assets/cinzel.woff2",
+            "initiator": "link",
+            "duration": 2,
+            "transferSize": 26204,
+            "encodedBodySize": 25904,
+            "decodedBodySize": 25904
+          },
+          {
+            "path": "/experience/state.json",
+            "initiator": "fetch",
+            "duration": 2,
+            "transferSize": 363,
+            "encodedBodySize": 63,
+            "decodedBodySize": 63
+          },
+          {
+            "path": "/experience/assets/play-arrow-spray-v1.png",
+            "initiator": "image",
+            "duration": 4,
+            "transferSize": 972032,
+            "encodedBodySize": 971732,
+            "decodedBodySize": 971732
+          }
+        ],
+        "longtasks": [],
+        "cls": 0,
+        "bodyClasses": "",
+        "scrollY": 0
+      },
+      "storyFilmDeferred": true,
+      "storyInitialState": {
+        "scrollY": 0,
+        "active": "",
+        "filmSrc": "",
+        "filmPaused": true,
+        "previewLoaded": true
+      },
+      "storyFilmFirstFrameMs": 66,
+      "storyFilm": {
+        "duration": 33.1,
+        "readyState": 4,
+        "currentTime": 0.015326250333521411,
+        "paused": false,
+        "currentSrc": "/experience/assets/story-film.mp4"
+      },
+      "backgroundAtPlay": {
+        "filmPaused": true,
+        "previewActive": true
+      },
+      "storyFinal": {
+        "nav": {
+          "dcl": 54,
+          "load": 60,
+          "responseEnd": 7,
+          "transferSize": 152512,
+          "encodedBodySize": 152212
+        },
+        "resources": [
+          {
+            "path": "/experience/assets/cinzel.woff2",
+            "initiator": "link",
+            "duration": 2,
+            "transferSize": 26204,
+            "encodedBodySize": 25904,
+            "decodedBodySize": 25904
+          },
+          {
+            "path": "/experience/state.json",
+            "initiator": "fetch",
+            "duration": 2,
+            "transferSize": 363,
+            "encodedBodySize": 63,
+            "decodedBodySize": 63
+          },
+          {
+            "path": "/experience/assets/play-arrow-spray-v1.png",
+            "initiator": "image",
+            "duration": 4,
+            "transferSize": 972032,
+            "encodedBodySize": 971732,
+            "decodedBodySize": 971732
+          },
+          {
+            "path": "/experience/assets/story-film.mp4",
+            "initiator": "video",
+            "duration": 2,
+            "transferSize": 302,
+            "encodedBodySize": 2,
+            "decodedBodySize": 2
+          },
+          {
+            "path": "/experience/assets/story-film.mp4",
+            "initiator": "video",
+            "duration": 9,
+            "transferSize": 9496622,
+            "encodedBodySize": 9496322,
+            "decodedBodySize": 9496322
+          },
+          {
+            "path": "/experience/state.json",
+            "initiator": "fetch",
+            "duration": 1,
+            "transferSize": 363,
+            "encodedBodySize": 63,
+            "decodedBodySize": 63
+          },
+          {
+            "path": "/experience/assets/play-the-game-spray-v1.png",
+            "initiator": "img",
+            "duration": 10,
+            "transferSize": 2660432,
+            "encodedBodySize": 2660132,
+            "decodedBodySize": 2660132
+          },
+          {
+            "path": "/experience/photos/crowd.jpg",
+            "initiator": "img",
+            "duration": 4,
+            "transferSize": 94959,
+            "encodedBodySize": 94659,
+            "decodedBodySize": 94659
+          },
+          {
+            "path": "/experience/photos/portrait.jpg",
+            "initiator": "img",
+            "duration": 5,
+            "transferSize": 116509,
+            "encodedBodySize": 116209,
+            "decodedBodySize": 116209
+          },
+          {
+            "path": "/experience/photos/performance.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 137752,
+            "encodedBodySize": 137452,
+            "decodedBodySize": 137452
+          },
+          {
+            "path": "/experience/photos/dj.jpg",
+            "initiator": "img",
+            "duration": 6,
+            "transferSize": 121928,
+            "encodedBodySize": 121628,
+            "decodedBodySize": 121628
+          },
+          {
+            "path": "/experience/assets/back-to-the-vault-spray-v1.png",
+            "initiator": "img",
+            "duration": 10,
+            "transferSize": 2578080,
+            "encodedBodySize": 2577780,
+            "decodedBodySize": 2577780
+          },
+          {
+            "path": "/experience/game-preview.html",
+            "initiator": "iframe",
+            "duration": 6,
+            "transferSize": 61835,
+            "encodedBodySize": 61535,
+            "decodedBodySize": 61535
+          },
+          {
+            "path": "/experience/photos/group.jpg",
+            "initiator": "img",
+            "duration": 2,
+            "transferSize": 132434,
+            "encodedBodySize": 132134,
+            "decodedBodySize": 132134
+          },
+          {
+            "path": "/experience/photos/friends.jpg",
+            "initiator": "img",
+            "duration": 2,
+            "transferSize": 168826,
+            "encodedBodySize": 168526,
+            "decodedBodySize": 168526
+          },
+          {
+            "path": "/experience/state.json",
+            "initiator": "fetch",
+            "duration": 1,
+            "transferSize": 363,
+            "encodedBodySize": 63,
+            "decodedBodySize": 63
+          }
+        ],
+        "longtasks": [],
+        "cls": 0,
+        "bodyClasses": "",
+        "scrollY": 3937
+      },
+      "storyTotalResourceBytes": 16564204,
+      "storyResources": [
+        {
+          "path": "/experience/assets/cinzel.woff2",
+          "encodedBodySize": 25904,
+          "duration": 2
+        },
+        {
+          "path": "/experience/state.json",
+          "encodedBodySize": 63,
+          "duration": 2
+        },
+        {
+          "path": "/experience/assets/play-arrow-spray-v1.png",
+          "encodedBodySize": 971732,
+          "duration": 4
+        },
+        {
+          "path": "/experience/assets/story-film.mp4",
+          "encodedBodySize": 2,
+          "duration": 2
+        },
+        {
+          "path": "/experience/assets/story-film.mp4",
+          "encodedBodySize": 9496322,
+          "duration": 9
+        },
+        {
+          "path": "/experience/state.json",
+          "encodedBodySize": 63,
+          "duration": 1
+        },
+        {
+          "path": "/experience/assets/play-the-game-spray-v1.png",
+          "encodedBodySize": 2660132,
+          "duration": 10
+        },
+        {
+          "path": "/experience/photos/crowd.jpg",
+          "encodedBodySize": 94659,
+          "duration": 4
+        },
+        {
+          "path": "/experience/photos/portrait.jpg",
+          "encodedBodySize": 116209,
+          "duration": 5
+        },
+        {
+          "path": "/experience/photos/performance.jpg",
+          "encodedBodySize": 137452,
+          "duration": 6
+        },
+        {
+          "path": "/experience/photos/dj.jpg",
+          "encodedBodySize": 121628,
+          "duration": 6
+        },
+        {
+          "path": "/experience/assets/back-to-the-vault-spray-v1.png",
+          "encodedBodySize": 2577780,
+          "duration": 10
+        },
+        {
+          "path": "/experience/game-preview.html",
+          "encodedBodySize": 61535,
+          "duration": 6
+        },
+        {
+          "path": "/experience/photos/group.jpg",
+          "encodedBodySize": 132134,
+          "duration": 2
+        },
+        {
+          "path": "/experience/photos/friends.jpg",
+          "encodedBodySize": 168526,
+          "duration": 2
+        },
+        {
+          "path": "/experience/state.json",
+          "encodedBodySize": 63,
+          "duration": 1
+        }
+      ],
+      "consoleMessages": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "badResponses": [],
+      "externalRequests": []
+    }
+  ],
+  "failure": {
+    "filmRecovery": {
+      "retryText": "Play film",
+      "retryVisible": true,
+      "loaderVisible": "visible"
+    },
+    "fallbacks": {
+      "playTitle": {
+        "text": "Play the game.",
+        "position": "static",
+        "width": 336.83233642578125
+      },
+      "vaultTitle": {
+        "text": "Back to the vault",
+        "position": "static",
+        "width": 336.45941162109375
+      },
+      "playControlTextVisible": true
+    },
+    "failures": [
+      {
+        "path": "/experience/assets/play-arrow-spray-v1.png",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "path": "/experience/assets/play-the-game-spray-v1.png",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "path": "/experience/assets/back-to-the-vault-spray-v1.png",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "path": "/experience/assets/story-film.mp4",
+        "error": "net::ERR_FAILED"
+      }
+    ],
+    "errors": []
+  },
+  "limits": "Headless Chromium/WebKit on local current-main snapshot; viewport/touch emulation, not physical devices. Frame timings include headless browser and host load. External network blocked."
+}

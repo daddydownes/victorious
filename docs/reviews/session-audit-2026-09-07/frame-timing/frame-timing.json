@@ -1,0 +1,59 @@
+{
+  "browser": "Playwright Chromium",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "warmupMs": 750,
+  "measuredMs": 3000,
+  "stages": [
+    {
+      "score": 25,
+      "kind": "ARCH",
+      "level": 1,
+      "opening": 144,
+      "widthScale": 1.08
+    },
+    {
+      "score": 50,
+      "kind": "SLANT",
+      "level": 2,
+      "opening": 132,
+      "widthScale": 1.2
+    },
+    {
+      "score": 75,
+      "kind": "IRIS",
+      "level": 3,
+      "opening": 116,
+      "widthScale": 1.36
+    }
+  ],
+  "backgroundCrewVisible": {
+    "label": "root overlay with crew intersecting behind it",
+    "frames": 181,
+    "meanMs": 16.67166666666667,
+    "p50Ms": 16.699999999999818,
+    "p95Ms": 17.699999999999818,
+    "maxMs": 17.800000000000182,
+    "over25ms": 0,
+    "over50ms": 0,
+    "crewTransformChanges": 181,
+    "longTasks": [],
+    "score": 77
+  },
+  "backgroundCrewHidden": {
+    "label": "root overlay after crew leaves rendering",
+    "frames": 181,
+    "meanMs": 16.671111111111113,
+    "p50Ms": 16.699999999999818,
+    "p95Ms": 17.5,
+    "maxMs": 17.700000000000728,
+    "over25ms": 0,
+    "over50ms": 0,
+    "crewTransformChanges": 1,
+    "longTasks": [],
+    "score": 81
+  },
+  "limits": "Desktop headless Chromium on a shared machine. A synthetic centred-gate survivor changes positions while retaining the production physics and draw loops; this is not a representative route, human playability, physical-device, GPU-memory or universal smoothness result."
+}

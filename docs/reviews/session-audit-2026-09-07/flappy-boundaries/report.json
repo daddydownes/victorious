@@ -1,0 +1,74 @@
+{
+  "url": "http://127.0.0.1:8921/experience/",
+  "browser": "Playwright Chromium",
+  "viewport": [
+    1280,
+    720
+  ],
+  "stages": [
+    {
+      "score": 24,
+      "kind": "PILLAR",
+      "tier": "01 / THE VAULT",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-24-pillar.png",
+      "setup": "seeded score and gate x; real active renderer"
+    },
+    {
+      "score": 25,
+      "kind": "ARCH",
+      "tier": "02 / GOLD ARCHES",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-25-arch.png",
+      "setup": "seeded score and gate x; real active renderer"
+    },
+    {
+      "score": 49,
+      "kind": "ARCH",
+      "tier": "02 / GOLD ARCHES",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-49-arch.png",
+      "setup": "seeded score and gate x; real active renderer"
+    },
+    {
+      "score": 50,
+      "kind": "SLANT",
+      "tier": "03 / SLALOM",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-50-slant.png",
+      "setup": "seeded score and gate x; real active renderer"
+    },
+    {
+      "score": 74,
+      "kind": "SLANT",
+      "tier": "03 / SLALOM",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-74-slant.png",
+      "setup": "seeded score and gate x; real active renderer"
+    },
+    {
+      "score": 75,
+      "kind": "IRIS",
+      "tier": "04 / FINAL LOCK",
+      "paused": false,
+      "state": "play",
+      "filename": "actual-active-score-75-iris.png",
+      "setup": "seeded score and gate x; real active renderer"
+    }
+  ],
+  "pointer": {
+    "state": "play",
+    "vy": -0.62
+  },
+  "exit": {
+    "open": false,
+    "focus": "flapPlay"
+  },
+  "errors": [],
+  "limitation": "Boundary screenshots use explicit score and gate-position fixtures. They are real active-game rendering, not a human 75-clear run."
+}

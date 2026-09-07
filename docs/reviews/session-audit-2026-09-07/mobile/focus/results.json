@@ -1,0 +1,887 @@
+{
+  "sha": "46226be139353d81947499ec5552c52547d68011",
+  "rows": [
+    {
+      "engine": "chromium",
+      "reduce": true,
+      "tabs": [
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 337.421875,
+            "width": 181.765625,
+            "height": 48
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "text": "JOIN",
+          "rect": {
+            "x": 217.765625,
+            "y": 337.421875,
+            "width": 66.234375,
+            "height": 48
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nextVaultHold",
+          "cls": "vhold next-vault-hold",
+          "text": "PRESS HERE\nENTER THE VAULT",
+          "rect": {
+            "x": 35,
+            "y": 428.421875,
+            "width": 250,
+            "height": 74.6875
+          },
+          "style": {
+            "display": "flex",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 299,
+            "width": 186,
+            "height": 44
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "text": "ADD EMAIL",
+          "rect": {
+            "x": 67,
+            "y": 355,
+            "width": 174,
+            "height": 38
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "vaultHold",
+          "cls": "vhold",
+          "text": "HOLD TO ENTER",
+          "rect": {
+            "x": 52,
+            "y": 422,
+            "width": 216,
+            "height": 56
+          },
+          "style": {
+            "display": "flex",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 337.421875,
+            "width": 181.765625,
+            "height": 48
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "text": "JOIN",
+          "rect": {
+            "x": 217.765625,
+            "y": 337.421875,
+            "width": 66.234375,
+            "height": 48
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nextVaultHold",
+          "cls": "vhold next-vault-hold",
+          "text": "PRESS HERE\nENTER THE VAULT",
+          "rect": {
+            "x": 35,
+            "y": 428.421875,
+            "width": 250,
+            "height": 74.6875
+          },
+          "style": {
+            "display": "flex",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 299,
+            "width": 186,
+            "height": 44
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "cls": "",
+          "text": "ADD EMAIL",
+          "rect": {
+            "x": 67,
+            "y": 355,
+            "width": 174,
+            "height": 38
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BUTTON",
+          "id": "vaultHold",
+          "cls": "vhold",
+          "text": "HOLD TO ENTER",
+          "rect": {
+            "x": 52,
+            "y": 422,
+            "width": 216,
+            "height": 56
+          },
+          "style": {
+            "display": "flex",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        }
+      ],
+      "receipt": {
+        "text": "RECEIVED. THE VAULT HAS IT.",
+        "ariaLive": "polite",
+        "ariaHidden": null,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "0"
+      }
+    },
+    {
+      "engine": "webkit",
+      "reduce": true,
+      "tabs": [
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 336.921875,
+            "width": 181.765625,
+            "height": 49
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 866.5,
+            "width": 186,
+            "height": 45
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 336.921875,
+            "width": 181.765625,
+            "height": 49
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 866.5,
+            "width": 186,
+            "height": 45
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 336.921875,
+            "width": 181.765625,
+            "height": 49
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 866.5,
+            "width": 186,
+            "height": 45
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 336.921875,
+            "width": 181.765625,
+            "height": 49
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 866.5,
+            "width": 186,
+            "height": 45
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked next-drop-entering next-drop-landed",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRESS HERE\nENTER THE VA",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "nextDropEmailInput",
+          "cls": "",
+          "text": "",
+          "rect": {
+            "x": 36,
+            "y": 336.921875,
+            "width": 181.765625,
+            "height": 49
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "INPUT",
+          "id": "signupEmail",
+          "cls": "",
+          "text": "Email address",
+          "rect": {
+            "x": 67,
+            "y": 866.5,
+            "width": 186,
+            "height": 45
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        }
+      ],
+      "receipt": {
+        "text": "RECEIVED. THE VAULT HAS IT.",
+        "ariaLive": "polite",
+        "ariaHidden": null,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "0"
+      }
+    },
+    {
+      "engine": "chromium",
+      "reduce": false,
+      "tabs": [
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        },
+        {
+          "tag": "BODY",
+          "id": "",
+          "cls": "locked",
+          "text": "POP-UP STORE\nDETAILS DROPPING SOON\nSIGN UP · FIRST TO KNOW\nADD EMAIL\nHOLD TO ENT",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "style": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1"
+          },
+          "hiddenAncestor": null,
+          "inertAncestor": null,
+          "scrollY": 0
+        }
+      ],
+      "receipt": {
+        "text": "RECEIVED. THE VAULT HAS IT.",
+        "ariaLive": "polite",
+        "ariaHidden": null,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "0"
+      }
+    }
+  ]
+}
