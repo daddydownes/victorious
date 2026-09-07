@@ -826,7 +826,8 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
 .surface-story-cue{display:flex;flex-direction:column;align-items:center;gap:14px}.surface-story-cue .scroll-label{padding:0;min-height:0;font:10px/1.5 Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase;text-decoration:none}.surface-story-cue .scroll-line{position:relative;display:block;width:1px;height:34px;min-height:0;padding:0;overflow:hidden;background:#d4af5f26}.surface-story-cue .scroll-line:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,#d4af5f);animation:scroll-travel 2.2s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes scroll-travel{0%{transform:translateY(-105%)}65%,100%{transform:translateY(105%)}}
 @media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-line:after{animation:none}}
-.surface-story-logo{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7}
+.surface-story-logo{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7;color:#f0d492;filter:drop-shadow(0 0 3.5px rgba(240,212,146,.30))}
+.surface-story-logo svg{color:inherit;filter:none;margin:0}
 @media(max-width:700px){.surface-story-logo{width:min(44vw,210px,35svh)}}
 @media(max-height:500px){.surface-story-logo{width:min(23vw,27svh)}}
 .surface-story-cue .scroll-line{display:none}.surface-story-cue .scroll-label{animation:scroll-word 2.2s ease-in-out infinite}

@@ -12,6 +12,10 @@ function replace(source, from, to) {
 let vault = read('vault-source.html');
 const exactLogo = read('experience-source.html').match(/class="brand-logo[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
 const exactV = vault.match(/class="film-logo"[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
+// One finish for the returning V and its destination, sourced from the original brand token.
+const logoGold = vault.match(/--gold-hot:\s*(#[\da-fA-F]{6})/)[1];
+const logoRGB = logoGold.slice(1).match(/../g).map(v=>parseInt(v,16)).join(',');
+const logoFinish = `color:${logoGold};filter:drop-shadow(0 0 3.5px rgba(${logoRGB},.30))`;
 vault = replace(vault, '<div class="stage" id="stage"', '<div class="surface-story" aria-hidden="true"><div class="surface-story-logo">'+exactV+'</div><div class="surface-story-invitation"><div class="surface-story-cue">'+scrollCue+'</div></div></div><div class="stage" id="stage"');
 vault = replace(vault, '</style>', `
 .surface-story{position:fixed;inset:0;z-index:20;display:none;place-items:center;pointer-events:none;background:#000;color:#d4af5f}
@@ -25,7 +29,8 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
 .surface-story-cue{display:flex;flex-direction:column;align-items:center;gap:14px}.surface-story-cue .scroll-label{padding:0;min-height:0;font:10px/1.5 Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase;text-decoration:none}.surface-story-cue .scroll-line{position:relative;display:block;width:1px;height:34px;min-height:0;padding:0;overflow:hidden;background:#d4af5f26}.surface-story-cue .scroll-line:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,#d4af5f);animation:scroll-travel 2.2s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes scroll-travel{0%{transform:translateY(-105%)}65%,100%{transform:translateY(105%)}}
 @media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-line:after{animation:none}}
-.surface-story-logo{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7}
+.surface-story-logo{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7;${logoFinish}}
+.surface-story-logo svg{color:inherit;filter:none;margin:0}
 @media(max-width:700px){.surface-story-logo{width:min(44vw,210px,35svh)}}
 @media(max-height:500px){.surface-story-logo{width:min(23vw,27svh)}}
 .surface-story-cue .scroll-line{display:none}.surface-story-cue .scroll-label{animation:scroll-word 2.2s ease-in-out infinite}
@@ -165,7 +170,8 @@ const css = `
 .story-cue{display:flex;flex-direction:column;align-items:center;gap:14px;width:70px;height:auto;min-height:64px;padding:4px 12px;font:10px/1.5 Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase}.scroll-line{position:relative;display:block;width:1px;height:34px;overflow:hidden;background:#d4af5f26}.scroll-line:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,#d4af5f);animation:scroll-travel 2.2s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes scroll-travel{0%{transform:translateY(-105%)}65%,100%{transform:translateY(105%)}}
 @media(prefers-reduced-motion:reduce){.scroll-line:after{animation:none}}
-.brand-logo.gold-lockup{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7}
+.brand-logo.gold-lockup{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7;${logoFinish}}
+.brand-logo.gold-lockup svg{color:inherit;filter:none;margin:0}
 @media(max-width:700px){.brand-logo.gold-lockup{width:min(44vw,210px,35svh)}}
 @media(max-height:500px){.brand-logo.gold-lockup{width:min(23vw,27svh)}}
 .play-section{min-height:110svh;padding:100px 7vw 125px;gap:6vw;grid-template-columns:.82fr 1.18fr;background:radial-gradient(ellipse at 78% 52%,#d4af5f09,transparent 54%),#000;isolation:isolate}

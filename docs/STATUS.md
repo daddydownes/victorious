@@ -1,5 +1,11 @@
 # Current status
 
+## Surface V colour continuity — September 7, 2026
+
+The original V uses `--gold-hot` (`#f0d492`), while the destination V had inherited the darker `#d4af5f`. Surface also inherited an additional SVG shadow. The builder now derives one shared logo finish from the original brand token, applies it to both the Surface V and opening V, and removes the nested SVG shadow. The existing SVG path and dimensions are preserved. Other saved sections are unchanged.
+
+The mismatch was reproduced in Chromium before editing. Afterward the exact SVG fill and shadow match through actual Surface navigation in desktop/mobile Chromium and mobile WebKit; reduced-motion direct landing passes. Thirteen integration checks and fifty Surface interaction cases pass. These are browser/emulation checks. All specialists were already complete; none were resumed for this scoped fix. Local only.
+
 ## Release candidate refinement — September 7, 2026
 
 The vault ending uses genuine gold spray-painted Back to the vault artwork, revealed along its strokes on scroll. Removed the eyebrow, description, helper sentence and photo cue. Six photos remain intact; the orphaned closing sentence is now a screen-reader heading. Enter the vault stays a native link, and Start again is a clear 48px return control. Button feedback keeps controls visible. The accepted opening, game, layout and film/replay policy remain.

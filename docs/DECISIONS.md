@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 7, 2026 — Surface gold match
+
+Use the original production V's hot gold (`#f0d492`) through the Surface handoff and the story opening. The darker amber remains the established colour for the other story elements. Share the logo colour and shadow in the builder instead of styling each page independently. Preserve the accepted logo geometry and other saved work; no additional agents are required for this scoped correction.
+
 ## September 7, 2026 — release sprint
 
 - Preserve the accepted layout, V-and-star opening, game mechanics, film policy and six photos. Reimagine vault lettering and reduce filler rather than adding another camera transition.

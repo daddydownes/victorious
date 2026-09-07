@@ -2,6 +2,8 @@
 
 ## Local complete-experience candidate
 
+`logoGold` is derived from the original vault source's `--gold-hot` token. Shared `logoFinish` styles both the added Surface V and the story opening V, with the same subtle shadow. Their SVGs inherit that colour and have no additional filter, preventing a colour/shadow change across the document navigation.
+
 The ending uses `back-to-the-vault-spray-v1.png` and the shared `paintTitle` controller in the builder. Each heading supplies its stroke paths and brush width. Per-heading reduced-motion queries isolate animation reads from the film's change listener. Progress is monotonic, the final 8% settles residual pigment, and completion removes the canvas. An image error exposes the real text heading; a failed painted arrow exposes the native Play label. Navigation remains usable without paint animation.
 
 The vault invitation contains only the painted heading and Enter the vault link. Its mobile minimum height is zero, keeping the CTA near the art. The gallery retains six photos and an accessible heading; Start again is a 48px native link to the original entrance. Story scrolling remains browser-native.
