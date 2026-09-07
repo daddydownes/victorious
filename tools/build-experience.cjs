@@ -83,7 +83,8 @@ story = replace(story, 'The original VCTRS brand logo in gold', 'The original V 
 story = story.replaceAll('../assets/', 'assets/');
 story = replace(story, '<title>VCTRS — For the ones who were there</title>', '<title>VCTRS — For the ones who were there</title><meta name="description" content="A Canberra clothing brand. Drops, pop-ups, music and good food."><link rel="preload" href="assets/cinzel.woff2" as="font" type="font/woff2" crossorigin>');
 story = replace(story, '<div class="intro-line">For the ones who were there</div>', '<div class="opening-invitation"><a class="story-cue" href="#portrait" aria-label="Scroll to the story">'+scrollCue+'</a></div>');
-story = story.replace(/<figure class="portrait-photo"[\s\S]*?<\/figure>/, '<div class="portrait-photo story-film-wrap"><video id="story-film" muted playsinline preload="none" aria-hidden="true" data-src="assets/story-film.mp4"></video></div><button class="film-toggle" type="button" hidden>Replay film</button>');
+story = story.replace(/<figure class="portrait-photo"[\s\S]*?<\/figure>/, '<div class="portrait-photo story-film-wrap"><video id="story-film" muted playsinline loop preload="none" aria-hidden="true" data-src="assets/story-film.mp4"></video><div class="film-loading" role="status"><span>Loading film</span></div></div><button class="film-retry" type="button" hidden>Play film</button>');
+story = story.replace(/(class="portrait-backmark[^>]*><svg[^>]*>)/, '$1<defs><linearGradient id="story-metal" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#e0c381"/><stop offset=".42" stop-color="#b29862"/><stop offset=".52" stop-color="#7d6334"/><stop offset="1" stop-color="#49371d"/></linearGradient></defs>');
 story = replace(story, '<h2 id="portrait-title">', '<h2 id="portrait-title" tabindex="-1">');
 story = story.replace(/logo\.style\.setProperty\('--logo-y',[^;]+;/, '').replace(/logo\.style\.setProperty\('--logo-scale',[^;]+;/, '');
 story = replace(story, "$('.intro-line').style.setProperty('--rule-scale',1-p0*.7);", '');
@@ -250,11 +251,20 @@ story = replace(story, 'status.textContent="You\'re on the list.";if(input.value
 story = replace(story, "catch{status.textContent='Not sent. Please try again.';}", "catch{status.textContent=input.value.trim()===email?'Not sent. Please try again.':'';}");
 story = replace(story, "new IntersectionObserver(entries=>", "new IntersectionObserver(entries=>");
 story = replace(story, '</body></html>', `<script>(()=>{document.querySelector('.story-cue').addEventListener('click',e=>{e.preventDefault();const h=document.getElementById('portrait-title');document.getElementById('portrait').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});h.focus({preventScroll:true})});
-const film=document.getElementById('story-film'),scene=document.getElementById('portrait'),toggle=document.querySelector('.film-toggle'),motion=matchMedia('(prefers-reduced-motion: reduce)'),game=document.getElementById('flapOverlay');let visible=false,finished=false;
-const wanted=()=>visible&&!finished&&!motion.matches&&!document.hidden&&!game.classList.contains('on');
-function sync(){if(wanted()){if(!film.src)film.src=film.dataset.src;const p=film.play();if(p)p.then(()=>{if(!wanted())film.pause()}).catch(()=>{})}else film.pause()}
-toggle.addEventListener('click',()=>{if(!finished)return;film.currentTime=0;finished=false;toggle.hidden=true;sync()});film.addEventListener('ended',()=>{finished=true;toggle.hidden=false});
-scene.addEventListener('pointerdown',()=>{if(!finished&&film.paused)sync()},{passive:true});
+const film=document.getElementById('story-film'),scene=document.getElementById('portrait'),motion=matchMedia('(prefers-reduced-motion: reduce)'),game=document.getElementById('flapOverlay');
+const wrap=film.parentElement,loading=wrap.querySelector('.film-loading'),retry=document.querySelector('.film-retry');let visible=false;
+const wanted=()=>visible&&!motion.matches&&!document.hidden&&!game.classList.contains('on');
+function sync(){const active=wanted();wrap.classList.toggle('film-active',active);if(active){if(!film.src)film.src=film.dataset.src;const p=film.play();if(p)p.then(()=>{if(!wanted())film.pause()}).catch(error=>{if(wanted()&&error.name!=='AbortError'){retry.hidden=false;wrap.classList.add('film-failed');loading.querySelector('span').textContent='Film paused'}})}else film.pause()}
+film.addEventListener('playing',()=>{wrap.classList.add('film-ready');wrap.classList.remove('film-waiting','film-failed');loading.setAttribute('aria-hidden','true');if(document.activeElement===retry){const heading=document.getElementById('portrait-title');heading.tabIndex=-1;heading.focus({preventScroll:true})}retry.hidden=true});
+film.addEventListener('waiting',()=>{if(wanted()){wrap.classList.add('film-waiting');loading.removeAttribute('aria-hidden');loading.querySelector('span').textContent='Loading film'}});
+film.addEventListener('error',()=>{wrap.classList.add('film-failed');loading.removeAttribute('aria-hidden');loading.querySelector('span').textContent='Film unavailable';retry.hidden=false});
+retry.addEventListener('click',()=>{wrap.classList.remove('film-failed');loading.querySelector('span').textContent='Loading film';if(film.error)film.load();sync()});
+// Some WebKit media backends pause just after the native loop seeks to zero.
+// Resume once at that boundary only; never fight offscreen or game pauses.
+let loopResumeTried=false;
+film.addEventListener('timeupdate',()=>{if(film.currentTime>1)loopResumeTried=false});
+film.addEventListener('pause',()=>{if(!loopResumeTried&&film.loop&&film.currentTime<.25&&wrap.classList.contains('film-ready')&&wanted()){loopResumeTried=true;Promise.resolve().then(()=>{if(wanted())sync()})}});
+scene.addEventListener('pointerdown',()=>{if(film.paused&&!film.error)sync()},{passive:true});
 // Edge contact has isIntersecting=true with zero visible area. Wait for actual
 // scene exposure so the film cannot finish behind the opening V.
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.02;sync()},{threshold:[0,.02]}).observe(scene);document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);new MutationObserver(sync).observe(game,{attributes:true,attributeFilter:['class']});
@@ -397,6 +407,23 @@ story = replace(story, '</style>', `
 .vault-return .cta-arrow{position:absolute;right:18px}
 @media(max-width:700px){.vault-invite{gap:20px}.vault-story{max-width:440px}.vault-action-group{max-width:340px}}
 /* Complete lettering and a soft card arrival survive fast or reverse scroll. */
+.portrait-backmark.gold-lockup{filter:none;opacity:.7}
+.portrait-backmark.gold-lockup svg{filter:drop-shadow(1px 2px 0 #4a371d) drop-shadow(2px 4px 0 #201a10)}
+.portrait-backmark.gold-lockup path{fill:url(#story-metal);stroke:#d4bc8333;stroke-width:.55;stroke-linejoin:round}
+@media(min-width:701px){.portrait-backmark.gold-lockup{width:104%;left:3%;top:16%;transform:perspective(1400px) rotateY(-8deg) translateX(calc(var(--q)*-10%));transform-origin:center}}
+.story-film-wrap{background:#0c0c09}
+.story-film-wrap video{opacity:0;transition:opacity .45s ease}
+.story-film-wrap.film-ready video{opacity:1}
+.film-loading{position:absolute;inset:0;overflow:hidden;background:linear-gradient(135deg,#12130f,#25251b 50%,#11120e);opacity:1;visibility:visible;transition:opacity .45s,visibility .45s;pointer-events:none}
+.film-loading:before{content:'';position:absolute;inset:-100% -20%;background:linear-gradient(170deg,transparent 30%,#b9a57012 44%,#d4bd8326 50%,#b9a57012 56%,transparent 70%);animation:film-scan 3s ease-in-out infinite;animation-play-state:paused}
+.film-loading span{position:absolute;left:0;right:0;top:48%;text-align:center;font:10px/1.5 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c4b488}
+.film-active:not(.film-failed) .film-loading:before{animation-play-state:running}
+.film-ready:not(.film-waiting):not(.film-failed) .film-loading{opacity:0;visibility:hidden}
+.film-ready:not(.film-waiting):not(.film-failed) .film-loading:before{animation-play-state:paused}
+.film-ready.film-waiting .film-loading{background:#12130f66}
+@keyframes film-scan{0%{transform:translateY(-30%)}100%{transform:translateY(30%)}}
+.film-retry{position:absolute;right:6%;bottom:5%;z-index:6;min-height:44px;padding:10px 20px;border:1px solid #d4af5f;border-radius:999px;background:#12110e;color:#d4af5f;font:11px Arial,sans-serif;cursor:pointer}.film-retry[hidden]{display:none}
+@media(prefers-reduced-motion:reduce){.film-loading:before{animation:none}.film-loading,.story-film-wrap video{transition:none}.film-retry{display:none}}
 #play [data-reveal]{opacity:1;transform:none;transition:none}
 #play .spray-arrow-art mask path{animation:none;stroke-dashoffset:0}
 #play .live-game-shell{opacity:calc(.68 + .32 * var(--play-arrival,1));transform:translate3d(0,calc(24px * (1 - var(--play-arrival,1))),0) scale(calc(.985 + .015 * var(--play-arrival,1)));transform-origin:center}

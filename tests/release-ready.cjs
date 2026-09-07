@@ -75,11 +75,10 @@ async function natural(engine,width,height){
       await page.locator('#surfaceBtn').click();await page.waitForURL(siteOrigin+'/experience/');
       assert.equal(await page.locator('.brand-logo path').evaluate(el=>getComputedStyle(el).fill),'rgb(240, 212, 146)');
       await page.locator('.story-cue').click();await page.waitForFunction(()=>!document.getElementById('story-film').paused);
-      // Observe actual completion and replay, without seeking or faking ended.
-      await page.waitForFunction(()=>document.getElementById('story-film').ended,null,{timeout:45000});
-      assert(await page.locator('.film-toggle').isVisible());if(pass===1)await capture(page,engine+'-film-ended');
-      await page.locator('.film-toggle').click();await page.waitForFunction(()=>!document.getElementById('story-film').paused);
-      assert(!await page.locator('.film-toggle').isVisible());
+      // Observe one native loop without seeking or dispatching media events.
+      await page.evaluate(()=>{const v=document.getElementById('story-film');let last=v.currentTime;window.__storyLooped=false;v.addEventListener('timeupdate',()=>{if(last>v.duration-2&&v.currentTime<2)window.__storyLooped=true;last=v.currentTime})});
+      await page.waitForFunction(()=>window.__storyLooped,null,{timeout:45000});
+      assert.equal(await page.locator('.film-toggle').count(),0);if(pass===1)await capture(page,engine+'-film-loop');
       const opener=pass%2?'#journey-play':'#flapPlay';await page.locator(opener).click();
       await page.waitForTimeout(550);await page.locator('#flapAction').click();
       await page.waitForFunction(()=>__flap.state()==='dead',null,{timeout:10000});await page.locator('#flapAction').click();

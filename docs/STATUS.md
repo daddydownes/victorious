@@ -1,5 +1,13 @@
 # Current status
 
+## Film loading and continuous playback — September 7, 2026
+
+A reproduced WebKit media-backend pause immediately after the native loop returns to zero is handled with one guarded resume attempt. It runs only while the scene is visible and motion/playback are allowed, and resets after playback advances. This does not override offscreen, hidden, game or reduced-motion pauses.
+
+The story film now loops automatically without Replay. A softly moving loading surface occupies its exact scrolling panel until playback begins, then fades away. Buffering restores the indicator over the last frame. Playback and loader motion pause offscreen, behind the game, when hidden or under reduced motion. A contextual Play film recovery control appears only after playback is blocked or fails. The background VCTRS retains its exact path with a shaded gold face and crisp depth instead of the blurred glow; desktop gets a slight perspective treatment.
+
+Passed: real delayed HTTP media and native looping in Chromium/Firefox at 4x and WebKit at normal speed; offscreen/game/reduced-motion pauses; desktop/mobile screenshots; Chromium network-failure recovery; 16 integration/rebuild checks; all ten root suites. Run node tests/film-loop.cjs with the demo server running. These are browser-engine checks, not physical devices. This follow-up is covered by the current publication authorization.
+
 ## Final motion and release — September 7, 2026
 
 The Play the game artwork now stays complete during fast and reverse scrolling. A small scroll-driven rise settles the game card, while a restrained light breath keeps the original spray texture alive. Back to the vault retains its paint reveal. Gold capsule controls have a passing highlight and stable pressed/focus states; the signup invitation has a brief two-line entrance. Motion pauses outside the viewport, behind the game, when hidden, and under reduced motion.

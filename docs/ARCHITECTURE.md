@@ -16,13 +16,17 @@ The vault invitation contains only the painted heading and Enter the vault link.
 
 Surface reveals the original V-and-star layer above the original stage and navigates to `experience/`. Returning to `/#vault` runs the existing archive-entry landing/focus lifecycle immediately. Restart navigates to the root without fragment or query.
 
-`experience/assets/story-film.mp4` is a silent H.264 continuous cut from source second 4 through end. `tools/edit-story-film.cjs` accepts the original source path and regenerates it using FFmpeg. Playback pauses offscreen, when hidden or during the game, honors reduced motion, and shows Replay only after completion. Fixed video dimensions and compensating transforms preserve the growing rectangle without per-frame video layout resizing. Local reload polling waits until video is paused and scrolling idle.
+`experience/assets/story-film.mp4` is a silent H.264 continuous cut from source second 4 through end. `tools/edit-story-film.cjs` accepts the original source path and regenerates it using FFmpeg. Native loop playback pauses offscreen, when hidden or during the game, and honors reduced motion. The film loading layer shares the existing panel geometry. Playing fades it out; waiting restores it, while errors or autoplay rejection expose a contextual recovery control. A story-only SVG gradient and crisp offset shadows give the background wordmark depth without changing the source path. Fixed video dimensions and compensating transforms preserve the growing rectangle without per-frame video layout resizing. Local reload polling waits until video is paused and scrolling idle.
 
 The story plays the upstream game through explicit adaptations in `tools/production-game.cjs`. `tuneStages` repeats the four styles every ten clears and updates the native progress HUD; separate difficulty helpers preserve the original speed/spacing curve. The 100-point reward remains. `removeTrail` deletes only the V's trailing stroke, preserving its interpolation frames. These changes also apply to the root game. Production physics, collision silhouettes, materials and start/pause/retry panels remain shared.
 
 The story host adapter lets both painted invitation controls open the game, makes background content inert, preserves the card expansion, and cancels it on Exit while restoring the triggering button and scroll position. The automatic preview shares the renderer and portal geometry but uses a centred authored route with settled portals and wider openings. Its pilot controls only flap timing; position integrates velocity and gravity at 120Hz with interpolated drawing. There are no guide-position corrections or periodic resets at 100. It cannot award or overwrite player progress.
 
 `tests/production-game.cjs` checks pinned production source identity plus the explicit adaptations, the previous demo as a negative control, and actual browser start/pause/resume/retry/resize/reward/exit journeys. `tests/game-hop-cycle.cjs` simulates nine 200-clear preview routes, rejects forced position changes, checks full portal bounds and collision clearance, and captures rendered motion/stages in three browser engines. `VCTRS_GAME_PAGE=experience/index.html` selects the story in the existing physics harness, allowing its collision, difficulty, lifecycle, death and reachability suites to test the engine that the new invitation actually opens.
+
+
+
+A reproduced WebKit media-backend pause immediately after the native loop returns to zero is handled with one guarded resume attempt. It runs only while the scene is visible and motion/playback are allowed, and resets after playback advances. This does not override offscreen, hidden, game or reduced-motion pauses.
 
 ## Delivery and boundaries
 

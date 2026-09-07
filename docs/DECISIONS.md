@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 7, 2026 — looping story film
+
+The user explicitly replaces the previous once-and-Replay behavior with continuous looping. Preserve muted inline playback and offscreen/game/reduced-motion pauses. Show a moving, restrained placeholder during initial loading and buffering, then fade into the real video. Keep recovery controls exceptional, never an end-of-film Replay button. Replace the background wordmark glow with shaded gold and crisp extruded edges; do not alter its vector path or the statement copy.
+
 ## September 7, 2026 — readable invitation and final controls
 
 Keep Play the game fully painted instead of tying its legibility to scroll progress. Animate a restrained brightness change without moving the title or adding a fuzzy glow. The preview card supplies the scroll entrance; native wheel/touch travel remains unchanged. Preserve Back to the vault's paint reveal. Observe individual animated controls so offscreen highlights stop.
