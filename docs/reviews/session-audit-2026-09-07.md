@@ -1,5 +1,7 @@
 # GitHub/live reconciliation and session audit — September 7, 2026
 
+> Historical baseline: the confirmed blockers in this audit were addressed in the [September 8 production release candidate](production-release-2026-09-08.md). Keep the evidence here as the reproduction record for live commit `46226be`.
+
 ## Scope
 
 This note records the repository and deployment baseline used for the full-site audit, the reproduced Flappy V progression regression and the isolated repair candidate. Browser screenshots, device emulation and frame-time observations are recorded by their respective audit owners; they should not be inferred from the static checks below.

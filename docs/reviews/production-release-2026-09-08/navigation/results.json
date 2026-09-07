@@ -1,0 +1,296 @@
+{
+  "candidate": "3396ea7a02ddc4e9e1357e71e3be3e140ee2b0bd",
+  "local": "http://127.0.0.1:8921",
+  "origin": "https://release.vctrs.test",
+  "results": [
+    {
+      "pass": 1,
+      "width": 1280,
+      "height": 720,
+      "reduced": false,
+      "formMode": "success",
+      "candidate": "3396ea7a02ddc4e9e1357e71e3be3e140ee2b0bd",
+      "startedAt": "2026-09-07T14:32:00.970Z",
+      "result": "PASS",
+      "focus": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        }
+      ],
+      "formRequests": [
+        {
+          "email": "qa-final-pass-1@example.com",
+          "method": "POST",
+          "mode": "success"
+        }
+      ],
+      "requestCount": 121,
+      "missing": [],
+      "external": [],
+      "errors": [],
+      "finishedAt": "2026-09-07T14:32:19.703Z"
+    },
+    {
+      "pass": 2,
+      "width": 1440,
+      "height": 900,
+      "reduced": false,
+      "formMode": "fail",
+      "candidate": "3396ea7a02ddc4e9e1357e71e3be3e140ee2b0bd",
+      "startedAt": "2026-09-07T14:32:19.735Z",
+      "result": "PASS",
+      "focus": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        }
+      ],
+      "formRequests": [
+        {
+          "email": "qa-final-pass-2@example.com",
+          "method": "POST",
+          "mode": "fail"
+        }
+      ],
+      "requestCount": 121,
+      "missing": [],
+      "external": [],
+      "errors": [],
+      "finishedAt": "2026-09-07T14:32:38.476Z"
+    },
+    {
+      "pass": 3,
+      "width": 1280,
+      "height": 720,
+      "reduced": true,
+      "formMode": "success",
+      "candidate": "3396ea7a02ddc4e9e1357e71e3be3e140ee2b0bd",
+      "startedAt": "2026-09-07T14:32:38.514Z",
+      "result": "PASS",
+      "focus": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        }
+      ],
+      "formRequests": [
+        {
+          "email": "qa-final-pass-3@example.com",
+          "method": "POST",
+          "mode": "success"
+        }
+      ],
+      "requestCount": 120,
+      "missing": [],
+      "external": [],
+      "errors": [],
+      "finishedAt": "2026-09-07T14:32:40.919Z"
+    },
+    {
+      "pass": 4,
+      "width": 1440,
+      "height": 900,
+      "reduced": true,
+      "formMode": "fail",
+      "candidate": "3396ea7a02ddc4e9e1357e71e3be3e140ee2b0bd",
+      "startedAt": "2026-09-07T14:32:40.968Z",
+      "result": "PASS",
+      "focus": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "legacy": false,
+          "next": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "legacy": false,
+          "next": false
+        }
+      ],
+      "formRequests": [
+        {
+          "email": "qa-final-pass-4@example.com",
+          "method": "POST",
+          "mode": "fail"
+        }
+      ],
+      "requestCount": 120,
+      "missing": [],
+      "external": [],
+      "errors": [],
+      "finishedAt": "2026-09-07T14:32:43.532Z"
+    }
+  ],
+  "limits": "Local server behind an HTTPS-shaped routed origin; headless Chromium desktop emulation. Native UI is audited separately. All FormSubmit POSTs fulfilled locally with synthetic example.com values."
+}

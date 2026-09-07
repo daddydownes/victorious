@@ -2,7 +2,7 @@
 
 The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. The published journey follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
 
-This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and the relevant extractor, then regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. Commit `46226be` is the verified published baseline for the September 7 progression repair; see the [current status](docs/STATUS.md) and [session audit](docs/reviews/session-audit-2026-09-07.md) before continuing work.
+This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and the relevant extractor, then regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The September 8 production release is documented in the [current status](docs/STATUS.md) and [release review](docs/reviews/production-release-2026-09-08.md); its verified pre-release baseline is preserved in the [September 7 audit](docs/reviews/session-audit-2026-09-07.md).
 
 ## Start here
 

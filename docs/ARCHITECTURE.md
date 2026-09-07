@@ -1,5 +1,15 @@
 # How the site works
 
+## September 8 release contracts
+
+The Next Drop overlay owns focus and accessibility exposure until Vault entry completes. `setNextDropInert()` keeps the underlying stage and retained legacy seam inert while they are covered, and removes the destination from interaction until reveal settles, is cancelled or reaches its watchdog. Short viewports at or below 520px use compact spacing plus a bounded vertical-overflow fallback; normal-size geometry remains unchanged.
+
+Signup success is transport-confirmed. The visible receipt starts empty, each request owns a token, and timeout, failure, a later edit or a superseding request prevents an old response from publishing success. Both visible signup routes use the stricter email check that rejects consecutive dots.
+
+Story paint headings use a pending text layer until each image loads and decodes; failure leaves the action readable. The film placeholder separately reports `Loading film`, `Film paused` under reduced motion, or `Film unavailable`. Enabling motion loads the film when its section is actually visible. The source adapter in `tools/build-experience.cjs` owns these rules; rebuild all four generated outputs after editing it.
+
+Media is a release invariant: all 37 image, font and video blobs in the September 8 release are identical to the saved production source. Do not recompress, resize or replace them without a separately reviewed visual and byte/pixel-fidelity decision.
+
 ## Published complete experience and current repair
 
 The builder adds canonical/social metadata for the root and `/experience/`, using the original approved share image and favicon. `robots.txt` points to `sitemap.xml`, which lists these two routes. The embedded game preview has a noindex meta tag. Demo reload polling is limited to loopback hosts; production navigation and media stay relative to their current origin.

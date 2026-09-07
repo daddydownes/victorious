@@ -1,0 +1,40 @@
+{
+  "base": "http://127.0.0.1:8921",
+  "rows": [
+    {
+      "reduce": false,
+      "before": {
+        "scale": 1,
+        "width": 390,
+        "height": 844,
+        "vaultTouch": "auto",
+        "diveTouch": "manipulation",
+        "native": true
+      },
+      "after": {
+        "scale": 1.9999998807907104,
+        "width": 195.00003051757812,
+        "height": 422.00006103515625
+      },
+      "scaleChanged": true
+    },
+    {
+      "reduce": true,
+      "before": {
+        "scale": 1,
+        "width": 390,
+        "height": 844,
+        "vaultTouch": "pinch-zoom",
+        "diveTouch": "auto",
+        "native": false
+      },
+      "after": {
+        "scale": 1.9999995231628418,
+        "width": 195.0000457763672,
+        "height": 422.0000915527344
+      },
+      "scaleChanged": true
+    }
+  ],
+  "limit": "Synthetic Chromium compositor pinch on a mobile-emulated viewport; not a physical-device multi-touch test."
+}

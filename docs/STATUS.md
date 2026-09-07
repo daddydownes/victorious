@@ -1,5 +1,13 @@
 # Current status
 
+## September 8 production release
+
+The production candidate fixes the reproduced short-viewport entrance block, reduced-motion background focus leak and Vault zoom block, premature/stale signup receipt, permissive double-dot email check, and pending story-art readability. The story film now distinguishes an intentionally reduced-motion `Film paused` state from a real `Loading film` state. Root and story Flappy V use the requested 25-clear sections; only the automatic preview cycles every ten clears. The reward remains at 100.
+
+The last application-code commit is `a05c186`. All 37 media files remain byte-for-byte identical to the saved production source, and normal-size geometry and accepted effects are preserved. Static integration passed 16/16; focused release checks passed 8/8; desktop journeys passed 4/4; WebKit portrait and landscape journeys passed 4/4 each; final story film-state checks passed 4/4. Signup traffic was mocked. These are browser-engine and emulation results, not physical-device or assistive-technology certification.
+
+See the [production release review](reviews/production-release-2026-09-08.md) and its [durable evidence index](reviews/production-release-2026-09-08/README.md). The review distinguishes addressed blockers from lower-priority accessibility, content, contrast and safe-area observations that remain.
+
 ## Live reconciliation and 25-clear repair candidate — September 7, 2026
 
 Fresh GitHub reconciliation found that the earlier `e972c19` checkout was stale. GitHub `main` and the latest successful Pages build were both `46226be139353d81947499ec5552c52547d68011`; fresh copies of `/`, `/experience/` and `/experience/game-preview.html` matched that commit byte for byte. The deployed adapter had unintentionally applied the automatic preview's ten-clear style cycle to both playable game routes.

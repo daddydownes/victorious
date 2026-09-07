@@ -1,0 +1,194 @@
+[
+  {
+    "case": "initial-reduced-toggle",
+    "engine": "chromium",
+    "initial": {
+      "src": null,
+      "currentSrc": "",
+      "paused": true,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap",
+      "text": "Film paused",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "allowed": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.064325,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-active film-ready",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "reducedAgain": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": true,
+      "currentTime": 0.091616,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-ready",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "resumed": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.109431,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-ready film-active",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "issues": []
+  },
+  {
+    "case": "initial-reduced-toggle",
+    "engine": "webkit",
+    "initial": {
+      "src": null,
+      "currentSrc": "",
+      "paused": true,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap",
+      "text": "Film paused",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "allowed": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.06001720800007351,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-active film-ready",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "reducedAgain": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": true,
+      "currentTime": 0.06001720800007351,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-ready",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "resumed": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.11327487433265408,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-ready film-active",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "issues": []
+  },
+  {
+    "case": "delayed-toggle",
+    "engine": "chromium",
+    "loading": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap film-active film-waiting",
+      "text": "Loading film",
+      "ariaHidden": null,
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "paused": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": true,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap film-waiting",
+      "text": "Film paused",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "loadingAgain": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap film-waiting film-active",
+      "text": "Loading film",
+      "ariaHidden": null,
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "ready": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.052742,
+      "readyState": 2,
+      "classes": "portrait-photo story-film-wrap film-active film-ready film-waiting",
+      "text": "Loading film",
+      "ariaHidden": null,
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "issues": []
+  },
+  {
+    "case": "failure-retry",
+    "engine": "chromium",
+    "requestCount": 2,
+    "failed": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": true,
+      "currentTime": 0,
+      "readyState": 0,
+      "classes": "portrait-photo story-film-wrap film-active film-waiting film-failed",
+      "text": "Film unavailable",
+      "ariaHidden": null,
+      "retryHidden": false,
+      "retryDisplay": "block"
+    },
+    "recovered": {
+      "src": "assets/story-film.mp4",
+      "currentSrc": "http://127.0.0.1:8921/experience/assets/story-film.mp4",
+      "paused": false,
+      "currentTime": 0.062182,
+      "readyState": 4,
+      "classes": "portrait-photo story-film-wrap film-active film-ready",
+      "text": "Loading film",
+      "ariaHidden": "true",
+      "retryHidden": true,
+      "retryDisplay": "none"
+    },
+    "issues": [],
+    "consoleErrors": [
+      "Failed to load resource: net::ERR_FAILED"
+    ]
+  }
+]

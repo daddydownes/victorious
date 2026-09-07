@@ -1,0 +1,312 @@
+{
+  "checkedAt": "2026-09-07T14:34:21.911Z",
+  "results": [
+    {
+      "case": "short-entry",
+      "engine": "chromium",
+      "width": 480,
+      "height": 320,
+      "geometry": {
+        "innerHeight": 320,
+        "row": {
+          "top": 182.0625,
+          "bottom": 224.0625,
+          "left": 39,
+          "right": 441,
+          "width": 402,
+          "height": 42
+        },
+        "input": {
+          "top": 183.0625,
+          "bottom": 223.0625,
+          "left": 40,
+          "right": 373.765625,
+          "width": 333.765625,
+          "height": 40
+        },
+        "join": {
+          "top": 183.0625,
+          "bottom": 223.0625,
+          "left": 373.765625,
+          "right": 440,
+          "width": 66.234375,
+          "height": 40
+        },
+        "button": {
+          "top": 247.0625,
+          "bottom": 306.453125,
+          "left": 39,
+          "right": 441,
+          "width": 402,
+          "height": 59.390625
+        },
+        "card": {
+          "top": 1.53125,
+          "bottom": 318.453125,
+          "left": 15,
+          "right": 465,
+          "width": 450,
+          "height": 316.921875
+        },
+        "scrollHeight": 320
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "short-entry",
+      "engine": "chromium",
+      "width": 540,
+      "height": 360,
+      "geometry": {
+        "innerHeight": 360,
+        "row": {
+          "top": 208.90625,
+          "bottom": 250.90625,
+          "left": 40,
+          "right": 500,
+          "width": 460,
+          "height": 42
+        },
+        "input": {
+          "top": 209.90625,
+          "bottom": 249.90625,
+          "left": 41,
+          "right": 432.765625,
+          "width": 391.765625,
+          "height": 40
+        },
+        "join": {
+          "top": 209.90625,
+          "bottom": 249.90625,
+          "left": 432.765625,
+          "right": 499,
+          "width": 66.234375,
+          "height": 40
+        },
+        "button": {
+          "top": 273.90625,
+          "bottom": 333.296875,
+          "left": 40,
+          "right": 500,
+          "width": 460,
+          "height": 59.390625
+        },
+        "card": {
+          "top": 14.6875,
+          "bottom": 345.296875,
+          "left": 15,
+          "right": 525,
+          "width": 510,
+          "height": 330.609375
+        },
+        "scrollHeight": 360
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "short-entry",
+      "engine": "chromium",
+      "width": 568,
+      "height": 320,
+      "geometry": {
+        "innerHeight": 320,
+        "row": {
+          "top": 191.984375,
+          "bottom": 233.984375,
+          "left": 54,
+          "right": 514,
+          "width": 460,
+          "height": 42
+        },
+        "input": {
+          "top": 192.984375,
+          "bottom": 232.984375,
+          "left": 55,
+          "right": 446.765625,
+          "width": 391.765625,
+          "height": 40
+        },
+        "join": {
+          "top": 192.984375,
+          "bottom": 232.984375,
+          "left": 446.765625,
+          "right": 513,
+          "width": 66.234375,
+          "height": 40
+        },
+        "button": {
+          "top": 256.984375,
+          "bottom": 316.375,
+          "left": 54,
+          "right": 514,
+          "width": 460,
+          "height": 59.390625
+        },
+        "card": {
+          "top": 0,
+          "bottom": 328.375,
+          "left": 15,
+          "right": 553,
+          "width": 538,
+          "height": 328.375
+        },
+        "scrollHeight": 320
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "short-entry",
+      "engine": "webkit",
+      "width": 540,
+      "height": 360,
+      "geometry": {
+        "innerHeight": 360,
+        "row": {
+          "top": 208.90625,
+          "bottom": 250.90625,
+          "left": 40,
+          "right": 500,
+          "width": 460,
+          "height": 42
+        },
+        "input": {
+          "top": 209.90625,
+          "bottom": 249.90625,
+          "left": 41,
+          "right": 432.765625,
+          "width": 391.765625,
+          "height": 40
+        },
+        "join": {
+          "top": 209.90625,
+          "bottom": 249.90625,
+          "left": 432.765625,
+          "right": 499,
+          "width": 66.234375,
+          "height": 40
+        },
+        "button": {
+          "top": 273.90625,
+          "bottom": 333.296875,
+          "left": 40,
+          "right": 500,
+          "width": 460,
+          "height": 59.390625
+        },
+        "card": {
+          "top": 14.6875,
+          "bottom": 345.296875,
+          "left": 15,
+          "right": 525,
+          "width": 510,
+          "height": 330.609375
+        },
+        "scrollHeight": 360
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "reduced-focus-vault-return",
+      "sequence": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "inLegacySeam": false,
+          "visible": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "inLegacySeam": false,
+          "visible": true
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "case": "motion-toggle-during-entry",
+      "result": "PASS"
+    },
+    {
+      "case": "receipt-transport",
+      "mockedCalls": 3,
+      "receipt": "RECEIVED. THE VAULT HAS IT.",
+      "paths": [
+        "timeout",
+        "late-success-ignored",
+        "failure",
+        "success"
+      ],
+      "result": "PASS"
+    },
+    {
+      "case": "slow-title-pending-fallback",
+      "pending": {
+        "title": {
+          "x": 82.55726623535156,
+          "y": 135.752197265625,
+          "width": 433.916748046875,
+          "height": 301.47998046875
+        },
+        "cue": {
+          "x": 241.515625,
+          "y": 444.4375,
+          "width": 116,
+          "height": 104
+        },
+        "textVisible": true,
+        "cueTextVisible": true,
+        "artVisibility": "hidden",
+        "artComplete": false,
+        "shiftBaseline": 0
+      },
+      "complete": {
+        "title": {
+          "x": 82.55726623535156,
+          "y": 135.752197265625,
+          "width": 433.916748046875,
+          "height": 301.47998046875
+        },
+        "cue": {
+          "x": 241.515625,
+          "y": 444.4375,
+          "width": 116,
+          "height": 104
+        },
+        "shiftTotal": 0
+      },
+      "result": "PASS"
+    }
+  ],
+  "limits": "Local Chromium/WebKit viewport and accessibility-tree emulation. Media completion is synthetic for short-layout setup; signup transport is mocked; no physical-device or live-form claim."
+}

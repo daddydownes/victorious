@@ -1,5 +1,13 @@
 # Decisions and recent changes
 
+## September 8, 2026 — production fixes with exact media fidelity
+
+Publish the restored 25-clear playable game with its 100-clear reward; retain ten-clear visual cycling only in the automatic preview. Fix reproduced access blockers in the surrounding journey: keep the invitation usable in short landscape viewports, isolate covered controls from focus/accessibility exposure, allow pinch zoom under reduced motion, and show signup success only after current transport success.
+
+Keep story actions readable while their paint images load or fail. Distinguish an intentionally paused reduced-motion film from a pending load. Preserve every existing media file byte for byte and retain accepted normal-size geometry and effects. A trial PNG recompression was rejected after browser rendering differed, even though decoded-pixel comparison had appeared safe; no compressed asset is included.
+
+Publication is authorized after focused release checks, repeated desktop/mobile journeys, deterministic generation, exact 37-file media identity and independent final review. Browser emulation does not replace physical-device, physical multi-touch or assistive-technology testing. Preserve the deferred observations in the [release review](reviews/production-release-2026-09-08.md) rather than treating this release as an all-site accessibility certification.
+
 ## September 7, 2026 — playable sections every 25, preview styles every 10
 
 The playable game reached from either the root page or the story must change obstacle section only after 25 successful clears: pillars at 0–24, arches at 25–49, slalom at 50–74 and final lock at 75–99. Preserve the original gradual speed, spacing and opening progression inside each section and the reward at 100.
