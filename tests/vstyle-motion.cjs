@@ -58,6 +58,7 @@ async function closeMotion(page,opener){
 }
 async function arrivalAndRealPlay(browser){
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});await instrument(context);await guard(context);
+ await context.addInitScript(()=>{const nativeDecode=HTMLImageElement.prototype.decode;HTMLImageElement.prototype.decode=function(){if(this.currentSrc.includes('back-to-the-vault-vstyle-v1.svg')||this.src.includes('back-to-the-vault-vstyle-v1.svg'))return new Promise(()=>{});return nativeDecode.call(this)}});
  let releasePlay,releaseVault,playRequested=false,vaultRequested=false;
  await context.route('**/assets/play-the-game-vstyle-v1.svg',async route=>{playRequested=true;await new Promise(resolve=>releasePlay=resolve);await route.continue()});
  await context.route('**/assets/back-to-the-vault-vstyle-v1.svg',async route=>{vaultRequested=true;await new Promise(resolve=>releaseVault=resolve);await route.continue()});
@@ -70,6 +71,7 @@ async function arrivalAndRealPlay(browser){
   const titleBefore=await page.locator('#play-title').boundingBox();assert(playRequested,'play title request was not held');releasePlay();
   const arrival=await findMotion(page,0,'.live-game-shell',980),arrivalInfo=await motionInfo(page,arrival);assert.equal(arrivalInfo.delay,90);assert(String(arrivalInfo.frames[0].transform).includes('38px')&&String(arrivalInfo.frames[0].transform).includes('.965'),'card arrival lost its 38px/.965 origin');
   await finishMotion(page,arrival);await page.waitForFunction(()=>window.__flapMotion?.arrivalPlayed());const titleAfter=await page.locator('#play-title').boundingBox();for(const key of ['x','y','width','height'])approx(titleAfter[key],titleBefore[key],.2,'card arrival moved title '+key);
+  const decorative=await page.locator('#play-title,#journey-play').evaluateAll(nodes=>nodes.flatMap(node=>node.getAnimations({subtree:true}).map(animation=>({playState:animation.playState,iterations:animation.effect.getComputedTiming().iterations}))));assert(decorative.every(animation=>animation.iterations<=1&&animation.playState!=='running'),'title or arrow retained a looping animation after the one-shot arrival: '+JSON.stringify(decorative));
   const count=await auditCount(page);
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.locator('#flapPlay').scrollIntoViewIfNeeded();await page.waitForTimeout(250);
   assert.equal(await page.evaluate(()=>window.__motionAudit.filter(r=>r.element.matches('.live-game-shell')&&Number(r.options.duration)===980).length),1,'reverse scroll replayed or erased the completed card arrival');
