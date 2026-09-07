@@ -444,7 +444,7 @@ function startPlayArrival(){
 if('IntersectionObserver' in window)new IntersectionObserver(([entry])=>{playVisible=entry.isIntersecting&&entry.intersectionRatio>=.28;startPlayArrival()},{threshold:[0,.28],rootMargin:'0px 0px -8% 0px'}).observe(playCard);
 else{playVisible=true}
 playSection.addEventListener('focusin',()=>{playVisible=true;settlePlayArrival(true)});
-addEventListener('resize',settlePlayArrival);
+addEventListener('resize',()=>settlePlayArrival());
 document.addEventListener('visibilitychange',()=>{if(document.hidden)settlePlayArrival()});
 motion.addEventListener('change',()=>{if(motion.matches)settlePlayArrival()});
 const arrowAsset=new Image();
