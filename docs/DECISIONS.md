@@ -1,5 +1,13 @@
 # Decisions and recent changes
 
+## September 7, 2026 — centred ending and release preparation
+
+Centre the painted vault invitation, place its button below it, centre the button label while retaining its separate arrow, and centre the VCTRS mark above the gallery. Preserve the established sizes, pigment and paint animation rather than creating another transition or camera layout.
+
+Production links remain relative for local previews and the real domain. Canonical/social metadata points to the existing vctrsclo.com routes and approved share artwork. The embedded automatic game is not a search landing page. Keep all hosting and ownership-verification files unchanged.
+
+Require a nonzero visible portion of the film section before playback. A zero-area IntersectionObserver edge touch must not start or download the film. Keep the current accepted end-only Replay behavior; this readiness pass does not reverse the earlier restored demo. Load the six gallery photographs lazily without changing their files or layout.
+
 ## September 7, 2026 — natural flaps, ten-clear styles, 100-point goal
 
 Keep the original game's 100-point reward. Repeat the four obstacle styles every ten clears, without accelerating the original speed and spacing curve. Apply the same explicit source adaptation to the root and story game so entering from either route plays the same rules. The immutable upstream snapshot remains unchanged.

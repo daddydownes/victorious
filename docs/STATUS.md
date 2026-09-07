@@ -1,5 +1,13 @@
 # Current status
 
+## Dot-com release candidate — September 7, 2026
+
+Prepared the complete site for its existing GitHub Pages domain. The Back to the vault artwork, its button and button label now share one centre line; the VCTRS mark is centred above the six photos. Their artwork, spray reveal and existing navigation are preserved. The latest game remains the production engine with natural preview flaps, no V trail, ten-clear style changes and the original 100-point goal.
+
+Fixed an offscreen film-start defect: IntersectionObserver reports an edge touch as intersecting even when none of the story section is visible. The film now waits for actual exposure, so it cannot finish behind the opening V. Retained the accepted end-only Replay control. The gallery loads lazily, and the story now has canonical/share metadata using the existing approved artwork and favicon. Added the two public routes to a sitemap; the automatic game preview is marked noindex.
+
+Eight complete natural journeys passed, together with three production-origin audits, eleven visual configurations, 32 return loops, 24 mocked signup cases, fourteen integration checks and all mandatory root suites. Exact commands, hosting state and the distinction between engine tests and physical-device checks are recorded in [the dot-com readiness review](reviews/com-ready.md). This is a saved local release candidate, not a published change. Agents remain stopped.
+
 ## Natural preview flaps and faster style changes — September 7, 2026
 
 The preview now flies with the production tap impulse and gravity. Removed both the sinusoidal float and the subsequent route-guide corrections that pulled the V into position. The pilot chooses when to flap; it never adjusts the V's position to meet a gate. A centred, gently varying preview route keeps the full arches, slanted rails and rocky jaws inside the card. Preview openings are wider for this automatic demonstration; the playable openings remain unchanged.

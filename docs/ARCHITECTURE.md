@@ -2,6 +2,10 @@
 
 ## Local complete-experience candidate
 
+The builder adds canonical/social metadata for the root and `/experience/`, using the original approved share image and favicon. `robots.txt` points to `sitemap.xml`, which lists these two routes. The embedded game preview has a noindex meta tag. Demo reload polling is limited to loopback hosts; production navigation and media stay relative to their current origin.
+
+The vault invitation is a single centred grid column, with a centred button underneath and a separately positioned arrow. The ending mark uses automatic horizontal margins above the unchanged six-image gallery. Gallery images use native lazy loading. The story film observer requires at least 2% of its section to be visible, avoiding the zero-area edge-contact callback that previously started the video behind the opening V.
+
 `logoGold` is derived from the original vault source's `--gold-hot` token. Shared `logoFinish` styles both the added Surface V and the story opening V, with the same subtle shadow. Their SVGs inherit that colour and have no additional filter, preventing a colour/shadow change across the document navigation.
 
 The ending uses `back-to-the-vault-spray-v1.png` and the shared `paintTitle` controller in the builder. Each heading supplies its stroke paths and brush width. Per-heading reduced-motion queries isolate animation reads from the film's change listener. Progress is monotonic, the final 8% settles residual pigment, and completion removes the canvas. An image error exposes the real text heading; a failed painted arrow exposes the native Play label. Navigation remains usable without paint animation.

@@ -10,6 +10,7 @@ function replace(source, from, to) {
 }
 
 let vault = read('vault-source.html');
+vault = replace(vault, '<meta property="og:type"', '<link rel="canonical" href="https://vctrsclo.com/">\n<meta property="og:type"');
 const exactLogo = read('experience-source.html').match(/class="brand-logo[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
 const exactV = vault.match(/class="film-logo"[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
 // One finish for the returning V and its destination, sourced from the original brand token.
@@ -254,7 +255,9 @@ const wanted=()=>visible&&!finished&&!motion.matches&&!document.hidden&&!game.cl
 function sync(){if(wanted()){if(!film.src)film.src=film.dataset.src;const p=film.play();if(p)p.then(()=>{if(!wanted())film.pause()}).catch(()=>{})}else film.pause()}
 toggle.addEventListener('click',()=>{if(!finished)return;film.currentTime=0;finished=false;toggle.hidden=true;sync()});film.addEventListener('ended',()=>{finished=true;toggle.hidden=false});
 scene.addEventListener('pointerdown',()=>{if(!finished&&film.paused)sync()},{passive:true});
-new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()}).observe(scene);document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);new MutationObserver(sync).observe(game,{attributes:true,attributeFilter:['class']});
+// Edge contact has isIntersecting=true with zero visible area. Wait for actual
+// scene exposure so the film cannot finish behind the opening V.
+new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.02;sync()},{threshold:[0,.02]}).observe(scene);document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);new MutationObserver(sync).observe(game,{attributes:true,attributeFilter:['class']});
 const journeySections=[...document.querySelectorAll('.journey-section')];
 const arrowAsset=new Image();arrowAsset.onerror=()=>document.getElementById('journey-play').classList.add('paint-cue-failed');arrowAsset.src='assets/play-arrow-spray-v1.png';
 // PAINT_REVEAL_START: trace the original raster lettering, without replacing its texture.
@@ -341,6 +344,37 @@ if(!motion.matches&&'IntersectionObserver' in window){const observer=new Interse
 })();</script></body></html>`);
 
 const productionGame = require('./production-game.cjs');
+// Public routes use the existing domain and approved share artwork. Local
+// previews still resolve navigation and media relative to their own origin.
+story = replace(story, '<html lang="en">', '<html lang="en-AU">');
+story = replace(story, '<meta name="theme-color"', `<link rel="canonical" href="https://vctrsclo.com/experience/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VICTORIOUS">
+<meta property="og:url" content="https://vctrsclo.com/experience/">
+<meta property="og:title" content="VCTRS — For the ones who were there">
+<meta property="og:description" content="A Canberra clothing brand. Drops, pop-ups, music and good food.">
+<meta property="og:image" content="https://vctrsclo.com/assets/share-v-20260906.png">
+<meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The VICTORIOUS V-and-star mark in white on black.">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="VCTRS — For the ones who were there">
+<meta name="twitter:description" content="A Canberra clothing brand. Drops, pop-ups, music and good food.">
+<meta name="twitter:image" content="https://vctrsclo.com/assets/share-v-20260906.png">
+<meta name="twitter:image:alt" content="The VICTORIOUS V-and-star mark in white on black.">
+${vault.match(/<link rel="icon"[^>]*>/)[0]}
+<meta name="theme-color"`);
+// The six final photographs retain their exact files and layout, but no longer
+// compete with the opening on a first mobile visit.
+story = story.replace(/(<figure class="end-photo[^>]*><img[^>]*loading=")eager/g, '$1lazy');
+story = replace(story, '</style>', `
+/* One centred invitation, followed by the centred mark above the photographs. */
+.vault-invite{grid-template-columns:minmax(0,1fr);justify-items:center;gap:24px;text-align:center}
+.vault-story{width:min(100%,490px)}
+.vault-story #vault-title{margin-left:auto;margin-right:auto}
+.vault-action-group{width:min(100%,360px);justify-self:center}
+.vault-return{position:relative;justify-self:center;justify-content:center;padding-left:58px;padding-right:58px}
+.vault-return .cta-arrow{position:absolute;right:18px}
+.ending-stage .end-mark.gold-lockup{margin-left:auto;margin-right:auto;justify-content:center}
+@media(max-width:700px){.vault-invite{gap:20px}.vault-story{max-width:440px}.vault-action-group{max-width:340px}}
+</style>`);
 vault = productionGame.tunePage(vault);
 story = productionGame.integrate(story);
 const preview = productionGame.preview();

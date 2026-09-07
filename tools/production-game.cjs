@@ -97,7 +97,7 @@ function integrate(story) {
 // The non-interactive card shares the actual renderer and authored portal data.
 // Its small visual pilot never writes best scores or runs the playable lifecycle.
 function preview() {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flappy V automatic preview</title>
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Flappy V automatic preview</title>
 <style>${css}${palette}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}
 #flapPlay,.flap-top,.flap-bottom,.flap-panel{display:none!important}

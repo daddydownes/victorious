@@ -2,7 +2,7 @@
 
 The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. This local release candidate follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
 
-This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The candidate has not been published; see the [release review](docs/reviews/release-sprint.md) for checks and remaining device verification.
+This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The candidate has not been published; see the [dot-com readiness review](docs/reviews/com-ready.md) for the current checks, release steps and device limits.
 
 ## Start here
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vctrsclo.com/sitemap.xml
