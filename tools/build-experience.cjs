@@ -36,7 +36,13 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
 .surface-story-cue .scroll-line{display:none}.surface-story-cue .scroll-label{animation:scroll-word 2.2s ease-in-out infinite}
 @keyframes scroll-word{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(4px);opacity:1}}
 @media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-label{animation:none}}
+/* Match the destination's complete hit area, not only its text baseline. */
+.surface-story-cue{box-sizing:border-box;justify-content:center;width:70px;min-height:64px;padding:4px 12px}
+.surface-story-cue .scroll-label{animation:none;opacity:.55}
 </style>`);
+// Keep a pending signup focused and readable, while still preventing duplicate sends.
+vault = replace(vault, 'if(button.disabled) return;\n    button.disabled=true; nextDropEmail.setAttribute', "if(nextDropEmail.getAttribute('aria-busy')==='true') return;\n    button.setAttribute('aria-disabled','true'); nextDropEmail.setAttribute");
+vault = replace(vault, "button.disabled=false; nextDropEmail.removeAttribute('aria-busy');", "button.removeAttribute('aria-disabled'); nextDropEmail.removeAttribute('aria-busy');");
 vault = replace(vault, "var incoming=smooth((t-.32)/.48), settle=1-smooth((t-.32)/.68);", "document.querySelector('.surface-story-logo').style.opacity=smooth((t-.26)/.5);\n      document.querySelector('.surface-story-invitation').style.opacity=smooth((t-.52)/.35);\n      var incoming=smooth((t-.32)/.48), settle=1-smooth((t-.32)/.68);");
 vault = replace(vault, "var phase='ready'", "var directVault=location.hash==='#vault';\n  var phase='ready'");
 vault = replace(vault, 'if(!reduced){\n    vMeasure();', 'if(!reduced&&!directVault){\n    vMeasure();');
@@ -49,7 +55,7 @@ vault = replace(vault, '} else {\n    lock();', '} else if(!directVault) {\n    
 const surfaceStart = vault.indexOf('  function finishSurface(){');
 const surfaceEnd = vault.indexOf('  function armVaultClose(){', surfaceStart);
 let surface = vault.slice(surfaceStart, surfaceEnd);
-surface = replace(surface, "    showCue('Scroll <span class=\"g-chev\">▼</span>');", "    location.assign(new URL('experience/', location.href).href);");
+surface = replace(surface, "    showCue('Scroll <span class=\"g-chev\">▼</span>');", "    try{history.replaceState(history.state,'',location.pathname+location.search+'#vault');}catch(_history){}\n    location.assign(new URL('experience/', location.href).href);");
 vault = vault.slice(0, surfaceStart) + surface + vault.slice(surfaceEnd);
 vault = replace(vault, '  measure(); updateScroll();\n})();', `  measure(); updateScroll();
   if(directVault){
@@ -57,7 +63,7 @@ vault = replace(vault, '  measure(); updateScroll();\n})();', `  measure(); upda
     phase='done'; playWanted=false; resumeFilm=false; film.pause();
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
-    try{history.replaceState(history.state,'',location.pathname+location.search);}catch(_history){}
+    // Retain #vault so reload and browser Forward reconstruct the same destination.
     var enterReturnedVault=function(){
       if(document.hidden)return;
       document.removeEventListener('visibilitychange',enterReturnedVault);
@@ -66,6 +72,8 @@ vault = replace(vault, '  measure(); updateScroll();\n})();', `  measure(); upda
     document.addEventListener('visibilitychange',enterReturnedVault);
     enterReturnedVault();
   }
+  // A cached document may contain the completed Surface frame; rebuild the vault on return.
+  addEventListener('pageshow',function(e){if(e.persisted&&location.hash==='#vault')location.reload();});
 })();`);
 
 let story = read('experience-source.html');
@@ -100,6 +108,13 @@ story = replace(story, "FG.state='won'; FG.trauma=Math.min(1,FG.trauma+0.3);", "
 story = replace(story, 'if(FG.score>=TARGET_SCORE && !fWon){ flapWin(s); }', 'if(FG.score>=TARGET_SCORE){ flapWin(s); }');
 story = replace(story, 'if(FG.deadT>0.6) flapStart();', "if(FG.deadT>(FG.state==='won'?2.2:0.6)) flapStart();");
 story = replace(story, "'100 DROPS SURVIVED — BEST: '", "'100 CLUB — BEST: '");
+// Leave room for the return control and the score pulse on narrow phones.
+story = replace(story, 'if(hudKey!==FG.score || hudC.width', "var key=FG.score+':'+(s.w<500);\n      if(hudKey!==key || hudC.width");
+story = replace(story, 'hudKey=FG.score;', 'hudKey=key;');
+story = replace(story, "g.fillText('DROPS SURVIVED: '+FG.score+' / '+TARGET_SCORE,0,13);", "g.fillText((s.w<500?'':'DROPS SURVIVED: ')+FG.score+' / '+TARGET_SCORE,0,13);");
+// Explain the requested surprise inside the game, keeping the painted invitation free of extra copy.
+story = replace(story, "fctx.fillText(reduced?'MOTION IS OFF — THE GAME SLEEPS':'TAP TO FLY',s.w/2,s.h*0.72);", "fctx.fillText('TAP / SPACE TO FLY',s.w/2,s.h*0.72);\n        fctx.fillStyle='#d4af5f';fctx.font='11px Arial,sans-serif';\n        fctx.fillText('Reach 100 for a surprise.',s.w/2,s.h*0.72+25);");
+story = replace(story, 'Tap, click or press Space to fly the gold V through the gaps. Escape exits.', 'Tap, click or press Space to fly the gold V through the gaps. Reach 100 for a surprise. Escape returns to the story.');
 const surpriseDraw=`    function flapSurprise(s){
       var age=FG.deadT||0,arrive=Math.min(1,age/1.1),ease=1-Math.pow(1-arrive,3),cx=s.w/2,cy=s.h*.34,unit=Math.min(s.w,s.h);
       fctx.save();fctx.fillStyle='rgba(0,0,0,.96)';fctx.fillRect(0,0,s.w,s.h);
@@ -133,6 +148,8 @@ const entryStart=story.indexOf('let entryRect=null;'),entryEnd=story.indexOf("do
 if(entryStart<0||entryEnd<0)throw new Error('Game entry animation anchors missing');
 story=story.slice(0,entryStart)+`[button,document.getElementById('journey-play')].forEach(entry=>{let entryRect=null;entry.addEventListener('click',()=>{entryRect=card.getBoundingClientRect()},{capture:true});entry.addEventListener('click',()=>{overlay.getAnimations().forEach(a=>a.cancel());if(reduce.matches||!entryRect)return;const r=entryRect;overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});});});\n`+story.slice(entryEnd);
 const css = `
+/* Keep the Surface composition aligned, including on systems with classic scrollbars. */
+html{scrollbar-gutter:stable}
 /* The accepted identity, with a calm opening and a typographic second scene. */
 .opening{height:100svh}.opening .brand-stage{position:relative;height:100svh;min-height:0}
 .brand-logo.gold-lockup{width:min(72vw,1020px,135svh);transform:none;will-change:auto}
@@ -246,8 +263,21 @@ const css = `
 .paint-cue-failed .play-cue-arrow{display:none}
 @media(max-width:700px){.vault-invite{min-height:0;padding:58px 7vw 68px;gap:20px}.vault-story #vault-title{max-width:440px}.ending-copy #restart-page{margin-top:0}.nav{top:12px}}
 @media(prefers-reduced-motion:reduce){.vault-return,.vault-return .cta-arrow,.ending-copy #restart-page{transition:none}.vault-return:active,.vault-return:hover .cta-arrow,.ending-copy #restart-page:active,.film-toggle:active,.signup-footer button:active{transform:none}}
+/* Secondary controls share the vault's quiet gold pill treatment. */
+.film-toggle,body #flapExit,.signup-footer .action{border-radius:999px;border-color:#d4af5f80;background:#000;color:var(--gold);font:11px/1.5 Arial,sans-serif;letter-spacing:.12em;box-shadow:none;transition:background .2s,color .2s,border-color .2s,transform .15s}
+.film-toggle,body #flapExit{min-height:48px;padding:12px 18px;touch-action:manipulation}
+.film-toggle:hover,body #flapExit:hover,.signup-footer .action:hover{background:var(--gold);border-color:var(--gold);color:#000}
+.film-toggle:focus-visible,body #flapExit:focus-visible,.signup-footer .action:focus-visible{outline:1px solid #f0d492;outline-offset:4px}
+body #flapExit:active{transform:scale(.985);opacity:1}
+.signup-footer .action[aria-disabled=true]{cursor:progress;opacity:1}
+@media(prefers-reduced-motion:reduce){.film-toggle,body #flapExit,.signup-footer .action{transition:none}body #flapExit:active{transform:none}}
 `;
 story = replace(story, '</style></head>', css + '</style></head>');
+story = replace(story, 'if(!form.reportValidity()||button.disabled)return;', "if(form.getAttribute('aria-busy')==='true'||!form.reportValidity())return;");
+story = replace(story, 'button.disabled=true;', "button.setAttribute('aria-disabled','true');");
+story = replace(story, 'button.disabled=false;', "button.removeAttribute('aria-disabled');");
+story = replace(story, 'status.textContent="You\'re on the list.";if(input.value.trim()===email)input.value=\'\';', 'if(input.value.trim()===email){status.textContent="You\'re on the list.";input.value=\'\';}else status.textContent=\'\';');
+story = replace(story, "catch{status.textContent='Not sent. Please try again.';}", "catch{status.textContent=input.value.trim()===email?'Not sent. Please try again.':'';}");
 story = replace(story, "new IntersectionObserver(entries=>", "new IntersectionObserver(entries=>");
 story = replace(story, '</body></html>', `<script>(()=>{document.querySelector('.story-cue').addEventListener('click',e=>{e.preventDefault();const h=document.getElementById('portrait-title');document.getElementById('portrait').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});h.focus({preventScroll:true})});
 const film=document.getElementById('story-film'),scene=document.getElementById('portrait'),toggle=document.querySelector('.film-toggle'),motion=matchMedia('(prefers-reduced-motion: reduce)'),game=document.getElementById('flapOverlay');let visible=false,finished=false;

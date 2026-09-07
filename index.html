@@ -833,6 +833,9 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
 .surface-story-cue .scroll-line{display:none}.surface-story-cue .scroll-label{animation:scroll-word 2.2s ease-in-out infinite}
 @keyframes scroll-word{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(4px);opacity:1}}
 @media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-label{animation:none}}
+/* Match the destination's complete hit area, not only its text baseline. */
+.surface-story-cue{box-sizing:border-box;justify-content:center;width:70px;min-height:64px;padding:4px 12px}
+.surface-story-cue .scroll-label{animation:none;opacity:.55}
 </style>
 
 <style id="black-v-demo">
@@ -1779,11 +1782,11 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     var v=(input.value||'').trim();
     if(!goodEmail(v)){ result.textContent='CHECK THAT ADDRESS'; input.setAttribute('aria-invalid','true'); input.focus(); return; }
     var button=nextDropEmail.querySelector('button');
-    if(button.disabled) return;
-    button.disabled=true; nextDropEmail.setAttribute('aria-busy','true');
+    if(nextDropEmail.getAttribute('aria-busy')==='true') return;
+    button.setAttribute('aria-disabled','true'); nextDropEmail.setAttribute('aria-busy','true');
     input.removeAttribute('aria-invalid'); result.textContent='SENDING…';
     capture(v).then(function(ok){
-      button.disabled=false; nextDropEmail.removeAttribute('aria-busy');
+      button.removeAttribute('aria-disabled'); nextDropEmail.removeAttribute('aria-busy');
       // Leave a newly edited address alone when an older request completes.
       if(input.value.trim()!==v) return;
       result.textContent=ok?'YOU\'RE ON THE LIST':'NOT SENT — PLEASE TRY AGAIN';
@@ -3244,6 +3247,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     var hud=vault.querySelector('.vault-hud'); hud.style.opacity=''; hud.style.transform=''; hud.style.willChange='';
     filmLogo.style.opacity='1'; filmLogo.style.transform=''; filmLogo.style.willChange='';
     filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
+    try{history.replaceState(history.state,'',location.pathname+location.search+'#vault');}catch(_history){}
     location.assign(new URL('experience/', location.href).href);
     try{ stage.focus({preventScroll:true}); }catch(_focusErr){ stage.focus(); }
   }
@@ -4436,7 +4440,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     phase='done'; playWanted=false; resumeFilm=false; film.pause();
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
-    try{history.replaceState(history.state,'',location.pathname+location.search);}catch(_history){}
+    // Retain #vault so reload and browser Forward reconstruct the same destination.
     var enterReturnedVault=function(){
       if(document.hidden)return;
       document.removeEventListener('visibilitychange',enterReturnedVault);
@@ -4445,6 +4449,8 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     document.addEventListener('visibilitychange',enterReturnedVault);
     enterReturnedVault();
   }
+  // A cached document may contain the completed Surface frame; rebuild the vault on return.
+  addEventListener('pageshow',function(e){if(e.persisted&&location.hash==='#vault')location.reload();});
 })();
 </script>
 <!-- THE FILM'S BYTES. 1.83MB of base64 that used to sit in the <video src>

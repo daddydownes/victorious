@@ -1,5 +1,15 @@
 # Current status
 
+## Chat audit and release hardening — September 7, 2026
+
+Built on saved candidate `8e7efaf`. The full chat was checked against the later accepted decisions; see [requirement audit and release evidence](reviews/release-hardening.md). The original production source, artwork and hosting files remain preserved. This pass was solo; stopped agents stayed stopped.
+
+Fixed the Surface V/cue position shift, narrow-game score overlap, browser Forward/reload returning to the wrong scene, pending signup focus loss and a stale signup receipt after editing. Replay, game exit and signup use consistent gold controls. The game explains the 100-point surprise inside its opening screen, without adding copy beneath the painted title. `/#vault` stays in the URL for reliable returns; Start again still loads the original entrance.
+
+Final checks pass: 13 integration checks; 32 repeated cross-engine return loops; 24 fully mocked signup cases; 11 visual/motion configurations; all ten mandatory root suites; demo-server checks; and eight natural-playback full journeys. Screenshots were inspected on desktop, phone portrait and landscape. These results are engine/emulation evidence, not physical-device certification. No real form transport occurred in this pass.
+
+The film still plays once with end-only Replay while the conflicting loop-versus-rollback preference awaits a user choice. Physical Apple/Samsung/Pixel checks and canonical-domain verification remain before public release. The live web reader denied access; production comparison used verified GitHub source and Pages metadata. This candidate is saved locally, not pushed or published.
+
 ## Surface V colour continuity — September 7, 2026
 
 The original V uses `--gold-hot` (`#f0d492`), while the destination V had inherited the darker `#d4af5f`. Surface also inherited an additional SVG shadow. The builder now derives one shared logo finish from the original brand token, applies it to both the Surface V and opening V, and removes the nested SVG shadow. The existing SVG path and dimensions are preserved. Other saved sections are unchanged.
