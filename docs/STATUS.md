@@ -1,5 +1,15 @@
 # Current status
 
+## Natural preview flaps and faster style changes — September 7, 2026
+
+The preview now flies with the production tap impulse and gravity. Removed both the sinusoidal float and the subsequent route-guide corrections that pulled the V into position. The pilot chooses when to flap; it never adjusts the V's position to meet a gate. A centred, gently varying preview route keeps the full arches, slanted rails and rocky jaws inside the card. Preview openings are wider for this automatic demonstration; the playable openings remain unchanged.
+
+Root, story and preview now repeat pillars, arches, slanted rails and rocky jaws every ten clears. The actual game still unlocks its original reward at **100** and retains its original speed/spacing progression. Removed the short line following the V while preserving frame history for smooth rendering.
+
+Validation: nine complete preview simulations (1,800 clears) passed collision, silhouette bounds and physics-only position checks. The rejected guide-based preview fails the new motion regression. Chromium, WebKit and Firefox rendered-preview journeys passed, with stage screenshots, frame samples, reduced-motion handling and play/exit checks. Six playable-game browser journeys, all ten mandatory root suites and 13 integration/rebuild checks pass. Reachability covers twelve seeded 100-clear courses, not a human difficulty rating. Run `node tests/game-hop-cycle.cjs` for the new regression; `node tests/production-game.cjs` checks the original source plus the explicit approved adaptations.
+
+Saved locally on the complete-demo branch; no publication or push. Browser/viewport evidence is not physical Apple/Samsung/Pixel certification. Story artwork, scrolling and film policy were not changed in this game correction. Agents remain stopped.
+
 ## Actual production game restored — September 7, 2026
 
 Corrected candidate `52db4cb`: the painted invitation was opening an obsolete game even though the production game was preserved in the root source. Both story openers now launch the actual `e972c19` production game, with its four courses, original physics/materials, start/pause/resume/retry panels and reward. The preview also uses its renderer and portal geometry. The root page and accepted story artwork, film policy and gallery remain unchanged.

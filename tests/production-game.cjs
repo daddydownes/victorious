@@ -9,12 +9,13 @@ const out=process.argv[2]&&path.resolve(process.argv[2]);
 const read=file=>fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const production=read('tools/vault-source.html');
+const {tuneStages,removeTrail}=require('../tools/production-game.cjs');
 const canonical=cp.execFileSync('git',['show','e972c19:index.html'],{cwd:root,encoding:'utf8'}).replace(/\r\n/g,'\n');
 assert.equal(hash(production),hash(canonical),'Pinned source must match the actual production commit');
 const extract=html=>html.slice(html.indexOf('  var COUPON_THRESHOLD=100;'),html.indexOf('    /* ---- overlay open/close:'));
 const story=read('experience/index.html'),preview=read('experience/game-preview.html');
-assert.equal(hash(extract(story)),hash(extract(production)),'The played engine must be the production engine');
-assert.equal(hash(preview.slice(preview.indexOf('  var COUPON_THRESHOLD=100;'),preview.indexOf('// PRODUCTION_GAMEPLAY_END')).trimEnd()),hash(extract(production).trimEnd()));
+assert.equal(hash(extract(story)),hash(removeTrail(tuneStages(extract(production)))),'The played engine must be production with the approved ten-clear stage changes');
+assert.equal(hash(preview.slice(preview.indexOf('  var COUPON_THRESHOLD=100;'),preview.indexOf('// PRODUCTION_GAMEPLAY_END')).trimEnd()),hash(removeTrail(tuneStages(extract(production))).trimEnd()));
 const old=cp.execFileSync('git',['show','52db4cb:experience/index.html'],{cwd:root,encoding:'utf8'});
 assert(!old.includes('id="flapPause"')&&!old.includes('COUPON_THRESHOLD=100'),'Negative control: previous demo really had the obsolete game');
 const results=[];
@@ -89,7 +90,7 @@ async function journey(engine,width,height){
     // Stage and reward fixtures exercise real spawning and rendering, not a
     // claim that a human completed 100 obstacles during this browser journey.
     const stages=[];
-    for(const [score,kind] of [[25,'ARCH'],[50,'SLANT'],[75,'IRIS']]){
+    for(const [score,kind] of [[10,'ARCH'],[20,'SLANT'],[30,'IRIS'],[40,'PILLAR']]){
       await page.evaluate(score=>{const g=__flap.dbg();g.score=score;g.gates=[];g.spawnT=0;g.y=.45;g.vy=0;},score);
       await page.locator('#flapAction').click();
       await page.waitForFunction(kind=>__flap.dbg().gates[0]?.kind===kind,kind);
@@ -131,7 +132,7 @@ async function journey(engine,width,height){
 (async()=>{
   if(out)fs.mkdirSync(out,{recursive:true});
   for(const args of configurations)await journey(...args);
-  const report={time:new Date().toISOString(),productionCommit:'e972c19',sourceSHA256:hash(production),gameplaySHA256:hash(extract(production)),negativeControl:'52db4cb fails production identity',results,limits:'Browser engines and viewport emulation; stage/reward setup uses explicit fixtures; not physical-device certification or a human 100-clear run. All nonlocal transport blocked.'};
+  const report={time:new Date().toISOString(),productionCommit:'e972c19',sourceSHA256:hash(production),gameplaySHA256:hash(removeTrail(tuneStages(extract(production)))),negativeControl:'52db4cb fails production identity',results,limits:'Browser engines and viewport emulation; stage/reward setup uses explicit fixtures; not physical-device certification or a human 100-clear run. All nonlocal transport blocked.'};
   if(out)fs.writeFileSync(path.join(out,'production-game-results.json'),JSON.stringify(report,null,2));
   console.log(JSON.stringify({passed:results.length,gameplaySHA256:report.gameplaySHA256}));
 })().catch(e=>{console.error(e);process.exitCode=1});

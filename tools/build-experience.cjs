@@ -341,6 +341,7 @@ if(!motion.matches&&'IntersectionObserver' in window){const observer=new Interse
 })();</script></body></html>`);
 
 const productionGame = require('./production-game.cjs');
+vault = productionGame.tunePage(vault);
 story = productionGame.integrate(story);
 const preview = productionGame.preview();
 // Content-derived versions make identical builds byte-for-byte reproducible.

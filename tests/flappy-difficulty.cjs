@@ -25,9 +25,9 @@ for(const [w,h] of sizes)for(let seed=1;seed<=20;seed++){
  assert(Math.abs(W/H-w/h)<1e-12);assert.equal(H,720);assert.equal(c.vh(s),34);
  for(let ordinal=0;ordinal<125;ordinal++){
   c.FG.score=ordinal;c.FG.gates.forEach(g=>g.counted=true);
-  c.flapSpawn(s);const g=c.FG.gates.at(-1),level=Math.min(3,Math.floor(ordinal/25));
+  c.flapSpawn(s);const g=c.FG.gates.at(-1),level=Math.floor(ordinal/10)%4;
   assert.equal(g.ordinal,ordinal);assert.equal(g.serial,ordinal);assert.equal(g.level,level);assert.equal(g.kind,kinds[level]);
-  assert(g.finalOpening>=104);assert.equal(g.reveal,level?0:1);assert.equal(g.opening-g.finalOpening,level===3?26:0);
+  assert(g.finalOpening>=104);assert.equal(g.reveal,level?0:1);assert(Math.abs(g.opening-g.finalOpening-(level===3?26:0))<1e-10);
   if(level<2)assert.equal(g.baseY,g.target);else assert.equal(Math.abs(g.tilt),18);
   let locked=null;
   while(g.x>W*.24-c.flapGateWidth(g,s)-c.vh(s)){
@@ -44,7 +44,7 @@ for(const [w,h] of sizes)for(let seed=1;seed<=20;seed++){
   assert(Math.abs(g.y-g.anchor)<=H*.20+1e-7);c.FG.gates=[g];gates++;
  }
 }
-for(const n of [-1,0,24,25,49,50,74,75,99,100,100000]){const {c}=setup();assert.equal(c.flapLevel(n),Math.min(3,Math.floor(Math.max(0,n)/25)));assert(c.flapPace(n)<=c.FLAP_MAX_SPEED);}
+for(const n of [-1,0,9,10,19,20,29,30,39,40,79,80,99,100,100000]){const {c}=setup();assert.equal(c.flapLevel(n),Math.floor(Math.max(0,n)/10)%4);assert(c.flapPace(n)<=c.FLAP_MAX_SPEED);}
 {const {c}=setup();for(let score=1;score<=150;score++){assert(c.flapPace(score)>=c.flapPace(score-1));assert(c.flapInterval(score)<=c.flapInterval(score-1));}}
 // Follow the aperture with zero-time geometric samples. This verifies collision
 // and scoring topology; it is not an automated player's physics reachability proof.
@@ -75,7 +75,7 @@ for(const score of [25,50,75])for(const y of [35,685]){
  assert.equal(c.FG.score,score);assert(!g.counted);traversals++;
 }
 // Skips do not grant higher tiers, while already spawned geometry is immutable.
-{const {c,s}=setup();c.FG.score=24;c.flapSpawn(s);const first=c.FG.gates[0];c.flapSpawn(s);assert.equal(first.level,0);assert.equal(c.FG.gates[1].level,1);c.FG.gates.forEach(g=>g.missed=true);c.flapSpawn(s);assert.equal(c.FG.gates.at(-1).level,0);assert.equal(first.kind,'PILLAR');}
+{const {c,s}=setup();c.FG.score=9;c.flapSpawn(s);const first=c.FG.gates[0];c.flapSpawn(s);assert.equal(first.level,0);assert.equal(c.FG.gates[1].level,1);c.FG.gates.forEach(g=>g.missed=true);c.flapSpawn(s);assert.equal(c.FG.gates.at(-1).level,0);assert.equal(first.kind,'PILLAR');}
 // Actual contact with an interior rail kills before any reward check.
 for(const score of [0,25,50,75]){const {c,s}=setup();const g=placeGate(c,s,score);g.x=s.w*.24-c.flapGateWidth(g,s)/2;const a=c.flapAperture(g,s,.5);c.FG.y=(a.top-10)/s.h;c.flapStep(0,s);assert.equal(c.FG.state,'dying');assert.equal(c.FG.score,score);}
 // Reward once at 100; explicit retry and canvas lockout preserve storage.
@@ -89,5 +89,5 @@ const cadence=[];for(const hz of [30,60,90,120,144]){const {c,s}=setup();c.flapS
 // aspect ratios; pixel density changes raster detail only.
 let reference;for(const [w,h] of sizes)for(const dpr of [1,2,3]){const {c,s}=setup(w,h,19,dpr),course=[];for(let n=0;n<100;n++){c.flapSpawn(s);const g=c.FG.gates.at(-1);course.push([g.target,g.finalOpening,g.kind,g.tilt,c.flapGateWidth(g,s)/(c.flapPace(n)*s.w)]);}if(reference)course.forEach((row,i)=>row.forEach((v,j)=>typeof v==='number'?assert(Math.abs(v-reference[i][j])<1e-10):assert.equal(v,reference[i][j])));else reference=course;}
 {const a=setup(375,667,77),b=setup(375,667,77);for(let n=0;n<100;n++){for(let j=0;j<n%13;j++)b.c.Math.random();a.c.flapSpawn(a.s);b.c.flapSpawn(b.s);}assert.equal(JSON.stringify(a.c.FG.gates),JSON.stringify(b.c.FG.gates));}
-console.log(JSON.stringify({pass:true,seededCourses:100,uniqueSeeds:20,gates,sizes,traversals,minLockedWarningSeconds:minLead,minGapHitboxClearancePx:minClearance,minAdjacentHitboxSpacePx:minSpace,checks:['25/50/75 topology boundaries','finite passage clear and fatal bypass','collision before scoring','skips do not advance stage','settled warning','reward persistence','fullscreen responsive timing','resize pause','30–144Hz cadence','suspend/reduced motion'],limitation:'Aperture-following samples verify geometry/scoring, not human playability.'},null,2));
+console.log(JSON.stringify({pass:true,seededCourses:100,uniqueSeeds:20,gates,sizes,traversals,minLockedWarningSeconds:minLead,minGapHitboxClearancePx:minClearance,minAdjacentHitboxSpacePx:minSpace,checks:['10-clear repeating topology boundaries','finite passage clear and fatal bypass','collision before scoring','skips do not advance stage','settled warning','reward persistence','fullscreen responsive timing','resize pause','30–144Hz cadence','suspend/reduced motion'],limitation:'Aperture-following samples verify geometry/scoring, not human playability.'},null,2));
 }

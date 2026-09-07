@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 7, 2026 — natural flaps, ten-clear styles, 100-point goal
+
+Keep the original game's 100-point reward. Repeat the four obstacle styles every ten clears, without accelerating the original speed and spacing curve. Apply the same explicit source adaptation to the root and story game so entering from either route plays the same rules. The immutable upstream snapshot remains unchanged.
+
+Remove the V's trailing stroke, keeping the rendering interpolation history. In the automatic preview, move the V only through the original upward impulse and gravity: steer by flap timing, never by position nudges, clamps or a sine wave. Show a centred, gently varying course with settled portals and sufficient opening space to demonstrate uninterrupted natural flight. These presentation choices do not widen the actual game's gaps or bypass its collisions.
+
 ## September 7, 2026 — restore the actual production game
 
 The user identified that the new invitation was opening a different game. The earlier integration preserved production source in the root but opened an obsolete game snapshot from the story. Restore the actual `e972c19` production game, including its four courses, controls and reward behavior, while preserving the painted invitation and accepted story art. This supersedes earlier decisions to retain the older story engine and its replacement 100 Club screen.
