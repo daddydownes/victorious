@@ -10,16 +10,17 @@ function spyContext(actions) {
     save() { actions?.push('save'); }, restore() { actions?.push('restore'); },
     beginPath() { actions?.push('begin'); }, closePath() {},
     moveTo() {}, lineTo() {}, clip() { actions?.push('clip'); }, stroke() { actions?.push('paint'); },
-    fillRect() { actions?.push('paint'); }, drawImage() { actions?.push('paint'); },
+    fill() { actions?.push('paint'); }, fillRect() { actions?.push('paint'); }, drawImage() { actions?.push('paint'); },
     scale() {}, createLinearGradient() { gradients++; return gradient; },
-    set fillStyle(v) {}, set strokeStyle(v) {}, set lineWidth(v) {},
+    set fillStyle(v) { actions?.push('fill:'+v); }, set strokeStyle(v) { actions?.push('stroke:'+v); }, set lineWidth(v) {},
+    set globalAlpha(v) { actions?.push('alpha:'+v); },
     set lineJoin(v) {}, set lineCap(v) {}
   };
 }
 const document = { createElement() {
   return { width: 0, height: 0, getContext() { return spyContext(); } };
 } };
-const sandbox = { document };
+const sandbox = { document, VB:{x:0,y:0,w:100,h:100}, FLAP_LOGO_CONTOURS:[[[45,0],[55,0],[55,10],[45,10]],[[10,20],[35,20],[50,80],[65,20],[90,20],[62,100],[38,100]]] };
 vm.createContext(sandbox);
 const html = fs.readFileSync(require('node:path').join(__dirname, '..', 'index.html'), 'utf8');
 const begin = html.indexOf('/* FLAPPY METAL BEGIN */');
@@ -34,6 +35,8 @@ draw(spyContext(actions), top, { d: 2 }, 'pillar', 0, .1);
 assert.equal(actions[0], 'save');
 assert.ok(actions.indexOf('clip') >= 0);
 assert.ok(actions.slice(0, actions.indexOf('clip')).every(x => x !== 'paint'));
+assert.ok(actions.includes('fill:#f0d492'),'face mark uses canonical V gold');
+assert.ok(actions.includes('stroke:#f0d492'),'rounded drips use canonical V gold');
 assert.equal(actions.at(-1), 'restore');
 const firstGradients = gradients;
 
@@ -62,4 +65,6 @@ assert.ok(draw.cacheBytes() <= 16 * 1024 * 1024);
 draw.clearCache();
 assert.equal(draw.cacheSize(), 0);
 assert.equal(draw.cacheBytes(), 0);
-console.log('flappy material: clip discipline, angled rails and 64-entry cache passed');
+const backdrop=[];sandbox.flapDrawPaintBackdrop(spyContext(backdrop),420,720);
+assert.ok(backdrop.includes('alpha:0.052'));assert.ok(backdrop.includes('fill:#f0d492'));assert.ok(backdrop.includes('stroke:#f0d492'));
+console.log('flappy material: clipped canonical paint/drips, backdrop, angled rails and 64-entry cache passed');
