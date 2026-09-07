@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 8, 2026 — local clean V-style art direction
+
+Prototype the requested visual direction across both story lettering and Flappy V without changing the public site. Use the canonical hot gold (`#f0d492`) and the same V-and-star geometry. Lettering is clean, flared soft-serif vector art with a few rounded drips and almost no overspray; avoid brush texture, amber haze, gradients, filters and raster concept-board reuse. Keep readable pending/failure text while title SVGs decode.
+
+In the game, clip every new face mark, drip and fleck inside the existing collision polygons. Use the canonical V-and-star contours for painted marks and a single faint backdrop mark baked into the static scene. Preserve collision, physics, progression, reward, cache limits and all existing media. The local concept stays on `demo/v-style-20260908` for review at port 8922; it is not authorized for publishing by this demo request.
+
 ## September 8, 2026 — production fixes with exact media fidelity
 
 Publish the restored 25-clear playable game with its 100-clear reward; retain ten-clear visual cycling only in the automatic preview. Fix reproduced access blockers in the surrounding journey: keep the invitation usable in short landscape viewports, isolate covered controls from focus/accessibility exposure, allow pinch zoom under reduced motion, and show signup success only after current transport success.

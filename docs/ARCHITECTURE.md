@@ -1,5 +1,11 @@
 # How the site works
 
+## Local V-style demo layer
+
+The `demo/v-style-20260908` branch keeps the published architecture and adds two source-owned visual layers. `tools/build-experience.cjs` wires three self-contained SVGs from `experience/assets/` into the existing title pending/decode/failure lifecycle. `tools/flappy-clean-paint.js` owns procedural canvas paint; `tools/production-game.cjs` injects it only between the existing `FLAPPY METAL BEGIN/END` markers and adds one baked scene-background call. Generated root, story, preview and state files must still be rebuilt together.
+
+Game decoration is clipped to the unchanged obstacle polygons. The canonical logo contours come from the existing production extraction, so the visual V/star and protected collision/physics source remain tied to the saved baseline. New vector assets use explicit native dimensions, flat `#f0d492` geometry and no external references. Existing raster, film, font and archive media are retained unchanged.
+
 ## September 8 release contracts
 
 The Next Drop overlay owns focus and accessibility exposure until Vault entry completes. `setNextDropInert()` keeps the underlying stage and retained legacy seam inert while they are covered, and removes the destination from interaction until reveal settles, is cancelled or reaches its watchdog. Short viewports at or below 520px use compact spacing plus a bounded vertical-overflow fallback; normal-size geometry remains unchanged.
