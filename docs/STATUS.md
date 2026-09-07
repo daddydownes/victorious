@@ -1,5 +1,15 @@
 # Current status
 
+## Actual production game restored — September 7, 2026
+
+Corrected candidate `52db4cb`: the painted invitation was opening an obsolete game even though the production game was preserved in the root source. Both story openers now launch the actual `e972c19` production game, with its four courses, original physics/materials, start/pause/resume/retry panels and reward. The preview also uses its renderer and portal geometry. The root page and accepted story artwork, film policy and gallery remain unchanged.
+
+`tools/production-game.cjs` owns extraction and the small story lifecycle adapter. Exit restores the actual opener and scroll position; background content is inert during play, preview/film pause, and closing during entry cancels the animation. See [restoration evidence and commands](reviews/production-game-restoration.md).
+
+Passed: six complete Chromium/WebKit/Firefox game journeys with portrait/landscape screenshots; 32 return loops and 24 mocked signup cases; 13 integration checks with deterministic rebuild and exact production gameplay identity; all ten root suites and five game suites against the played story engine; demo-server routes/ranges. The actual in-app preview showed the restored game and matching preview. Browser stage/reward fixtures and deterministic physics witnesses are distinguished from human play and physical-device checks.
+
+Saved locally; no push or publication. Physical-device certification, direct canonical-page verification and the existing film-policy clarification remain outside this correction. Agents remain stopped.
+
 ## Chat audit and release hardening — September 7, 2026
 
 Built on saved candidate `8e7efaf`. The full chat was checked against the later accepted decisions; see [requirement audit and release evidence](reviews/release-hardening.md). The original production source, artwork and hosting files remain preserved. This pass was solo; stopped agents stayed stopped.

@@ -8,13 +8,15 @@ The ending uses `back-to-the-vault-spray-v1.png` and the shared `paintTitle` con
 
 The vault invitation contains only the painted heading and Enter the vault link. Its mobile minimum height is zero, keeping the CTA near the art. The gallery retains six photos and an accessible heading; Start again is a 48px native link to the original entrance. Story scrolling remains browser-native.
 
-`tools/build-experience.cjs` builds root `index.html`, `experience/index.html`, its game preview and deterministic `state.json`. Inputs are frozen `tools/vault-source.html` (upstream `e972c19`), `tools/experience-source.html` and `tools/experience-preview-source.html`. Edit the builder and regenerate; do not hand-edit generated pages.
+`tools/build-experience.cjs` builds root `index.html`, `experience/index.html`, its game preview and deterministic `state.json`. Inputs are frozen `tools/vault-source.html` (upstream `e972c19`) and `tools/experience-source.html`. `tools/production-game.cjs` extracts the actual production game for the story and preview. The older preview snapshot is retained for history, but no longer used. Edit the builder/extractor and regenerate; do not hand-edit generated pages.
 
 Surface reveals the original V-and-star layer above the original stage and navigates to `experience/`. Returning to `/#vault` runs the existing archive-entry landing/focus lifecycle immediately. Restart navigates to the root without fragment or query.
 
 `experience/assets/story-film.mp4` is a silent H.264 continuous cut from source second 4 through end. `tools/edit-story-film.cjs` accepts the original source path and regenerates it using FFmpeg. Playback pauses offscreen, when hidden or during the game, honors reduced motion, and shows Replay only after completion. Fixed video dimensions and compensating transforms preserve the growing rectangle without per-frame video layout resizing. Local reload polling waits until video is paused and scrolling idle.
 
-The accepted story game and preview remain together; the newer upstream four-stage production game remains in the root source and is not migrated into the story. `tests/full-experience.cjs` covers this integration separately from the existing root game suites.
+The story now plays the actual upstream four-stage game. Its physics, collision silhouette, materials, start/pause/retry panels and reward code are extracted unchanged from the pinned production source. Only the host lifecycle is adapted: both painted invitation controls open it, the background becomes inert, the existing card expansion remains, and Exit cancels the expansion and restores the triggering button and scroll position. The root game remains unchanged. The preview shares the production renderer and portal data with a separate visual pilot; it cannot award or overwrite player progress.
+
+`tests/production-game.cjs` checks production source identity, the previous demo as a negative control, and actual browser start/pause/resume/retry/resize/reward/exit journeys. `VCTRS_GAME_PAGE=experience/index.html` selects the story in the existing physics harness, allowing its collision, difficulty, lifecycle, death and reachability suites to test the engine that the new invitation actually opens.
 
 ## Delivery and boundaries
 

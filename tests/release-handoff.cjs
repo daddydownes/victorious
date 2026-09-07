@@ -37,14 +37,6 @@ async function handoff(engine,width,height,reduce) {
   const browser=await({chromium,webkit,firefox})[engine].launch({headless:true});
   const context=await browser.newContext({viewport:{width,height},hasTouch:width<500,reducedMotion:reduce?'reduce':'no-preference'});
   await localOnly(context);
-  await context.addInitScript(() => {
-    const draw=CanvasRenderingContext2D.prototype.fillText;window.__scoreDraws=[];window.__gameHints=[];
-    CanvasRenderingContext2D.prototype.fillText=function(text,...args){
-      if(/^DROPS SURVIVED:|^\d+ \/ 100$/.test(String(text)))window.__scoreDraws.push({text,width:this.measureText(text).width});
-      if(text==='Reach 100 for a surprise.')window.__gameHints.push(text);
-      return draw.call(this,text,...args);
-    };
-  });
   const page=await context.newPage();page.setDefaultTimeout(15000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   try {
@@ -69,16 +61,13 @@ async function handoff(engine,width,height,reduce) {
       await page.waitForFunction(()=>document.getElementById('flapOverlay').classList.contains('on'));
       await page.waitForTimeout(reduce?50:550);
       const exit=await snapshot(page,'#flapExit');
-      assert(exit.height>=48);assert(exit.x>=0&&exit.y>=0&&exit.x+exit.width<=width+.5);
-      assert(exit.radius==='999px');assert(exit.font.includes('Arial'));
+      assert(exit.height>=44);assert(exit.x>=0&&exit.y>=0&&exit.x+exit.width<=width+.5);
+      assert.equal(exit.radius,'4px');assert(exit.font.includes('Consolas'));
       if(pass===1)await capture(page,`${engine}-${width}-${height}-game`);
-      const score=await page.evaluate(()=>window.__scoreDraws.at(-1));assert(score,'The score is drawn');
-      if(width<500){assert(14+(score.width+14.4)*1.3<exit.x-8,'Score and return control overlap during the score pulse');assert.match(score.text,/^\d+ \/ 100$/)}
-      assert(await page.evaluate(()=>window.__gameHints.length>0),'The game explains the 100-point surprise');
-      if(width<500&&pass===1){
-        await page.setViewportSize({width:640,height});await page.waitForFunction(()=>window.__scoreDraws.at(-1)?.text.startsWith('DROPS SURVIVED:'));
-        await page.setViewportSize({width,height});await page.waitForFunction(()=>/^\d+ \/ 100$/.test(window.__scoreDraws.at(-1)?.text));
-      }
+      const score=await snapshot(page,'#flapScore');
+      assert(score.x+score.width<=exit.x-4,'Original score and Exit must not overlap');
+      assert.equal(await page.locator('#flapTitle').innerText(),reduce?'MOTION IS OFF':'FLAPPY V');
+      assert.equal(await page.locator('#flapAction').innerText(),reduce?'EXIT GAME':'START RUN');
       if(pass%2)await page.keyboard.press('Escape');else await page.locator('#flapExit').click();
       await page.waitForFunction(()=>!document.getElementById('flapOverlay').classList.contains('on'));
       assert.equal(await page.evaluate(()=>document.activeElement.id),opener.slice(1));

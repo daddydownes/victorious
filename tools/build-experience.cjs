@@ -103,36 +103,6 @@ story = replace(story, "if(reduce.matches){const note=document.createElement('p'
 story = story.replace(/<section class="vault-invite"[\s\S]*?<\/section>/, `<section class="vault-invite journey-section" id="vault-invite" aria-labelledby="vault-title"><div class="vault-story"><h2 id="vault-title"><span class="paint-title-text">Back to the vault</span><img class="spray-headline" src="assets/back-to-the-vault-spray-v1.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2></div><div class="vault-action-group"><a class="action vault-return" href="../#vault"><span>Enter the vault</span><span class="cta-arrow" aria-hidden="true">↗</span></a></div></section>`);
 story = replace(story, '<h2 id="ending-title">— and the ones<br>who\'ll say they were.</h2>', '<h2 id="ending-title" class="sr-only">VCTRS — in the vault</h2>');
 story = replace(story, 'Back to the beginning ↑</a>', 'Start again <span aria-hidden="true">↺</span></a>');
-story = replace(story, "flapPlay.addEventListener('click',flapOpenFn);", "flapPlay.addEventListener('click',flapOpenFn);\n    document.getElementById('journey-play').addEventListener('click',flapOpenFn);");
-story = replace(story, "FG.state='won'; FG.trauma=Math.min(1,FG.trauma+0.3);", "FG.state='won'; FG.deadT=0; FG.trauma=0;");
-story = replace(story, 'if(FG.score>=TARGET_SCORE && !fWon){ flapWin(s); }', 'if(FG.score>=TARGET_SCORE){ flapWin(s); }');
-story = replace(story, 'if(FG.deadT>0.6) flapStart();', "if(FG.deadT>(FG.state==='won'?2.2:0.6)) flapStart();");
-story = replace(story, "'100 DROPS SURVIVED — BEST: '", "'100 CLUB — BEST: '");
-// Leave room for the return control and the score pulse on narrow phones.
-story = replace(story, 'if(hudKey!==FG.score || hudC.width', "var key=FG.score+':'+(s.w<500);\n      if(hudKey!==key || hudC.width");
-story = replace(story, 'hudKey=FG.score;', 'hudKey=key;');
-story = replace(story, "g.fillText('DROPS SURVIVED: '+FG.score+' / '+TARGET_SCORE,0,13);", "g.fillText((s.w<500?'':'DROPS SURVIVED: ')+FG.score+' / '+TARGET_SCORE,0,13);");
-// Explain the requested surprise inside the game, keeping the painted invitation free of extra copy.
-story = replace(story, "fctx.fillText(reduced?'MOTION IS OFF — THE GAME SLEEPS':'TAP TO FLY',s.w/2,s.h*0.72);", "fctx.fillText('TAP / SPACE TO FLY',s.w/2,s.h*0.72);\n        fctx.fillStyle='#d4af5f';fctx.font='11px Arial,sans-serif';\n        fctx.fillText('Reach 100 for a surprise.',s.w/2,s.h*0.72+25);");
-story = replace(story, 'Tap, click or press Space to fly the gold V through the gaps. Escape exits.', 'Tap, click or press Space to fly the gold V through the gaps. Reach 100 for a surprise. Escape returns to the story.');
-const surpriseDraw=`    function flapSurprise(s){
-      var age=FG.deadT||0,arrive=Math.min(1,age/1.1),ease=1-Math.pow(1-arrive,3),cx=s.w/2,cy=s.h*.34,unit=Math.min(s.w,s.h);
-      fctx.save();fctx.fillStyle='rgba(0,0,0,.96)';fctx.fillRect(0,0,s.w,s.h);
-      for(var ring=0;ring<3;ring++){var t=Math.max(0,Math.min(1,(age-ring*.2)/2));fctx.globalAlpha=(1-t)*.3;fctx.strokeStyle='#d4af5f';fctx.lineWidth=1;fctx.beginPath();fctx.arc(cx,cy,unit*(.08+.35*t),0,Math.PI*2);fctx.stroke()}
-      for(var spark=0;spark<32;spark++){var angle=spark*2.399963,travel=Math.min(1,age/2.5),radius=unit*(.10+.33*travel)*(0.65+0.35*Math.sin(spark*9));fctx.globalAlpha=Math.max(0,1-travel)*.65;fctx.fillStyle='#f0d492';fctx.fillRect(cx+Math.cos(angle)*radius,cy+Math.sin(angle)*radius,1.5,1.5)}
-      fctx.globalAlpha=ease;fctx.save();var markH=unit*.18*(.88+.12*ease);fctx.translate(cx,cy);fctx.scale(markH/VB.h,markH/VB.h);fctx.translate(-(VB.x+VB.w/2),-(VB.y+VB.h/2));fctx.fillStyle='#f0d492';if(VPATH)fctx.fill(VPATH);fctx.restore();
-      fctx.textAlign='center';fctx.textBaseline='middle';fctx.fillStyle='#d4af5f';fctx.font='10px Arial,sans-serif';fctx.fillText('A PLACE AMONG THE FEW',cx,s.h*.52+10*(1-ease));
-      fctx.font='900 '+Math.max(38,Math.min(86,s.w*.12,s.h*.12))+'px Impact,Arial Black,sans-serif';fctx.fillText('100 CLUB',cx,s.h*.62+16*(1-ease));
-      fctx.fillStyle='rgba(239,233,220,.68)';fctx.font='12px Arial,sans-serif';fctx.fillText('One hundred clears. You made it.',cx,s.h*.72);
-      if(age>2.2){fctx.globalAlpha=Math.min(1,(age-2.2)/.5);fctx.fillStyle='#d4af5f';fctx.font='10px Arial,sans-serif';fctx.fillText('TAP TO PLAY AGAIN',cx,s.h*.84)}
-      fctx.restore();
-    }
-`;
-story = replace(story, '    function flapDraw(s){', surpriseDraw+'    function flapDraw(s){');
-const winPanelStart=story.indexOf("      } else if(FG.state==='won'){");
-const winPanelEnd=story.indexOf('      if(FG.flash>0){',winPanelStart);
-if(winPanelStart<0||winPanelEnd<0)throw new Error('Win panel anchors missing');
-story=story.slice(0,winPanelStart)+"      } else if(FG.state==='won'){ flapSurprise(s); }\n"+story.slice(winPanelEnd);
 // Routing to a new document always resets the original journey; storage is optional.
 story = story.replace(/document\.getElementById\('restart-page'\)\.addEventListener\('click',[\s\S]*?\}\);window\.__gameInvitation=/,
   "document.getElementById('restart-page').addEventListener('click',e=>{e.preventDefault();window.__vctrsRestarting=true;try{sessionStorage.removeItem('vctrs-live-position');sessionStorage.removeItem('vctrs-manual-restart')}catch{}history.scrollRestoration='manual';const url=new URL('../',location.href);url.hash='';url.search='';location.assign(url.href)});window.__gameInvitation=");
@@ -143,7 +113,6 @@ story = replace(story, 'if(pending&&!window.__vctrsRestarting', "if(pending&&Dat
 story = replace(story, 'visible=entries[0].isIntersecting;', 'visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.12;');
 // Scale the complete game surface out of the card instead of clipping away its V.
 story = replace(story, "overlay.animate([{clipPath:'inset('+top+'px '+right+'px '+bottom+'px '+left+'px round 4px)'},{clipPath:'inset(0px 0px 0px 0px round 0px)'}],{duration:620,easing:'cubic-bezier(.22,.8,.18,1)'});", "overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});");
-story = replace(story, 'function flapCloseFn(){', 'function flapCloseFn(){\n      flapOverlay.getAnimations().forEach(function(a){a.cancel()});');
 const entryStart=story.indexOf('let entryRect=null;'),entryEnd=story.indexOf("document.getElementById('restart-page').addEventListener",entryStart);
 if(entryStart<0||entryEnd<0)throw new Error('Game entry animation anchors missing');
 story=story.slice(0,entryStart)+`[button,document.getElementById('journey-play')].forEach(entry=>{let entryRect=null;entry.addEventListener('click',()=>{entryRect=card.getBoundingClientRect()},{capture:true});entry.addEventListener('click',()=>{overlay.getAnimations().forEach(a=>a.cancel());if(reduce.matches||!entryRect)return;const r=entryRect;overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});});});\n`+story.slice(entryEnd);
@@ -264,13 +233,13 @@ html{scrollbar-gutter:stable}
 @media(max-width:700px){.vault-invite{min-height:0;padding:58px 7vw 68px;gap:20px}.vault-story #vault-title{max-width:440px}.ending-copy #restart-page{margin-top:0}.nav{top:12px}}
 @media(prefers-reduced-motion:reduce){.vault-return,.vault-return .cta-arrow,.ending-copy #restart-page{transition:none}.vault-return:active,.vault-return:hover .cta-arrow,.ending-copy #restart-page:active,.film-toggle:active,.signup-footer button:active{transform:none}}
 /* Secondary controls share the vault's quiet gold pill treatment. */
-.film-toggle,body #flapExit,.signup-footer .action{border-radius:999px;border-color:#d4af5f80;background:#000;color:var(--gold);font:11px/1.5 Arial,sans-serif;letter-spacing:.12em;box-shadow:none;transition:background .2s,color .2s,border-color .2s,transform .15s}
-.film-toggle,body #flapExit{min-height:48px;padding:12px 18px;touch-action:manipulation}
-.film-toggle:hover,body #flapExit:hover,.signup-footer .action:hover{background:var(--gold);border-color:var(--gold);color:#000}
-.film-toggle:focus-visible,body #flapExit:focus-visible,.signup-footer .action:focus-visible{outline:1px solid #f0d492;outline-offset:4px}
-body #flapExit:active{transform:scale(.985);opacity:1}
+.film-toggle,.signup-footer .action{border-radius:999px;border-color:#d4af5f80;background:#000;color:var(--gold);font:11px/1.5 Arial,sans-serif;letter-spacing:.12em;box-shadow:none;transition:background .2s,color .2s,border-color .2s,transform .15s}
+.film-toggle{min-height:48px;padding:12px 18px;touch-action:manipulation}
+.film-toggle:hover,.signup-footer .action:hover{background:var(--gold);border-color:var(--gold);color:#000}
+.film-toggle:focus-visible,.signup-footer .action:focus-visible{outline:1px solid #f0d492;outline-offset:4px}
+
 .signup-footer .action[aria-disabled=true]{cursor:progress;opacity:1}
-@media(prefers-reduced-motion:reduce){.film-toggle,body #flapExit,.signup-footer .action{transition:none}body #flapExit:active{transform:none}}
+@media(prefers-reduced-motion:reduce){.film-toggle,.signup-footer .action{transition:none}}
 `;
 story = replace(story, '</style></head>', css + '</style></head>');
 story = replace(story, 'if(!form.reportValidity()||button.disabled)return;', "if(form.getAttribute('aria-busy')==='true'||!form.reportValidity())return;");
@@ -371,17 +340,9 @@ paintTitle('vault-title','vault-invite',[
 if(!motion.matches&&'IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('journey-visible');observer.unobserve(entry.target)}}),{rootMargin:'0px 0px -10% 0px',threshold:.12});journeySections.forEach(section=>{section.classList.add('journey-motion');section.addEventListener('focusin',()=>section.classList.add('journey-visible'));observer.observe(section)});motion.addEventListener('change',()=>{if(motion.matches){journeySections.forEach(section=>section.classList.add('journey-visible'));observer.disconnect()}})}
 })();</script></body></html>`);
 
-function resizeSafe(html) {
-  return replace(html, '      FS.w=w; FS.h=h; FS.d=d;', `      if(FS.w>0&&FS.h>0&&w>0&&h>0&&(w!==FS.w||h!==FS.h)&&FG){
-        var rx=w/FS.w,ry=h/FS.h,half=Math.max(34,h*.047)*2.5;
-        var lo=Math.min(h/2,half+h*.06),hi=Math.max(lo,h-half-h*.12);
-        FG.gates.forEach(function(g){g.x*=rx;g.y=Math.max(lo,Math.min(hi,g.y*ry))});
-        FG.parts.forEach(function(p){p.x*=rx;p.y*=ry});
-      }
-      FS.w=w; FS.h=h; FS.d=d;`);
-}
-story = resizeSafe(story);
-let preview = resizeSafe(read('experience-preview-source.html').replaceAll('../assets/', 'assets/'));
+const productionGame = require('./production-game.cjs');
+story = productionGame.integrate(story);
+const preview = productionGame.preview();
 // Content-derived versions make identical builds byte-for-byte reproducible.
 const version = parseInt(crypto.createHash('sha256').update(story).update(preview).digest('hex').slice(0,12),16);
 story = story.replace(/let version=\d+,pending=false,busy=false/, 'let version='+version+',pending=false,busy=false');

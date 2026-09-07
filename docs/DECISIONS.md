@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 7, 2026 — restore the actual production game
+
+The user identified that the new invitation was opening a different game. The earlier integration preserved production source in the root but opened an obsolete game snapshot from the story. Restore the actual `e972c19` production game, including its four courses, controls and reward behavior, while preserving the painted invitation and accepted story art. This supersedes earlier decisions to retain the older story engine and its replacement 100 Club screen.
+
+Extract the production game from one pinned source rather than maintaining another handwritten engine. Keep story-specific focus, inert background, scroll restoration and animation cancellation in a small host adapter. The automatic preview shares production rendering and portal geometry, uses a visual pilot, and never saves progress. Source identity and tests against the played story engine prevent the same integration mistake recurring.
+
 ## September 7, 2026 — Surface gold match
 
 Use the original production V's hot gold (`#f0d492`) through the Surface handoff and the story opening. The darker amber remains the established colour for the other story elements. Share the logo colour and shadow in the builder instead of styling each page independently. Preserve the accepted logo geometry and other saved work; no additional agents are required for this scoped correction.

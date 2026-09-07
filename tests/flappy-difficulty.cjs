@@ -1,8 +1,8 @@
 // Actual production game functions, deterministic browser/storage stubs; no live progress is touched.
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
-const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
+const html=fs.readFileSync(path.join(__dirname,'..',process.env.VCTRS_GAME_PAGE||'index.html'),'utf8');
 const logoPath=html.match(/class="vmark"[^>]*>[\s\S]*?<path d="([^"]+)"/)[1];
-const source=html.slice(html.indexOf('  var COUPON_THRESHOLD=100;'),html.indexOf('\n  measure(); updateScroll();',html.indexOf('  var COUPON_THRESHOLD=100;')));
+const source=html.slice(html.indexOf('  var COUPON_THRESHOLD=100;'),html.indexOf(html.includes('// PRODUCTION_GAME_CORE_END')?'\n// PRODUCTION_GAME_CORE_END':'\n  measure(); updateScroll();',html.indexOf('  var COUPON_THRESHOLD=100;')));
 assert(source.includes('function flapGateUpdate'));
 function setup(w=375,h=667,seed=1,dpr=1,inject=''){
  const elements={},storage=new Map(),events={};let now=0;
@@ -10,6 +10,7 @@ function setup(w=375,h=667,seed=1,dpr=1,inject=''){
  const ctx={textAlign:'center'};
  const el=id=>elements[id]??=( {id,clientWidth:w,clientHeight:h,style:{setProperty(k,v){this[k]=v}},classList:{add(){},remove(){}},events:{},addEventListener(n,f){this.events[n]=f},focus(){c.document.activeElement=this},getClientRects(){return[{}]},getContext(){return ctx},tagName:id==='flap'?'CANVAS':'BUTTON'} );
  const c={Path2D:class{constructor(d){this.d=d}},Math:math,devicePixelRatio:dpr,reduced:false,motionQuery:{matches:false},performance:{now:()=>now},localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},document:{getElementById:el,querySelector:selector=>selector==='.vmark path'?{getAttribute:()=>logoPath}:null,body:el('body'),hidden:false,addEventListener(n,f){events[n]=f}},window:{scrollY:0,scrollTo(){}},addEventListener(n,f){events[n]=f},requestAnimationFrame:()=>1,cancelAnimationFrame(){},setInterval:()=>1,clearInterval(){},refreshMotionPreference(){}};
+ c.storyGameLock=function(){}; // Host inert/focus integration is exercised in real browsers.
  vm.createContext(c);vm.runInContext(source.replace(/\n  }\s*$/, '\n    flapDraw=function(){}; flapBurst=function(){};'+inject+'\n  }'),c);
  c.FG=c.flapNewState();c.flapOpen=true;
  return {c,s:c.flapSize(),storage,elements,events,time(t){now=t}};
