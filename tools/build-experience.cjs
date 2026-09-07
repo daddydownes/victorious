@@ -251,11 +251,11 @@ story = replace(story, "setInterval(check,1200);check();window.__vctrsLive", "if
 story = replace(story, 'pending=false,busy=false;async function check()', 'pending=false,busy=false,lastScroll=0;addEventListener(\'scroll\',()=>{lastScroll=Date.now()},{passive:true});async function check()');
 story = replace(story, 'if(pending&&!window.__vctrsRestarting', "if(pending&&Date.now()-lastScroll>1500&&document.getElementById('story-film').paused&&!window.__vctrsRestarting");
 story = replace(story, 'visible=entries[0].isIntersecting;', 'visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.12;');
-// Scale the complete game surface out of the card instead of clipping away its V.
-story = replace(story, "overlay.animate([{clipPath:'inset('+top+'px '+right+'px '+bottom+'px '+left+'px round 4px)'},{clipPath:'inset(0px 0px 0px 0px round 0px)'}],{duration:620,easing:'cubic-bezier(.22,.8,.18,1)'});", "overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});");
+// The production-game adapter owns the card-bound open and return lifecycle.
+// Remove the older host-only entry animation so one state machine controls it.
 const entryStart=story.indexOf('let entryRect=null;'),entryEnd=story.indexOf("document.getElementById('restart-page').addEventListener",entryStart);
 if(entryStart<0||entryEnd<0)throw new Error('Game entry animation anchors missing');
-story=story.slice(0,entryStart)+`[button,document.getElementById('journey-play')].forEach(entry=>{let entryRect=null;entry.addEventListener('click',()=>{entryRect=card.getBoundingClientRect()},{capture:true});entry.addEventListener('click',()=>{overlay.getAnimations().forEach(a=>a.cancel());if(reduce.matches||!entryRect)return;const r=entryRect;overlay.animate([{transform:'translate('+(r.left+r.width/2-innerWidth/2)+'px,'+(r.top+r.height/2-innerHeight/2)+'px) scale('+(r.width/innerWidth)+','+(r.height/innerHeight)+')'},{transform:'none'}],{duration:480,easing:'cubic-bezier(.22,.8,.18,1)'});});});\n`+story.slice(entryEnd);
+story=story.slice(0,entryStart)+story.slice(entryEnd);
 const css = `
 /* Keep the Surface composition aligned, including on systems with classic scrollbars. */
 html{scrollbar-gutter:stable}
@@ -419,9 +419,37 @@ function decodeImage(source,ready,failed){
   source.addEventListener('load',pass,{once:true});source.addEventListener('error',fail,{once:true});
   if(source.complete){if(source.naturalWidth)pass();else fail()}
 }
-const journeyPlay=document.getElementById('journey-play'),arrowAsset=new Image();
+const journeyPlay=document.getElementById('journey-play'),playTitle=document.getElementById('play-title'),playSection=document.getElementById('play'),playCard=playSection.querySelector('.live-game-shell');
+let playTitleReady=false,playArrowReady=false,playVisible=false,playArrivalStarted=false,playArrivalAnimation=null;
+window.__storyGameArrivalPlayed=false;
+function settlePlayArrival(force=false){
+  if(!playArrivalStarted){if(!force)return;playArrivalStarted=true;window.__storyGameArrivalPlayed=true}
+  const animation=playArrivalAnimation;playArrivalAnimation=null;
+  if(animation&&animation.playState!=='finished')try{animation.finish()}catch(_e){animation.cancel()}
+  if(playArrowReady)journeyPlay.classList.remove('paint-cue-pending');
+  playSection.classList.add('motion-arrived','motion-arrival-settled');
+}
+window.__settleStoryGameArrival=()=>settlePlayArrival(true);
+function startPlayArrival(){
+  if(playArrivalStarted||!playVisible||!playTitleReady||!playArrowReady)return;
+  playArrivalStarted=true;window.__storyGameArrivalPlayed=true;journeyPlay.classList.remove('paint-cue-pending');playSection.classList.add('motion-arrived');
+  if(motion.matches||document.hidden){settlePlayArrival();return}
+  playArrivalAnimation=playCard.animate([
+    {opacity:0,transform:'translate3d(0,38px,0) scale(.965)',filter:'brightness(.72)'},
+    {opacity:1,transform:'translate3d(0,-2px,0) scale(1.002)',filter:'brightness(1.035)',offset:.82},
+    {opacity:1,transform:'none',filter:'brightness(1)'}
+  ],{duration:980,delay:90,easing:'cubic-bezier(.16,.78,.2,1)',fill:'backwards'});
+  playArrivalAnimation.addEventListener('finish',()=>{playArrivalAnimation=null;playSection.classList.add('motion-arrival-settled')},{once:true});
+}
+if('IntersectionObserver' in window)new IntersectionObserver(([entry])=>{playVisible=entry.isIntersecting&&entry.intersectionRatio>=.28;startPlayArrival()},{threshold:[0,.28],rootMargin:'0px 0px -8% 0px'}).observe(playCard);
+else{playVisible=true}
+playSection.addEventListener('focusin',()=>{playVisible=true;settlePlayArrival(true)});
+addEventListener('resize',settlePlayArrival);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)settlePlayArrival()});
+motion.addEventListener('change',()=>{if(motion.matches)settlePlayArrival()});
+const arrowAsset=new Image();
 arrowAsset.src='assets/play-arrow-vstyle-v1.svg';
-decodeImage(arrowAsset,()=>journeyPlay.classList.remove('paint-cue-pending'),()=>{journeyPlay.classList.remove('paint-cue-pending');journeyPlay.classList.add('paint-cue-failed')});
+decodeImage(arrowAsset,()=>{playArrowReady=true;if(playArrivalStarted)journeyPlay.classList.remove('paint-cue-pending');startPlayArrival()},()=>{journeyPlay.classList.remove('paint-cue-pending');journeyPlay.classList.add('paint-cue-failed');playArrowReady=true;startPlayArrival()});
 // PAINT_REVEAL_START: trace the supplied title artwork without changing its geometry.
 function paintTitle(titleId,sectionId,strokes,brushWidth){
   // Keep paint's per-frame preference reads separate from the film's change listener.
@@ -476,8 +504,8 @@ function paintTitle(titleId,sectionId,strokes,brushWidth){
 }
 // The game invitation is readable on its first visible frame, even after a
 // fast scroll. Keep the full raster, including its existing spray texture.
-const playTitle=document.getElementById('play-title'),playArt=playTitle.querySelector('img');
-decodeImage(playArt,()=>playTitle.classList.remove('paint-pending'),()=>{playTitle.classList.remove('paint-pending');playTitle.classList.add('paint-failed')});
+const playArt=playTitle.querySelector('img');
+decodeImage(playArt,()=>{playTitle.classList.remove('paint-pending');playTitleReady=true;startPlayArrival()},()=>{playTitle.classList.remove('paint-pending');playTitle.classList.add('paint-failed');playTitleReady=true;startPlayArrival()});
 paintTitle('vault-title','vault-invite',[
   [[256,217],[204,433]],[[270,211],[406,204],[431,243],[379,288],[240,316]],[[249,313],[385,304],[423,351],[386,407],[222,444]],
   [[425,455],[531,200],[622,455]],[[465,364],[594,342]],
@@ -499,20 +527,14 @@ paintTitle('vault-title','vault-invite',[
 (()=>{
   const preference=matchMedia('(prefers-reduced-motion: reduce)'),play=document.getElementById('play');
   const sections=[...document.querySelectorAll('#play-title,#journey-play,.vault-return,#restart-page,.signup-footer,.signup-footer .action')];
-  let frame=0;
-  function update(){frame=0;const paused=document.hidden||game.classList.contains('on')||preference.matches;
+  function update(){const paused=document.hidden||game.classList.contains('on')||preference.matches;
     document.body.classList.toggle('polish-paused',paused);
-    if(paused)return;
-    const t=Math.max(0,Math.min(1,(innerHeight*.94-play.getBoundingClientRect().top)/(innerHeight*.7)));
-    play.style.setProperty('--play-arrival',(t*t*(3-2*t)).toFixed(4));
   }
-  function queue(){if(!frame)frame=requestAnimationFrame(update)}
   if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
     const visible=entry.isIntersecting&&entry.intersectionRatio>0;
     entry.target.classList.toggle('polish-active',visible);
     if(visible)entry.target.classList.add('polish-seen');
   }),{threshold:[0,.01]});sections.forEach(section=>observer.observe(section));}
-  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);
   document.addEventListener('visibilitychange',update);preference.addEventListener('change',update);
   new MutationObserver(update).observe(game,{attributes:true,attributeFilter:['class']});update();
 })();
@@ -573,14 +595,18 @@ story = replace(story, '</style>', `
 .film-retry{position:absolute;right:6%;bottom:5%;z-index:6;min-height:44px;padding:10px 20px;border:1px solid #d4af5f;border-radius:999px;background:#12110e;color:#d4af5f;font:11px Arial,sans-serif;cursor:pointer}.film-retry[hidden]{display:none}
 @media(prefers-reduced-motion:reduce){.film-loading:before{animation:none}.film-loading,.story-film-wrap video{transition:none}.film-retry{display:none}}
 #play [data-reveal]{opacity:1;transform:none;transition:none}
-#play .spray-arrow-art mask path{animation:none;stroke-dashoffset:0}
-#play .live-game-shell{opacity:calc(.68 + .32 * var(--play-arrival,1));transform:translate3d(0,calc(24px * (1 - var(--play-arrival,1))),0) scale(calc(.985 + .015 * var(--play-arrival,1)));transform-origin:center}
+#play .live-game-shell{opacity:1;transform:none;transform-origin:center}
 #play:focus-within .live-game-shell{opacity:1;transform:none}
-#play-title .spray-headline{animation:paint-light 6.4s ease-in-out infinite;animation-play-state:paused}
-#play-title.polish-active .spray-headline{animation-play-state:running}
-#play .play-cue-arrow{animation-play-state:paused}
-#play #journey-play.polish-active .play-cue-arrow{animation-play-state:running}
-@keyframes paint-light{0%,100%{filter:brightness(1)}50%{filter:brightness(1.075)}}
+#play-title .spray-headline{animation:none}
+#play.motion-arrived:not(.motion-arrival-settled) #play-title .spray-headline{animation:paint-arrival .82s cubic-bezier(.16,.72,.22,1) both}
+#play .play-cue-arrow{animation:none!important}
+#play .spray-arrow-art mask path{animation:none!important;stroke-dashoffset:100}
+#play.motion-arrived .spray-arrow-shaft{animation:spray-arrow-on .72s .18s ease-out both!important}
+#play.motion-arrived .spray-arrow-head{animation:spray-arrow-on .3s .7s ease-out both!important}
+#play.motion-arrival-settled .spray-arrow-art mask path{animation:none!important;stroke-dashoffset:0!important}
+#flapOverlay.flap-motion-opening,#flapOverlay.flap-motion-closing{will-change:clip-path,opacity}
+#flapOverlay.flap-motion-closing{pointer-events:none}
+@keyframes paint-arrival{0%{filter:brightness(.96)}76%{filter:brightness(1.025)}100%{filter:brightness(1)}}
 /* The original site's warm gold capsules, with a restrained passing highlight. */
 .vault-return,.signup-footer .action,.ending-copy #restart-page{position:relative;isolation:isolate;overflow:hidden;transition:background-color .22s,color .22s,border-color .22s,box-shadow .22s}
 .vault-return,.signup-footer .action{background:#d4af5f;color:#100d07;border-color:#d4af5f;font-weight:700}
@@ -600,8 +626,8 @@ story = replace(story, '</style>', `
 .signup-footer.polish-seen #signup-title span{animation:signup-arrival .8s cubic-bezier(.2,.75,.2,1) both}
 .signup-footer.polish-seen #signup-title span+span{animation-delay:.1s}
 @keyframes signup-arrival{from{opacity:.7;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.polish-paused #play-title .spray-headline,.polish-paused #play .play-cue-arrow,.polish-paused .vault-return::before,.polish-paused .signup-footer .action::before,.polish-paused #restart-page::before,.polish-paused #signup-title span{animation-play-state:paused!important}
-@media(prefers-reduced-motion:reduce){#play-title .spray-headline,.vault-return::before,.signup-footer .action::before,.ending-copy #restart-page::before,.signup-footer #signup-title span{animation:none!important}#play .live-game-shell{opacity:1;transform:none}.vault-return,.signup-footer .action,.ending-copy #restart-page,.ending-copy #restart-page span{transition:none}.ending-copy #restart-page:hover span{transform:none}}
+.polish-paused #play .play-cue-arrow,.polish-paused .vault-return::before,.polish-paused .signup-footer .action::before,.polish-paused #restart-page::before,.polish-paused #signup-title span{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){#play-title .spray-headline,.vault-return::before,.signup-footer .action::before,.ending-copy #restart-page::before,.signup-footer #signup-title span{animation:none!important}#play .live-game-shell{opacity:1;transform:none}#play .spray-arrow-art mask path{animation:none!important;stroke-dashoffset:0!important}.vault-return,.signup-footer .action,.ending-copy #restart-page,.ending-copy #restart-page span{transition:none}.ending-copy #restart-page:hover span{transform:none}}
 </style>`);
 vault = productionGame.tunePage(vault);
 story = productionGame.integrate(story);

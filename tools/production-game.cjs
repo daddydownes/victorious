@@ -83,13 +83,99 @@ motionQuery.addEventListener('change',refreshMotionPreference);`;
 function storyCore() {
   let js = replace(core, 'function flapOpenFn(){', 'function flapOpenFn(event){');
   js = replace(js, 'flapFocus=flapPlay;', 'flapFocus=event&&event.currentTarget||flapPlay;');
+  js = replace(js, 'flapScrollY=window.scrollY||window.pageYOffset||0;   // the lock collapses the', 'flapScrollY=window.scrollY||window.pageYOffset||0;   // the lock collapses the\n      storyGameMotionBeginOpen();');
   js = replace(js, "document.body.classList.add('locked');", "document.body.classList.add('flap-game-locked'); storyGameLock(true);");
-  js = replace(js, "document.body.classList.remove('locked');", "document.body.classList.remove('flap-game-locked'); storyGameLock(false);");
   js = replace(js, "flapPlay.addEventListener('click',flapOpenFn);", "flapPlay.addEventListener('click',flapOpenFn);\n    document.getElementById('journey-play').addEventListener('click',flapOpenFn);");
   js = replace(js, 'paused:function(){return fPaused;}', 'paused:function(){return fPaused;}, isOpen:function(){return flapOpen;}');
+  js = replace(js, "fAction.addEventListener('click',function(){", "fAction.addEventListener('click',function(){\n      if(storyGameMotionState==='closing')return;");
+  js = replace(js, "if(!flapOpen) return;\n      // Only an interrupted flight", "if(!flapOpen||storyGameMotionState==='closing') return;\n      // Only an interrupted flight");
+  js = replace(js, "flapCv.addEventListener('pointerdown',function(e){ if(e.button!==0", "flapCv.addEventListener('pointerdown',function(e){ if(storyGameMotionState==='closing'||e.button!==0");
+  js = replace(js, "if(e.target===flapCv || e.target.closest('button') || e.button!==0", "if(storyGameMotionState==='closing'||e.target===flapCv || e.target.closest('button') || e.button!==0");
+  js = replace(js, "if(!flapOpen) return;\n      if(e.key==='Escape')", "if(!flapOpen) return;\n      if(storyGameMotionState==='closing'){e.preventDefault();e.stopPropagation();return;}\n      if(e.key==='Escape')");
+  js = replace(js, 'try{ flapCv.focus({preventScroll:true}); }catch(_e){}\n    }\n    function flapCloseFn(){', 'try{ flapCv.focus({preventScroll:true}); }catch(_e){}\n      storyGameMotionDidOpen();\n    }\n    function flapCloseFn(){');
+  const closeStart = js.indexOf('    function flapCloseFn(){');
+  const closeEnd = js.indexOf('    fPause.addEventListener', closeStart);
+  if (closeStart < 0 || closeEnd < closeStart) throw Error('Story game close lifecycle anchor missing');
+  js = js.slice(0, closeStart) + `    function flapCloseFn(){
+      if(!flapOpen || storyGameMotionState==='closing') return;
+      if(flapIv){ clearInterval(flapIv); flapIv=null; }
+      if(flapRaf){ cancelAnimationFrame(flapRaf); flapRaf=0; }
+      fPaused=true;fAccumulator=0;
+      storyGameMotionBeginClose(function(){
+        if(!flapOpen)return;
+        if(flapIv){clearInterval(flapIv);flapIv=null}
+        if(flapRaf){cancelAnimationFrame(flapRaf);flapRaf=0}
+        flapOpen=false;
+        flapOverlay.classList.remove('on');
+        document.body.classList.remove('flap-game-locked');storyGameLock(false);
+        try{ window.scrollTo({top:flapScrollY,left:0,behavior:'instant'}); }
+        catch(_e){ window.scrollTo(0,flapScrollY); }
+        if(flapFocus && flapFocus.focus){ try{ flapFocus.focus({preventScroll:true}); }catch(_e){} }
+      });
+    }
+` + js.slice(closeEnd);
   return js;
 }
-const lifecycle = `var storyGameBackground=[];
+const lifecycle = `var storyGameBackground=[],storyGameMotionState='closed',storyGameMotionAnimation=null,storyGameMotionOrigin='',storyGameMotionToken=0,storyGameMotionCloseDone=null;
+function storyGameCardClip(){
+  var card=document.querySelector('.live-game-shell'),r=card&&card.getBoundingClientRect();
+  if(!r||!r.width||!r.height)return 'inset(0px 0px 0px 0px round 0px)';
+  return 'inset('+Math.max(0,r.top)+'px '+Math.max(0,innerWidth-r.right)+'px '+Math.max(0,innerHeight-r.bottom)+'px '+Math.max(0,r.left)+'px round 8px)';
+}
+function storyGameMotionClasses(state){
+  flapOverlay.classList.remove('flap-motion-opening','flap-motion-open','flap-motion-closing');
+  if(state!=='closed')flapOverlay.classList.add('flap-motion-'+state);
+}
+function storyGameMotionClear(){
+  var animation=storyGameMotionAnimation;storyGameMotionAnimation=null;
+  if(animation)try{animation.cancel()}catch(_e){}
+  flapOverlay.style.removeProperty('clip-path');flapOverlay.style.removeProperty('opacity');
+}
+function storyGameMotionSetOpen(){
+  if(storyGameMotionState!=='opening')return;
+  storyGameMotionToken++;storyGameMotionClear();storyGameMotionState='open';storyGameMotionClasses('open');
+}
+function storyGameMotionFinishClose(){
+  if(storyGameMotionState!=='closing')return;
+  var done=storyGameMotionCloseDone;storyGameMotionCloseDone=null;
+  storyGameMotionToken++;storyGameMotionClear();storyGameMotionState='closed';storyGameMotionClasses('closed');
+  if(done)done();
+}
+function storyGameMotionBeginOpen(){
+  if(window.__settleStoryGameArrival)window.__settleStoryGameArrival();
+  storyGameMotionToken++;storyGameMotionClear();storyGameMotionOrigin=storyGameCardClip();
+  storyGameMotionState='opening';storyGameMotionClasses('opening');
+}
+function storyGameMotionDidOpen(){
+  if(storyGameMotionState!=='opening')return;
+  if(reduced||document.hidden){storyGameMotionSetOpen();return}
+  var token=storyGameMotionToken;
+  storyGameMotionAnimation=flapOverlay.animate([
+    {clipPath:storyGameMotionOrigin,opacity:.82},
+    {clipPath:'inset(0px 0px 0px 0px round 0px)',opacity:1}
+  ],{duration:560,easing:'cubic-bezier(.2,.76,.16,1)',fill:'both'});
+  storyGameMotionAnimation.addEventListener('finish',function(){if(token===storyGameMotionToken)storyGameMotionSetOpen()},{once:true});
+}
+function storyGameMotionBeginClose(done){
+  if(storyGameMotionState==='closed'||storyGameMotionState==='closing')return;
+  var wasOpening=storyGameMotionState==='opening',style=getComputedStyle(flapOverlay),start={
+    clipPath:style.clipPath==='none'?'inset(0px 0px 0px 0px round 0px)':style.clipPath,
+    opacity:Number(style.opacity)||1
+  },target=wasOpening?storyGameMotionOrigin:storyGameCardClip();
+  storyGameMotionToken++;storyGameMotionClear();storyGameMotionState='closing';storyGameMotionCloseDone=done;storyGameMotionClasses('closing');
+  if(reduced||document.hidden){storyGameMotionFinishClose();return}
+  var token=storyGameMotionToken;
+  storyGameMotionAnimation=flapOverlay.animate([start,{clipPath:target,opacity:.78}],{duration:430,easing:'cubic-bezier(.4,0,.18,1)',fill:'both'});
+  storyGameMotionAnimation.addEventListener('finish',function(){if(token===storyGameMotionToken)storyGameMotionFinishClose()},{once:true});
+}
+function storyGameMotionSettle(){
+  if(storyGameMotionState==='opening')storyGameMotionSetOpen();
+  else if(storyGameMotionState==='closing')storyGameMotionFinishClose();
+}
+addEventListener('resize',storyGameMotionSettle);
+document.addEventListener('visibilitychange',function(){if(document.hidden)storyGameMotionSettle()});
+motionQuery.addEventListener('change',function(){if(motionQuery.matches)storyGameMotionSettle()});
+window.__flapMotion={state:function(){return storyGameMotionState},arrivalPlayed:function(){return window.__storyGameArrivalPlayed===true},activeAnimation:function(){return storyGameMotionAnimation}};
 function storyGameLock(locked){
   flapOverlay.setAttribute('aria-hidden',String(!locked));
   if(locked){
