@@ -145,3 +145,7 @@ September7: user asks for the arrow to be genuinely spray-painted, then explicit
 ## Remove the memory interlude
 
 September7: user explicitly removes the full Some things stay with you / The people / The nights / The moments / Keep exploring section. Game is now immediately followed by the vault invitation. Preserve the newly confirmed painted Play the game heading and painted arrow.
+
+## September 8 — Demo 02 motion and rounded paint
+
+The user requested integration of the supplied Demo 02 handoff and rounder spray drips into the existing local demo. Adopt its bounded card arrival and card-bound fullscreen reveal/return while preserving real gameplay and real Vault navigation. Replace overlapping looping game-title/arrow effects with one-shot motion. Use connected rounded bulb drips in native SVG/canvas with exact gold; preserve collision clearance and original HD media. This instruction is local-demo work, not publication authorization. See the [review](reviews/demo-02-integrated/README.md).

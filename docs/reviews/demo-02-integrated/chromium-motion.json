@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-09-07T23:33:02.955Z",
+  "base": "http://127.0.0.1:8922",
+  "results": [
+    {
+      "case": "decoded one-shot arrival and real playable entry",
+      "arrival": {
+        "duration": 980,
+        "delay": 90,
+        "playState": "running",
+        "currentTime": 0,
+        "frames": [
+          {
+            "transform": "translate3d(0px, 38px, 0px) scale(0.965)",
+            "opacity": "0"
+          },
+          {
+            "transform": "translate3d(0px, -2px, 0px) scale(1.002)",
+            "opacity": "1"
+          },
+          {
+            "transform": "none",
+            "opacity": "1"
+          }
+        ],
+        "timing": {
+          "progress": 0
+        }
+      },
+      "previewPausedBehindGame": true,
+      "startAndFlap": {
+        "before": {
+          "state": "play",
+          "vy": -0.33833333333333315,
+          "kind": "PILLAR"
+        },
+        "after": {
+          "state": "play",
+          "vy": -0.62
+        }
+      },
+      "vaultRequestHeld": true
+    },
+    {
+      "case": "early Escape sampled reversal and repeated guards",
+      "sampledClip": [
+        44.6289,
+        24.7508,
+        28.6681,
+        161.941,
+        1.96441
+      ],
+      "closeStart": [
+        44.6289,
+        24.7508,
+        28.6681,
+        161.941,
+        1.96441
+      ],
+      "cycles": 3
+    },
+    {
+      "case": "resize settles opening",
+      "result": "PASS"
+    },
+    {
+      "case": "resize settles closing",
+      "result": "PASS"
+    },
+    {
+      "case": "reduced settles opening",
+      "result": "PASS"
+    },
+    {
+      "case": "reduced settles closing",
+      "result": "PASS"
+    },
+    {
+      "case": "hidden settles opening",
+      "result": "PASS"
+    },
+    {
+      "case": "hidden settles closing",
+      "result": "PASS"
+    },
+    {
+      "case": "closing ignores Space and pointer before reduced-motion settlement",
+      "stableAfterMs": 500
+    },
+    {
+      "case": "phone-390x844 responsive motion",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "case": "landscape-844x390 responsive motion",
+      "width": 844,
+      "height": 390
+    },
+    {
+      "case": "compact-540x360 responsive motion",
+      "width": 540,
+      "height": 360
+    }
+  ],
+  "errors": [],
+  "limits": "Headless Chromium and emulated viewports. Arrival delay uses a local held asset; hidden state is an injected lifecycle fixture. One real-game start/flap is not human playability or physical-device evidence. All nonlocal transport is blocked."
+}

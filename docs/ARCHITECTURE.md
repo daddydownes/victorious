@@ -1,5 +1,9 @@
 # How the site works
 
+## Integrated Demo 02 host motion
+
+The story adapter in `tools/production-game.cjs` owns the bounded opening/closing clip lifecycle and input guards. `tools/build-experience.cjs` owns relevant-art decode gating and one-shot card/title/arrow arrival. Resize, reduced motion, hidden state and early Escape settle or reverse the current transition; real gameplay remains in the shared core. `tests/vstyle-motion.cjs` verifies these host behaviors. See the [integrated review](reviews/demo-02-integrated/README.md).
+
 ## Local V-style demo layer
 
 The `demo/v-style-20260908` branch keeps the published architecture and adds two source-owned visual layers. `tools/build-experience.cjs` wires three self-contained SVGs from `experience/assets/` into the existing title pending/decode/failure lifecycle. `tools/flappy-clean-paint.js` owns procedural canvas paint; `tools/production-game.cjs` injects it only between the existing `FLAPPY METAL BEGIN/END` markers and adds one baked scene-background call. Generated root, story, preview and state files must still be rebuilt together.

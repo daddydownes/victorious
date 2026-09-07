@@ -1,0 +1,79 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-07T23:31:16.464Z",
+  "rows": [
+    {
+      "name": "webkit-320x568",
+      "status": 200,
+      "active": {
+        "state": "play",
+        "paused": false,
+        "gates": 1,
+        "score": 0,
+        "overflow": false
+      },
+      "interactions": {
+        "launch": "touch",
+        "start": "touch",
+        "flap": "touch",
+        "pause": "touch",
+        "resume": "touch",
+        "death": "natural",
+        "retry": "touch",
+        "exit": "Escape",
+        "focusReturn": "journey-play"
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "name": "webkit-390x844",
+      "status": 200,
+      "active": {
+        "state": "play",
+        "paused": false,
+        "gates": 1,
+        "score": 0,
+        "overflow": false
+      },
+      "interactions": {
+        "launch": "touch",
+        "start": "touch",
+        "flap": "touch",
+        "pause": "touch",
+        "resume": "touch",
+        "death": "natural",
+        "retry": "touch",
+        "exit": "Escape",
+        "focusReturn": "journey-play"
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "name": "webkit-844x390",
+      "status": 200,
+      "active": {
+        "state": "play",
+        "paused": false,
+        "gates": 1,
+        "score": 0,
+        "overflow": false
+      },
+      "interactions": {
+        "launch": "touch",
+        "start": "touch",
+        "flap": "touch",
+        "pause": "touch",
+        "resume": "touch",
+        "death": "natural",
+        "retry": "touch",
+        "exit": "Escape",
+        "focusReturn": "journey-play"
+      },
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "limits": "Headless WebKit touch/viewport emulation; no physical-device collision certification."
+}

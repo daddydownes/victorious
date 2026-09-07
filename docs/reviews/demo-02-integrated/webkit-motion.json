@@ -1,0 +1,207 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-07T23:34:13.090Z",
+  "results": [
+    {
+      "name": "titles-320x568",
+      "play": {
+        "left": 17.79032325744629,
+        "right": 302.2339267730713,
+        "top": 184.105224609375,
+        "bottom": 381.726318359375,
+        "width": 284.443603515625,
+        "viewport": [
+          320,
+          568
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "vault": {
+        "left": 19.281082153320312,
+        "right": 300.73512268066406,
+        "top": 187.45263671875,
+        "bottom": 380.41455078125,
+        "width": 281.45404052734375,
+        "viewport": [
+          320,
+          568
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "errors": []
+    },
+    {
+      "name": "titles-390x844",
+      "play": {
+        "left": 21.6648006439209,
+        "right": 368.3133907318115,
+        "top": 301.944091796875,
+        "bottom": 542.78515625,
+        "width": 346.6485900878906,
+        "viewport": [
+          390,
+          844
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "vault": {
+        "left": 23.49016761779785,
+        "right": 366.4953861236572,
+        "top": 304.19287109375,
+        "bottom": 539.355712890625,
+        "width": 343.0052185058594,
+        "viewport": [
+          390,
+          844
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "errors": []
+    },
+    {
+      "name": "titles-844x390",
+      "play": {
+        "left": 241.14268493652344,
+        "right": 602.8744354248047,
+        "top": 69.0008544921875,
+        "bottom": 320.3267822265625,
+        "width": 361.73175048828125,
+        "viewport": [
+          844,
+          390
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "vault": {
+        "left": 171.44317626953125,
+        "right": 672.5447998046875,
+        "top": -36.85693359375,
+        "bottom": 306.700927734375,
+        "width": 501.10162353515625,
+        "viewport": [
+          844,
+          390
+        ],
+        "complete": true,
+        "natural": [
+          1536,
+          1024
+        ],
+        "pending": false,
+        "active": false,
+        "failed": false
+      },
+      "errors": []
+    },
+    {
+      "name": "cancel-390x844",
+      "before": 2600,
+      "during": {
+        "state": "opening",
+        "animation": true,
+        "open": true
+      },
+      "after": {
+        "state": "closed",
+        "animation": false,
+        "open": false,
+        "focus": "journey-play",
+        "scrollY": 2600,
+        "ariaHidden": "true",
+        "backgroundInert": false
+      },
+      "errors": []
+    },
+    {
+      "name": "reduced-390x844",
+      "opened": {
+        "state": "open",
+        "animation": false,
+        "overflow": false,
+        "controls": {
+          "flapExit": {
+            "left": 324.703125,
+            "right": 374,
+            "top": 12,
+            "bottom": 56,
+            "visible": true
+          },
+          "flapPause": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0,
+            "visible": false
+          },
+          "flapAction": {
+            "left": 45,
+            "right": 345,
+            "top": 468.234375,
+            "bottom": 516.234375,
+            "visible": true
+          }
+        }
+      },
+      "focusReturn": "journey-play",
+      "errors": []
+    },
+    {
+      "name": "rotate-390x844-to-844x390",
+      "settled": {
+        "state": "open",
+        "animation": false,
+        "open": true,
+        "overflow": false,
+        "exit": {
+          "x": 772.703125,
+          "y": 6,
+          "right": 828,
+          "bottom": 50
+        }
+      },
+      "interactions": [
+        "touch Start",
+        "touch flap",
+        "Escape"
+      ],
+      "focusReturn": "journey-play",
+      "errors": []
+    }
+  ],
+  "limits": "Headless WebKit touch/viewport and reduced-motion emulation; no physical-device or physical-rotation certification."
+}
