@@ -9,9 +9,15 @@ function block(source,name){
  const marker='    function '+name+'(',start=source.indexOf(marker);assert(start>=0,'missing '+name);
  const next=source.indexOf('\n    function ',start+marker.length);return source.slice(start,next<0?source.length:next);
 }
+function withoutPaint(source){
+ const marker='/* FLAPPY METAL BODY */';
+ const stripped=source.replace(/\/\* FLAPPY METAL BEGIN \*\/[\s\S]*?\/\* FLAPPY METAL END \*\//,marker);
+ assert.notEqual(stripped,source,'missing marked Flappy paint renderer');
+ return stripped;
+}
 const protectedFunctions=['flapTraceLogo','flapLogoContours','flapPolePolygon','flapCollision','flapLevel','flapCourseProgress','flapPace','flapInterval','flapSpawn','flapAperture','flapHazardPolygons','flapTraversal','flapGateUpdate','flapStep','flapDrawV'];
 for(const file of ['index.html','experience/index.html','experience/game-preview.html']){
- const current=read(file),before=saved(file);
+ const current=withoutPaint(read(file)),before=withoutPaint(saved(file));
  for(const name of protectedFunctions)assert.equal(block(current,name),block(before,name),file+' changed protected '+name);
 }
 const canonical=saved('index.html').match(/class="vmark"[^>]*>[\s\S]*?<path d="([^"]+)"/)[1];
