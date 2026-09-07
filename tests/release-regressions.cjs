@@ -67,7 +67,7 @@ async function receiptTransport(){
  await context.addInitScript(()=>{const originalFetch=window.fetch.bind(window),originalTimeout=window.setTimeout.bind(window);window.setTimeout=(fn,ms,...args)=>originalTimeout(fn,ms===12000?120:ms,...args);window.__receiptMock={calls:0,pending:[],settle(index,ok){this.pending[index](new Response(JSON.stringify({success:ok}),{status:ok?200:500,headers:{'Content-Type':'application/json'}}))}};window.fetch=(url,options)=>{if(new URL(url,location.href).hostname!=='formsubmit.co')return originalFetch(url,options);window.__receiptMock.calls++;return new Promise(resolve=>window.__receiptMock.pending.push(resolve))}});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
  try{
-  await page.goto(base+'/?regression=receipt',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__guide&&document.getElementById('signupForm')); 
+  await page.goto(base+'/?regression=receipt',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__guide&&document.getElementById('signupForm'));
   assert.equal((await page.locator('#seamRcv').textContent()).trim(),'');assert(!(await bodyAX(page)).includes('RECEIVED. THE VAULT HAS IT.'));
   await page.evaluate(()=>{const seam=document.getElementById('seamGold');seam.inert=false;seam.removeAttribute('aria-hidden')});
   await page.locator('#signupEmail').focus();await page.locator('#signupEmail').fill('timeout@example.invalid');await page.evaluate(()=>document.getElementById('signupForm').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})));await page.waitForFunction(()=>window.__receiptMock.calls===1);
