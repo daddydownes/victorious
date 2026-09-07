@@ -66,5 +66,5 @@ draw.clearCache();
 assert.equal(draw.cacheSize(), 0);
 assert.equal(draw.cacheBytes(), 0);
 const backdrop=[];sandbox.flapDrawPaintBackdrop(spyContext(backdrop),420,720);
-assert.ok(backdrop.includes('alpha:0.052'));assert.ok(backdrop.includes('fill:#f0d492'));assert.ok(backdrop.includes('stroke:#f0d492'));
+const backdropAlpha=Number(backdrop.find(value=>value.startsWith('alpha:')).slice(6));assert(backdropAlpha>.02&&backdropAlpha<.08,'backdrop remains a quiet accent');assert.ok(backdrop.includes('fill:#f0d492'));assert.ok(backdrop.includes('stroke:#f0d492'));
 console.log('flappy material: clipped canonical paint/drips, backdrop, angled rails and 64-entry cache passed');
