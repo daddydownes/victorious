@@ -29,7 +29,7 @@ for(const file of titleAssets){
  assert(/\bwidth="1536"/.test(head)&&/\bheight="1024"/.test(head)&&/\bviewBox="0 0 1536 1024"/.test(head),file+' must retain the native 3:2 title canvas');
  assert(!/<(?:filter|image|linearGradient|radialGradient|script|text)\b/i.test(svg),file+' must stay self-contained flat vector art');
  const colours=[...svg.matchAll(/#[0-9a-f]{6}/gi)].map(m=>m[0].toLowerCase());assert(colours.length&&colours.every(value=>value==='#f0d492'),file+' uses a colour other than canonical #f0d492');
- assert(/<(?:path|circle|ellipse)\b[^>]*(?:fill|stroke)="#f0d492"/i.test(svg),file+' has no canonical-gold artwork');
+ assert(/<(?:g|path|circle|ellipse)\b[^>]*(?:fill|stroke)="#f0d492"/i.test(svg),file+' has no canonical-gold artwork');
  assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(svg),file+' contains embedded styling, behavior or references');
 }
 const arrowAsset='experience/assets/play-arrow-vstyle-v1.svg',arrow=read(arrowAsset),arrowHead=arrow.match(/<svg\b[^>]*>/)?.[0]||'';
