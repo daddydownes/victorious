@@ -789,8 +789,9 @@
   }
   @media(max-height:680px){.next-drop-card{padding-block:24px}.next-drop-mark{width:min(350px,62vw)}
     .next-drop-kicker{margin-top:17px}.next-drop-rule{margin-block:18px}.next-drop-email{margin-top:22px}}
-  @media(max-height:520px) and (min-width:560px){
-    .next-drop-card{padding:12px 24px}
+  @media(max-height:520px){
+    .next-drop{overflow-y:auto;overscroll-behavior-y:contain;place-items:start center}
+    .next-drop-card{margin:auto 0;padding:12px 24px}
     .next-drop-mark{width:min(250px,35vw)}
     .next-drop-kicker{margin-top:7px;font-size:9px}
     .next-drop-rule{margin-block:9px}
@@ -800,19 +801,19 @@
     .next-drop-email-row{min-height:40px}
     .next-drop-email input{padding:10px 12px}
     .next-drop-result{min-height:10px;padding-top:5px}
-    .next-vault-hold{min-height:58px;margin-top:8px;padding:10px 12px;font-size:14px}
+    .next-vault-hold{min-height:58px;margin-top:8px;padding:6px 12px;font-size:14px}
   }
   @media(prefers-reduced-motion:reduce){.next-drop{transition:none}.next-transfer-v{display:none}
     .vault-entry-fx{display:none}
     .next-drop-mark::before{animation:none;opacity:.18}.next-drop-mark::after{display:none}.next-drop-mark .vctrs-glyph{animation:none}
-    .next-drop-mark,.next-drop-kicker,.next-drop-title,.next-drop-email,.next-vault-hold{opacity:1;transform:none}
+    .next-drop-mark,.next-drop-kicker,.next-drop-title,.next-drop-email,.next-vault-hold{animation:none!important;opacity:1;transform:none}
     .next-vault-hold{pointer-events:auto}.next-drop-rule{transform:none}
     .vault-title.revealed .vault-brand-name{animation:none;opacity:1;transform:none}
     .vault-title.revealed .rule{animation:none;opacity:1;transform:none}}
   .next-vault-hold .vh-base{display:block;font-size:30px;line-height:1.1;color:#100e09}
   .next-vault-hold small{display:block;margin-top:7px;font:10px/1.2 'Cascadia Mono',monospace;letter-spacing:.12em;color:#3c3019}
   @media(max-width:700px){.next-vault-hold .vh-base{font-size:27px}}
-  @media(max-height:520px) and (min-width:560px){.next-vault-hold .vh-base{font-size:24px}}
+  @media(max-height:520px){.next-vault-hold .vh-base{font-size:24px}}
   #vaultDJ{filter:none;border:0;box-shadow:none}
 
 
@@ -849,7 +850,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   /* A separate silhouette paints the light; the sharp, masked V is unfiltered. */
   .intro-v-halo{background:none;border-radius:0;transform:none;overflow:visible}
   .intro-v-halo svg{display:block;width:100%;height:100%;overflow:visible}
-  @media(prefers-reduced-motion:reduce){.stage #film{transition:none}}
+  @media(prefers-reduced-motion:reduce){.stage #film{transition:none}.vault{touch-action:pinch-zoom}}
 </style>
 <body class="locked">
 <div class="surface-story" aria-hidden="true"><div class="surface-story-logo"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="surface-story-invitation"><div class="surface-story-cue"><span class="scroll-label">Scroll</span><span class="scroll-line" aria-hidden="true"></span></div></div></div><div class="stage" id="stage" tabindex="-1" role="region" aria-label="VCTRS — scroll to continue">
@@ -965,7 +966,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
       <div class="seam-half shL" id="seamL" aria-hidden="true"><div class="seam-word">OPEN</div></div>
       <div class="seam-half shR" id="seamR" aria-hidden="true"><div class="seam-word">OPEN</div></div>
       <div class="seam-line" id="seamLine" aria-hidden="true"></div>
-      <div class="seam-rcv mono" id="seamRcv" aria-live="polite">RECEIVED. THE VAULT HAS IT.</div>
+      <div class="seam-rcv mono" id="seamRcv" aria-live="polite"></div>
     </div>
     </div>
   </div>
@@ -1391,6 +1392,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
      current Safari/Chromium; the tabindex snapshot is the small WebView fallback. */
   function setNextDropInert(el,inert){
     if(!el) return;
+    if(inert && el.contains(document.activeElement)) document.activeElement.blur();
     el.inert=inert;
     var focusable=el.querySelectorAll('input,button,a[href],[tabindex]');
     for(var i=0;i<focusable.length;i++){
@@ -1413,6 +1415,8 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     document.documentElement.classList.add('journey-held');
     var destination=document.getElementById('nextDrop');
     var originalBackdrop=document.querySelector('.seam-gold');
+    setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
+    setNextDropInert(originalBackdrop,true); originalBackdrop.setAttribute('aria-hidden','true');
     if(destination && originalBackdrop){
       var originalImage=getComputedStyle(originalBackdrop).backgroundImage;
       if(originalImage && originalImage!=='none') destination.style.backgroundImage=originalImage;
@@ -1430,17 +1434,33 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     }
     // The button is the last reveal. A fixed timer used to cut its animation
     // short, snapping its opacity and position to the landed styles.
-    var lastReveal=document.getElementById('nextVaultHold');
+    var lastReveal=document.getElementById('nextVaultHold'), nextDropFinished=false;
     function finishNextDrop(){
-      if(lastReveal) lastReveal.removeEventListener('animationend',onNextDropRevealEnd);
-      if(document.body.classList.contains('next-drop-entering')) document.body.classList.add('next-drop-landed');
+      if(nextDropFinished) return; nextDropFinished=true;
+      if(lastReveal){
+        lastReveal.removeEventListener('animationend',onNextDropRevealEnd);
+        lastReveal.removeEventListener('animationcancel',onNextDropRevealEnd);
+      }
+      if(motionQuery.removeEventListener) motionQuery.removeEventListener('change',onNextDropMotionChange);
+      else if(motionQuery.removeListener) motionQuery.removeListener(onNextDropMotionChange);
+      if(document.body.classList.contains('next-drop-entering')){
+        document.body.classList.add('next-drop-landed');
+        setNextDropInert(destination,false);
+      }
     }
     function onNextDropRevealEnd(event){
       if(event.target===lastReveal && event.animationName==='nextDropSettle') finishNextDrop();
     }
-    if(!reduced && lastReveal) lastReveal.addEventListener('animationend',onNextDropRevealEnd);
+    function onNextDropMotionChange(){ if(motionQuery.matches) finishNextDrop(); }
+    if(motionQuery.addEventListener) motionQuery.addEventListener('change',onNextDropMotionChange);
+    else if(motionQuery.addListener) motionQuery.addListener(onNextDropMotionChange);
+    if(!reduced && lastReveal){
+      lastReveal.addEventListener('animationend',onNextDropRevealEnd);
+      lastReveal.addEventListener('animationcancel',onNextDropRevealEnd);
+      afterMotion(2300,finishNextDrop);
+    }
     document.body.classList.add('next-drop-entering');
-    if(destination){ destination.setAttribute('aria-hidden','false'); setNextDropInert(destination,false); }
+    if(destination) destination.setAttribute('aria-hidden','false');
     if(reduced || !lastReveal) afterMotion(50,finishNextDrop);
   }
   film.addEventListener('ended',function(){
@@ -1680,7 +1700,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     // the panel is width:0 + opacity:0, NOT display:none — so the email field and
     // its button sat in the tab order from first paint, and tabbing to them
     // scrolled the document out from under the guided journey
-    var _hidePanel=_vis < 0.5;
+    var _hidePanel=_vis < 0.5 || seamGold.getAttribute('aria-hidden')==='true';
     if(_hidePanel && seamGold.contains(document.activeElement)) document.activeElement.blur();
     seamGold.inert = _hidePanel;
   }
@@ -1765,17 +1785,17 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   }
   function captureReceipt(v,box,input){
     var version=(box._captureVersion||0)+1; box._captureVersion=version;
-    capture(v).then(function(ok){
-      if(version!==box._captureVersion || ok) return;
+    return capture(v).then(function(ok){
+      if(version!==box._captureVersion || input.value.trim()!==v) return null;
+      if(ok) return true;
       box.classList.remove('done'); box.classList.add('bad');
       box.querySelector('.err').textContent='NOT SENT — PLEASE TRY AGAIN';
-      if(!input.value) input.value=v;
-      if(box===signup && soloBox) soloBox.classList.remove('done');
+      return false;
     });
   }
   // one permissive test, shared by both forms: rejects a@.b and a@b. which the
   // old indexOf pair let straight through
-  function goodEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s.]+$/.test(v); }
+  function goodEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s.]+$/.test(v) && v.indexOf('..')<0; }
   var nextDropEmail=document.getElementById('nextDropEmail');
   if(nextDropEmail) nextDropEmail.addEventListener('submit',function(e){
     e.preventDefault();
@@ -1808,35 +1828,36 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
      the hold still works untouched; both roads end in the same dive. */
   sForm.addEventListener('submit',function(e){
     e.preventDefault();
+    if(sForm.getAttribute('aria-busy')==='true') return;
     var v=(sEmail.value||'').trim();
-    if(!goodEmail(v)){ signup.querySelector('.err').textContent='CHECK THAT ADDRESS'; signup.classList.remove('bad'); void sEmail.offsetWidth; signup.classList.add('bad'); sEmail.focus(); return; } // remove+reflow re-arms the shake on every rejected submit
-    captureReceipt(v,signup,sEmail);
+    if(!goodEmail(v)){ signup.querySelector('.err').textContent='CHECK THAT ADDRESS'; signup.classList.remove('bad'); void sEmail.offsetWidth; signup.classList.add('bad'); sEmail.focus(); return; }
     signup.classList.remove('bad');
-    signup.classList.add('done');
-    if(soloBox) soloBox.classList.add('done'); // one ask per visitor — BEYOND must not re-ask someone the vault already has
-    hideCue(); // the email's in — the cue is stale now
-    if(!reduced){
-      setTimeout(function(){
-        // same terminal-state guard as advanceToVault — a fast double-submit or
-        // a scroll-fired dive mid-wait must not start a second ride
-        if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
-        if(guideTimer){ cancelMotionTask(guideTimer); guideTimer=null; }
-        guidePhase='toVault'; hideCue(); if(sEmail) sEmail.blur();
-        // the thank-you beat: RECEIVED. THE VAULT HAS IT. rises over the open
-        // light (the doors do NOT close — Jacob) while Received. sits in the box
-        var r0=Date.now();
-        var riv=setInterval(function(){
-          var rt=Math.min(1,(Date.now()-r0)/450), re=1-Math.pow(1-rt,3);
-          seamRcv.style.opacity=rt.toFixed(3);
-          seamRcv.style.transform='translateX(-50%) translateY('+(10*(1-re)).toFixed(1)+'px)'; // it actually RISES now, as the comment always promised
-          if(rt>=1){ clearInterval(riv); seamRcv.style.transform=''; } // clear -> CSS resting transform stands; fadeEls/surfacedReset touch opacity only
-        },33);
-        // one readable beat, then EXACTLY the dive the scroll gesture fires —
-        // the zoom through the open shaft into the photo. flyIn owns the
-        // fade-out of the receipt and the panel from here (fadeEls).
-        setTimeout(flyIn, 1500);
-      }, 900); // long enough to actually read Received.
-    } else { seamRcv.style.opacity='1'; }
+    var submit=sForm.querySelector('button');
+    sForm.setAttribute('aria-busy','true'); if(submit) submit.setAttribute('aria-disabled','true');
+    captureReceipt(v,signup,sEmail).then(function(ok){
+      sForm.removeAttribute('aria-busy'); if(submit) submit.removeAttribute('aria-disabled');
+      if(ok!==true || (sEmail.value||'').trim()!==v) return;
+      if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+      signup.classList.add('done'); sEmail.value='';
+      if(soloBox) soloBox.classList.add('done');
+      hideCue();
+      seamRcv.textContent='RECEIVED. THE VAULT HAS IT.';
+      if(!reduced){
+        setTimeout(function(){
+          if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+          if(guideTimer){ cancelMotionTask(guideTimer); guideTimer=null; }
+          guidePhase='toVault'; hideCue(); if(sEmail) sEmail.blur();
+          var r0=Date.now();
+          var riv=setInterval(function(){
+            var rt=Math.min(1,(Date.now()-r0)/450), re=1-Math.pow(1-rt,3);
+            seamRcv.style.opacity=rt.toFixed(3);
+            seamRcv.style.transform='translateX(-50%) translateY('+(10*(1-re)).toFixed(1)+'px)';
+            if(rt>=1){ clearInterval(riv); seamRcv.style.transform=''; }
+          },33);
+          setTimeout(flyIn,1500);
+        },900);
+      }else seamRcv.style.opacity='1';
+    });
   });
 
   sEmail.addEventListener('input',function(){ signup.classList.remove('bad'); });
@@ -1849,11 +1870,17 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   if(soloForm){
     soloForm.addEventListener('submit',function(e){
       e.preventDefault();
+      if(soloForm.getAttribute('aria-busy')==='true') return;
       var v=(soloEmail.value||'').trim();
       if(!goodEmail(v)){ soloBox.querySelector('.err').textContent='CHECK THAT ADDRESS'; soloBox.classList.remove('bad'); void soloEmail.offsetWidth; soloBox.classList.add('bad'); soloEmail.focus(); return; }
-      captureReceipt(v,soloBox,soloEmail);
       soloBox.classList.remove('bad');
-      soloBox.classList.add('done');
+      var submit=soloForm.querySelector('button');
+      soloForm.setAttribute('aria-busy','true'); if(submit) submit.setAttribute('aria-disabled','true');
+      captureReceipt(v,soloBox,soloEmail).then(function(ok){
+        soloForm.removeAttribute('aria-busy'); if(submit) submit.removeAttribute('aria-disabled');
+        if(ok!==true || (soloEmail.value||'').trim()!==v) return;
+        soloBox.classList.add('done'); soloEmail.value='';
+      });
     });
     soloEmail.addEventListener('input',function(){ soloBox.classList.remove('bad'); });
   }
@@ -2247,6 +2274,8 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
     guidePhase='toVault'; hideCue();
     setNextDropInert(document.getElementById('nextDrop'),true);
+    setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
+    setNextDropInert(seamGold,true); seamGold.setAttribute('aria-hidden','true');
     setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');
     /* This path owns a fresh identity handoff even if the browser restored an
        old scroll position and briefly armed the vault title before the hold. */
@@ -3206,7 +3235,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     seamHL.style.transformOrigin=''; seamHR.style.transformOrigin='';
     seamGold.style.transform=''; seamGold.style.width='0px';
     seamGoldIn.style.opacity='';
-    seamLine.style.opacity='0';
+    seamLine.style.opacity='0'; seamRcv.textContent='';
     if(seamsecEl) seamsecEl.style.pointerEvents='';
     [document.querySelector('.sg1'), document.querySelector('.sgh'),
      document.querySelector('.sgr'), document.querySelector('.sg2'),

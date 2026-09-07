@@ -41,6 +41,144 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
 .surface-story-cue{box-sizing:border-box;justify-content:center;width:70px;min-height:64px;padding:4px 12px}
 .surface-story-cue .scroll-label{animation:none;opacity:.55}
 </style>`);
+// Keep the fixed invitation usable on short phone/landscape viewports. The
+// compact composition now covers narrow screens too; overflow remains a last
+// resort for text zoom or a viewport shorter than the composition.
+vault = replace(vault, '@media(max-height:520px) and (min-width:560px){\n    .next-drop-card{padding:12px 24px}', `@media(max-height:520px){
+    .next-drop{overflow-y:auto;overscroll-behavior-y:contain;place-items:start center}
+    .next-drop-card{margin:auto 0;padding:12px 24px}`);
+vault = replace(vault, '.next-vault-hold{min-height:58px;margin-top:8px;padding:10px 12px;font-size:14px}', '.next-vault-hold{min-height:58px;margin-top:8px;padding:6px 12px;font-size:14px}');
+vault = replace(vault, '@media(max-height:520px) and (min-width:560px){.next-vault-hold .vh-base{font-size:24px}}', '@media(max-height:520px){.next-vault-hold .vh-base{font-size:24px}}');
+vault = replace(vault, '.next-drop-mark,.next-drop-kicker,.next-drop-title,.next-drop-email,.next-vault-hold{opacity:1;transform:none}', '.next-drop-mark,.next-drop-kicker,.next-drop-title,.next-drop-email,.next-vault-hold{animation:none!important;opacity:1;transform:none}');
+// A reduced-motion vault still permits browser pinch zoom while the original
+// single-pointer translated-plane drag remains in control.
+vault = replace(vault, '@media(prefers-reduced-motion:reduce){.stage #film{transition:none}}', '@media(prefers-reduced-motion:reduce){.stage #film{transition:none}.vault{touch-action:pinch-zoom}}');
+// The receipt is a live result, so it must not exist in the accessibility tree
+// before a confirmed submission.
+vault = replace(vault, '<div class="seam-rcv mono" id="seamRcv" aria-live="polite">RECEIVED. THE VAULT HAS IT.</div>', '<div class="seam-rcv mono" id="seamRcv" aria-live="polite"></div>');
+// Keep the outgoing stage and its retired signup out of keyboard and browse
+// navigation as soon as Next Drop owns the screen. The destination becomes
+// interactive only after its final visible control has settled.
+vault = replace(vault, `    if(!el) return;
+    el.inert=inert;`, `    if(!el) return;
+    if(inert && el.contains(document.activeElement)) document.activeElement.blur();
+    el.inert=inert;`);
+vault = replace(vault, `    var destination=document.getElementById('nextDrop');
+    var originalBackdrop=document.querySelector('.seam-gold');`, `    var destination=document.getElementById('nextDrop');
+    var originalBackdrop=document.querySelector('.seam-gold');
+    setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
+    setNextDropInert(originalBackdrop,true); originalBackdrop.setAttribute('aria-hidden','true');`);
+vault = replace(vault, `    var lastReveal=document.getElementById('nextVaultHold');
+    function finishNextDrop(){`, `    var lastReveal=document.getElementById('nextVaultHold'), nextDropFinished=false;
+    function finishNextDrop(){
+      if(nextDropFinished) return; nextDropFinished=true;`);
+vault = replace(vault, `      if(document.body.classList.contains('next-drop-entering')) document.body.classList.add('next-drop-landed');`, `      if(document.body.classList.contains('next-drop-entering')){
+        document.body.classList.add('next-drop-landed');
+        setNextDropInert(destination,false);
+      }`);
+vault = replace(vault, `      if(lastReveal) lastReveal.removeEventListener('animationend',onNextDropRevealEnd);`, `      if(lastReveal){
+        lastReveal.removeEventListener('animationend',onNextDropRevealEnd);
+        lastReveal.removeEventListener('animationcancel',onNextDropRevealEnd);
+      }
+      if(motionQuery.removeEventListener) motionQuery.removeEventListener('change',onNextDropMotionChange);
+      else if(motionQuery.removeListener) motionQuery.removeListener(onNextDropMotionChange);`);
+vault = replace(vault, `    function onNextDropRevealEnd(event){
+      if(event.target===lastReveal && event.animationName==='nextDropSettle') finishNextDrop();
+    }`, `    function onNextDropRevealEnd(event){
+      if(event.target===lastReveal && event.animationName==='nextDropSettle') finishNextDrop();
+    }
+    function onNextDropMotionChange(){ if(motionQuery.matches) finishNextDrop(); }
+    if(motionQuery.addEventListener) motionQuery.addEventListener('change',onNextDropMotionChange);
+    else if(motionQuery.addListener) motionQuery.addListener(onNextDropMotionChange);`);
+vault = replace(vault, `    if(!reduced && lastReveal) lastReveal.addEventListener('animationend',onNextDropRevealEnd);`, `    if(!reduced && lastReveal){
+      lastReveal.addEventListener('animationend',onNextDropRevealEnd);
+      lastReveal.addEventListener('animationcancel',onNextDropRevealEnd);
+      afterMotion(2300,finishNextDrop);
+    }`);
+vault = replace(vault, `    if(destination){ destination.setAttribute('aria-hidden','false'); setNextDropInert(destination,false); }`, `    if(destination) destination.setAttribute('aria-hidden','false');`);
+vault = replace(vault, `    setNextDropInert(document.getElementById('nextDrop'),true);
+    setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');`, `    setNextDropInert(document.getElementById('nextDrop'),true);
+    setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
+    setNextDropInert(seamGold,true); seamGold.setAttribute('aria-hidden','true');
+    setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');`);
+vault = replace(vault, `    var _hidePanel=_vis < 0.5;`, `    var _hidePanel=_vis < 0.5 || seamGold.getAttribute('aria-hidden')==='true';`);
+// Reject malformed consecutive-dot addresses before any transport runs.
+vault = replace(vault, "function goodEmail(v){ return /^[^@\\s]+@[^@\\s]+\\.[^@\\s.]+$/.test(v); }", "function goodEmail(v){ return /^[^@\\s]+@[^@\\s]+\\.[^@\\s.]+$/.test(v) && v.indexOf('..')<0; }");
+// Legacy forms remain editable and focused while their request is pending. A
+// stale or failed response cannot announce success or advance the journey.
+const captureReceiptStart = vault.indexOf('  function captureReceipt(v,box,input){');
+const captureReceiptEnd = vault.indexOf('  // one permissive test', captureReceiptStart);
+if (captureReceiptStart < 0 || captureReceiptEnd < 0) throw new Error('Missing captureReceipt block');
+vault = vault.slice(0, captureReceiptStart) + `  function captureReceipt(v,box,input){
+    var version=(box._captureVersion||0)+1; box._captureVersion=version;
+    return capture(v).then(function(ok){
+      if(version!==box._captureVersion || input.value.trim()!==v) return null;
+      if(ok) return true;
+      box.classList.remove('done'); box.classList.add('bad');
+      box.querySelector('.err').textContent='NOT SENT — PLEASE TRY AGAIN';
+      return false;
+    });
+  }
+` + vault.slice(captureReceiptEnd);
+const seamSignupStart = vault.indexOf("  sForm.addEventListener('submit',function(e){");
+const seamSignupEnd = vault.indexOf("\n\n  sEmail.addEventListener('input'", seamSignupStart);
+if (seamSignupStart < 0 || seamSignupEnd < 0) throw new Error('Missing seam signup block');
+vault = vault.slice(0, seamSignupStart) + `  sForm.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(sForm.getAttribute('aria-busy')==='true') return;
+    var v=(sEmail.value||'').trim();
+    if(!goodEmail(v)){ signup.querySelector('.err').textContent='CHECK THAT ADDRESS'; signup.classList.remove('bad'); void sEmail.offsetWidth; signup.classList.add('bad'); sEmail.focus(); return; }
+    signup.classList.remove('bad');
+    var submit=sForm.querySelector('button');
+    sForm.setAttribute('aria-busy','true'); if(submit) submit.setAttribute('aria-disabled','true');
+    captureReceipt(v,signup,sEmail).then(function(ok){
+      sForm.removeAttribute('aria-busy'); if(submit) submit.removeAttribute('aria-disabled');
+      if(ok!==true || (sEmail.value||'').trim()!==v) return;
+      if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+      signup.classList.add('done'); sEmail.value='';
+      if(soloBox) soloBox.classList.add('done');
+      hideCue();
+      seamRcv.textContent='RECEIVED. THE VAULT HAS IT.';
+      if(!reduced){
+        setTimeout(function(){
+          if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+          if(guideTimer){ cancelMotionTask(guideTimer); guideTimer=null; }
+          guidePhase='toVault'; hideCue(); if(sEmail) sEmail.blur();
+          var r0=Date.now();
+          var riv=setInterval(function(){
+            var rt=Math.min(1,(Date.now()-r0)/450), re=1-Math.pow(1-rt,3);
+            seamRcv.style.opacity=rt.toFixed(3);
+            seamRcv.style.transform='translateX(-50%) translateY('+(10*(1-re)).toFixed(1)+'px)';
+            if(rt>=1){ clearInterval(riv); seamRcv.style.transform=''; }
+          },33);
+          setTimeout(flyIn,1500);
+        },900);
+      }else seamRcv.style.opacity='1';
+    });
+  });` + vault.slice(seamSignupEnd);
+const soloSignupStart = vault.indexOf('  if(soloForm){');
+const soloSignupEnd = vault.indexOf('\n\n  /* ================= GUIDED JOURNEY', soloSignupStart);
+if (soloSignupStart < 0 || soloSignupEnd < 0) throw new Error('Missing solo signup block');
+vault = vault.slice(0, soloSignupStart) + `  if(soloForm){
+    soloForm.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(soloForm.getAttribute('aria-busy')==='true') return;
+      var v=(soloEmail.value||'').trim();
+      if(!goodEmail(v)){ soloBox.querySelector('.err').textContent='CHECK THAT ADDRESS'; soloBox.classList.remove('bad'); void soloEmail.offsetWidth; soloBox.classList.add('bad'); soloEmail.focus(); return; }
+      soloBox.classList.remove('bad');
+      var submit=soloForm.querySelector('button');
+      soloForm.setAttribute('aria-busy','true'); if(submit) submit.setAttribute('aria-disabled','true');
+      captureReceipt(v,soloBox,soloEmail).then(function(ok){
+        soloForm.removeAttribute('aria-busy'); if(submit) submit.removeAttribute('aria-disabled');
+        if(ok!==true || (soloEmail.value||'').trim()!==v) return;
+        soloBox.classList.add('done'); soloEmail.value='';
+      });
+    });
+    soloEmail.addEventListener('input',function(){ soloBox.classList.remove('bad'); });
+  }` + vault.slice(soloSignupEnd);
+vault = replace(vault, `    seamLine.style.opacity='0';
+    if(seamsecEl) seamsecEl.style.pointerEvents='';`, `    seamLine.style.opacity='0'; seamRcv.textContent='';
+    if(seamsecEl) seamsecEl.style.pointerEvents='';`);
 // Keep a pending signup focused and readable, while still preventing duplicate sends.
 vault = replace(vault, 'if(button.disabled) return;\n    button.disabled=true; nextDropEmail.setAttribute', "if(nextDropEmail.getAttribute('aria-busy')==='true') return;\n    button.setAttribute('aria-disabled','true'); nextDropEmail.setAttribute");
 vault = replace(vault, "button.disabled=false; nextDropEmail.removeAttribute('aria-busy');", "button.removeAttribute('aria-disabled'); nextDropEmail.removeAttribute('aria-busy');");
