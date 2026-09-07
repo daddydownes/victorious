@@ -3,6 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const snapshot = fs.readFileSync(path.join(__dirname, 'vault-source.html'), 'utf8').replace(/\r\n/g, '\n');
+const cleanPaint = fs.readFileSync(path.join(__dirname, 'flappy-clean-paint.js'), 'utf8').replace(/\r\n/g, '\n').trim();
 function between(text, start, end) {
   const a = text.indexOf(start), b = text.indexOf(end, a + start.length);
   if (a < 0 || b < 0) throw Error('Production game source anchor missing: ' + start);
@@ -37,15 +38,33 @@ function tunePreviewMarkup(html) {
   return html.replaceAll('A new challenge every 25.', 'A new style every 10.');
 }
 const rawCore = between(snapshot, '  var COUPON_THRESHOLD=100;', '\n  measure(); updateScroll();');
+function tuneGamePaint(js) {
+  const start = '/* FLAPPY METAL BEGIN */';
+  const end = '/* FLAPPY METAL END */';
+  const a = js.indexOf(start), b = js.indexOf(end, a + start.length);
+  if (a < 0 || b < 0 || js.indexOf(start, a + start.length) >= 0 || js.indexOf(end, b + end.length) >= 0)
+    throw Error('Production game clean-paint markers missing or ambiguous');
+  js = js.slice(0, a + start.length) + '\n' + cleanPaint + '\n    ' + js.slice(b);
+  return replace(js, `        for(var row=0;row<5;row++){
+          var yy=h*(.78+.22*Math.pow(row/4,1.7));
+          g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
+        }
+      });`, `        for(var row=0;row<5;row++){
+          var yy=h*(.78+.22*Math.pow(row/4,1.7));
+          g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
+        }
+        window.flapDrawPaintBackdrop(g,w,h);
+      });`);
+}
 function removeTrail(js) {
   const start = js.indexOf("      if(FG.state==='play' && !reduced){\n        fctx.strokeStyle='rgba(240,212,146,.20)'");
   const end = js.indexOf('      flapDrawV(s.w*0.24',start);
   if(start<0||end<start)throw Error('V trail renderer anchor missing');
   return js.slice(0,start)+js.slice(end);
 }
-const core = removeTrail(tuneGameStages(rawCore));
+const core = removeTrail(tuneGameStages(tuneGamePaint(rawCore)));
 const gameplay = core.slice(0, core.indexOf('    /* ---- overlay open/close:'));
-const previewCore = removeTrail(tunePreviewStages(rawCore));
+const previewCore = removeTrail(tunePreviewStages(tuneGamePaint(rawCore)));
 const previewGameplay = previewCore.slice(0, previewCore.indexOf('    /* ---- overlay open/close:'));
 const css = between(snapshot, '  /* ---- FLAPPY-V:', '  /* ---- closed + email ---- */');
 const markup = between(snapshot, '<div class="flap-overlay"', '<div class="guide-cue');
@@ -176,4 +195,4 @@ ${previewGameplay}
   }
 })();</script></body></html>`;
 }
-module.exports = { integrate, preview, core, gameplay, previewGameplay, storyCore, css, markup, tuneGameStages, tunePreviewStages, removeTrail, tunePage:html=>removeTrail(tuneGameStages(html)) };
+module.exports = { integrate, preview, core, gameplay, previewGameplay, storyCore, css, markup, tuneGameStages, tunePreviewStages, tuneGamePaint, removeTrail, tunePage:html=>removeTrail(tuneGameStages(tuneGamePaint(html))) };
