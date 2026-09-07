@@ -233,14 +233,14 @@ filmWrap.style.width=fw+'%';filmWrap.style.height=fh+'%';filmWrap.style.transfor
 filmWrap.querySelector('video').style.transform='translateZ(0) scale('+(cover/sx)+','+(cover/sy)+')';`);
 story = replace(story, '<button type="button" class="action vault-return" data-vault>Back to the vault</button>', '<a class="action vault-return" href="../#vault">Back to the vault</a>');
 story = replace(story, '<a href="./" id="restart-page">', '<a href="../" id="restart-page">');
-story = story.replace(/<section class="play-section"[\s\S]*?<\/section>/, `<section class="play-section journey-section" id="play" aria-labelledby="play-title"><div class="play-copy"><h2 id="play-title" data-reveal style="--reveal-delay:90ms">Fly<br>the V.</h2><button id="journey-play" class="journey-button play-cue" type="button" data-reveal style="--reveal-delay:180ms"><span>Play the game</span><svg class="play-cue-arrow" viewBox="0 0 96 64" width="96" height="64" aria-hidden="true" focusable="false"><path class="cue-right" d="M8 47C30 12 56 14 84 28M72 14L84 28L68 32"/><path class="cue-down" d="M24 9C59 6 64 32 47 55M36 50L47 55L55 43"/></svg></button></div><div class="game-shell live-game-shell" data-reveal style="--reveal-delay:140ms"><iframe id="game-preview" title="Automatic Fly the V demonstration" src="game-preview.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe><button id="flapPlay" class="preview-play" type="button" aria-label="Play Fly the V"></button></div></section>`);
+story = story.replace(/<section class="play-section"[\s\S]*?<\/section>/, `<section class="play-section journey-section" id="play" aria-labelledby="play-title"><div class="play-copy"><h2 id="play-title" class="paint-pending" data-reveal style="--reveal-delay:90ms">Fly<br>the V.</h2><button id="journey-play" class="journey-button play-cue paint-cue-pending" type="button" data-reveal style="--reveal-delay:180ms"><span>Play the game</span><svg class="play-cue-arrow" viewBox="0 0 96 64" width="96" height="64" aria-hidden="true" focusable="false"><path class="cue-right" d="M8 47C30 12 56 14 84 28M72 14L84 28L68 32"/><path class="cue-down" d="M24 9C59 6 64 32 47 55M36 50L47 55L55 43"/></svg></button></div><div class="game-shell live-game-shell" data-reveal style="--reveal-delay:140ms"><iframe id="game-preview" title="Automatic Fly the V demonstration" src="game-preview.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe><button id="flapPlay" class="preview-play" type="button" aria-label="Play Fly the V"></button></div></section>`);
 story = replace(story, '>Fly<br>the V.</h2>', '><span class="paint-title-text">Play the game.</span><img class="spray-headline" src="assets/play-the-game-spray-v1.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2>');
 story = replace(story, '<span>Play the game</span>', '<span class="sr-only">Play the game</span>');
-story = replace(story, 'id="play-title" data-reveal style="--reveal-delay:90ms"', 'id="play-title"');
+story = replace(story, 'id="play-title" class="paint-pending" data-reveal style="--reveal-delay:90ms"', 'id="play-title" class="paint-pending"');
 // Real aerosol pigment, revealed along the shaft and then the two arrowhead strokes.
 story = story.replace(/<svg class="play-cue-arrow"[\s\S]*?<\/svg>/, `<span class="play-cue-arrow" aria-hidden="true"><svg class="spray-arrow-art" viewBox="0 0 1280 1280" width="1280" height="1280" focusable="false"><defs><mask id="play-arrow-paint" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280"><path class="spray-arrow-shaft" pathLength="100" d="M155 160C580 135 1060 420 795 1090"/><path class="spray-arrow-head" pathLength="100" d="M620 860L795 1090L1010 880"/></mask></defs><image href="assets/play-arrow-spray-v1.png" width="1280" height="1280" mask="url(#play-arrow-paint)"/></svg></span>`);
 story = replace(story, "if(reduce.matches){const note=document.createElement('p');note.style.cssText='font:12px/1.6 Arial,sans-serif';note.textContent='Motion is reduced. Playing the game starts movement.';$('#play .play-copy').append(note);}", '');
-story = story.replace(/<section class="vault-invite"[\s\S]*?<\/section>/, `<section class="vault-invite journey-section" id="vault-invite" aria-labelledby="vault-title"><div class="vault-story"><h2 id="vault-title"><span class="paint-title-text">Back to the vault</span><img class="spray-headline" src="assets/back-to-the-vault-spray-v1.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2></div><div class="vault-action-group"><a class="action vault-return" href="../#vault"><span>Enter the vault</span><span class="cta-arrow" aria-hidden="true">↗</span></a></div></section>`);
+story = story.replace(/<section class="vault-invite"[\s\S]*?<\/section>/, `<section class="vault-invite journey-section" id="vault-invite" aria-labelledby="vault-title"><div class="vault-story"><h2 id="vault-title" class="paint-pending"><span class="paint-title-text">Back to the vault</span><img class="spray-headline" src="assets/back-to-the-vault-spray-v1.png" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2></div><div class="vault-action-group"><a class="action vault-return" href="../#vault"><span>Enter the vault</span><span class="cta-arrow" aria-hidden="true">↗</span></a></div></section>`);
 story = replace(story, '<h2 id="ending-title">— and the ones<br>who\'ll say they were.</h2>', '<h2 id="ending-title" class="sr-only">VCTRS — in the vault</h2>');
 story = replace(story, 'Back to the beginning ↑</a>', 'Start again <span aria-hidden="true">↺</span></a>');
 // Routing to a new document always resets the original journey; storage is optional.
@@ -368,6 +368,11 @@ html{scrollbar-gutter:stable}
 .film-toggle:active,.signup-footer button:active{transform:scale(.985);opacity:1}
 .paint-failed .spray-headline{display:none}
 .paint-failed .paint-title-text{position:static;width:auto;height:auto;margin:0;overflow:visible;clip-path:none;white-space:normal;display:block;font:900 clamp(34px,6vw,72px)/1.06 Impact,'Arial Black',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#d4af5f}
+.paint-pending .spray-headline{visibility:hidden}
+.paint-pending .paint-title-text{position:absolute;inset:0;box-sizing:border-box;width:auto;height:auto;padding:7%;margin:0;overflow:visible;clip-path:none;white-space:normal;display:flex;align-items:center;justify-content:center;text-align:center;font:900 clamp(34px,6vw,72px)/1.06 Impact,'Arial Black',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#d4af5f}
+.play-copy .play-cue{position:relative}
+.paint-cue-pending .play-cue-arrow{visibility:hidden}
+.paint-cue-pending .sr-only{position:absolute;inset:0;width:auto;height:auto;margin:0;overflow:visible;clip-path:none;white-space:normal;display:flex;align-items:center;justify-content:center;text-align:center;font:600 11px/1.5 Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:inherit}
 .paint-cue-failed .sr-only{position:static;width:auto;height:auto;margin:0;clip-path:none;overflow:visible;font:600 12px/1.5 Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase}
 .paint-cue-failed .play-cue-arrow{display:none}
 @media(max-width:700px){.vault-invite{min-height:0;padding:58px 7vw 68px;gap:20px}.vault-story #vault-title{max-width:440px}.ending-copy #restart-page{margin-top:0}.nav{top:12px}}
@@ -407,18 +412,25 @@ scene.addEventListener('pointerdown',()=>{if(film.paused&&!film.error)sync()},{p
 // scene exposure so the film cannot finish behind the opening V.
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.02;sync()},{threshold:[0,.02]}).observe(scene);document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);new MutationObserver(sync).observe(game,{attributes:true,attributeFilter:['class']});
 const journeySections=[...document.querySelectorAll('.journey-section')];
-const arrowAsset=new Image();arrowAsset.onerror=()=>document.getElementById('journey-play').classList.add('paint-cue-failed');arrowAsset.src='assets/play-arrow-spray-v1.png';
+function decodeImage(source,ready,failed){
+  let settled=false;
+  const fail=()=>{if(settled)return;settled=true;failed()};
+  const pass=()=>{if(settled)return;const decoded=typeof source.decode==='function'?source.decode():Promise.resolve();Promise.resolve(decoded).then(()=>{if(settled)return;if(!source.naturalWidth){fail();return}settled=true;ready()}).catch(fail)};
+  source.addEventListener('load',pass,{once:true});source.addEventListener('error',fail,{once:true});
+  if(source.complete){if(source.naturalWidth)pass();else fail()}
+}
+const journeyPlay=document.getElementById('journey-play'),arrowAsset=new Image();
+arrowAsset.src='assets/play-arrow-spray-v1.png';
+decodeImage(arrowAsset,()=>journeyPlay.classList.remove('paint-cue-pending'),()=>{journeyPlay.classList.remove('paint-cue-pending');journeyPlay.classList.add('paint-cue-failed')});
 // PAINT_REVEAL_START: trace the original raster lettering, without replacing its texture.
 function paintTitle(titleId,sectionId,strokes,brushWidth){
   // Keep paint's per-frame preference reads separate from the film's change listener.
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const title=document.getElementById(titleId),source=title.querySelector('.spray-headline');
-  const failed=()=>{title.classList.remove('paint-active');title.classList.add('paint-failed');title.querySelector('.spray-canvas')?.remove()};
-  source.addEventListener('error',failed,{once:true});
-  if(source.complete&&!source.naturalWidth){failed();return}
+  const failed=()=>{title.classList.remove('paint-pending','paint-active');title.classList.add('paint-failed');title.querySelector('.spray-canvas')?.remove()};
   const canvas=document.createElement('canvas'),mask=document.createElement('canvas');
   const ctx=canvas.getContext('2d'),brush=mask.getContext('2d');
-  if(!ctx||!brush)return;
+  if(!ctx||!brush){decodeImage(source,()=>title.classList.remove('paint-pending'),failed);return}
   canvas.className='spray-canvas';canvas.setAttribute('aria-hidden','true');
   canvas.width=mask.width=1024;canvas.height=mask.height=683;
   // Each path follows an actual stroke in the supplied 1536 x 1024 artwork.
@@ -456,8 +468,8 @@ function paintTitle(titleId,sectionId,strokes,brushWidth){
     if(progress<target||mist>0)frame=requestAnimationFrame(tick);else last=0;
   }
   function queue(){if(ready&&!finished&&!frame)frame=requestAnimationFrame(tick)}
-  function start(){if(ready||finished||!source.naturalWidth)return;ready=true;if(motion.matches||desired()>=1){finish();return}title.append(canvas);title.classList.add('paint-active');render(0,0);queue()}
-  source.addEventListener('load',start,{once:true});source.addEventListener('error',finish,{once:true});if(source.complete)start();
+  function start(){title.classList.remove('paint-pending');if(ready||finished||!source.naturalWidth)return;ready=true;if(motion.matches||desired()>=1){finish();return}title.append(canvas);title.classList.add('paint-active');render(0,0);queue()}
+  decodeImage(source,start,failed);
   addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);document.addEventListener('visibilitychange',queue);
   motion.addEventListener('change',()=>{if(motion.matches)finish();else queue()});
   document.getElementById(sectionId).addEventListener('focusin',finish);new MutationObserver(queue).observe(game,{attributes:true,attributeFilter:['class']});
@@ -465,9 +477,7 @@ function paintTitle(titleId,sectionId,strokes,brushWidth){
 // The game invitation is readable on its first visible frame, even after a
 // fast scroll. Keep the full raster, including its existing spray texture.
 const playTitle=document.getElementById('play-title'),playArt=playTitle.querySelector('img');
-const playArtFailed=()=>playTitle.classList.add('paint-failed');
-playArt.addEventListener('error',playArtFailed,{once:true});
-if(playArt.complete&&!playArt.naturalWidth)playArtFailed();
+decodeImage(playArt,()=>playTitle.classList.remove('paint-pending'),()=>{playTitle.classList.remove('paint-pending');playTitle.classList.add('paint-failed')});
 paintTitle('vault-title','vault-invite',[
   [[256,217],[204,433]],[[270,211],[406,204],[431,243],[379,288],[240,316]],[[249,313],[385,304],[423,351],[386,407],[222,444]],
   [[425,455],[531,200],[622,455]],[[465,364],[594,342]],
