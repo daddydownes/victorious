@@ -88,18 +88,18 @@ async function receiptTransport(){
 async function pendingTitle(){
  const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'no-preference'});await guard(context);
  await context.addInitScript(()=>{window.__layoutShifts=[];new PerformanceObserver(list=>window.__layoutShifts.push(...list.getEntries().map(entry=>({value:entry.value,hadRecentInput:entry.hadRecentInput})))).observe({type:'layout-shift',buffered:true})});
- const releases=new Map(),assets=['play-the-game-vstyle-v1.svg','back-to-the-vault-vstyle-v1.svg','play-arrow-spray-v1.png'];
+ const releases=new Map(),assets=['play-the-game-vstyle-v1.svg','back-to-the-vault-vstyle-v1.svg','play-arrow-vstyle-v1.svg'];
  for(const asset of assets)await context.route('**/assets/'+asset,async route=>{await new Promise(resolve=>releases.set(asset,resolve));await route.continue()});
  async function held(...names){const deadline=Date.now()+5000;while(names.some(name=>!releases.has(name))){if(Date.now()>deadline)throw Error('title request was not held: '+names.filter(name=>!releases.has(name)).join(','));await new Promise(resolve=>setTimeout(resolve,25))}}
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(10000);
  try{
   await page.goto(base+'/experience/?regression=slow-title',{waitUntil:'domcontentloaded'});await page.locator('#play').scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.getElementById('play-title').classList.contains('paint-pending')&&document.getElementById('journey-play').classList.contains('paint-cue-pending'));
-  await held('play-the-game-vstyle-v1.svg','play-arrow-spray-v1.png');
+  await held('play-the-game-vstyle-v1.svg','play-arrow-vstyle-v1.svg');
   const pending=await page.evaluate(()=>{const rect=id=>{const r=document.getElementById(id).getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}};const visible=el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return r.width>20&&r.height>20&&s.visibility!=='hidden'&&s.display!=='none'};return {title:rect('play-title'),cue:rect('journey-play'),textVisible:visible(document.querySelector('#play-title .paint-title-text')),cueTextVisible:visible(document.querySelector('#journey-play .sr-only')),artVisibility:getComputedStyle(document.querySelector('#play-title img')).visibility,artComplete:document.querySelector('#play-title img').complete,shiftBaseline:window.__layoutShifts.reduce((sum,e)=>sum+(!e.hadRecentInput?e.value:0),0)}});
   assert.equal(pending.textVisible,true);assert.equal(pending.cueTextVisible,true);assert.equal(pending.artVisibility,'hidden');assert.equal(pending.artComplete,false);
   await page.waitForTimeout(750);assert.equal(await page.locator('#play-title').evaluate(el=>el.classList.contains('paint-pending')),true,'pending fallback must remain until the image completes');
-  await page.screenshot({path:path.join(out,'chromium-phone-play-title-pending.png')});for(const name of ['play-the-game-vstyle-v1.svg','play-arrow-spray-v1.png'])releases.get(name)();
+  await page.screenshot({path:path.join(out,'chromium-phone-play-title-pending.png')});for(const name of ['play-the-game-vstyle-v1.svg','play-arrow-vstyle-v1.svg'])releases.get(name)();
   await page.waitForFunction(()=>{const title=document.getElementById('play-title'),cue=document.getElementById('journey-play');return title.querySelector('img').naturalWidth>0&&!title.classList.contains('paint-pending')&&!cue.classList.contains('paint-cue-pending')});
   const complete=await page.evaluate(()=>{const rect=id=>{const r=document.getElementById(id).getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}};return {title:rect('play-title'),cue:rect('journey-play'),shiftTotal:window.__layoutShifts.reduce((sum,e)=>sum+(!e.hadRecentInput?e.value:0),0)}});
   for(const id of ['title','cue'])for(const key of ['x','y','width','height'])assert(Math.abs(pending[id][key]-complete[id][key])<1,`${id} ${key} shifted while pending art resolved`);

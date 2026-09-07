@@ -32,8 +32,15 @@ for(const file of titleAssets){
  assert(/<(?:path|circle|ellipse)\b[^>]*(?:fill|stroke)="#f0d492"/i.test(svg),file+' has no canonical-gold artwork');
  assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(svg),file+' contains embedded styling, behavior or references');
 }
+const arrowAsset='experience/assets/play-arrow-vstyle-v1.svg',arrow=read(arrowAsset),arrowHead=arrow.match(/<svg\b[^>]*>/)?.[0]||'';
+assert(/\bwidth="1280"/.test(arrowHead)&&/\bheight="1280"/.test(arrowHead)&&/\bviewBox="0 0 1280 1280"/.test(arrowHead),'play arrow must retain its native square canvas');
+assert(!/<(?:filter|image|linearGradient|radialGradient|script|text)\b/i.test(arrow),'play arrow must stay self-contained flat vector art');
+const arrowColours=[...arrow.matchAll(/#[0-9a-f]{6}/gi)].map(m=>m[0].toLowerCase());
+assert(arrowColours.length&&arrowColours.every(value=>value==='#f0d492'),'play arrow uses a colour other than canonical #f0d492');
+assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(arrow),'play arrow contains embedded styling, behavior or references');
 const story=read('experience/index.html');
 for(const relative of titleAssets.map(file=>file.replace('experience/','')))assert(story.includes('src="'+relative+'"'),relative+' is not wired into the story');
+assert(story.includes('src="'+arrowAsset.replace('experience/','')+'"'),'play arrow is not wired into the story');
 assert(story.includes('<span class="paint-title-text">Play the game.</span>')&&story.includes('<span class="paint-title-text">Back to the vault</span>'),'readable title fallbacks changed');
 assert(story.includes('id="play-title" class="paint-pending"')&&story.includes('id="vault-title" class="paint-pending"'),'pending title layout contract changed');
 const paint=read('tools/flappy-clean-paint.js'),face=paint.slice(paint.indexOf('  function drawFacePaint('),paint.indexOf('\n  function flapDrawPaintBackdrop('));
@@ -43,4 +50,4 @@ assert(!/(?:Gradient|shadow|filter|rgba\(|#[0-9a-f]{6})/i.test(face.replaceAll('
 assert(paint.includes('pathPolygon(ctx, polygon, 0, 0);\n    ctx.clip();'),'all face decoration must remain inside the collision polygon');
 assert(read('index.html').includes('function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}'));
 assert(read('experience/game-preview.html').includes('function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}'));
-console.log(JSON.stringify({pass:true,baseline,protectedFunctions:protectedFunctions.length,routes:3,titleAssets,canonicalGold:'#f0d492',checks:['canonical V path','physics and collision source identity','actual 25 / preview 10 progression','flat self-contained title SVGs','readable pending fallbacks']}));
+console.log(JSON.stringify({pass:true,baseline,protectedFunctions:protectedFunctions.length,routes:3,titleAssets,arrowAsset,canonicalGold:'#f0d492',checks:['canonical V path','physics and collision source identity','actual 25 / preview 10 progression','flat self-contained title and arrow SVGs','readable pending fallbacks']}));
