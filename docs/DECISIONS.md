@@ -1,5 +1,19 @@
 # Decisions and recent changes
 
+## September 7, 2026 — release sprint
+
+- Preserve the accepted layout, V-and-star opening, game mechanics, film policy and six photos. Reimagine vault lettering and reduce filler rather than adding another camera transition.
+- Use the same gold aerosol treatment for Back to the vault. Keep the action a native Enter the vault link; label the original-page restart Start again.
+- Keep story scrolling native. Reduce excess mobile space rather than adding artificial wheel or touch acceleration.
+- Isolate paint media queries from the film listener after reproducing missed dynamic reduced-motion notification in Chromium. Keep visible fallback text when artwork fails.
+- Prepare and verify locally. Physical-device checks and explicit public release remain separate from browser-engine emulation and a local saved candidate.
+
+## Local complete experience — September 6, 2026
+
+User selected the accepted Portrait Depth animation with the newer supplied event film beginning at second 4 and continuing to its end. Preserve its composition and wording and six later photos. The final user correction replaces only the opening and Surface wordmark with the exact original V-and-star from the root film logo; retain the full VCTRS lettering behind the film. The latest user correction removes the opening tagline and both earlier icon designs. Show only an animated “Scroll” label; the later no-lines correction removes the descending rule. Show Replay only when the film ends, with no Pause. Preserve black title/logo cards from the continuous cut.
+
+Integrate through the real archive and original restart lifecycle in a separate candidate worktree. Public publishing and real signup submission remain outside this local demo. Thirty earlier specialist reports informed targeted logo, resize, return-route, storage and refresh fixes; unrelated layout/game redesigns are deferred.
+
 This is a curated record of recent work, not a claim to reconstruct every earlier session. Git history remains the detailed code record. Older root demos are preserved as experiments and are not production references.
 
 | Commit | Change | Reason / constraint to preserve |
@@ -57,3 +71,23 @@ The user likes the base but finds the obstacle treatment overworked. Replace orn
 ## Mandatory openings
 
 After the minimal finish, the user explicitly requested that flying underneath or above arches, slalom and jaws fail. This supersedes the earlier safe-unscored-bypass decision. Kill at the logo centre's outside mouth crossing or a channel departure; do not kill during a still-recoverable approach. Preserve visible obstacle geometry and precise physical-contact collision. Explain the rule in the start panel.
+
+## Post-film motion and paint direction
+
+The next refinement removes all supporting words under Fly the V except “Play the game” and a functional animated arrow. Remove the 100-point invitation copy and duplicate preview label; preserve scoring and its surprise inside the game. This supersedes the earlier visible challenge invitation. Arrow motion follows preview placement and respects reduced motion.
+
+Latest clarification: the game invitation's scrolling presentation should look as if someone sprays the letters onto the page. Follow the actual painted strokes using the accepted artwork, retain deposited paint on reverse scroll, and centre the invitation group. Avoid a whole-image fade, decorative lines, glow, replacement artwork or gameplay changes.
+
+User requested a clearer invitation to play, a 100-point surprise and a more animated transition into the vault. Use an actual hidden 100 Club visual reveal. Preserve the original V-star opening, source film and six photographs. User subsequently rejected glow, posh typography, simulated distressed lettering and decorative lines. Remove those additions and use the generated transparent aerosol-lettering PNG for Fly the V. Retain clean bold type in the memory and vault sections.
+## Restore the accepted demo
+
+September7: user says take it back to how it was after trying the flowing transition demo. Restore the accepted minimal-Play-cue version from before that pass, including its previous film behaviour. The new camera/photo-plane/Surface experiment is rejected; preserve its run evidence separately.
+
+
+## Paint the invitation wording
+
+September7: user asks for the arrow to be genuinely spray-painted, then explicitly confirms changing the large Fly the V title to Play the game and removing the small typed label. Preserve the restored layout and film behavior. Use real generated pigment assets, retain native button semantics, and keep the game itself named Fly the V. The old lettering asset is preserved but no longer used for this heading.
+
+## Remove the memory interlude
+
+September7: user explicitly removes the full Some things stay with you / The people / The nights / The moments / Keep exploring section. Game is now immediately followed by the vault invitation. Preserve the newly confirmed painted Play the game heading and painted arrow.

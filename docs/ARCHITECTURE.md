@@ -1,5 +1,19 @@
 # How the site works
 
+## Local complete-experience candidate
+
+The ending uses `back-to-the-vault-spray-v1.png` and the shared `paintTitle` controller in the builder. Each heading supplies its stroke paths and brush width. Per-heading reduced-motion queries isolate animation reads from the film's change listener. Progress is monotonic, the final 8% settles residual pigment, and completion removes the canvas. An image error exposes the real text heading; a failed painted arrow exposes the native Play label. Navigation remains usable without paint animation.
+
+The vault invitation contains only the painted heading and Enter the vault link. Its mobile minimum height is zero, keeping the CTA near the art. The gallery retains six photos and an accessible heading; Start again is a 48px native link to the original entrance. Story scrolling remains browser-native.
+
+`tools/build-experience.cjs` builds root `index.html`, `experience/index.html`, its game preview and deterministic `state.json`. Inputs are frozen `tools/vault-source.html` (upstream `e972c19`), `tools/experience-source.html` and `tools/experience-preview-source.html`. Edit the builder and regenerate; do not hand-edit generated pages.
+
+Surface reveals the original V-and-star layer above the original stage and navigates to `experience/`. Returning to `/#vault` runs the existing archive-entry landing/focus lifecycle immediately. Restart navigates to the root without fragment or query.
+
+`experience/assets/story-film.mp4` is a silent H.264 continuous cut from source second 4 through end. `tools/edit-story-film.cjs` accepts the original source path and regenerates it using FFmpeg. Playback pauses offscreen, when hidden or during the game, honors reduced motion, and shows Replay only after completion. Fixed video dimensions and compensating transforms preserve the growing rectangle without per-frame video layout resizing. Local reload polling waits until video is paused and scrolling idle.
+
+The accepted story game and preview remain together; the newer upstream four-stage production game remains in the root source and is not migrated into the story. `tests/full-experience.cjs` covers this integration separately from the existing root game suites.
+
 ## Delivery and boundaries
 
 GitHub Pages serves static files; there is no application server, bundler or framework. `index.html` contains the HTML, CSS and browser JavaScript, with external media in `assets/` plus root media files. Signup transport uses FormSubmit through `capture()`; the game stores progress in the visitor’s browser. Search Console and GitHub Pages settings are external services, not application code.
@@ -98,3 +112,21 @@ Obstacle reference widths are 42, 54, 60 and 68→78 per stage, scaled by logica
 `python3 tools/flappy-demo.py` serves `/demo` with stage-design selectors and a Play this stage control; only that response receives the study helper and isolated demo storage. Studies freeze obstacle movement but keep the original ambience animated. `/` is the unmodified candidate for integration testing. Tests cover geometry, silhouettes, material rendering discipline, lifecycle and executable full-flight witnesses; see the fullscreen review for exact limits.
 
 Death presentation uses a .78s timeline independent of collision height: slight recoil, gentler gravity, fading logo and course deceleration. `flapPresentation()` interpolates dying frames too. `tests/flappy-death.cjs` covers death timing and retry at 30/60/120/144Hz. Panel entrance is CSS-gated by reduced-motion preference.
+
+## Game invitation and memory passage
+
+The current play-copy contains only its painted heading and the native journey-play button. Its decorative SVG arrow switches direction at the same 860px layout breakpoint and disables animation under reduced motion. The whole preview remains the second native button with its accessible name, without a duplicate visible label. The optional flapBest node and runtime motion-note paragraph are absent; the existing best-line writer already handles a missing node. Game scoring and the 100 Club reward remain in the engine.
+
+The painted heading owns its reveal independently of the other journey fades. A fixed 1024x683 canvas masks the original 1536x1024 PNG along fourteen letter strokes; small transient particles follow the current stroke tip. Passive scroll/resize events queue bounded animation frames. Progress accumulates and settles to the current scroll target; no frame loop remains while idle. Game-open and hidden-document states suspend painting. Completion, keyboard focus or reduced motion restores the original image and removes the canvas; late image load cannot restart a completed reveal. The source image reserves layout space throughout, with no changes to film or game rendering.
+
+The builder adds a second native play button bound to the same game-open handler and card-expansion animation. Reveal observers run once and expose content on keyboard focus; reduced motion renders static content. The memory passage uses one queued animation frame per scroll event to derive text transform/opacity from section progress. It creates no video surface resizing.
+
+The story engine calls flapSurprise at 100 gates for every run, retaining best-score storage. The reveal timer restarts and play-again waits 2.2 seconds. It is a local visual reward; no coupon or financial redemption is promised.
+
+The Fly the V heading uses `experience/assets/fly-the-v-spray.png`, generated with the built-in image tool and copied with its original alpha intact. Its accessible name remains real heading text. Width/height reserve the image ratio; lazy loading avoids competing with the opening film. No synthetic distressed filter, decorative divider or new-section glow is rendered. Source prompt and provenance: `docs/reviews/spray-lettering.md`.
+
+## Painted game invitation
+
+The title now uses experience/assets/play-the-game-spray-v1.png and hidden real heading text Play the game. PAINT_REVEAL strokes follow the new two-line lettering. The journey-play button retains its accessible name via sr-only text, while its visible content is the arrow. A nested SVG reveals experience/assets/play-arrow-spray-v1.png through an invisible stroked mask; only the raster pigment is visible. The inner SVG rotates ninety degrees on desktop, leaving the parent's directional movement intact. Reduced motion and focus bypass the mask animation. No new camera controller is present.
+
+Current section order is opening,Portrait Depth film,play,vault-invite,ending gallery. The former memory-passage markup and its scroll/click controller are removed; legacy unused CSS remains inert. The play paint controller and reveal observer remain active.

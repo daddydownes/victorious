@@ -1,5 +1,56 @@
 # Current status
 
+## Release candidate refinement — September 7, 2026
+
+The vault ending uses genuine gold spray-painted Back to the vault artwork, revealed along its strokes on scroll. Removed the eyebrow, description, helper sentence and photo cue. Six photos remain intact; the orphaned closing sentence is now a screen-reader heading. Enter the vault stays a native link, and Start again is a clear 48px return control. Button feedback keeps controls visible. The accepted opening, game, layout and film/replay policy remain.
+
+One paint controller serves both headings, with independent media-query objects, bounded canvas work, monotonic progress, quiet final speckle settlement and readable image-failure fallbacks. Independent media queries fix a reproduced Chromium case where turning on reduced motion hid the video without pausing it. Mobile vault spacing is reduced; story scrolling remains native with no speed multiplier.
+
+Ten Astra specialists contributed distinct discovery reports, followed by implementation review and final acceptance. Browser-engine checks cover Chromium, WebKit and Firefox, portrait/landscape, pressed states, keyboard exit, native wheel travel, dynamic reduced motion and image failures. Four repeated navigation cycles and natural original entrance/game retry paths pass. These are engine/emulation checks, not physical Apple/Samsung/Pixel certification. See [release review](reviews/release-sprint.md).
+
+Local candidate only. GitHub Pages and upstream main were verified; no public push or deployment was performed. A QA interception mistake left two invalid test signup attempts with unknown external outcome; corrected mocked tests recorded interception. No further external form tests are authorized.
+
+## Direct game-to-vault flow — September7,2026
+
+The user removed the entire Some things stay with you / The people / The nights / The moments / Keep exploring passage. The painted Play the game invitation now leads directly to Back to the vault. Removed both the passage markup and its controller. The new painted title and arrow, restored film behaviour and original archive are preserved.13 integration checks and629/1280px browser junction screenshots pass; no script errors or horizontal overflow. Local demo only.
+
+
+## Painted Play the game invitation — September7,2026
+
+The user confirmed replacing the large Fly the V lettering with spray-painted Play the game and removing the small typed label. A matching gold spray-painted arrow points down in stacked layouts and right on desktop. The title paints on along its lettering; the arrow reveals along its shaft and head. Both assets are genuine RGBA PNGs. The arrow remains a native Play button with a screen-reader label; preview activation is unchanged. Reduced motion shows both painted assets without their reveal animation. The restored layout, previous film/Replay behavior and original archive remain in place.
+
+## Previous demo restored — September 7, 2026
+
+The user rejected the latest flowing transition experiment. Restored the exact run014 builder and generated product: original Surface/opening, Portrait Depth film with end-only Replay, spray-painted Fly the V and minimal Play arrow, original memory passage and six-photo gallery. The curved camera, extra floating photo planes and looping-film experiment are removed. Local preview remains on port59408. No publishing.
+
+
+## Minimal Play cue — September 7, 2026
+
+The game invitation now contains only the painted Fly the V title and a clickable “Play the game” label with a curved animated arrow. Extra introduction, instructions, score/challenge copy, returning-player best line and duplicate preview label are removed. The arrow points down in stacked layouts and right in two columns, and stays still for reduced motion. Both the cue and preview still open the game and restore their own focus on exit. Thirteen integration checks pass; browser checks at 629px and 1164px confirmed text, arrow direction and no horizontal overflow. Local preview only, with no production release claim.
+
+## Scroll-painted game invitation — September 7, 2026
+
+The Fly the V artwork now paints on along its letter strokes while scrolling from the film, with transient matte spray droplets. Painted progress stays in place on reverse scrolling, and completion restores the original PNG. The heading, challenge and Play button are centred within their column; layouts up to 860px stack above the game preview. Browser checks passed at actual widths 391, 629 and 1164px, including partial/full reveal, reverse scroll, game entry and exit focus. Reduced motion and unavailable canvas retain static artwork. Local demo remains on port 59408; no push or deployment.
+
+## Complete demo launcher — September 7, 2026
+
+The accepted complete experience now has a saved `Start Demo.cmd` launcher and `tools/serve-demo.cjs`, opening the original entrance on localhost port 59408. The server supports video byte ranges and reuses an already-running server for the same folder. `DEMO.md` explains the full journey and how to reopen it. Visual source, film, artwork and photos are preserved from the reviewed candidate. Local only; no GitHub push or production deployment.
+
+## Post-film invitation refinement — local only
+
+Added a staged game invitation, a second Play button with the same entry/exit/focus lifecycle, and a 100-point challenge. Reaching 100 now shows a hidden animated 100 Club reveal on fresh and returning runs; this is a visual celebration, not a redeemable offer. A scroll-driven passage builds “The people. The nights. The moments.” before an updated vault invitation and the preserved photos. Latest feedback removes decorative rules, underlines, glow and simulated distressed type; the Fly the V headline now uses a generated transparent aerosol-lettering PNG with solid paint, fine overspray and small drips.
+
+Thirteen integration checks pass. Desktop browser exercised new Play entry and exit (focus returns to journey-play), scroll progress and real vault links. The 100 Club panel was visually inspected in an isolated local fixture invoking the actual win handler at a synthetic score of 100; this was not a human 100-gate flight and uses a separate storage origin.
+
+
+## Local complete-experience candidate — September 6, 2026
+
+Built from `e972c19` in an isolated worktree; this candidate has not been pushed or published. The original film, PRESS HERE invitation and archive continue through Surface into `experience/`. The original gold V-and-star stays still, followed by a minimal animated Scroll label; the opening tagline is removed. The accepted Portrait Depth panel plays the supplied event film continuously from source second 4 to the end (33.1 seconds, silent). Only an end-of-film Replay control is shown. The full VCTRS wordmark remains behind the film, avoiding its duplication in the opening. Six later photos remain unchanged. Game exit restores focus and scrolling; vault and restart links return to the original site.
+
+The film surface keeps fixed layout dimensions and uses transforms for the expanding panel. This removes continuous video-surface resizing; black title cards in the supplied footage remain. Local auto-refresh waits for scrolling and playback to stop.
+
+Validation: `tests/full-experience.cjs` passes 13 checks; original reveal and Surface input checks also pass. All ten original mandatory suites passed earlier in this integration; only affected suites were rerun after the final control edits. Desktop in-app browser checked opening, expanding film, end-only replay, game entry/exit, real vault return, Surface landing and restart invitation. No physical-phone, Safari or real signup testing; no universal flicker-elimination claim. See `docs/reviews/full-experience.md`. Prior production history below is not a deployment of this candidate.
+
 Updated September 6, 2026. The user approved publishing the Flappy V redesign after reviewing its visuals, mandatory openings, death animation and win screen. Production is now `cf51ffc`: GitHub Pages reports built, and https://vctrsclo.com/ exactly matches the approved local index.html. Prior production was `5f098d6`. Preview-only statements below record earlier iteration stages; the approved game is now live.
 
 ## Current production state
@@ -71,3 +122,5 @@ These findings were recorded in earlier QA and have not been fixed by the metada
 | Input contrast | Placeholder and border visibility merit a focused accessibility check. |
 
 Owner for triage: next maintainer working with the site owner. These are recorded as deferred follow-ups, not as fixed or release-approved. The stale share-image issue is fixed and must not be reopened from old reports.
+
+September7 launcher validation: real root and directory redirect, three MP4 byte-range forms, range rejection, HEAD, missing path, dotfile blocking, method restriction and repeat launch pass. In-app browser completed original entrance → PRESS HERE → vault → Surface → event video playing → game open/exit with restored focus → real vault return → full restart. Root/story styles, scripts, videos, images and fonts retain their reviewed hashes. This is a desktop/panel browser check, not a new phone/Safari release audit.

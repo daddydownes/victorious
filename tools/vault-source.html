@@ -814,24 +814,6 @@
   @media(max-height:520px) and (min-width:560px){.next-vault-hold .vh-base{font-size:24px}}
   #vaultDJ{filter:none;border:0;box-shadow:none}
 
-
-.surface-story{position:fixed;inset:0;z-index:20;display:none;place-items:center;pointer-events:none;background:#000;color:#d4af5f}
-body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,1020px,135svh);aspect-ratio:766/285;opacity:0;filter:drop-shadow(0 0 28px rgba(212,175,95,.22))}.surface-story-logo svg{width:100%;height:100%;display:block}
-.surface-story-invitation{position:absolute;left:6%;right:6%;bottom:max(7svh,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:18px;font:12px/1.5 Arial,sans-serif;letter-spacing:.12em;opacity:0}.surface-story-invitation p{margin:0;letter-spacing:.17em;text-transform:uppercase}.surface-story-invitation span{display:flex;align-items:center;min-height:44px;padding:8px 20px;text-decoration:underline;text-underline-offset:7px;text-decoration-color:#d4af5f70}
-.surface-story-invitation{gap:34px}.surface-story-invitation p{transform:translateY(-12px)}.surface-story-invitation svg{width:24px;height:46px}.surface-story-invitation .scroll-wheel{animation:scroll-stroke 2.4s cubic-bezier(.22,.61,.36,1) infinite}
-@keyframes scroll-stroke{0%,12%{transform:translateY(0);opacity:0}25%{opacity:1}65%{transform:translateY(10px);opacity:0}100%{transform:translateY(10px);opacity:0}}
-@media(prefers-reduced-motion:reduce){.surface-story-invitation .scroll-wheel{animation:none}}
-@media(max-width:700px){.surface-story-logo{width:min(82vw,135svh)}.surface-story-invitation{bottom:max(8svh,env(safe-area-inset-bottom));gap:10px}.surface-story-invitation p{font-size:11px;letter-spacing:.12em}}
-@media(max-height:500px){.surface-story{padding-bottom:45px}.surface-story-logo{width:min(56vw,105svh)}.surface-story-invitation{bottom:max(3svh,env(safe-area-inset-bottom));gap:0}.surface-story-invitation p{font-size:10px}.surface-story-invitation span{min-height:38px;font-size:11px}}
-.surface-story-cue{display:flex;flex-direction:column;align-items:center;gap:14px}.surface-story-cue .scroll-label{padding:0;min-height:0;font:10px/1.5 Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase;text-decoration:none}.surface-story-cue .scroll-line{position:relative;display:block;width:1px;height:34px;min-height:0;padding:0;overflow:hidden;background:#d4af5f26}.surface-story-cue .scroll-line:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,#d4af5f);animation:scroll-travel 2.2s cubic-bezier(.65,0,.35,1) infinite}
-@keyframes scroll-travel{0%{transform:translateY(-105%)}65%,100%{transform:translateY(105%)}}
-@media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-line:after{animation:none}}
-.surface-story-logo{width:min(27vw,240px,35svh);aspect-ratio:295.5/357.7}
-@media(max-width:700px){.surface-story-logo{width:min(44vw,210px,35svh)}}
-@media(max-height:500px){.surface-story-logo{width:min(23vw,27svh)}}
-.surface-story-cue .scroll-line{display:none}.surface-story-cue .scroll-label{animation:scroll-word 2.2s ease-in-out infinite}
-@keyframes scroll-word{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(4px);opacity:1}}
-@media(prefers-reduced-motion:reduce){.surface-story-cue .scroll-label{animation:none}}
 </style>
 
 <style id="black-v-demo">
@@ -847,7 +829,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   @media(prefers-reduced-motion:reduce){.stage #film{transition:none}}
 </style>
 <body class="locked">
-<div class="surface-story" aria-hidden="true"><div class="surface-story-logo"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="surface-story-invitation"><div class="surface-story-cue"><span class="scroll-label">Scroll</span><span class="scroll-line" aria-hidden="true"></span></div></div></div><div class="stage" id="stage" tabindex="-1" role="region" aria-label="VCTRS — scroll to continue">
+<div class="stage" id="stage" tabindex="-1" role="region" aria-label="VCTRS — scroll to continue">
   <video id="film" muted playsinline preload="auto" aria-hidden="true" src="assets/hero-film-51129a88918e.mp4" poster="assets/hero-poster-311ec34583b0.jpg"></video>
   <div class="wash"></div>
   <div class="card-cover" id="cardCover" aria-hidden="true"></div>
@@ -1085,7 +1067,6 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   }
   if(motionQuery.addEventListener) motionQuery.addEventListener('change',refreshMotionPreference);
   else if(motionQuery.addListener) motionQuery.addListener(refreshMotionPreference);
-  var directVault=location.hash==='#vault';
   var phase='ready'; // ready -> playing -> done
 
   /* letter-stagger wordmarks (idea 06): wrap each glyph, reveal with a cascade */
@@ -1318,7 +1299,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     }
     if(te>=VI.launch && !vFired){ vFired=true; play(); }
   }
-  if(!reduced&&!directVault){
+  if(!reduced){
     vMeasure(); vStart=motionNow();
     introTask=addMotionTask(function(_,now){
       if(phase!=='ready'){ introTask=null; return false; }
@@ -1328,7 +1309,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
       if(phase==='ready'){ vMeasure(); vRender(Math.min(motionNow()-vStart,VI.end+1)); }
     });
     vRender(0);
-  } else if(!directVault) {
+  } else {
     reveal(wordmark); // reduced motion: the title just sits there (CSS forces it visible)
   }
 
@@ -1607,13 +1588,13 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   addEventListener('touchend',function(){ armTouchY=null; },{passive:true});
   addEventListener('touchcancel',function(){ armTouchY=null; },{passive:true});
 
-  if(reduced&&!directVault){
+  if(reduced){
     phase='done'; stage.classList.add('done','cardend');
     showFilmLogo(true);
     var seekLast=function(){ film.currentTime=Math.max(0,(film.duration||10.9)-0.05); };
     if(film.readyState>=1){ seekLast(); } else { film.addEventListener('loadedmetadata',seekLast); }
     startNextDrop();
-  } else if(!directVault) {
+  } else {
     lock();
   }
 
@@ -2238,7 +2219,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   }
   // Explicit tap/click/keyboard entry; scrolling never submits or enters.
   var tapEntryFinish=null;
-  function enterVaultFromNext(immediate){
+  function enterVaultFromNext(){
     if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
     guidePhase='toVault'; hideCue();
     setNextDropInert(document.getElementById('nextDrop'),true);
@@ -2295,7 +2276,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
       finishNextDropVaultHandoff();
     }
     tapEntryFinish=land;
-    if(immediate===true||reduced||!movingImg||!movingImg.animate){ land(); return; }
+    if(reduced||!movingImg||!movingImg.animate){ land(); return; }
     /* All visible layers share one compositor timeline. Two frames let the
        scroll/vault preparation settle before the static target is measured. */
     requestAnimationFrame(function(){ requestAnimationFrame(function(){
@@ -3243,7 +3224,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     var hud=vault.querySelector('.vault-hud'); hud.style.opacity=''; hud.style.transform=''; hud.style.willChange='';
     filmLogo.style.opacity='1'; filmLogo.style.transform=''; filmLogo.style.willChange='';
     filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
-    location.assign(new URL('experience/', location.href).href);
+    showCue('Scroll <span class="g-chev">▼</span>');
     try{ stage.focus({preventScroll:true}); }catch(_focusErr){ stage.focus(); }
   }
   function armVaultClose(){
@@ -3277,8 +3258,6 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
       dust.style.opacity=atmosphere.toFixed(4);
       vault.style.setProperty('--surface-atmosphere',atmosphere.toFixed(4));
       // A short overlap ties the V to the retreat, followed by a quiet settle.
-      document.querySelector('.surface-story-logo').style.opacity=smooth((t-.26)/.5);
-      document.querySelector('.surface-story-invitation').style.opacity=smooth((t-.52)/.35);
       var incoming=smooth((t-.32)/.48), settle=1-smooth((t-.32)/.68);
       filmLogo.style.opacity=incoming.toFixed(4);
       filmLogo.style.transform='translate3d(0,'+(-24*settle).toFixed(3)+'px,0) scale('+(1+.06*settle).toFixed(4)+')';
@@ -4430,20 +4409,6 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   }
 
   measure(); updateScroll();
-  if(directVault){
-    // Reuse the original entry's complete landing/focus/pan lifecycle.
-    phase='done'; playWanted=false; resumeFilm=false; film.pause();
-    introVHalo.style.opacity='0'; stage.classList.remove('playing');
-    stage.classList.add('done','cardend'); showFilmLogo(true);
-    try{history.replaceState(history.state,'',location.pathname+location.search);}catch(_history){}
-    var enterReturnedVault=function(){
-      if(document.hidden)return;
-      document.removeEventListener('visibilitychange',enterReturnedVault);
-      enterVaultFromNext(true);
-    };
-    document.addEventListener('visibilitychange',enterReturnedVault);
-    enterReturnedVault();
-  }
 })();
 </script>
 <!-- THE FILM'S BYTES. 1.83MB of base64 that used to sit in the <video src>

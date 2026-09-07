@@ -1,0 +1,514 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flappy V preview</title></head><body><!-- Actual FLAPPY-V extracted from Desktop/vctrsclo.com/production-release/index.html. Insert once before </body>; move only #vctrsGameLaunch to the middle scene if desired. -->
+<style>
+
+#vctrsGameLaunch{color:#efe9dc;background:#000;text-align:center;padding:48px 20px;font-family:Consolas,monospace}
+#vctrsGameLaunch p{font-size:11px;line-height:1.8;letter-spacing:.12em}
+#flapPlay{border:1px solid #d4af5f;background:#000;color:#f0d492;padding:16px 28px;font:inherit;letter-spacing:.1em;cursor:pointer}
+#flapPlay:hover{background:#f0d492;color:#000}
+#flapPlay:focus-visible,#flapExit:focus-visible{outline:2px solid #fff;outline-offset:4px}
+#flapBest{min-height:1.4em;margin-top:16px;color:#d4af5f;font-size:10px;letter-spacing:.08em}
+#flapOverlay{position:fixed;inset:0;z-index:10000;background:#000;display:none;overscroll-behavior:none;touch-action:none}
+#flapOverlay.on{display:block}
+#flap{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;-webkit-user-select:none;user-select:none}
+#flapExit{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;z-index:2;border:1px solid #786331;color:#f0d492;background:#000;padding:10px 12px;font:11px Consolas,monospace;cursor:pointer}
+#flapSourceMark{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+</style>
+<section id="vctrsGameLaunch" aria-label="Flappy V game">
+<p>FLAPPY V — FLY THROUGH THE GAPS</p>
+<button id="flapPlay" type="button">PLAY THE GAME</button>
+<p>TAP, CLICK OR PRESS SPACE TO FLY · ESC TO EXIT</p>
+<div id="flapBest" aria-live="polite"></div>
+</section>
+<div id="flapOverlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Flappy V game">
+<canvas id="flap" tabindex="-1" aria-label="Tap, click or press Space to fly the gold V through the gaps. Escape exits."></canvas>
+<button id="flapExit" type="button">EXIT · ESC</button>
+</div>
+<svg id="flapSourceMark" viewBox="170.4 94.8 295.5 357.7" aria-hidden="true"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470"/></svg>
+<script>
+(function(){
+'use strict';
+var memoryStore=Object.create(null); var localStorage={getItem:function(k){return memoryStore[k]||null;},setItem:function(k,v){memoryStore[k]=String(v);}};
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TARGET_SCORE=100;
+
+
+  var flapPlay=document.getElementById('flapPlay'),
+      flapOverlay=document.getElementById('flapOverlay'),
+      flapExit=document.getElementById('flapExit'),
+      flapBest=document.getElementById('flapBest'),
+      flapCv=document.getElementById('flap');
+  if(flapCv && flapPlay){
+    /* alpha:false — the scene is painted on black anyway, and an opaque canvas
+       composites cheaper. desynchronized is deliberately NOT requested: on
+       Android Chrome the low-latency path skips vsync compositing and presents
+       torn/uninitialised buffers — the rainbow-garbage flashes Jacob saw on his
+       phone. The latency win was imperceptible anyway (physics are dt-driven). */
+    var fctx=flapCv.getContext('2d',{alpha:false});
+    /* every fillText on fctx is positioned by its CENTRE x (panels, pops) —
+       the default 'start' align parked the win/death panels right of centre */
+    fctx.textAlign='center';
+    var _vp=document.querySelector('#flapSourceMark path');
+    var VPATH=_vp ? new Path2D(_vp.getAttribute('d')) : null;
+    var VB={x:170.4,y:94.8,w:295.5,h:357.7};
+    // persistent bests + milestone
+    var fBest=0, fWon=false;
+    try{
+      fBest=parseInt(localStorage.getItem('flapv_best')||'0',10)||0;
+      fWon=localStorage.getItem('flapv_milestone')==='1';
+    }catch(_e){}
+    function flapBestLine(){
+      if(!flapBest) return;
+      if(reduced){ flapBest.textContent='MOTION IS OFF — THE GAME SLEEPS'; return; }
+      flapBest.textContent = fWon ? '100 DROPS SURVIVED — BEST: '+fBest
+        : (fBest>0 ? 'BEST SO FAR: '+fBest+' / '+TARGET_SCORE : '');
+    }
+    flapBestLine();
+    /* All speeds/heights are fractions of canvas CSS height (H) or width (W),
+       so phone and desktop play identically. Base ratios from a 512-tall
+       logical frame (the FlapPyBird measurements): */
+    var FG=null, flapIv=null, flapRaf=0, flapLast=0, flapFocus=null, flapOpen=false, flapScrollY=0;
+    /* THE GAME'S LAW-1 EXCEPTION — rAF drives the loop, the interval is only a
+       watchdog. Chrome/Android's renderer scheduler BLOCKS timer tasks for
+       ~100ms after every touchstart to prioritise the gesture, so an interval-
+       driven game freezes for a beat on every tap (the per-tap stall Jacob hit
+       on his phone). rAF is compositor-aligned and keeps firing through touches
+       — and gives true 90/120Hz on high-refresh phones. The 250ms watchdog
+       below still feeds flapTick if an embedder throttles rAF (the case LAW 1
+       exists for); physics are dt-driven so cadence never changes speed. */
+    function flapLoop(){
+      if(!flapOpen) return;
+      flapRaf=requestAnimationFrame(flapLoop);
+      previewPilot(); flapTick();
+    }
+    function flapNewState(){
+      return { y:0.45, vy:0, rot:0,              // V centre-y (frac H), vel (frac H/s)
+        gates:[], parts:[], pops:[],
+        spawnT:1.0, score:0, state:'idle',       // idle | play | dying | dead | won
+        speed:0.29,                              // world scroll, frac W/s — ramps
+        trauma:0, shakeX:0, shakeY:0, stopT:0,   // hit-stop timer (s)
+        flash:0, deadT:0, scorePop:0, bg:null };
+    }
+    /* one persistent size object — the tick calls this 125×/s, so returning a
+       fresh {w,h,d} each time was steady GC churn on phones (the clientWidth
+       read itself is cheap while nothing dirties layout mid-game) */
+    var FS={w:0,h:0,d:1};
+    function flapSize(){
+      var d=Math.min(2,devicePixelRatio||1), w=flapCv.clientWidth, h=flapCv.clientHeight;
+      var W=Math.round(w*d), H=Math.round(h*d);
+      if(flapCv.width!==W||flapCv.height!==H){ flapCv.width=W; flapCv.height=H;
+        /* a width/height write resets ALL context state to defaults — without
+           this the panels fall back to start-aligned and park right of centre */
+        fctx.textAlign='center'; }
+      FS.w=w; FS.h=h; FS.d=d;
+      return FS;
+    }
+    function vh(s){ return Math.max(34, s.h*0.047); }      // V drawn height px (gap = 5×)
+    function gapH(s){ return vh(s)*5; }
+    function gateW(s){ return Math.max(52, s.w*0.075); }
+    function flapSpawn(s){
+      var gh=gapH(s), m=gh/2+s.h*0.06;             // gap centre stays in the middle band
+      var ny=m+Math.random()*Math.max(0,s.h-2*m-s.h*0.06); // max(): absurd tiny viewports would otherwise push the gap offscreen
+      // never spawn an impossible jump: consecutive gaps can step at most 0.22H,
+      // climbable/fallable inside the 0.85s decision-window floor
+      if(FG.gates.length){
+        var ly=FG.gates[FG.gates.length-1].y, dmax=s.h*0.22;
+        ny=Math.max(ly-dmax,Math.min(ly+dmax,ny));
+      }
+      FG.gates.push({x:s.w+gateW(s), y:ny, counted:false});
+    }
+    /* THE MONOLITH gates (design direction A from the render research): obsidian
+       slabs, razor edge-light, a gold bevel where light pools at the gap, CLOSED
+       laser-etched vertically in the opening. Everything static is baked into
+       offscreen sprites (9-slice: stretchable body + bevel caps) — zero gradients
+       or text per frame, no shadowBlur anywhere. Rebuilt only when size/dpr changes. */
+    var FSPR=null;
+    function flapSprites(s){
+      var gw=Math.round(gateW(s));
+      if(FSPR && FSPR.gw===gw && FSPR.d===s.d && FSPR.w===s.w && FSPR.h===s.h) return FSPR;
+      function mk(w,h,fn){
+        var c=document.createElement('canvas');
+        c.width=Math.max(2,Math.round(w*s.d)); c.height=Math.max(2,Math.round(h*s.d));
+        var g=c.getContext('2d'); g.scale(s.d,s.d); fn(g,w,h);
+        return c;
+      }
+      function bodyFill(g,w,h){ // obsidian: a barely-there swell across the slab
+        var lg=g.createLinearGradient(0,0,w,0);
+        lg.addColorStop(0,'#000'); lg.addColorStop(0.5,'#141210'); lg.addColorStop(1,'#000');
+        g.fillStyle=lg; g.fillRect(0,0,w,h);
+        g.fillStyle='rgba(240,212,146,.5)'; g.fillRect(0,0,1,h);   // left razor edge
+        g.fillStyle='rgba(239,233,220,.07)'; g.fillRect(w-4,0,4,h); // ambient bounce, not a line
+      }
+      var body=mk(gw,8,bodyFill);                       // tileable: horizontal detail only
+      var capH=12;
+      function bevel(g,w,h,atBottom){                   // gold pooling at the gap-facing lip
+        bodyFill(g,w,h);
+        var by=atBottom?h-3:0;
+        var dg=g.createLinearGradient(0,atBottom?0:3,0,atBottom?h-3:h);
+        dg.addColorStop(0,'rgba(0,0,0,0)'); dg.addColorStop(1,'rgba(0,0,0,.5)');
+        g.fillStyle=dg; g.fillRect(0,atBottom?0:3,w,h-3);
+        var gg=g.createLinearGradient(0,by,0,by+3);     // the bevel: hot lip → gold → dark
+        gg.addColorStop(0,atBottom?'#f0d492':'#3a2c0f');
+        gg.addColorStop(0.5,'#d4af5f');
+        gg.addColorStop(1,atBottom?'#3a2c0f':'#f0d492');
+        g.fillStyle=gg; g.fillRect(0,by,w,3);
+        g.fillStyle='rgba(255,251,232,.75)';            // 1px specular on the lip
+        g.fillRect(0,atBottom?by:by+2,w,1);
+      }
+      var capB=mk(gw,capH,function(g,w,h){ bevel(g,w,h,true); });
+      var capT=mk(gw,capH,function(g,w,h){ bevel(g,w,h,false); });
+      // (the engraved CLOSED that stood in each gap is retired — Jacob's call)
+      FSPR={gw:gw,d:s.d,w:s.w,h:s.h,body:body,capB:capB,capT:capT,capH:capH};
+      /* GILDED VAULT background (design A from the ambience research): three
+         parallax dust layers + event-only speed streaks + a baked vignette.
+         All sprites baked here; per-frame cost is blits only. */
+      // soft-disc sprite (mid motes) + large bokeh disc (near layer)
+      function disc(r,core){
+        return mk(r*2,r*2,function(g){
+          var rg=g.createRadialGradient(r,r,0,r,r,r);
+          rg.addColorStop(0,'rgba(240,212,146,.9)');
+          rg.addColorStop(core,'rgba(212,175,95,.35)');
+          rg.addColorStop(1,'rgba(212,175,95,0)');
+          g.fillStyle=rg; g.fillRect(0,0,r*2,r*2);
+        });
+      }
+      FSPR.mote=disc(3,0.3);
+      FSPR.bokeh=disc(32,0.12);
+      // tapered streak sprite: hot core fading to nothing at both ends
+      FSPR.streak=mk(64,2,function(g){
+        var lg=g.createLinearGradient(0,0,64,0);
+        lg.addColorStop(0,'rgba(240,212,146,0)');
+        lg.addColorStop(0.5,'rgba(240,212,146,.85)');
+        lg.addColorStop(1,'rgba(240,212,146,0)');
+        g.fillStyle=lg; g.fillRect(0,0,64,2);
+      });
+      // vignette, baked at QUARTER size (a smooth radial upscale is invisible)
+      // and stretched at draw time — full-res cost ~16MB of backing store per resize
+      FSPR.vig=mk(s.w/4,s.h/4,function(g,w,h){
+        var rg=g.createRadialGradient(w/2,h*0.46,Math.min(w,h)*0.32, w/2,h/2, Math.max(w,h)*0.72);
+        rg.addColorStop(0,'rgba(0,0,0,0)');
+        rg.addColorStop(1,'rgba(0,0,0,.5)');
+        g.fillStyle=rg; g.fillRect(0,0,w,h);
+      });
+      return FSPR;
+    }
+    /* background field init — counts scale with canvas area (spec: 120/45/12 at
+       1080p). Rebuilt on resize or first tick.
+       The far layer is BAKED to one offscreen strip: 120 per-frame fillRects
+       (each with its own globalAlpha write) were the game's biggest per-tick
+       draw cost on phones. Per-dot twinkle becomes one whole-layer alpha. */
+    function flapBgInit(s){
+      var area=(s.w*s.h)/(1920*1080), R=Math.random;
+      function n(base){ return Math.max(4,Math.round(base*area)); }
+      var bg={mid:[],near:[],streaks:[],farX:0};
+      bg.farC=document.createElement('canvas');
+      bg.farC.width=Math.max(2,Math.round(s.w*s.d)); bg.farC.height=Math.max(2,Math.round(s.h*s.d));
+      var fg=bg.farC.getContext('2d'); fg.scale(s.d,s.d);
+      for(var i=0;i<n(120);i++){
+        fg.globalAlpha=0.10+R()*0.08;
+        fg.fillStyle='#d4af5f';
+        fg.fillRect(Math.round(R()*s.w),Math.round(R()*s.h),1,1);
+      }
+      for(i=0;i<n(45);i++) bg.mid.push({x:R()*s.w,y:R()*s.h,up:6+R()*8,sc:0.6+R()*0.8,a:0.15+R()*0.15});
+      for(i=0;i<n(12);i++) bg.near.push({x:R()*s.w,y:R()*s.h,up:8+R()*6,sc:0.75+R()*1.25,a:0.04+R()*0.05});
+      return bg;
+    }
+    function flapBurst(x,y,n,gold){
+      for(var i=0;i<n;i++){
+        var a=Math.random()*6.283, sp=(120+Math.random()*260)/900;
+        FG.parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-0.06,
+          life:0.5+Math.random()*0.4, t:0, sz:2+Math.random()*3,
+          c:gold||Math.random()<0.3?'#f0d492':'#efe9dc'});
+      }
+    }
+    function flapDie(s){
+      if(FG.state!=='play') return;
+      FG.state='dying'; FG.deadT=0; FG.stopT=0.075;          // hit-stop 75ms
+      FG.trauma=Math.min(1,FG.trauma+0.55); FG.flash=1;
+      FG.vy=0.16;                                            // knocked down
+      flapBurst(s.w*0.24, FG.y*s.h, 30, false);
+      fBest=Math.max(fBest,FG.score);
+      try{ localStorage.setItem('flapv_best',String(fBest)); }catch(_e){}
+      flapBestLine();
+    }
+    function flapWin(s){
+      FG.state='won'; FG.trauma=Math.min(1,FG.trauma+0.3);
+      flapBurst(s.w*0.5, s.h*0.4, 60, true);
+      fWon=true;
+      try{ localStorage.setItem('flapv_milestone','1'); localStorage.setItem('flapv_best',String(Math.max(fBest,FG.score))); }catch(_e){}
+      fBest=Math.max(fBest,FG.score); flapBestLine();
+    }
+    function flapStart(){
+      FG=flapNewState(); FG.state='play'; flapSpawn(flapSize()); FG.spawnT=1.1;
+      FG.vy=-0.50;                                           // opening flap
+    }
+    function flapTap(){
+      if(!flapOpen || reduced) return;     // reduced motion: poster only, no loop to feed
+      if(FG.state==='idle'){ flapStart(); }
+      else if(FG.state==='play'){ FG.vy=-0.50; }             // assignment, not impulse
+      else if(FG.state==='dead'||FG.state==='won'){
+        if(FG.deadT>0.6) flapStart();                        // small lockout so the panel lands
+      }
+    }
+    function flapTick(){
+      if(!flapOpen || document.hidden){ flapLast=performance.now(); return; }
+      var now=performance.now(), dt=Math.min(0.1,(now-flapLast)/1000); flapLast=now;
+      var s=flapSize();
+      if(FG.stopT>0){ FG.stopT-=dt; flapDraw(s); return; }   // hit-stop: render, don't integrate
+      var st=FG.state;
+      // difficulty ramp: SPEED carries the "crazy fast" feel (up to 1.8×);
+      // the decision window never drops below 0.85s, so it stays fair
+      FG.speed=(0.30+Math.min(FG.score,60)*0.0040);
+      var interval=Math.max(0.85, 1.35-FG.score*0.010);
+      if(st==='play'||st==='dying'){
+        var g = st==='play' ? 1.76 : 3.5;                    // dying: double gravity slam
+        FG.vy=Math.min(0.56, FG.vy+g*dt);                    // terminal = 1.12× flap (reference ratio)
+        FG.y+=FG.vy*dt;
+        // rotation maps to velocity — the V telegraphs its physics
+        var r=(FG.vy+0.50)/(0.56+0.50);                      // 0 at full flap → 1 at terminal
+        var rotT=(-0.42+r*1.85)*(st==='dying'?1.4:1);        // -24° nose-up → +80°+ spin-down
+        rotT=Math.max(-0.42,Math.min(1.57,rotT));
+        /* ease toward the target, never assign: flap is a velocity ASSIGNMENT,
+           so a directly-mapped rot teleports ~106° in one tick on every tap —
+           phones read that single-frame flip as a frozen frame (the per-tap
+           judder Jacob hit). 10/s spans the flick over ~6 ticks, and a hard
+           per-tick cap of 0.35 rad (20°) means even a throttled or jittered
+           tick can never teleport — the rot just lags a beat and catches up. */
+        var _dr=(rotT-FG.rot)*Math.min(1,10*dt);
+        FG.rot+=Math.max(-0.35,Math.min(0.35,_dr));
+        if(st==='dying'){ FG.deadT+=dt; if(FG.y>1.1){ FG.state='dead'; } }
+        // ceiling: clamp, don't kill. floor: dead.
+        if(st==='play'){
+          if(FG.y*s.h < vh(s)/2){ FG.y=vh(s)/2/s.h; FG.vy=Math.max(0,FG.vy); }
+          if(FG.y*s.h > s.h-vh(s)*0.4) flapDie(s);
+        }
+        var vx=s.w*0.24, dx=FG.speed*s.w*dt;
+        FG.spawnT-=dt;
+        if(st==='play' && FG.spawnT<=0){ FG.spawnT=interval; flapSpawn(s); }
+        for(var i=0;i<FG.gates.length;i++){
+          var gt=FG.gates[i]; gt.x-=dx;
+          if(st==='play'){
+            if(!gt.counted && gt.x+gateW(s)<vx-vh(s)*0.4){
+              gt.counted=true; FG.score++; FG.scorePop=1;
+              FG.trauma=Math.min(1,FG.trauma+0.08);
+              FG.pops.push({x:gt.x+gateW(s)/2,y:gt.y,t:0,txt:'+1'});
+              if(FG.score>=TARGET_SCORE && !fWon){ flapWin(s); }
+            }
+            var rr=vh(s)*0.32, gh2=gapH(s)/2;                // forgiving circle hitbox
+            if(vx+rr>gt.x && vx-rr<gt.x+gateW(s) &&
+               (FG.y*s.h-rr<gt.y-gh2 || FG.y*s.h+rr>gt.y+gh2)) flapDie(s);
+          }
+        }
+        for(var gi=FG.gates.length-1;gi>=0;gi--){              // in-place prune —
+          if(FG.gates[gi].x<=-gateW(s)-10) FG.gates.splice(gi,1); // .filter() reallocated every tick
+        }
+      }
+      /* the restart lockout must keep running on the panels: deadT used to
+         freeze the moment 'dying' flipped to 'dead'/'won', so floor deaths
+         (the common ones) parked deadT ~0.25 forever and TAP TO GO AGAIN /
+         TAP TO KEEP FLYING could never fire */
+      else if(st==='dead'||st==='won') FG.deadT+=dt;
+      // GILDED VAULT ambience — runs in every state, so the idle screen breathes.
+      // Layers: far dust 0.18×, mid motes 0.45× + upward drift (the vault's motes),
+      // near bokeh 0.85× additive. Speed streaks are a REWARD: only above 1.2× base.
+      if(!FG.bg || FG.bgW!==s.w || FG.bgH!==s.h){ FG.bg=flapBgInit(s); FG.bgW=s.w; FG.bgH=s.h; }
+      var bg=FG.bg, wdx=FG.speed*s.w*dt;
+      FG.bgT=performance.now()/1000;
+      bg.farX=(bg.farX+wdx*0.18)%s.w;                    // parallax on the baked strip
+      var j;
+      for(j=0;j<bg.mid.length;j++){
+        var md=bg.mid[j]; md.x-=wdx*0.45*md.sc; md.y-=md.up*dt;
+        if(md.x<-6){ md.x+=s.w+12; md.y=Math.random()*s.h; }
+        if(md.y<-6) md.y+=s.h+12;
+      }
+      for(j=0;j<bg.near.length;j++){
+        var nb=bg.near[j]; nb.x-=wdx*0.85*nb.sc; nb.y-=nb.up*dt;
+        if(nb.x<-64){ nb.x+=s.w+128; nb.y=Math.random()*s.h; }
+        if(nb.y<-64) nb.y+=s.h+128;
+      }
+      // streaks: spawn in 2–3 loose lanes, alpha/length scale with excess speed
+      var excess=(FG.speed-0.36)/0.18;                 // 0 at 1.2× base → 1 at cap
+      if(st==='play' && excess>0 && bg.streaks.length<8 && Math.random()<dt*6){
+        bg.streaks.push({x:s.w, y:s.h*(0.2+0.3*Math.floor(Math.random()*3))+ (Math.random()-0.5)*s.h*0.1,
+          len:s.w*(0.10+0.15*Math.random()), t:0});
+      }
+      for(j=bg.streaks.length-1;j>=0;j--){
+        var sk=bg.streaks[j]; sk.x-=wdx*1.6; sk.t+=dt;
+        sk.a=Math.min(0.30, Math.max(0,excess))*0.9*Math.min(1,sk.t*6);
+        if(sk.x+sk.len<0 || excess<=0) bg.streaks.splice(j,1);
+      }
+      for(var p=FG.parts.length-1;p>=0;p--){
+        var pt=FG.parts[p]; pt.t+=dt;
+        pt.vy+=0.8*dt; pt.x+=pt.vx*s.h*dt*9; pt.y+=pt.vy*s.h*dt*9;
+        if(pt.t>pt.life) FG.parts.splice(p,1);
+      }
+      for(var q=FG.pops.length-1;q>=0;q--){ FG.pops[q].t+=dt; if(FG.pops[q].t>1.1) FG.pops.splice(q,1); }
+      FG.trauma=Math.max(0,FG.trauma-1.4*dt);
+      FG.flash=Math.max(0,FG.flash-6*dt);                    // ~2-frame flash
+      FG.scorePop=Math.max(0,FG.scorePop-5*dt);
+      // shake only for real hits — score nudges below 0.15 trauma would otherwise
+      // jitter the whole scene ±1px every tick (reads as choppiness, not juice)
+      var mag=FG.trauma>0.15 ? 9*FG.trauma*FG.trauma : 0;
+      FG.shakeX=mag?Math.round((Math.random()*2-1)*mag):0;
+      FG.shakeY=mag?Math.round((Math.random()*2-1)*mag):0;
+      flapDraw(s);
+    }
+    function flapDrawV(x,y,rot,alpha,s){
+      var k=vh(s)/VB.h;
+      fctx.save();
+      fctx.globalAlpha=alpha;
+      fctx.translate(x,y); fctx.rotate(rot);
+      fctx.scale(k,k); fctx.translate(-(VB.x+VB.w/2),-(VB.y+VB.h/2));
+      fctx.fillStyle='#f0d492';
+      if(VPATH) fctx.fill(VPATH);
+      fctx.restore();
+    }
+    /* HUD score line: baked to a small offscreen, repainted only when the score
+       (or dpr) changes — fillText every frame is one of the priciest canvas ops
+       on Android. The scorePop pulse is just the blit's scale, so it stays free. */
+    var hudC=null, hudKey=-1;
+    function flapHud(s,pop){
+      if(!hudC){ hudC=document.createElement('canvas'); }
+      if(hudKey!==FG.score || hudC.width!==Math.round(360*s.d)){
+        hudKey=FG.score;
+        hudC.width=Math.round(360*s.d); hudC.height=Math.round(26*s.d);
+        var g=hudC.getContext('2d'); g.scale(s.d,s.d);
+        g.fillStyle='#d4af5f'; g.font='12px "Cascadia Mono",Consolas,monospace';
+        g.textAlign='left'; g.textBaseline='middle';
+        g.fillText('DROPS SURVIVED: '+FG.score+' / '+TARGET_SCORE,0,13);
+      }
+      /* left-anchored: centred ran straight under the top-right EXIT button on
+         phone-width screens and hid the score. Pop scales the blit about its
+         own vertical centre, so the pulse is still free. */
+      var hh=26*pop;
+      fctx.drawImage(hudC, 14, 34-hh/2, 360*pop, hh);
+    }
+    function flapDraw(s){
+      fctx.setTransform(s.d,0,0,s.d,0,0);
+      fctx.clearRect(0,0,s.w,s.h);
+      fctx.save();
+      fctx.translate(FG.shakeX,FG.shakeY);
+      var gh=gapH(s), spr=flapSprites(s), ch=spr.capH;
+      // GILDED VAULT background — far dust, mid motes, near bokeh, reward streaks
+      if(FG.bg){
+        var bg=FG.bg, t=FG.bgT||0, j;
+        // far dust: TWO full-width blits of the baked strip (wrap), one layer
+        // alpha for the twinkle — replaces 120 fillRect+alpha writes per tick
+        fctx.globalAlpha=0.85+Math.sin(t*1.7)*0.15;
+        fctx.drawImage(bg.farC,-bg.farX,0,s.w,s.h);
+        fctx.drawImage(bg.farC,s.w-bg.farX,0,s.w,s.h);
+        fctx.globalAlpha=1;
+        for(j=0;j<bg.mid.length;j++){
+          var md=bg.mid[j], ms=6*md.sc;
+          fctx.globalAlpha=md.a;
+          fctx.drawImage(spr.mote,Math.round(md.x-ms/2),Math.round(md.y-ms/2),ms,ms);
+        }
+        fctx.globalAlpha=1;
+        fctx.globalCompositeOperation='lighter';               // bokeh blooms on black
+        for(j=0;j<bg.near.length;j++){
+          var nb=bg.near[j], ns=64*nb.sc;
+          fctx.globalAlpha=nb.a;
+          fctx.drawImage(spr.bokeh,Math.round(nb.x-ns/2),Math.round(nb.y-ns/2),ns,ns);
+        }
+        for(j=0;j<bg.streaks.length;j++){
+          var sk=bg.streaks[j];
+          fctx.globalAlpha=sk.a||0;
+          fctx.drawImage(spr.streak,Math.round(sk.x),Math.round(sk.y),sk.len,2);
+        }
+        fctx.globalAlpha=1; fctx.globalCompositeOperation='source-over';
+      }
+      // gates: monolith slabs from pre-baked sprites — 3 blits per slab, no
+      // per-frame gradients, text, or shadowBlur
+      for(var i=0;i<FG.gates.length;i++){
+        var g=FG.gates[i], x=Math.round(g.x), gt=Math.round(g.y-gh/2), gb=Math.round(g.y+gh/2);
+        if(gt>0){
+          if(gt>ch){ fctx.drawImage(spr.body,x,0,spr.gw,gt-ch); fctx.drawImage(spr.capB,x,gt-ch,spr.gw,ch); }
+          else fctx.drawImage(spr.capB,x,0,spr.gw,gt);
+        }
+        fctx.drawImage(spr.capT,x,gb,spr.gw,ch);
+        if(s.h-gb-ch>0) fctx.drawImage(spr.body,x,gb+ch,spr.gw,s.h-gb-ch);
+      }
+      flapDrawV(s.w*0.24,FG.y*s.h,FG.rot,1,s);
+      // particles — additive gold glow on black
+      fctx.globalCompositeOperation='lighter';
+      for(var pi=0;pi<FG.parts.length;pi++){
+        var pt=FG.parts[pi], a=Math.max(0,1-pt.t/pt.life);
+        fctx.globalAlpha=a; fctx.fillStyle=pt.c;
+        fctx.fillRect(pt.x,pt.y,pt.sz,pt.sz);
+      }
+      fctx.globalAlpha=1; fctx.globalCompositeOperation='source-over';
+      // score pops
+      fctx.font='13px "Cascadia Mono",Consolas,monospace';
+      for(var qi=0;qi<FG.pops.length;qi++){
+        var pp=FG.pops[qi], pa=pp.t<0.66?1:1-(pp.t-0.66)/0.44;
+        fctx.globalAlpha=Math.max(0,pa); fctx.fillStyle='#f0d492';
+        fctx.fillText(pp.txt,pp.x,pp.y-20-pp.t*55);
+      }
+      fctx.globalAlpha=1;
+      fctx.restore();
+      // baked vignette over the world, under the HUD — eye to centre-screen
+      fctx.drawImage(spr.vig,0,0,s.w,s.h);
+      if(FG.flash>0){
+        fctx.fillStyle='rgba(240,212,146,'+(FG.flash*0.28).toFixed(3)+')';
+        fctx.fillRect(0,0,s.w,s.h);
+      }
+    }
+    // Preview adapter: original physics/rendering above; simulated taps only.
+    var requested=false, previewFrames=0;
+    function previewPilot(){
+      if(!FG) return;
+      if(FG.state==='dead'||FG.state==='won'){if(FG.deadT>0.7) flapStart();return;}
+      if(FG.state==='idle'){flapStart();return;}
+      if(FG.state!=='play') return;
+      var s=flapSize(), vx=s.w*0.24, next=null;
+      for(var i=0;i<FG.gates.length;i++){
+        if(FG.gates[i].x+gateW(s)>vx-vh(s)*0.4){next=FG.gates[i];break;}
+      }
+      var target=next?next.y/s.h:0.48;
+      // Flap at the lower part of the safe corridor; genuine tap impulse.
+      if(FG.vy>=0 && FG.y+FG.vy*0.065>target+0.035) flapTap();
+      previewFrames++;
+    }
+    function previewStop(){
+      flapOpen=false;
+      if(flapRaf){cancelAnimationFrame(flapRaf);flapRaf=0;}
+      if(flapIv){clearInterval(flapIv);flapIv=null;}
+    }
+    function previewSync(){
+      var run=requested&&!document.hidden&&!reduced;
+      if(!run){previewStop();return;}
+      if(flapOpen) return;
+      flapOpen=true;flapLast=performance.now();
+      flapRaf=requestAnimationFrame(flapLoop);
+    }
+    function previewPoster(){
+      flapOverlay.classList.add('on');
+      FG=flapNewState();FG.state='play';
+      var s=flapSize();flapSpawn(s);flapSpawn(s);
+      FG.gates[0].x=s.w*0.57;FG.gates[0].y=s.h*0.48;
+      FG.gates[1].x=s.w*0.98;FG.gates[1].y=s.h*0.56;
+      FG.spawnT=1.2;FG.y=0.48;FG.bg=flapBgInit(s);FG.bgW=s.w;FG.bgH=s.h;flapDraw(s);
+    }
+    addEventListener('message',function(e){
+      if(e.source!==parent||e.origin!==location.origin) return;
+      if(e.data&&e.data.type==='vctrs-preview'){
+        requested=e.data.active===true;previewSync();
+      }
+    });
+    document.addEventListener('visibilitychange',previewSync);
+    var motionQuery=matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change',function(e){reduced=e.matches;previewSync();});
+    addEventListener('resize',function(){if(FG) flapDraw(flapSize());});
+    window.__flap={state:function(){return FG&&FG.state;},score:function(){return FG&&FG.score;},dbg:function(){return FG;}};
+    window.__preview={active:function(){return flapOpen;},frames:function(){return previewFrames;}};
+    previewPoster();
+    parent.postMessage({type:'vctrs-preview-ready'},location.origin);
+  }
+})();
+</script>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}
+#vctrsGameLaunch,#flapExit{display:none!important}
+#flapOverlay{display:block!important;position:absolute;inset:0;pointer-events:none}
+</style>
+</body></html>
+

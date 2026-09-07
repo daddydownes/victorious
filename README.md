@@ -1,8 +1,8 @@
 # VCTRS — Victorious
 
-The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website: opening V and film → drop invitation → draggable photo vault → Surface → crew, signup and Flappy-V game.
+The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. This local release candidate follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
 
-This is a static website. The production page, styles and JavaScript are in `index.html`; there is no package install or build step. GitHub Pages serves the repository’s `main` branch from its root.
+This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The candidate has not been published; see the [release review](docs/reviews/release-sprint.md) for checks and remaining device verification.
 
 ## Start here
 
@@ -16,6 +16,8 @@ This is a static website. The production page, styles and JavaScript are in `ind
 | Full visual release checklist | [TESTING.md](TESTING.md) |
 
 ## Run locally
+
+For the complete integrated demo, double-click **Start Demo.cmd** on Windows, or run `node tools/serve-demo.cjs`. Open http://127.0.0.1:59408/ at the original entrance. See [the demo guide](DEMO.md) for its full journey and reopening instructions. The accepted story, video and game are already generated; no dependency installation is needed.
 
 From the repository root, with Python 3 installed:
 
@@ -37,6 +39,7 @@ These checks do not submit email or replace browser/device testing.
 ## Repository layout
 
 - `index.html`: live application, including embedded CSS and JavaScript.
+- `experience/`: integrated story, film, spray artwork, playable game and ending; deliver this entire directory with the root page.
 - `assets/`, `film.mp4`, `vctrs-wordmark.svg`, `og.jpg`: production media and artwork.
 - `CNAME`, `.nojekyll`, `google303d59fed389923f.html`: hosting and search ownership files; preserve them.
 - `docs/`: portable project knowledge and handoff.
