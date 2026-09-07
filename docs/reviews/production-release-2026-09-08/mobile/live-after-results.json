@@ -1,0 +1,237 @@
+{
+  "base": "https://vctrsclo.com",
+  "sha": "b234910759464b5fed809e35d36909f46977afe5",
+  "checkedAt": "2026-09-07T14:53:36.661Z",
+  "entrance": [
+    {
+      "engine": "chromium",
+      "status": 200,
+      "geometry": {
+        "viewport": {
+          "width": 540,
+          "height": 360
+        },
+        "card": {
+          "x": 15,
+          "y": 14.6875,
+          "width": 510,
+          "height": 330.609375,
+          "bottom": 345.296875
+        },
+        "input": {
+          "x": 40,
+          "y": 208.90625,
+          "width": 460,
+          "height": 42,
+          "bottom": 250.90625,
+          "visiblePixels": 42
+        },
+        "button": {
+          "x": 40,
+          "y": 273.90625,
+          "width": 460,
+          "height": 59.390625,
+          "bottom": 333.296875,
+          "visiblePixels": 59.390625
+        },
+        "horizontalOverflow": false,
+        "bodyOverflow": "hidden",
+        "overlayOverflow": "hidden auto"
+      },
+      "touchEntry": "landed-vault",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "engine": "webkit",
+      "status": 200,
+      "geometry": {
+        "viewport": {
+          "width": 540,
+          "height": 360
+        },
+        "card": {
+          "x": 15,
+          "y": 14.6875,
+          "width": 510,
+          "height": 330.609375,
+          "bottom": 345.296875
+        },
+        "input": {
+          "x": 40,
+          "y": 208.90625,
+          "width": 460,
+          "height": 42,
+          "bottom": 250.90625,
+          "visiblePixels": 42
+        },
+        "button": {
+          "x": 40,
+          "y": 273.90625,
+          "width": 460,
+          "height": 59.390625,
+          "bottom": 333.296875,
+          "visiblePixels": 59.390625
+        },
+        "horizontalOverflow": false,
+        "bodyOverflow": "hidden",
+        "overlayOverflow": "hidden auto"
+      },
+      "touchEntry": "landed-vault",
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "focus": [
+    {
+      "engine": "chromium",
+      "tabs": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "JOIN",
+          "focusVisible": true,
+          "hitAtCenter": "BUTTON",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "text": "PRESS HERE\nENTER THE VAULT",
+          "focusVisible": true,
+          "hitAtCenter": "SPAN",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "JOIN",
+          "focusVisible": true,
+          "hitAtCenter": "BUTTON",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextVaultHold",
+          "tag": "BUTTON",
+          "text": "PRESS HERE\nENTER THE VAULT",
+          "focusVisible": true,
+          "hitAtCenter": "SPAN",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        }
+      ],
+      "hiddenLegacyFocus": false,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "engine": "webkit",
+      "tabs": [
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "nextDropEmailInput",
+          "tag": "INPUT",
+          "text": "",
+          "focusVisible": true,
+          "hitAtCenter": "nextDropEmailInput",
+          "visibleAtCenter": true
+        },
+        {
+          "id": "",
+          "tag": "BODY",
+          "text": "POP-UP STORE\nDETAILS\nDROPPING SOON\nBE FIRST TO KNOW\nJOIN\nPRE",
+          "focusVisible": false,
+          "hitAtCenter": "H2",
+          "visibleAtCenter": true
+        }
+      ],
+      "hiddenLegacyFocus": false,
+      "errors": [],
+      "failed": [
+        {
+          "url": "https://vctrsclo.com/assets/hero-film-51129a88918e.mp4",
+          "error": "cancelled"
+        }
+      ]
+    }
+  ],
+  "limits": "Live-domain headless Chromium/WebKit viewport, keyboard, and touch emulation; no physical device, safe-area chrome, screen reader, or form submission."
+}

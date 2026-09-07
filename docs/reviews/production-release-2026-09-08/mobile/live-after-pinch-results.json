@@ -1,0 +1,40 @@
+{
+  "base": "https://vctrsclo.com",
+  "rows": [
+    {
+      "reduce": false,
+      "before": {
+        "scale": 1,
+        "width": 390,
+        "height": 844,
+        "vaultTouch": "auto",
+        "diveTouch": "manipulation",
+        "native": true
+      },
+      "after": {
+        "scale": 2.000000238418579,
+        "width": 194.99996948242188,
+        "height": 421.99993896484375
+      },
+      "scaleChanged": true
+    },
+    {
+      "reduce": true,
+      "before": {
+        "scale": 1,
+        "width": 390,
+        "height": 844,
+        "vaultTouch": "pinch-zoom",
+        "diveTouch": "auto",
+        "native": false
+      },
+      "after": {
+        "scale": 2,
+        "width": 195,
+        "height": 422
+      },
+      "scaleChanged": true
+    }
+  ],
+  "limit": "Synthetic Chromium compositor pinch on a mobile-emulated viewport; not a physical-device multi-touch test."
+}

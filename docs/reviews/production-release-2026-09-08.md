@@ -2,9 +2,9 @@
 
 ## Release state
 
-The release candidate is built from the verified GitHub Pages baseline `46226be139353d81947499ec5552c52547d68011`. The last production-code commit is `a05c186bc55f76a83f9f17c9593c712392503348`; later documentation does not change served application bytes. The candidate restores the requested Flappy progression, fixes the reproduced entry and accessibility blockers on the rest of the site, and makes story actions readable while artwork loads.
+Release `b234910759464b5fed809e35d36909f46977afe5` was published from the verified GitHub Pages baseline `46226be139353d81947499ec5552c52547d68011`. The last production-code commit is `a05c186bc55f76a83f9f17c9593c712392503348`; later documentation does not change served application bytes. The release restores the requested Flappy progression, fixes the reproduced entry and accessibility blockers on the rest of the site, and makes story actions readable while artwork loads.
 
-This review records browser evidence from the candidate before publication. Publication and canonical-response results are added only after GitHub Pages serves the release.
+GitHub Pages built the exact release commit successfully. Canonical root, story and preview responses matched the reviewed files byte for byte, followed by focused live mobile and story/game checks.
 
 ## Shipped behavior
 
@@ -64,6 +64,14 @@ The confirmed entry, focus, zoom, receipt and slow-title blockers in scope are a
 
 No live signup submission was made during audit or release verification.
 
+## Publication verification
+
+`main` advanced by a normal non-force push from `46226be` to `b234910`. GitHub Pages reported `built` for that exact commit, created at `2026-09-07T14:47:25Z` and completed at `2026-09-07T14:47:48Z`, with no build error.
+
+Cache-busted canonical fetches matched local release files exactly. A focused live-after mobile check then confirmed the full 540×360 invitation and touchscreen Vault entry in Chromium and WebKit, no covered legacy focus in eight-tab reduced-motion cycles, and Chromium zoom from scale 1 to 2 in reduced motion. One expected WebKit hero-video cancellation occurred during the reduced-motion transition; there were no page errors or unexpected failed requests.
+
+A focused live-after story check passed in normal-motion Chromium and reduced-motion WebKit. It confirmed readable pending art, the original 1536px art after load, truthful film states, playable `0 / 100` and 25-clear copy/HUD, pause/Escape focus return, and the preview's ten-clear identity. No form was touched or submitted in either live-after check.
+
 ## Source commits
 
 - `a272869` — restore 25-clear playable progression.
@@ -73,7 +81,7 @@ No live signup submission was made during audit or release verification.
 - `3396ea7`, `3828cab`, `8058f9b` — add and correct focused release coverage.
 - `a05c186` — clarify the reduced-motion film state.
 
-Pre-publication candidate hashes:
+Release output hashes (the three public HTML responses were verified canonically):
 
 | Route/output | SHA-256 |
 | --- | --- |
@@ -82,4 +90,4 @@ Pre-publication candidate hashes:
 | `/experience/game-preview.html` | `c76be92a11feb9fc4c92d19e64f797b293273d28c17ac5c20d5a64b6ef9f1a5d` |
 | `experience/state.json` | `05587108be8c7530a8af25a21689edc4c7e056ea07cf28fb0b534697ffbb235a` |
 
-The final release check requires a fresh fetch, a non-force fast-forward to `main`, a successful Pages build for the pushed commit, exact canonical root/story/preview bytes and focused no-submit live journeys.
+The release completed a fresh remote check, non-force fast-forward, exact Pages build, canonical byte comparison and focused no-submit live journeys. The documentation-only post-verification commit does not change these route bytes.

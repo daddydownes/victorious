@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-09-07T14:52:40.128Z",
+  "release": "b234910759464b5fed809e35d36909f46977afe5",
+  "url": "https://vctrsclo.com/experience/",
+  "results": [
+    {
+      "engine": "chromium",
+      "mode": "normal",
+      "film": {
+        "paused": false,
+        "currentTime": 0.067392,
+        "readyState": 4,
+        "ready": true,
+        "loadingHidden": "true"
+      },
+      "heldRequests": [
+        "play-arrow-spray-v1.png",
+        "play-the-game-spray-v1.png"
+      ],
+      "pending": {
+        "title": {
+          "x": 82.55726623535156,
+          "y": 135.752197265625,
+          "width": 433.916748046875,
+          "height": 301.47998046875
+        },
+        "cue": {
+          "x": 241.515625,
+          "y": 444.4375,
+          "width": 116,
+          "height": 104
+        },
+        "artVisibility": "hidden",
+        "textVisibility": "visible",
+        "textRect": {
+          "x": 82.55726623535156,
+          "y": 135.752197265625,
+          "width": 433.916748046875,
+          "height": 301.47998046875
+        },
+        "held": true
+      },
+      "final": {
+        "title": {
+          "x": 82.55726623535156,
+          "y": 135.752197265625,
+          "width": 433.916748046875,
+          "height": 301.47998046875
+        },
+        "cue": {
+          "x": 241.515625,
+          "y": 444.4375,
+          "width": 116,
+          "height": 104
+        },
+        "artVisibility": "visible",
+        "naturalWidth": 1536,
+        "previewSegments": 10,
+        "previewTenCycleSource": true
+      },
+      "opened": {
+        "hud": "0 / 100",
+        "hint": "Tap, click or press Space to rise.Fly through every opening — going around one ends the run. A new challenge every 25.",
+        "filmPaused": true,
+        "previewActive": false
+      },
+      "paused": {
+        "paused": true,
+        "title": "PAUSED",
+        "action": "Resume",
+        "activeId": "flapAction"
+      },
+      "escaped": {
+        "activeId": "journey-play",
+        "overlayHidden": "true"
+      },
+      "issues": []
+    },
+    {
+      "engine": "webkit",
+      "mode": "reduced",
+      "film": {
+        "src": null,
+        "currentSrc": "",
+        "paused": true,
+        "readyState": 0,
+        "text": "Film paused",
+        "ariaHidden": "true"
+      },
+      "title": {
+        "naturalWidth": 1536,
+        "visibility": "visible",
+        "previewSegments": 10
+      },
+      "opened": {
+        "hud": "0 / 100",
+        "title": "MOTION IS OFF",
+        "previewActive": false
+      },
+      "escaped": {
+        "activeId": "journey-play",
+        "overlayHidden": "true"
+      },
+      "issues": []
+    }
+  ],
+  "limits": "Focused live Chromium normal and WebKit reduced-motion browser checks. No forms submitted; not a full navigation or physical-device rerun."
+}
