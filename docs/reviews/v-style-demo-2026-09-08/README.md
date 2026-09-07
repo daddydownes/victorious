@@ -19,11 +19,12 @@ Completed at the checkpoint:
 - A delayed-asset Chromium phone check passed: readable pending text, exact title/cue geometry before and after decode, zero resulting layout shift, and a complete Back-to-the-vault paint reveal.
 - A warmed three-second frame sample measured p95 17.5ms, max 17.7ms, zero frames above 25ms and no long task. This is a synthetic centred-gate sample on the shared machine, not a physical-device result.
 - Native Safari verified direct-anchor loading, preview animation, game start and flap input, Escape focus return, both new titles and the vault action.
+- WebKit touch journeys passed at 320×568, 390×844 and 844×390: launch, start, flap, pause/resume, death/retry, Escape and focus restoration completed with no overflow or page error. The harness waits for the moving entrance before calculating tap coordinates.
 - Independent source/art review found no blocker for a local demo.
 - Served story and Play-title bytes matched the local files (`46c781939c91…` and `8523bfd1193b…`).
 
-The broader mobile interaction check was still running when this record was created. Browser fixtures and emulated viewports do not establish physical-device, assistive-technology or human-difficulty results. No form submission occurred. Existing media were preserved; the only new media are the three SVG concept assets.
+Browser fixtures and emulated viewports do not establish physical-device, assistive-technology or human-difficulty results. No form submission occurred. Existing media were preserved; the only new media are the three SVG concept assets.
 
 Representative game states: [start](desktop-start.png), [25 / arch](desktop-25-arch.png), [75 / iris](desktop-75-iris.png).
 
-Title evidence: [pending fallback](chromium-phone-play-title-pending.png), [decoded Play title](chromium-phone-play-title-ready.png), [completed vault reveal](chromium-phone-vault-title-revealed.png), [title results](title-results.json), [frame sample](frame-timing.json).
+Title and mobile evidence: [pending fallback](chromium-phone-play-title-pending.png), [decoded Play title](chromium-phone-play-title-ready.png), [completed vault reveal](chromium-phone-vault-title-revealed.png), [title results](title-results.json), [mobile game results](mobile-game-results.json), [frame sample](frame-timing.json).
