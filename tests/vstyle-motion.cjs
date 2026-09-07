@@ -10,8 +10,8 @@ const results=[],errors=[];
 
 function approx(actual,expected,tolerance,label){assert(Math.abs(actual-expected)<=tolerance,`${label}: ${actual} != ${expected} ±${tolerance}`)}
 function parseInset(value){
- const m=String(value).match(/inset\(\s*(-?[\d.]+)px\s+(-?[\d.]+)px\s+(-?[\d.]+)px\s+(-?[\d.]+)px(?:\s+round\s+([\d.]+)px)?\s*\)/);
- assert(m,'expected four-sided inset clip, got '+value);return m.slice(1,6).map(Number);
+ const m=String(value).match(/^inset\((.*)\)$/);assert(m,'expected inset clip, got '+value);const [sidesText,radiusText]=m[1].split(/\s+round\s+/),values=sidesText.trim().split(/\s+/).map(token=>{const n=token.match(/^(-?[\d.]+)px$/);assert(n,'expected pixel inset side, got '+token);return Number(n[1])});
+ assert(values.length>=1&&values.length<=4,'expected one to four inset sides, got '+value);const sides=values.length===1?[values[0],values[0],values[0],values[0]]:values.length===2?[values[0],values[1],values[0],values[1]]:values.length===3?[values[0],values[1],values[2],values[1]]:values;return sides.concat(Number.parseFloat(radiusText)||0);
 }
 async function instrument(context){
  await context.addInitScript(()=>{
