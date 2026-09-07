@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-09-07T16:14:07.218Z",
+  "results": [
+    {
+      "case": "slow-title-pending-fallback",
+      "pending": {
+        "title": {
+          "x": 21.675708770751953,
+          "y": 68.97006225585938,
+          "width": 346.6485595703125,
+          "height": 240.84112548828125
+        },
+        "cue": {
+          "x": 132,
+          "y": 315.1875,
+          "width": 126,
+          "height": 106
+        },
+        "textVisible": true,
+        "cueTextVisible": true,
+        "artVisibility": "hidden",
+        "artComplete": false,
+        "shiftBaseline": 0
+      },
+      "complete": {
+        "title": {
+          "x": 21.675708770751953,
+          "y": 68.97006225585938,
+          "width": 346.6485595703125,
+          "height": 240.84112548828125
+        },
+        "cue": {
+          "x": 132,
+          "y": 315.1875,
+          "width": 126,
+          "height": 106
+        },
+        "shiftTotal": 0
+      },
+      "vaultPending": {
+        "rect": {
+          "x": 23.49738121032715,
+          "y": 464.2153625488281,
+          "width": 343.0052490234375,
+          "height": 235.16305541992188
+        },
+        "textVisible": true,
+        "artVisibility": "hidden"
+      },
+      "vaultReady": {
+        "x": 23.49738121032715,
+        "y": 464.2153625488281,
+        "width": 343.0052490234375,
+        "height": 235.16305541992188
+      },
+      "vaultRevealed": {
+        "rect": {
+          "x": 23.49738121032715,
+          "y": 224.21534729003906,
+          "width": 343.0052490234375,
+          "height": 235.16307067871094
+        },
+        "artVisible": true
+      },
+      "result": "PASS"
+    }
+  ],
+  "limits": "Local Chromium/WebKit viewport and accessibility-tree emulation. Media completion is synthetic for short-layout setup; signup transport is mocked; no physical-device or live-form claim."
+}
