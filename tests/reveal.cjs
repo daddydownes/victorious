@@ -5,11 +5,11 @@ for(const reduced of [false,true])for(let run=0;run<4;run++){
  const classes=new Set(),listeners=new Map(),tasks=[];
  const button={addEventListener:(n,f)=>listeners.set(n,f),removeEventListener:(n,f)=>{if(listeners.get(n)===f)listeners.delete(n)}};
  const destination={setAttribute(){}};
- const context={reduced,scrollTo(){},lock(){},setNextDropInert(){},filmLogo:{getBoundingClientRect:()=>({width:0,height:0})},afterMotion:(ms,f)=>tasks.push([ms,f]),document:{body:{classList:{contains:n=>classes.has(n),add:n=>classes.add(n)}},documentElement:{classList:{add(){}}},getElementById:id=>id==='nextVaultHold'?button:destination,querySelector:()=>null}};
+ const context={reduced,scrollTo(){},lock(){},setNextDropInert(){},stage:destination,getComputedStyle:()=>({backgroundImage:'none'}),motionQuery:{matches:reduced,addEventListener(){},removeEventListener(){}},filmLogo:{getBoundingClientRect:()=>({width:0,height:0})},afterMotion:(ms,f)=>tasks.push([ms,f]),document:{body:{classList:{contains:n=>classes.has(n),add:n=>classes.add(n)}},documentElement:{classList:{add(){}}},getElementById:id=>id==='nextVaultHold'?button:destination,querySelector:()=>destination}};
  vm.runInNewContext(source+';startNextDrop()',context);
  assert(!classes.has('next-drop-landed'));
  if(reduced){assert.equal(tasks[0][0],50);tasks[0][1]();assert(!listeners.size)}else{
-  assert.equal(tasks.length,0);
+  assert.equal(tasks.length,1);assert.equal(tasks[0][0],2300);
   const end=listeners.get('animationend');
   end({target:{},animationName:'nextDropSettle'});assert(!classes.has('next-drop-landed'));
   end({target:button,animationName:'other'});assert(!classes.has('next-drop-landed'));
