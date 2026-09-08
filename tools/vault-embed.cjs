@@ -3,6 +3,7 @@
 const HTML_OPEN = '<html lang="en-AU">';
 const BODY_OPEN = '<body class="locked">';
 const FILM_TAG = '<video id="film" muted playsinline preload="auto" aria-hidden="true" src="assets/hero-film-51129a88918e.mp4" poster="assets/hero-poster-311ec34583b0.jpg"></video>';
+const DIRECT_VAULT = "  var directVault=location.hash==='#vault';";
 const SURFACE_ASSIGN = "    location.assign(new URL('experience/', location.href).href);";
 const MOTION_SCHEDULE = '    if(motionRaf||document.hidden) return;';
 const MOTION_WAKE = '    if(document.hidden||!motionHasWork()||motionRaf) return;';
@@ -36,6 +37,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
     parentOrigin=parent.location.origin;
     embedded=params.get('embed')==='vault' && parent!==window && parentOrigin===location.origin;
   }catch(_originError){}
+  window.__vctrsVaultEmbedMode=embedded;
   window.__vctrsVaultEmbedActive=!embedded;
   if(!embedded){
     root.removeAttribute('inert'); root.removeAttribute('data-vctrs-vault-embed-paused');
@@ -102,7 +104,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
       if((typeof next!=='string' && typeof next!=='number') || !/^[A-Za-z0-9._-]{1,64}$/.test(String(next)))return;
       resetting=true; setActive(false);
       var target=new URL(location.href);
-      target.search=''; target.searchParams.set('embed','vault'); target.searchParams.set('cycle',String(next)); target.hash='vault';
+      target.search=''; target.searchParams.set('embed','vault'); target.searchParams.set('cycle',String(next)); target.hash='';
       if(target.href===location.href)location.reload(); else location.replace(target.href);
     }
   });
@@ -135,6 +137,12 @@ function buildVaultEmbed(rootHtml) {
     FILM_TAG,
     '<video id="film" muted playsinline preload="none" aria-hidden="true"></video>',
     'intro film'
+  );
+  html = replaceOnce(
+    html,
+    DIRECT_VAULT,
+    "  var directVault=location.hash==='#vault'||window.__vctrsVaultEmbedMode===true;",
+    'direct Vault route'
   );
   html = replaceOnce(
     html,
