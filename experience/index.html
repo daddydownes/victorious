@@ -1,4 +1,10 @@
-<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="https://vctrsclo.com/experience/">
+<!doctype html><html lang="en-AU"><head><script>(function(){
+  if(window!==top)return;
+  var entry=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+  var reloading=entry?entry.type==='reload':!!(performance.navigation&&performance.navigation.type===1);
+  if(!reloading)return;
+  var root=new URL('../',location.href);root.search='';root.hash='';location.replace(root.href);
+})();</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="https://vctrsclo.com/experience/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VICTORIOUS">
 <meta property="og:url" content="https://vctrsclo.com/experience/">
 <meta property="og:title" content="VCTRS — For the ones who were there">
@@ -1664,7 +1670,7 @@ filmWrap.querySelector('video').style.transform='translateZ(0) scale('+(cover/sx
 const endq=smooth(clamp((p2-.10)/.6)),pad=w*(m?.055:.09),gap=m?10:short?12:22,cw=(w-pad*2-gap*2)/3,ch=h*(m?.175:short?.17:.18),gy=h*(m?.28:short?.29:.29);$('.game-v')?.style.setProperty('--float',(reduce.matches?0:Math.sin(clamp(-$('#play').getBoundingClientRect().top/h)*Math.PI*2)*20)+'px');tracks.forEach((t,i)=>{t.dataset.progress=[p0,p1,p2][i].toFixed(4)});window.__vctrsScene={hero:null,motionEnds:.7,progress:[p0,p1,p2],reduced:reduce.matches}}
 function request(){if(!queued){queued=true;requestAnimationFrame(render)}}addEventListener('scroll',request,{passive:true});addEventListener('resize',request);reduce.addEventListener('change',request);document.fonts.ready.then(request);render();
 
-})();</script><script>(()=>{const key='vctrs-live-position';try{const manual=sessionStorage.getItem('vctrs-manual-restart')==='1';sessionStorage.removeItem('vctrs-manual-restart');if(manual){sessionStorage.removeItem(key);history.scrollRestoration='manual';scrollTo(0,0);document.fonts.ready.then(()=>scrollTo(0,0))}const saved=manual?null:JSON.parse(sessionStorage.getItem(key)||'null');sessionStorage.removeItem(key);if(saved){const restore=()=>{scrollTo({top:Math.min(saved.y,document.documentElement.scrollHeight-innerHeight),behavior:'instant'})};requestAnimationFrame(()=>{restore();requestAnimationFrame(restore)});document.fonts.ready.then(restore)}}catch{}let version=151105504107800,pending=false,busy=false,lastScroll=0;addEventListener('scroll',()=>{lastScroll=Date.now()},{passive:true});async function check(){if(busy)return;busy=true;try{const r=await fetch('state.json',{cache:'no-store'});if(!r.ok)return;const data=await r.json();if(!Number.isFinite(data.version))return;if(version===null)version=data.version;else if(data.version!==version)pending=true;if(pending&&Date.now()-lastScroll>1500&&document.getElementById('story-film').paused&&!window.__vctrsRestarting&&!document.querySelector('dialog[open],#flapOverlay.on,form[aria-busy="true"]')&&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){sessionStorage.setItem(key,JSON.stringify({y:scrollY}));location.reload()}}catch{}finally{busy=false}}if(['127.0.0.1','localhost','[::1]'].includes(location.hostname)){setInterval(check,1200);check()}window.__vctrsLive={check,get pending(){return pending},get version(){return version}}})();</script><script>(()=>{const frame=document.getElementById('game-preview'),card=document.querySelector('.live-game-shell'),button=document.getElementById('flapPlay'),overlay=document.getElementById('flapOverlay'),reduce=matchMedia('(prefers-reduced-motion: reduce)');let visible=false;
+})();</script><script>(()=>{const key='vctrs-live-position';try{const manual=sessionStorage.getItem('vctrs-manual-restart')==='1';sessionStorage.removeItem('vctrs-manual-restart');if(manual){sessionStorage.removeItem(key);history.scrollRestoration='manual';scrollTo(0,0);document.fonts.ready.then(()=>scrollTo(0,0))}const saved=manual?null:JSON.parse(sessionStorage.getItem(key)||'null');sessionStorage.removeItem(key);if(saved){const restore=()=>{scrollTo({top:Math.min(saved.y,document.documentElement.scrollHeight-innerHeight),behavior:'instant'})};requestAnimationFrame(()=>{restore();requestAnimationFrame(restore)});document.fonts.ready.then(restore)}}catch{}let version=75831771342752,pending=false,busy=false,lastScroll=0;addEventListener('scroll',()=>{lastScroll=Date.now()},{passive:true});async function check(){if(busy)return;busy=true;try{const r=await fetch('state.json',{cache:'no-store'});if(!r.ok)return;const data=await r.json();if(!Number.isFinite(data.version))return;if(version===null)version=data.version;else if(data.version!==version)pending=true;if(pending&&Date.now()-lastScroll>1500&&document.getElementById('story-film').paused&&!window.__vctrsRestarting&&!document.querySelector('dialog[open],#flapOverlay.on,form[aria-busy="true"]')&&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){sessionStorage.setItem(key,JSON.stringify({y:scrollY}));location.reload()}}catch{}finally{busy=false}}if(['127.0.0.1','localhost','[::1]'].includes(location.hostname)){setInterval(check,1200);check()}window.__vctrsLive={check,get pending(){return pending},get version(){return version}}})();</script><script>(()=>{const frame=document.getElementById('game-preview'),card=document.querySelector('.live-game-shell'),button=document.getElementById('flapPlay'),overlay=document.getElementById('flapOverlay'),reduce=matchMedia('(prefers-reduced-motion: reduce)');let visible=false;
 function syncPreview(){frame.contentWindow?.postMessage({type:'vctrs-preview',active:visible&&!document.hidden&&!overlay.classList.contains('on')&&!reduce.matches},location.origin)}
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.12;syncPreview()},{threshold:.12}).observe(card);new MutationObserver(syncPreview).observe(overlay,{attributes:true,attributeFilter:['class']});frame.addEventListener('load',syncPreview);document.addEventListener('visibilitychange',syncPreview);reduce.addEventListener('change',syncPreview);addEventListener('message',e=>{if(e.origin===location.origin&&e.source===frame.contentWindow&&e.data?.type==='vctrs-preview-ready')syncPreview()});
 window.__gameInvitation={sync:syncPreview,get visible(){return visible}};
@@ -1817,24 +1823,42 @@ function measure(){
   setActive(loaded&&!resetting&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
 }
 function request(){if(!queued){queued=true;requestAnimationFrame(measure)}}
-function restartStory(){
-  if(resetting||!active)return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
+function restartStory(force){
+  if(resetting||(!active&&force!==true))return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
   const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
   requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
 }
+function acceptPendingCycle(){
+  cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active:false});request();
+}
+function resendPendingReset(){
+  loaded=false;post('vctrs-vault-reset',{nextCycle:pendingCycle},cycle);
+}
 frame.addEventListener('load',request);
 addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||!event.data)return;
-  if(event.data.type==='vctrs-vault-ready'&&resetting&&String(event.data.cycle)===String(pendingCycle)){
-    cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request();return;
+  const childCycle=String(event.data.cycle);
+  if(event.data.type==='vctrs-vault-sync'){
+    setActive(false);
+    if(resetting&&childCycle===String(pendingCycle))acceptPendingCycle();
+    else if(resetting&&childCycle===String(cycle))resendPendingReset();
+    else if(!resetting&&childCycle===String(cycle)&&event.data.surfaceSent===true){loaded=true;restartStory(true)}
+    else if(!resetting&&childCycle===String(cycle)){loaded=true;post('vctrs-vault-visibility',{active:false});request()}
+    else loaded=false;
+    return;
   }
-  if(String(event.data.cycle)!==String(cycle))return;
-  if(event.data.type==='vctrs-vault-ready'){loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request()}
+  if(event.data.type==='vctrs-vault-ready'&&resetting){
+    if(childCycle===String(pendingCycle))acceptPendingCycle();
+    else if(childCycle===String(cycle))resendPendingReset();
+    return;
+  }
+  if(childCycle!==String(cycle))return;
+  if(event.data.type==='vctrs-vault-ready'){loaded=true;post('vctrs-vault-visibility',{active});request()}
   else if(event.data.type==='vctrs-vault-surface'&&active&&!resetting)restartStory();
 });
 addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
-document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{setActive(false);request()});
+document.addEventListener('visibilitychange',request);addEventListener('pageshow',event=>{setActive(false);if(event.persisted&&requested){loaded=false;post('vctrs-vault-sync')}request()});
 new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
 window.__storyVault={get active(){return active},get loaded(){return loaded},get requested(){return requested},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
 if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();

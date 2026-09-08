@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 8, 2026 — refresh starts the whole website over
+
+An intentional top-level browser refresh starts the original root opening, including refresh from the story, open game or embedded Vault. Clear route fragments and query parameters for that restart. Preserve saved best score/reward state and all media.
+
+Browser Back/Forward retains native previous-part navigation. Do not add modal history entries, trap Back, or confuse a cached restoration with a user refresh. Restore the root Vault in place and reconcile embedded child cycles when a page returns from the back/forward cache.
+
 ## September 8, 2026 — clean preview obstacle faces
 
 The user clarified that the automatic pre-click game demo should show no pole graffiti. Set preview decoration eligibility to false; preserve every-fifth-pair decoration in actual gameplay. This supersedes the earlier all-pair preview interpretation.

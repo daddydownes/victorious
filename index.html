@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-AU">
-<meta charset="utf-8">
+<meta charset="utf-8"><script>(function(){
+  if(window!==top)return;
+  var entry=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+  var reloading=entry?entry.type==='reload':!!(performance.navigation&&performance.navigation.type===1);
+  if(!reloading)return;
+  var clean=new URL('./',location.href);clean.search='';clean.hash='';
+  if(clean.pathname!==location.pathname){location.replace(clean.href);return;}
+  if('scrollRestoration' in history)history.scrollRestoration='manual';
+  history.replaceState(history.state,'',clean.pathname);scrollTo(0,0);
+  window.__vctrsReloadOpening=true;
+})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>VICTORIOUS — The Vault</title>
 <!-- Dedicated share artwork; versioned URL distinguishes it from the old event card. -->
@@ -4689,12 +4699,20 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
   }
 
   measure(); updateScroll();
-  if(directVault){
+  function restoreReturnedVault(){
     // Reuse the original entry's complete landing/focus/pan lifecycle.
+    motionSurfaceStep=null;entryGen++;vaultArming=false;vaultClosing=false;surfacing=false;flyRan=false;
+    if(entryMotion){cancelMotionTask(entryMotion);entryMotion=null;}tapEntryFinish=null;
+    document.body.classList.remove('surfaced','next-vault-opening');
+    vault.classList.remove('surface-rising');vault.style.removeProperty('--surface-atmosphere');vault.style.willChange='';
+    dive.style.transform='';dive.style.opacity='';dive.style.willChange='auto';dive.style.removeProperty('--vault-brightness');
+    dust.style.opacity='';dust.style.willChange='';
+    var returnedHud=vault.querySelector('.vault-hud');returnedHud.style.opacity='';returnedHud.style.transform='';returnedHud.style.willChange='';
+    filmLogo.style.opacity='1';filmLogo.style.transform='';filmLogo.style.willChange='';
+    setHot(null);flybloom.style.opacity='0';guidePhase='film';
     phase='done'; playWanted=false; resumeFilm=false; film.pause();
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
-    // Retain #vault so reload and browser Forward reconstruct the same destination.
     var enterReturnedVault=function(){
       if(document.hidden)return;
       document.removeEventListener('visibilitychange',enterReturnedVault);
@@ -4703,8 +4721,12 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
     document.addEventListener('visibilitychange',enterReturnedVault);
     enterReturnedVault();
   }
-  // A cached document may contain the completed Surface frame; rebuild the vault on return.
-  addEventListener('pageshow',function(e){if(e.persisted&&location.hash==='#vault')location.reload();});
+  if(directVault)restoreReturnedVault();
+  // Rebuild the returned Vault in place. A network reload would be mistaken
+  // for the visitor's explicit refresh and would correctly restart the site.
+  addEventListener('pageshow',function(e){
+    if(e.persisted&&(location.hash==='#vault'||vaultClosing||guidePhase==='closing'||guidePhase==='surfaced'))restoreReturnedVault();
+  });
 })();
 </script>
 <!-- THE FILM'S BYTES. 1.83MB of base64 that used to sit in the <video src>

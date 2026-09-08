@@ -1,0 +1,1164 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T02:16:48.150Z",
+  "results": [
+    {
+      "engine": "webkit",
+      "context": "desktop-1280x720",
+      "options": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      "scenarios": [
+        {
+          "name": "refresh-root-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 154,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833783238
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833783340
+            }
+          ]
+        },
+        {
+          "name": "refresh-story-game",
+          "ok": true,
+          "before": {
+            "label": "before-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 25,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "flap",
+            "bodyClass": "flap-game-locked polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": true,
+              "motion": "open",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay on flap-motion-open"
+            }
+          },
+          "after": {
+            "label": "after-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 31,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788833784420
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788833785185
+            }
+          ]
+        },
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4140,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 23,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 3240,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 15,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833786250
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833786396
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 44,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 38,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 20,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": 200,
+            "forward": 200
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833787454
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833789615
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833789640
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833790643
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833791570
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "context": "mobile-390x844",
+      "options": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hasTouch": true,
+        "isMobile": true,
+        "deviceScaleFactor": 2
+      },
+      "scenarios": [
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4504,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 25,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 3491,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 16,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833792653
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833792797
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 655,
+                "top": 378
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 40,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 42,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 655,
+                "top": 378
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 19,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": 200,
+            "forward": 200
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833793861
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833796049
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833796068
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833797004
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833797934
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "context": "desktop-1280x720",
+      "options": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      "scenarios": [
+        {
+          "name": "refresh-story-game",
+          "ok": true,
+          "before": {
+            "label": "before-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 133.40000000223517,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "flap",
+            "bodyClass": "flap-game-locked polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": true,
+              "motion": "open",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay on flap-motion-open"
+            }
+          },
+          "after": {
+            "label": "after-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 37.5,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788833799246
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788833800048
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 53.19999999925494,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 52.5,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 27.199999999254942,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": 200,
+            "forward": 200
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833800995
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833803150
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833803172
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833804126
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788833805068
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "context": "mobile-390x844",
+      "options": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hasTouch": true,
+        "isMobile": true,
+        "deviceScaleFactor": 2
+      },
+      "scenarios": [
+        {
+          "name": "refresh-root-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 39.20000000298023,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              }
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833806046
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788833806101
+            }
+          ]
+        },
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4504,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 22.200000002980232,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4504,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 31.399999998509884,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833807077
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788833807210
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Headless WebKit/Chromium emulation; no physical-device or edge-swipe claim.",
+    "This baseline records Back/Forward behavior without choosing product policy while the user preference is pending."
+  ]
+}

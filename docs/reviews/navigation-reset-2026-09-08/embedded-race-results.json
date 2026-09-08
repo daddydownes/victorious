@@ -1,0 +1,125 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T02:39:23.607Z",
+  "active": {
+    "label": "active-before-surface-back",
+    "url": "http://127.0.0.1:8922/experience/#story-return",
+    "path": "/experience/",
+    "hash": "#story-return",
+    "scrollY": 4140,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "http://127.0.0.1:8922/experience/#story-return",
+        "time": 33.099999997764826
+      }
+    ],
+    "vault": {
+      "active": true,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 0,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": false,
+      "hidden": "false",
+      "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+      "nested": false
+    }
+  },
+  "back": {
+    "label": "root-after-immediate-back",
+    "url": "http://127.0.0.1:8922/",
+    "path": "/",
+    "hash": "",
+    "scrollY": 0,
+    "pageshow": [
+      {
+        "persisted": true,
+        "url": "http://127.0.0.1:8922/",
+        "time": 291.30000000074506
+      },
+      {
+        "persisted": false,
+        "url": "http://127.0.0.1:8922/",
+        "time": 298.6000000014901
+      }
+    ],
+    "vault": {},
+    "frame": {
+      "count": 0,
+      "nested": false
+    }
+  },
+  "forward": {
+    "label": "story-after-forward",
+    "url": "http://127.0.0.1:8922/experience/#story-return",
+    "path": "/experience/",
+    "hash": "#story-return",
+    "scrollY": 4140,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "http://127.0.0.1:8922/experience/#story-return",
+        "time": 33.099999997764826
+      },
+      {
+        "persisted": true,
+        "url": "http://127.0.0.1:8922/experience/#story-return",
+        "time": 1008.5999999977648
+      }
+    ],
+    "vault": {
+      "active": true,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 0,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": false,
+      "hidden": "false",
+      "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+      "nested": false
+    }
+  },
+  "resumedOriginal": false,
+  "complete": {
+    "label": "surface-loop-complete",
+    "url": "http://127.0.0.1:8922/experience/",
+    "path": "/experience/",
+    "hash": "",
+    "scrollY": 0,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "http://127.0.0.1:8922/experience/#story-return",
+        "time": 33.099999997764826
+      },
+      {
+        "persisted": true,
+        "url": "http://127.0.0.1:8922/experience/#story-return",
+        "time": 1008.5999999977648
+      }
+    ],
+    "vault": {
+      "active": false,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 1,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": true,
+      "hidden": "true",
+      "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=1",
+      "nested": false
+    }
+  },
+  "errors": [],
+  "limit": "Full headless Chromium BFCache traversal via page.goBack/goForward; not a physical edge-swipe."
+}

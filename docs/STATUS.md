@@ -1,5 +1,11 @@
 # Current status
 
+## September 8 refresh and browser-history release
+
+Explicit browser refresh from the root Vault, story, open game or embedded Vault now restarts the original root opening with a clean URL. Saved best score and reward state remain intact. Browser Back/Forward preserves the previous part; root cached-Vault returns no longer trigger another reload. Embedded cached restores reconcile pending cycles and interrupted Surface handoffs.
+
+Source/test checkpoint `75ce999`. Thirteen focused browser scenarios pass across WebKit/full Chromium desktop/mobile, including reduced motion, real persisted Back/Forward, game pause/Exit restoration and interrupted Surface recovery. One original harness frame lookup after BFCache was corrected to observed-coordinate native input; no product workaround was added for the automation issue. Navigation VM 7/7, integration 15/15, game source identity, media 37/37 and relevant root suites pass. No physical swipe-device certification is claimed. See [the audit and screenshots](reviews/navigation-reset-2026-09-08/README.md). The checked correction is authorized for publication.
+
 ## September 8 clean automatic game preview
 
 The automatic preview has no graffiti on its obstacle faces. Playable root/story games retain graffiti on every fifth pair. Source `cd95c45`, regression guard `f36edd4`. WebKit renderer observation confirmed 100 decoration calls disabled, a clean screenshot, running preview and successful game entry/Exit. Full integration 15/15, protected-source checks and 37/37 media identity pass. This corrects the earlier all-pair preview interpretation; the original /25 gameplay and /10 preview cadence remain intact. See [visual evidence](reviews/clean-preview-2026-09-08/preview.png) and [results](reviews/clean-preview-2026-09-08/results.json). Publication uses the existing authorization.

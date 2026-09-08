@@ -1,5 +1,11 @@
 # How the site works
 
+## Refresh and browser-history restoration
+
+Early builder-owned root/story scripts classify top-level navigation. Explicit reload restarts the root opening; ordinary navigation and Back/Forward keep their route semantics. Child iframe reloads are excluded, and no saved game storage is cleared.
+
+`restoreReturnedVault()` reconstructs a cached root Vault through the immediate landing lifecycle and cancels stale Surface motion. The embedded bridge exchanges authenticated `vctrs-vault-sync` messages after persisted `pageshow`; the parent preserves current/pending cycles until the matching child is ready. `tests/navigation-reset.cjs` exercises reload guards, message authentication and interrupted reset recovery. See [navigation review](reviews/navigation-reset-2026-09-08/README.md).
+
 ## Continuous story-to-Vault loop
 
 `tools/build-experience.cjs` ends the story with `#story-return` (spacious canonical V) and `#story-vault` (one viewport containing `#story-vault-frame`). It preloads the archive near the closing section, leaves it inert during partial reveal, and activates it only when fully visible with the game closed and document visible. Native page scrolling reveals the actual archive without a top-level navigation.

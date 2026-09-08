@@ -1,0 +1,62 @@
+{
+  "ev": [
+    {
+      "name": "pageshow",
+      "persisted": false,
+      "url": "http://127.0.0.1:8922/#vault",
+      "time": 1788834225615
+    },
+    {
+      "name": "pageshow",
+      "persisted": false,
+      "url": "about:srcdoc",
+      "time": 1788834227791
+    },
+    {
+      "name": "pageshow",
+      "persisted": false,
+      "url": "http://127.0.0.1:8922/experience/",
+      "time": 1788834227791
+    },
+    {
+      "name": "pagehide",
+      "persisted": false,
+      "url": "about:blank",
+      "time": 1788834227810
+    },
+    {
+      "name": "pageshow",
+      "persisted": false,
+      "url": "http://127.0.0.1:8922/experience/game-preview.html",
+      "time": 1788834227816
+    },
+    {
+      "name": "pageshow",
+      "persisted": true,
+      "url": "http://127.0.0.1:8922/#vault",
+      "time": 1788834227843
+    },
+    {
+      "name": "pageshow",
+      "persisted": false,
+      "url": "http://127.0.0.1:8922/#vault",
+      "time": 1788834227895
+    },
+    {
+      "name": "pageshow",
+      "persisted": true,
+      "url": "http://127.0.0.1:8922/experience/",
+      "time": 1788834228701
+    }
+  ],
+  "back": {
+    "url": "http://127.0.0.1:8922/#vault",
+    "type": "reload",
+    "body": "next-vault-open"
+  },
+  "forward": {
+    "url": "http://127.0.0.1:8922/experience/",
+    "type": "navigate",
+    "body": ""
+  }
+}
