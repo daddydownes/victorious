@@ -66,8 +66,8 @@ function classList(initial=[]){
 }
 
 function runStoryController(script){
-  const listeners=new Map(),documentListeners=new Map(),returnLinkListeners=new Map(),posts=[],childReplaces=[],historyCalls=[],scrollCalls=[],rafTasks=new Map(),motionListeners=[];
-  let now=0,nextRaf=1,scrollY=0,sectionTop=0,sectionHeight=844,documentHeight=844;
+  const listeners=new Map(),documentListeners=new Map(),returnLinkListeners=new Map(),posts=[],childReplaces=[],historyCalls=[],scrollCalls=[],rafTasks=new Map(),timerTasks=new Map(),motionListeners=[];
+  let now=0,nextRaf=1,nextTimer=1,scrollY=0,sectionTop=0,sectionHeight=844,documentHeight=844;
   const section={classList:classList(),getBoundingClientRect:()=>{const top=sectionTop-scrollY;return {top,bottom:top+sectionHeight,height:sectionHeight}}};
   const child={postMessage:(data,origin)=>posts.push({data,origin}),location:{replace:href=>childReplaces.push(String(href))}};
   const frame={contentWindow:child,dataset:{src:'../vault-embed.html?embed=vault&cycle=0'},tabIndex:-1,attrs:new Map([['inert',''],['aria-hidden','true']]),addEventListener(){},toggleAttribute(name,on){if(on)this.attrs.set(name,'');else this.attrs.delete(name)},setAttribute(name,value){this.attrs.set(name,String(value))},removeAttribute(name){this.attrs.delete(name)},blur(){}};
@@ -87,11 +87,12 @@ function runStoryController(script){
   const context={URL,document,location,history,innerHeight:844,performance:{now:()=>now},matchMedia:()=>motion,
     scrollTo(...args){scrollCalls.push(args);const value=typeof args[0]==='object'?args[0].top:args[1];if(Number.isFinite(value))scrollY=value},
     requestAnimationFrame(fn){const id=nextRaf++;rafTasks.set(id,fn);return id},cancelAnimationFrame:id=>rafTasks.delete(id),
+    setTimeout(fn,delay=0){const id=nextTimer++;timerTasks.set(id,{fn,due:now+Math.max(0,delay)});return id},clearTimeout:id=>timerTasks.delete(id),
     MutationObserver:class MutationObserver{observe(){}},addEventListener:(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list)}};
   Object.defineProperty(context,'scrollY',{get:()=>scrollY,set:value=>{scrollY=value}});
   context.window=context;
   vm.runInNewContext(script,context);
-  const step=(ms=16)=>{now+=ms;const pending=[...rafTasks.values()];rafTasks.clear();for(const fn of pending)fn(now)};
+  const step=(ms=16)=>{now+=ms;const pending=[...rafTasks.values()];rafTasks.clear();for(const fn of pending)fn(now);for(const [id,task] of [...timerTasks])if(task.due<=now){timerTasks.delete(id);task.fn()}};
   const flush=(limit=80)=>{let frames=0;while(rafTasks.size){assert(frames++<limit,'controller rAF did not settle');step(16)}};
   const dispatch=(name,event,settle=true)=>{for(const listener of listeners.get(name)||[])listener(event);if(settle)flush()};
   const dispatchDocument=(name,event,settle=true)=>{for(const listener of documentListeners.get(name)||[])listener(event);if(settle)flush()};
@@ -102,7 +103,7 @@ function runStoryController(script){
   const setViewport=height=>{context.innerHeight=height};
   const setHidden=hidden=>{document.hidden=hidden;dispatchDocument('visibilitychange',{})};
   flush();
-  return {context,section,frame,child,posts,childReplaces,historyCalls,scrollCalls,dispatch,dispatchDocument,dispatchLink,documentListeners,motion,setReduced,setGeometry,setScroll,setViewport,setHidden,step,flush,rafTasks};
+  return {context,section,frame,child,posts,childReplaces,historyCalls,scrollCalls,dispatch,dispatchDocument,dispatchLink,documentListeners,motion,setReduced,setGeometry,setScroll,setViewport,setHidden,step,flush,rafTasks,timerTasks};
 }
 
 const original=read('index.html');
@@ -275,7 +276,7 @@ test('Entry waits for the threshold and reverse, pinch, touch cancellation, or r
 test('Committed entry lands on the exact active viewport and suppresses only onward input during travel',()=>{
   const run=partialVault({top:620}),forward=inputEvent({deltaY:120});
   run.dispatch('wheel',forward,false);run.step();
-  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.section.classList.contains('is-committing'),true);assert.equal(forward.defaultPrevented,false);
+  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.section.classList.contains('is-committing'),true);assert.equal(forward.defaultPrevented,true);
   const onward=inputEvent({deltaY:80});run.dispatch('wheel',onward,false);
   assert.equal(onward.defaultPrevented,true);
   run.step(450);const mid=run.context.scrollY;assert(mid>0&&mid<620,'entry did not produce a bounded midpoint');
@@ -283,6 +284,31 @@ test('Committed entry lands on the exact active viewport and suppresses only onw
   const rect=run.section.getBoundingClientRect();
   assert(Math.abs(rect.top)<=.001);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
   assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.frame.attrs.has('inert'),false);assert.deepEqual(run.historyCalls,[]);
+});
+
+test('Sustained forward input and touch input cannot pull back or activate a half-settled Vault',()=>{
+  const run=partialVault({top:620}),samples=[];
+  run.dispatch('wheel',inputEvent({deltaY:120}),false);run.step();assert.equal(run.context.__storyVault.settling,true);
+  // Model native momentum escaping between animation frames. The committed
+  // trajectory may advance from that position, but must never pull backward.
+  for(let index=0;index<5;index++){
+    run.context.scrollY+=index===0?45:22;const before=run.context.scrollY;
+    const onward=inputEvent({deltaY:90});run.dispatch('wheel',onward,false);assert.equal(onward.defaultPrevented,true);
+    run.step(150);samples.push({before,after:run.context.scrollY});assert(run.context.scrollY>=before,'settle frame reversed escaped forward momentum');
+  }
+  const start=inputEvent({touches:[{clientY:520}],cancelable:true});run.dispatch('touchstart',start,false);
+  assert.equal(run.context.__storyVault.settling,true,'new single touch cancelled a committed entry');
+  let move=inputEvent({touches:[{clientY:360}],cancelable:true});run.dispatch('touchmove',move,false);assert.equal(move.defaultPrevented,true);
+  run.step(150);assert.equal(run.context.__storyVault.settling,true);assert.equal(run.context.__storyVault.active,false);
+  move=inputEvent({touches:[{clientY:280}],cancelable:true});run.dispatch('touchmove',move,false);assert.equal(move.defaultPrevented,true);
+  run.step(100);
+  assert(Math.abs(run.section.getBoundingClientRect().top)<=.001,'committed travel did not reach the exact Vault viewport');
+  assert.equal(run.context.__storyVault.settling,true,'Vault activated before held touch and quiet window cleared');assert.equal(run.context.__storyVault.active,false);
+  run.dispatch('touchend',inputEvent({touches:[],cancelable:true}),false);
+  run.step(139);assert.equal(run.context.__storyVault.settling,true);assert.equal(run.context.__storyVault.active,false);
+  run.step(2);run.flush();
+  assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.frame.attrs.has('inert'),false);
+  assert.deepEqual(run.historyCalls,[]);assert(samples.length===5&&samples.every(sample=>sample.after>=sample.before));
 });
 
 test('Reverse and lifecycle changes cancel cleanly while reduced motion and resize settle to the current target',()=>{
