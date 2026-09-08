@@ -84,7 +84,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
     notifyVisibility();
   }
   function post(type){ parent.postMessage({type:type,cycle:cycle},parentOrigin); }
-  function postSync(){ parent.postMessage({type:'vctrs-vault-sync',cycle:cycle,active:active},parentOrigin); }
+  function postSync(){ parent.postMessage({type:'vctrs-vault-sync',cycle:cycle,active:active,surfaceSent:surfaceSent},parentOrigin); }
 
   syncInert(true);
   window.__vctrsVaultEmbedSurface=function(){
