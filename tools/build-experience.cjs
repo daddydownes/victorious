@@ -681,12 +681,12 @@ function returnToVault(){
 }
 function forwardIntent(){
   if(returning||!closed()||!visible())return;
-  if(closingVisited&&atEnd()){returnToVault();return}
+  if(atEnd()){returnToVault();return}
   closingVisited=true;
 }
 addEventListener('wheel',event=>{if(event.isTrusted&&event.deltaY>0)forwardIntent()},{passive:true});
 addEventListener('keydown',event=>{if(!event.isTrusted||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||(event.target.closest&&event.target.closest('input,textarea,select,button,a,[contenteditable]')))return;if(['ArrowDown','PageDown','End',' ','Spacebar'].includes(event.key))forwardIntent()});
-addEventListener('touchstart',event=>{if(!event.isTrusted||event.touches.length!==1)return;touchY=event.touches[0].clientY;touchReady=closingVisited&&visible()&&atEnd()&&closed()},{passive:true});
+addEventListener('touchstart',event=>{if(!event.isTrusted||event.touches.length!==1)return;touchY=event.touches[0].clientY;touchReady=visible()&&atEnd()&&closed()},{passive:true});
 addEventListener('touchmove',event=>{if(!event.isTrusted||event.touches.length!==1||touchY-event.touches[0].clientY<12)return;if(touchReady)returnToVault();else if(!returning&&closed()&&visible())closingVisited=true},{passive:true});
 link.addEventListener('click',event=>{if(event.button!==0||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;event.preventDefault();returnToVault()});
 addEventListener('pageshow',event=>{if(event.persisted){returning=false;closingVisited=false;touchReady=false}});
