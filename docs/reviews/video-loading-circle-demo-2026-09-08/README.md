@@ -11,3 +11,5 @@ Screenshots: [desktop loading](desktop-loading.png), [desktop ready](desktop-rea
 ## Approved larger circle
 
 The user approved publication after increasing the ring from28px to36px. All other reveal settings remain as reviewed. [Release browser checks](release-checks.json) pass held loading/reveal in WebKit desktop and Chromium phone, offscreen pause/resume and failed-load retry. Reduced-motion Chromium desktop/phone separately confirmed no spinner, hidden film and paused playback. Navigation13/13, integration15/15 and exact media37/37 pass. The2.5second delay exists only in the separate loopback demo-server tool, never in the published page.
+
+Application release `4adef5647ba965fee3072bfbd4f43c8a178624cf` is published and built successfully by GitHub Pages. [Seven canonical resources](live-resources.json) match local bytes. [Live WebKit desktop/Chromium phone checks](live-checks.json) pass held loading, playback reveal and desktop offscreen pause/resume with no page errors. The first live screenshot attempt timed out waiting for fonts; the live behavioral rerun omitted screenshots. Local screenshots remain the visual evidence.

@@ -1,0 +1,927 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T06:02:39.707Z",
+  "expectSpinner": true,
+  "results": [
+    {
+      "name": "webkit-1280x720",
+      "engine": "webkit",
+      "viewport": [
+        1280,
+        720
+      ],
+      "mobile": false,
+      "pending1": {
+        "label": "held-pending-1",
+        "t": 1093,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 867,
+            "y": 360.671875,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(0.180519, 0.983571, -0.983571, 0.180519, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "pending2": {
+        "label": "held-pending-2",
+        "t": 1280,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 867,
+            "y": 360.671875,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(-0.901833, 0.432086, -0.432086, -0.901833, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready1": {
+        "label": "ready-1",
+        "t": 2598,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0.979611",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.5684545839993476,
+          "readyState": 4,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 867,
+            "y": 360.671875,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.013962, 0.999903, -0.999903, -0.013962, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready2": {
+        "label": "ready-2",
+        "t": 2865,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "1",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.8351642090058282,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 867,
+            "y": 360.671875,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.013962, 0.999903, -0.999903, -0.013962, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "offscreen": {
+        "paused": {
+          "label": "offscreen-paused",
+          "t": 2880,
+          "scrollY": 0,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready",
+            "rect": {
+              "x": 704,
+              "y": 828,
+              "width": 486.394287109375,
+              "height": 547.1971435546875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 460.8452453613281,
+              "y": 828,
+              "width": 972.7886962890625,
+              "height": 547.1971435546875
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": true,
+            "currentTime": 0.8351642090058282,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 929.1875,
+              "y": 1083.59375,
+              "width": 36,
+              "height": 36
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -18, -18)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "34px",
+              "height": "34px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.013962, 0.999903, -0.999903, -0.013962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        },
+        "resumed1": {
+          "label": "onscreen-resumed-1",
+          "t": 2923,
+          "scrollY": 993,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready film-active",
+            "rect": {
+              "x": 582.19873046875,
+              "y": 99.253662109375,
+              "width": 605.602783203125,
+              "height": 558.85888671875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 385.7596740722656,
+              "y": 97.8388671875,
+              "width": 998.5494384765625,
+              "height": 561.6876220703125
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": false,
+            "currentTime": 0.845047375,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 867,
+              "y": 360.671875,
+              "width": 36,
+              "height": 36
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -18, -18)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "34px",
+              "height": "34px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.013962, 0.999903, -0.999903, -0.013962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        },
+        "resumed2": {
+          "label": "onscreen-resumed-2",
+          "t": 3168,
+          "scrollY": 993,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready film-active",
+            "rect": {
+              "x": 582.19873046875,
+              "y": 99.253662109375,
+              "width": 605.602783203125,
+              "height": 558.85888671875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 385.7596740722656,
+              "y": 97.8388671875,
+              "width": 998.5494384765625,
+              "height": 561.6876220703125
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": false,
+            "currentTime": 1.106425708329401,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 867,
+              "y": 360.671875,
+              "width": 36,
+              "height": 36
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -18, -18)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "34px",
+              "height": "34px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.013962, 0.999903, -0.999903, -0.013962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        }
+      },
+      "requests": [
+        {
+          "url": "https://vctrsclo.com/experience/assets/story-film.mp4",
+          "at": 1788847355532
+        },
+        {
+          "url": "https://vctrsclo.com/experience/assets/story-film.mp4",
+          "at": 1788847355944
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "chromium-390x844",
+      "engine": "chromium",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobile": true,
+      "pending1": {
+        "label": "held-pending-1",
+        "t": 415.79999999701977,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 206.03125,
+            "y": 384,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(0.39618, 0.918173, -0.918173, 0.39618, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "pending2": {
+        "label": "held-pending-2",
+        "t": 605.3999999985099,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 206.03125,
+            "y": 384,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(-0.766282, 0.642504, -0.642504, -0.766282, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready1": {
+        "label": "ready-1",
+        "t": 1239,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0.971872",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.558923,
+          "readyState": 4,
+          "networkState": 2,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 206.03125,
+            "y": 384,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.993338, 0.115235, -0.115235, -0.993338, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready2": {
+        "label": "ready-2",
+        "t": 1503.7999999970198,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "1",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.823654,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "https://vctrsclo.com/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 206.03125,
+            "y": 384,
+            "width": 36,
+            "height": 36
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -18, -18)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "34px",
+            "height": "34px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.993338, 0.115235, -0.115235, -0.993338, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "offscreen": null,
+      "requests": [
+        {
+          "url": "https://vctrsclo.com/experience/assets/story-film.mp4",
+          "at": 1788847358388
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "limits": "Headless WebKit desktop and Chromium mobile emulation; the request hold is test-only. No physical-device claim."
+}

@@ -2,7 +2,7 @@
 
 ## September 8 approved video loading circle
 
-Based on published `107ff39`; the user approved publication after enlarging the reviewed ring from28px to36px. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). The enlarged circle passed focused browser/reduced-motion checks; publication is authorized. The production site has no artificial loading delay.
+Based on published `107ff39`; the user approved publication after enlarging the reviewed ring from28px to36px. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). Release `4adef56` is published and built by GitHub Pages. Seven canonical resources match local bytes, and live desktop/phone loading and playback checks pass. The production site has no artificial loading delay.
 
 ## September 8 Surface loop Scroll cue
 
