@@ -245,7 +245,7 @@ function partialVault({top=660,height=844,loaded=true}={}){
 
 test('Entry waits for the threshold and reverse, pinch, touch cancellation, or resize cannot create a commitment',()=>{
   let run=partialVault({top:660});
-  const forward=inputEvent({deltaY:120});run.dispatch('wheel',forward);
+  const forward=inputEvent({deltaY:1});run.dispatch('wheel',forward);
   assert.equal(forward.defaultPrevented,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
   run.setScroll(40);const reverse=inputEvent({deltaY:-80});run.dispatch('wheel',reverse);run.dispatch('scroll',{});
   assert.equal(reverse.defaultPrevented,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
@@ -284,6 +284,43 @@ test('Committed entry lands on the exact active viewport and suppresses only onw
   const rect=run.section.getBoundingClientRect();
   assert(Math.abs(rect.top)<=.001);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
   assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.frame.attrs.has('inert'),false);assert.deepEqual(run.historyCalls,[]);
+});
+
+test('A huge wheel step owns the full approach and preserves the landing quiet window',()=>{
+  const run=partialVault({top:700}),first=inputEvent({deltaY:5000,cancelable:true});
+  run.dispatch('wheel',first,false);run.step();
+  assert.equal(first.defaultPrevented,true,'a single top-to-bottom wheel step escaped to native scrolling');
+  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.context.__storyVault.active,false);
+  run.step(870);
+  const onward=inputEvent({deltaY:5000,cancelable:true});run.dispatch('wheel',onward,false);
+  assert.equal(onward.defaultPrevented,true,'onward momentum escaped during committed travel');
+  run.step(20);
+  assert(Math.abs(run.section.getBoundingClientRect().top)<=.001);assert.equal(run.context.__storyVault.landing,true);
+  assert.equal(run.context.__storyVault.active,false,'fullView bypassed the input quiet window');
+  run.dispatch('scroll',{});assert.equal(run.context.__storyVault.active,false);
+  run.step(119);assert.equal(run.context.__storyVault.active,false);
+  run.step(2);run.flush();assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
+});
+
+test('A native huge-wheel jump waits at full view for a delayed child and quiet handoff',()=>{
+  const run=partialVault({top:700,loaded:false}),wheel=inputEvent({deltaY:5000,cancelable:false});
+  run.dispatch('wheel',wheel,false);assert.equal(wheel.defaultPrevented,false);
+  run.setScroll(700);run.dispatch('scroll',{});
+  assert.equal(run.context.__storyVault.entryPending,true,'the direct full-view jump lost its recent forward intent');
+  assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,false);
+  run.dispatch('message',{source:run.child,origin:'https://vctrsclo.com',data:{type:'vctrs-vault-ready',cycle:0}});
+  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.context.__storyVault.landing,true);assert.equal(run.context.__storyVault.active,false);
+  run.step(139);assert.equal(run.context.__storyVault.active,false);
+  run.step(2);run.flush();assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
+});
+
+test('A native End jump at full view observes the same quiet handoff',()=>{
+  const run=partialVault({top:700}),end=inputEvent({key:'End'});
+  run.dispatch('keydown',end,false);assert.equal(end.defaultPrevented,false);
+  run.setScroll(700);run.dispatch('scroll',{});
+  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.context.__storyVault.landing,true);assert.equal(run.context.__storyVault.active,false);
+  run.step(139);assert.equal(run.context.__storyVault.active,false);
+  run.step(2);run.flush();assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
 });
 
 test('Sustained forward input and touch input cannot pull back or activate a half-settled Vault',()=>{
@@ -355,6 +392,9 @@ test('Surface reset clears entry state and the next story loop can commit again'
   assert.equal(run.context.document.activeElement,run.startHeading,'Surface returns focus to the opening heading, leaving Scroll unselected');
   assert.equal(run.startHeading.focusOptions.preventScroll,true,'focus must not move the restored opening');
   assert.match(story,/<h1 id="brand-title" class="sr-only" tabindex="-1">/);
+  run.setScroll(80);run.dispatch('scroll',{});
+  assert.equal(run.context.__storyVault.entryPending,false,'Surface carried the previous loop intent into the rebuilt story');
+  assert.equal(run.context.__storyVault.settling,false);
   run.setScroll(30);run.dispatch('scroll',{});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();
   assert.equal(run.context.__storyVault.settling,true,'second loop did not rearm the entry commitment');
   run.step(950);run.flush();assert.equal(run.context.__storyVault.active,true);assert.equal(run.context.__storyVault.cycle,1);
