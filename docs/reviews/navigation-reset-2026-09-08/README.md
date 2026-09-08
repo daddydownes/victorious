@@ -27,3 +27,9 @@ A separate real cached game journey passed active play→Back→Forward paused�
 Focused navigation VM checks 7/7, deterministic integration 15/15, protected game-source identity across 3 routes, original media 37/37 and relevant root reveal/Surface/scroll suites pass. The additional lost-Surface sync case is demonstrated by the VM fixture, not attributed to the browser frame-lookup failure.
 
 Visual evidence: [desktop refresh](desktop-refresh-opening.png), [phone refresh](phone-refresh-opening.png), [cached Vault return](cached-back-vault.png), [paused game restore](cached-forward-paused-game.png). Native hardware swipe gestures were not exercised; the browser history traversal they invoke was tested with actual Back/Forward and persisted cache restoration.
+
+## Published verification
+
+GitHub Pages built `270f617947396204f744a2cb219b76c17ed425fe` successfully. Seven canonical routes/resources match the checked release byte for byte: [live bytes](live-byte-verification.json). Eleven live refresh/history cases passed again, including actual persisted Chromium Back/Forward; the corrected live interrupted-Surface check also passed. See [live matrix](live-matrix-results.json), [live Surface recovery](live-embedded-race-results.json), and the [reusable refresh/history harness](refresh-history.cjs).
+
+The separate live game Back/Forward case also passed: play restored paused from BFCache, Exit released background isolation and restored focus/scroll. All 13 focused browser scenarios therefore pass against the live site. See [live game history](live-game-history-results.json).

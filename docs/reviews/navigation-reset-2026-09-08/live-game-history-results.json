@@ -1,0 +1,226 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T02:42:57.723Z",
+  "playing": {
+    "label": "playing-before-back",
+    "url": "https://vctrsclo.com/experience/#play",
+    "path": "/experience/",
+    "hash": "#play",
+    "scrollY": 2448,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#play",
+        "time": 811
+      }
+    ],
+    "motion": "open",
+    "open": true,
+    "state": "play",
+    "paused": false,
+    "overlay": {
+      "on": true,
+      "ariaHidden": "false"
+    },
+    "bodyLocked": true,
+    "background": [
+      {
+        "tag": "A",
+        "id": "",
+        "inert": true
+      },
+      {
+        "tag": "MAIN",
+        "id": "top",
+        "inert": true
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "inert": true
+      }
+    ],
+    "focus": "flap",
+    "playRect": {
+      "top": 480.4375,
+      "bottom": 584.4375
+    }
+  },
+  "back": {
+    "label": "root-after-back",
+    "url": "https://vctrsclo.com/",
+    "path": "/",
+    "hash": "",
+    "scrollY": 0,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/",
+        "time": 40.69999999925494
+      }
+    ],
+    "state": null,
+    "paused": false,
+    "overlay": {
+      "on": false,
+      "ariaHidden": null
+    },
+    "bodyLocked": false,
+    "background": [
+      {
+        "tag": "DIV",
+        "id": "",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "stage",
+        "inert": false
+      },
+      {
+        "tag": "SECTION",
+        "id": "beyond",
+        "inert": false
+      },
+      {
+        "tag": "SECTION",
+        "id": "nextDrop",
+        "inert": true
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "descent",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "shroud",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "flybloom",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "guideCue",
+        "inert": false
+      },
+      {
+        "tag": "DIV",
+        "id": "vault",
+        "inert": false
+      }
+    ],
+    "focus": "BODY"
+  },
+  "forward": {
+    "label": "paused-game-after-forward",
+    "url": "https://vctrsclo.com/experience/#play",
+    "path": "/experience/",
+    "hash": "#play",
+    "scrollY": 2448,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#play",
+        "time": 811
+      },
+      {
+        "persisted": true,
+        "url": "https://vctrsclo.com/experience/#play",
+        "time": 2565.400000002235
+      }
+    ],
+    "motion": "open",
+    "open": true,
+    "state": "play",
+    "paused": true,
+    "overlay": {
+      "on": true,
+      "ariaHidden": "false"
+    },
+    "bodyLocked": true,
+    "background": [
+      {
+        "tag": "A",
+        "id": "",
+        "inert": true
+      },
+      {
+        "tag": "MAIN",
+        "id": "top",
+        "inert": true
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "inert": true
+      }
+    ],
+    "focus": "BODY",
+    "playRect": {
+      "top": 480.4375,
+      "bottom": 584.4375
+    }
+  },
+  "exited": {
+    "label": "after-exit",
+    "url": "https://vctrsclo.com/experience/#play",
+    "path": "/experience/",
+    "hash": "#play",
+    "scrollY": 2448,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#play",
+        "time": 811
+      },
+      {
+        "persisted": true,
+        "url": "https://vctrsclo.com/experience/#play",
+        "time": 2565.400000002235
+      }
+    ],
+    "motion": "closed",
+    "open": false,
+    "state": "play",
+    "paused": true,
+    "overlay": {
+      "on": false,
+      "ariaHidden": "true"
+    },
+    "bodyLocked": false,
+    "background": [
+      {
+        "tag": "A",
+        "id": "",
+        "inert": false
+      },
+      {
+        "tag": "MAIN",
+        "id": "top",
+        "inert": false
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "inert": false
+      }
+    ],
+    "focus": "journey-play",
+    "playRect": {
+      "top": 480.4375,
+      "bottom": 584.4375
+    }
+  },
+  "cardScroll": 2448,
+  "errors": [],
+  "limit": "Full headless Chromium BFCache history traversal via page.goBack/goForward; not a physical browser edge-swipe."
+}
