@@ -725,8 +725,8 @@ function measure(){
   setActive(loaded&&!resetting&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
 }
 function request(){if(!queued){queued=true;requestAnimationFrame(measure)}}
-function restartStory(){
-  if(resetting||!active)return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
+function restartStory(force){
+  if(resetting||(!active&&force!==true))return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
   const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
   requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
@@ -745,6 +745,7 @@ addEventListener('message',event=>{
     setActive(false);
     if(resetting&&childCycle===String(pendingCycle))acceptPendingCycle();
     else if(resetting&&childCycle===String(cycle))resendPendingReset();
+    else if(!resetting&&childCycle===String(cycle)&&event.data.surfaceSent===true){loaded=true;restartStory(true)}
     else if(!resetting&&childCycle===String(cycle)){loaded=true;post('vctrs-vault-visibility',{active:false});request()}
     else loaded=false;
     return;
