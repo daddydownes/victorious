@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 8, 2026 — clean preview obstacle faces
+
+The user clarified that the automatic pre-click game demo should show no pole graffiti. Set preview decoration eligibility to false; preserve every-fifth-pair decoration in actual gameplay. This supersedes the earlier all-pair preview interpretation.
+
 ## September 8, 2026 — continuous Vault loop and sparse game graffiti
 
 The user approved publishing the integrated Demo 02 motion and rounded gold graffiti. In actual gameplay only every fifth obstacle pair carries the varied paint; the automatic preview keeps paint on every pair. Playable sections remain 25 clears and preview styles remain ten clears.

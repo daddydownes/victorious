@@ -1,0 +1,9 @@
+{
+  "pass": true,
+  "previewCalls": 100,
+  "allGraffitiFlagsFalse": true,
+  "previewActive": true,
+  "gameEntryExit": true,
+  "errors": [],
+  "limits": "Headless WebKit desktop visual and renderer-call check; not physical-device testing."
+}

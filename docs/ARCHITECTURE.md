@@ -6,7 +6,7 @@
 
 `tools/vault-embed.cjs` derives the utility `vault-embed.html` from the final root HTML. The clone is noindex, starts inert, omits the unused intro film request, and suspends shared motion while inactive. Same-origin messages validate their source and cycle token. Embedded Surface resets the parent story scroll and reloads only the child with the next cycle; ordinary root Surface still opens `experience/`. This supersedes the invitation/gallery/Start again ending described in historical sections below.
 
-Rebuild five outputs together: root `index.html`, `vault-embed.html`, `experience/index.html`, `experience/game-preview.html`, and `experience/state.json`. The game paint adapter enables graffiti for every fifth playable pair and every automatic-preview pair; it preserves the shared physics and original media.
+Rebuild five outputs together: root `index.html`, `vault-embed.html`, `experience/index.html`, `experience/game-preview.html`, and `experience/state.json`. The game paint adapter enables graffiti for every fifth playable pair and no automatic-preview pairs; it preserves the shared physics and original media.
 
 ## Integrated Demo 02 host motion
 

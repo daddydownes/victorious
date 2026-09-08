@@ -1228,7 +1228,7 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
         }
         var shapes=flapHazardPolygons(g,s,{x:x,y:gy,opening:opening,top:gt,bottom:gb});
         for(var side=0;side<shapes.length;side++){
-          window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),true);
+          window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),false);
         }
       }
       flapDrawV(s.w*0.24,flapMix(frame.a?frame.a.y:FG.y,frame.b?frame.b.y:FG.y,frame.blend)*s.h,flapMix(frame.a?frame.a.rot:FG.rot,frame.b?frame.b.rot:FG.rot,frame.blend),FG.state==='dead'?0:FG.state==='dying'?1-flapSmooth((FG.deadT-.24)/.5):1,s);

@@ -1,5 +1,9 @@
 # Current status
 
+## September 8 clean automatic game preview
+
+The automatic preview has no graffiti on its obstacle faces. Playable root/story games retain graffiti on every fifth pair. Source `cd95c45`, regression guard `f36edd4`. WebKit renderer observation confirmed 100 decoration calls disabled, a clean screenshot, running preview and successful game entry/Exit. Full integration 15/15, protected-source checks and 37/37 media identity pass. This corrects the earlier all-pair preview interpretation; the original /25 gameplay and /10 preview cadence remain intact. See [visual evidence](reviews/clean-preview-2026-09-08/preview.png) and [results](reviews/clean-preview-2026-09-08/results.json). Publication uses the existing authorization.
+
 ## September 8 published continuous Vault loop
 
 The user authorized publishing the accepted Demo 02 motion, rounded gold graffiti and new story ending. Playable obstacles carry varied graffiti every fifth pair; the automatic preview retains the all-pair paint and ten-clear cycle. Actual gameplay still changes section every 25 clears. Original canonical artwork and all 37 media files remain unchanged.
