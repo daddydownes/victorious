@@ -311,6 +311,22 @@ test('Sustained forward input and touch input cannot pull back or activate a hal
   assert.deepEqual(run.historyCalls,[]);assert(samples.length===5&&samples.every(sample=>sample.after>=sample.before));
 });
 
+test('A late initial pageshow preserves entry while a persisted restore cancels and resynchronizes',()=>{
+  let run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:120}),false);run.step();run.step(200);
+  const before=run.context.scrollY,syncBefore=run.posts.filter(item=>item.data.type==='vctrs-vault-sync').length;
+  run.dispatch('pageshow',{persisted:false},false);
+  assert.equal(run.context.__storyVault.settling,true,'ordinary initial pageshow cancelled a live entry');
+  assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.posts.filter(item=>item.data.type==='vctrs-vault-sync').length,syncBefore);
+  run.step(700);run.flush();assert(run.context.scrollY>=before);assert(Math.abs(run.section.getBoundingClientRect().top)<=.001);assert.equal(run.context.__storyVault.active,true);
+
+  run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:120}),false);run.step();run.step(200);
+  const persistedSyncs=run.posts.filter(item=>item.data.type==='vctrs-vault-sync').length;
+  run.dispatch('pageshow',{persisted:true},false);
+  assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.loaded,false);assert.equal(run.context.__storyVault.active,false);
+  assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.rafTasks.size,1,'persisted restore should retain only its queued measurement');
+  assert.equal(run.posts.filter(item=>item.data.type==='vctrs-vault-sync').length,persistedSyncs+1);
+});
+
 test('Reverse and lifecycle changes cancel cleanly while reduced motion and resize settle to the current target',()=>{
   let run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(300);
   const beforeReverse=run.context.scrollY,reverse=inputEvent({deltaY:-60});run.dispatch('wheel',reverse);
