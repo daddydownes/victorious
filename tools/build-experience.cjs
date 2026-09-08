@@ -674,9 +674,9 @@ story = replace(story, '</style></head>', `</style><style>
 // then can the preloaded same-origin document receive pointer or focus input.
 story = replace(story, '</body></html>', `<script>(()=>{
 const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue');
-let active=false,loaded=false,queued=false,resetting=false,cycle=0,pendingCycle=null;
+let active=false,loaded=false,requested=false,queued=false,resetting=false,cycle=0,pendingCycle=null;
 function post(type,detail,token){if(frame.contentWindow)frame.contentWindow.postMessage(Object.assign({type,cycle:token===undefined?cycle:token},detail||{}),location.origin)}
-function ensureLoaded(){if(frame.getAttribute('src'))return;frame.removeAttribute('srcdoc');frame.src=frame.dataset.src}
+function ensureLoaded(){if(requested)return;requested=true;frame.contentWindow.location.replace(new URL(frame.dataset.src,location.href).href)}
 function setActive(next){
   next=!!next;if(active===next)return;active=next;section.classList.toggle('is-active',next);
   if(!next&&document.activeElement===frame)frame.blur();
@@ -696,7 +696,7 @@ function restartStory(){
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
   requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
 }
-frame.addEventListener('load',()=>{if(!frame.getAttribute('src')||resetting)return;loaded=true;post('vctrs-vault-visibility',{active});request()});
+frame.addEventListener('load',request);
 addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||!event.data)return;
   if(event.data.type==='vctrs-vault-ready'&&resetting&&String(event.data.cycle)===String(pendingCycle)){
@@ -709,7 +709,7 @@ addEventListener('message',event=>{
 addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
 document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{setActive(false);request()});
 new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
-window.__storyVault={get active(){return active},get loaded(){return loaded},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
+window.__storyVault={get active(){return active},get loaded(){return loaded},get requested(){return requested},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
 if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();
 request();
 })();</script></body></html>`);
