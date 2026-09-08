@@ -27,3 +27,7 @@ One warmed Chromium 1280×900 probe measured the 25%-visible to full entrance at
 All eight [browser scenarios](browser-results.json) pass on final `cd1a4b8`: four WebKit desktop wheel/Surface loops, four Chromium portrait touch loops, four Chromium landscape touch loops, four WebKit 320px keyboard-link loops, reverse cancellation/retry, delayed child loading, reduced motion and resize during entry. Touch runs combine natural onward gestures with controlled 23% reproduction positions and verify that archive panning works after the parent input surface releases control. See [landscape](landscape-landed.png) and [reduced motion](reduced-landed.png).
 
 Six Sol agents covered implementation, regression tests, browser journeys, child input, runtime and remote state; Astra independently reviewed source and evidence. No physical iPhone/Windows-device, physical pinch or edge-swipe certification is claimed. No real forms were submitted. Publication uses the existing GitHub Pages authorization.
+
+## Published verification
+
+Application release `7976cc14bd94348d1c0aded0bd5bfa4a9f18caee` was pushed without force to `main` and successfully built by GitHub Pages. [Seven canonical resources](live-bytes.json) match the validated local files. All [eight entrance scenarios](browser-live.json), including sixteen repeated loops, pass against `https://vctrsclo.com`. The [eleven-case refresh/history matrix](history-live.json), [paused-game BFCache restoration](game-history-live.json) and [interrupted embedded Surface restoration](embed-history-live.json) also pass live.

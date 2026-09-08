@@ -1,0 +1,120 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T04:09:52.255Z",
+  "active": {
+    "label": "active-before-surface-back",
+    "url": "https://vctrsclo.com/experience/#story-return",
+    "path": "/experience/",
+    "hash": "#story-return",
+    "scrollY": 4140,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "time": 775.9000000022352
+      }
+    ],
+    "vault": {
+      "active": true,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 0,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": false,
+      "hidden": "false",
+      "url": "https://vctrsclo.com/vault-embed.html?embed=vault&cycle=0",
+      "nested": false
+    }
+  },
+  "back": {
+    "label": "root-after-immediate-back",
+    "url": "https://vctrsclo.com/",
+    "path": "/",
+    "hash": "",
+    "scrollY": 0,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/",
+        "time": 71.39999999850988
+      }
+    ],
+    "vault": {},
+    "frame": {
+      "count": 0,
+      "nested": false
+    }
+  },
+  "forward": {
+    "label": "story-after-forward",
+    "url": "https://vctrsclo.com/experience/#story-return",
+    "path": "/experience/",
+    "hash": "#story-return",
+    "scrollY": 4140,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "time": 775.9000000022352
+      },
+      {
+        "persisted": true,
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "time": 1637.300000000745
+      }
+    ],
+    "vault": {
+      "active": true,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 0,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": false,
+      "hidden": "false",
+      "url": "https://vctrsclo.com/vault-embed.html?embed=vault&cycle=0",
+      "nested": false
+    }
+  },
+  "resumedOriginal": false,
+  "complete": {
+    "label": "surface-loop-complete",
+    "url": "https://vctrsclo.com/experience/",
+    "path": "/experience/",
+    "hash": "",
+    "scrollY": 0,
+    "pageshow": [
+      {
+        "persisted": false,
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "time": 775.9000000022352
+      },
+      {
+        "persisted": true,
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "time": 1637.300000000745
+      }
+    ],
+    "vault": {
+      "active": false,
+      "loaded": true,
+      "resetting": false,
+      "cycle": 1,
+      "pending": null
+    },
+    "frame": {
+      "count": 1,
+      "inert": true,
+      "hidden": "true",
+      "url": "https://vctrsclo.com/vault-embed.html?embed=vault&cycle=1",
+      "nested": false
+    }
+  },
+  "errors": [],
+  "limit": "Full headless Chromium BFCache traversal via page.goBack/goForward; not a physical edge-swipe."
+}

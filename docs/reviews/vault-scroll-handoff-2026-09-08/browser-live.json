@@ -1,0 +1,3191 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T04:10:16.504Z",
+  "results": [
+    {
+      "name": "webkit-desktop-four-natural-loops",
+      "untouched": {
+        "label": "programmatic-fragment-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3240,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 900,
+          "bottom": 1620,
+          "height": 720,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "loops": [
+        {
+          "i": 1,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 3657,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 483,
+              "bottom": 1203,
+              "height": 720,
+              "visibleFraction": 0.32916666666666666,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 4140,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 0,
+              "bottom": 720,
+              "height": 720,
+              "visibleFraction": 1,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 4140,
+              "bottom": 4860,
+              "height": 720,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 2,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3747,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 393,
+              "bottom": 1113,
+              "height": 720,
+              "visibleFraction": 0.45416666666666666,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4140,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 0,
+              "bottom": 720,
+              "height": 720,
+              "visibleFraction": 1,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 4140,
+              "bottom": 4860,
+              "height": 720,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 3,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3747,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 393,
+              "bottom": 1113,
+              "height": 720,
+              "visibleFraction": 0.45416666666666666,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4140,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 0,
+              "bottom": 720,
+              "height": 720,
+              "visibleFraction": 1,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 4140,
+              "bottom": 4860,
+              "height": 720,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 4,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3747,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 393,
+              "bottom": 1113,
+              "height": 720,
+              "visibleFraction": 0.45416666666666666,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4140,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 0,
+              "bottom": 720,
+              "height": 720,
+              "visibleFraction": 1,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 4140,
+              "bottom": 4860,
+              "height": 720,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 4
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "chromium-390x844-touch",
+      "untouched": {
+        "label": "programmatic-fragment-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3491,
+        "viewport": [
+          390,
+          844
+        ],
+        "section": {
+          "top": 1012.796875,
+          "bottom": 1856.796875,
+          "height": 844,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          },
+          "nested": false
+        }
+      },
+      "loops": [
+        {
+          "i": 1,
+          "deadZone": false,
+          "precondition": null,
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/#story-return",
+                "scrollY": 3987,
+                "viewport": [
+                  390,
+                  844
+                ],
+                "section": {
+                  "top": 516.796875,
+                  "bottom": 1360.796875,
+                  "height": 844,
+                  "visibleFraction": 0.3876814277251185,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 0
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -655.725,
+                    "y": -378.32500000000005,
+                    "left": 656,
+                    "top": 378
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 3987,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 516.796875,
+              "bottom": 1360.796875,
+              "height": 844,
+              "visibleFraction": 0.3876814277251185,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 4504,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": -0.203125,
+              "bottom": 843.796875,
+              "height": 844,
+              "visibleFraction": 0.9997593305687204,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "pan": {
+            "before": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "after": {
+              "x": -655.725,
+              "y": -599.325,
+              "left": 656,
+              "top": 599
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 4503.796875,
+              "bottom": 5347.796875,
+              "height": 844,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 2,
+          "deadZone": true,
+          "precondition": {
+            "label": "controlled-dead-zone-precondition",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3854,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 649.796875,
+              "bottom": 1493.796875,
+              "height": 844,
+              "visibleFraction": 0.23009848933649288,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "x": 195,
+                "start": 756.60859375,
+                "end": 604.68859375
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 4026,
+                "viewport": [
+                  390,
+                  844
+                ],
+                "section": {
+                  "top": 477.796875,
+                  "bottom": 1321.796875,
+                  "height": 844,
+                  "visibleFraction": 0.4338899585308057,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 1
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -655.725,
+                    "y": -378.32500000000005,
+                    "left": 656,
+                    "top": 378
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4026,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 477.796875,
+              "bottom": 1321.796875,
+              "height": 844,
+              "visibleFraction": 0.4338899585308057,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4504,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": -0.203125,
+              "bottom": 843.796875,
+              "height": 844,
+              "visibleFraction": 0.9997593305687204,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 4503.796875,
+              "bottom": 5347.796875,
+              "height": 844,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 3,
+          "deadZone": false,
+          "precondition": null,
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 4065,
+                "viewport": [
+                  390,
+                  844
+                ],
+                "section": {
+                  "top": 438.796875,
+                  "bottom": 1282.796875,
+                  "height": 844,
+                  "visibleFraction": 0.4800984893364929,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 2
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -655.725,
+                    "y": -378.32500000000005,
+                    "left": 656,
+                    "top": 378
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4065,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 438.796875,
+              "bottom": 1282.796875,
+              "height": 844,
+              "visibleFraction": 0.4800984893364929,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4504,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": -0.203125,
+              "bottom": 843.796875,
+              "height": 844,
+              "visibleFraction": 0.9997593305687204,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 4503.796875,
+              "bottom": 5347.796875,
+              "height": 844,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 4,
+          "deadZone": true,
+          "precondition": {
+            "label": "controlled-dead-zone-precondition",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3854,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 649.796875,
+              "bottom": 1493.796875,
+              "height": 844,
+              "visibleFraction": 0.23009848933649288,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "x": 195,
+                "start": 756.60859375,
+                "end": 604.68859375
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 4026,
+                "viewport": [
+                  390,
+                  844
+                ],
+                "section": {
+                  "top": 477.796875,
+                  "bottom": 1321.796875,
+                  "height": 844,
+                  "visibleFraction": 0.4338899585308057,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 3
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -655.725,
+                    "y": -378.32500000000005,
+                    "left": 656,
+                    "top": 378
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4026,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 477.796875,
+              "bottom": 1321.796875,
+              "height": 844,
+              "visibleFraction": 0.4338899585308057,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 4504,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": -0.203125,
+              "bottom": 843.796875,
+              "height": 844,
+              "visibleFraction": 0.9997593305687204,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 4503.796875,
+              "bottom": 5347.796875,
+              "height": 844,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 4
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              },
+              "nested": false
+            }
+          }
+        }
+      ],
+      "input": "trusted CDP touch; loops 2/4 begin inside the formerly dead 23%-visible iframe area; loop 1 verifies active child pan",
+      "errors": []
+    },
+    {
+      "name": "chromium-844x390-touch",
+      "untouched": {
+        "label": "programmatic-fragment-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 2385,
+        "viewport": [
+          844,
+          390
+        ],
+        "section": {
+          "top": 759.59375,
+          "bottom": 1149.59375,
+          "height": 390,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1028.5290909090909,
+            "y": -1169.5945454545454,
+            "left": 1029,
+            "top": 1170
+          },
+          "nested": false
+        }
+      },
+      "loops": [
+        {
+          "i": 1,
+          "deadZone": false,
+          "precondition": null,
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/#story-return",
+                "scrollY": 2588,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 556.59375,
+                  "bottom": 946.59375,
+                  "height": 390,
+                  "visibleFraction": 0,
+                  "committing": false
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": false,
+                  "resetting": false,
+                  "cycle": 0
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            },
+            {
+              "attempt": 2,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-2",
+                "url": "https://vctrsclo.com/experience/#story-return",
+                "scrollY": 2792,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 352.59375,
+                  "bottom": 742.59375,
+                  "height": 390,
+                  "visibleFraction": 0.09591346153846154,
+                  "committing": false
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": false,
+                  "resetting": false,
+                  "cycle": 0
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            },
+            {
+              "attempt": 3,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-3",
+                "url": "https://vctrsclo.com/experience/#story-return",
+                "scrollY": 3005,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 139.59375,
+                  "bottom": 529.59375,
+                  "height": 390,
+                  "visibleFraction": 0.6420673076923077,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 0
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 3005,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 139.59375,
+              "bottom": 529.59375,
+              "height": 390,
+              "visibleFraction": 0.6420673076923077,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 3145,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": -0.40625,
+              "bottom": 389.59375,
+              "height": 390,
+              "visibleFraction": 0.9989583333333333,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "pan": {
+            "before": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            },
+            "after": {
+              "x": -1028.5290909090909,
+              "y": -1263.5945454545454,
+              "left": 1029,
+              "top": 1264
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 3144.59375,
+              "bottom": 3534.59375,
+              "height": 390,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 2,
+          "deadZone": true,
+          "precondition": {
+            "label": "controlled-dead-zone-precondition",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2844,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 300.59375,
+              "bottom": 690.59375,
+              "height": 390,
+              "visibleFraction": 0.22924679487179486,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "x": 422,
+                "start": 349.7671875,
+                "end": 249.76718749999998
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 2944,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 200.59375,
+                  "bottom": 590.59375,
+                  "height": 390,
+                  "visibleFraction": 0.4856570512820513,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 1
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2944,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 200.59375,
+              "bottom": 590.59375,
+              "height": 390,
+              "visibleFraction": 0.4856570512820513,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3145,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": -0.40625,
+              "bottom": 389.59375,
+              "height": 390,
+              "visibleFraction": 0.9989583333333333,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 3144.59375,
+              "bottom": 3534.59375,
+              "height": 390,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 3,
+          "deadZone": false,
+          "precondition": null,
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 2773,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 371.59375,
+                  "bottom": 761.59375,
+                  "height": 390,
+                  "visibleFraction": 0.04719551282051282,
+                  "committing": false
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": false,
+                  "resetting": false,
+                  "cycle": 2
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            },
+            {
+              "attempt": 2,
+              "gesture": {
+                "kind": "full-viewport-swipe"
+              },
+              "state": {
+                "label": "touch-attempt-2",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 2988,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 156.59375,
+                  "bottom": 546.59375,
+                  "height": 390,
+                  "visibleFraction": 0.5984775641025641,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 2
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2988,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 156.59375,
+              "bottom": 546.59375,
+              "height": 390,
+              "visibleFraction": 0.5984775641025641,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3145,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": -0.40625,
+              "bottom": 389.59375,
+              "height": 390,
+              "visibleFraction": 0.9989583333333333,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 3144.59375,
+              "bottom": 3534.59375,
+              "height": 390,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 4,
+          "deadZone": true,
+          "precondition": {
+            "label": "controlled-dead-zone-precondition",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2844,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 300.59375,
+              "bottom": 690.59375,
+              "height": 390,
+              "visibleFraction": 0.22924679487179486,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "traces": [
+            {
+              "attempt": 1,
+              "gesture": {
+                "x": 422,
+                "start": 349.7671875,
+                "end": 249.76718749999998
+              },
+              "state": {
+                "label": "touch-attempt-1",
+                "url": "https://vctrsclo.com/experience/",
+                "scrollY": 2944,
+                "viewport": [
+                  844,
+                  390
+                ],
+                "section": {
+                  "top": 200.59375,
+                  "bottom": 590.59375,
+                  "height": 390,
+                  "visibleFraction": 0.4856570512820513,
+                  "committing": true
+                },
+                "vault": {
+                  "active": false,
+                  "loaded": true,
+                  "pending": false,
+                  "settling": true,
+                  "resetting": false,
+                  "cycle": 3
+                },
+                "frame": {
+                  "inert": true,
+                  "hidden": "true",
+                  "pointer": "none",
+                  "childOpen": true,
+                  "childPan": {
+                    "x": -1028.5290909090909,
+                    "y": -1169.5945454545454,
+                    "left": 1029,
+                    "top": 1170
+                  },
+                  "nested": false
+                }
+              }
+            }
+          ],
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2944,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 200.59375,
+              "bottom": 590.59375,
+              "height": 390,
+              "visibleFraction": 0.4856570512820513,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3145,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": -0.40625,
+              "bottom": 389.59375,
+              "height": 390,
+              "visibleFraction": 0.9989583333333333,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          },
+          "pan": null,
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              844,
+              390
+            ],
+            "section": {
+              "top": 3144.59375,
+              "bottom": 3534.59375,
+              "height": 390,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 4
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -1028.5290909090909,
+                "y": -1169.5945454545454,
+                "left": 1029,
+                "top": 1170
+              },
+              "nested": false
+            }
+          }
+        }
+      ],
+      "input": "trusted CDP touch; loops 2/4 begin inside the formerly dead 23%-visible iframe area; loop 1 verifies active child pan",
+      "errors": []
+    },
+    {
+      "name": "webkit-320x568-keyboard-link-four-loops",
+      "untouched": {
+        "label": "programmatic-fragment-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 2528,
+        "viewport": [
+          320,
+          568
+        ],
+        "section": {
+          "top": 681.796875,
+          "bottom": 1249.796875,
+          "height": 568,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -690.725,
+            "y": -516.325,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "loops": [
+        {
+          "i": 1,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 2528,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 681.796875,
+              "bottom": 1249.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/#story-return",
+            "scrollY": 3209,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 0.796875,
+              "bottom": 568.796875,
+              "height": 568,
+              "visibleFraction": 0.998597051056338,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 0
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 3209.796875,
+              "bottom": 3777.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 2,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2585,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 624.796875,
+              "bottom": 1192.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3209,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 0.796875,
+              "bottom": 568.796875,
+              "height": 568,
+              "visibleFraction": 0.998597051056338,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 1
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 3209.796875,
+              "bottom": 3777.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 3,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2585,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 624.796875,
+              "bottom": 1192.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3209,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 0.796875,
+              "bottom": 568.796875,
+              "height": 568,
+              "visibleFraction": 0.998597051056338,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 2
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 3209.796875,
+              "bottom": 3777.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        },
+        {
+          "i": 4,
+          "mid": {
+            "label": "entry-mid-animation",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 2585,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 624.796875,
+              "bottom": 1192.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": true
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": true,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "active": {
+            "label": "vault-active-settled",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 3209,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 0.796875,
+              "bottom": 568.796875,
+              "height": 568,
+              "visibleFraction": 0.998597051056338,
+              "committing": false
+            },
+            "vault": {
+              "active": true,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 3
+            },
+            "frame": {
+              "inert": false,
+              "hidden": "false",
+              "pointer": "auto",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          },
+          "reset": {
+            "label": "surface-loop-reset",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "viewport": [
+              320,
+              568
+            ],
+            "section": {
+              "top": 3209.796875,
+              "bottom": 3777.796875,
+              "height": 568,
+              "visibleFraction": 0,
+              "committing": false
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "pending": false,
+              "settling": false,
+              "resetting": false,
+              "cycle": 4
+            },
+            "frame": {
+              "inert": true,
+              "hidden": "true",
+              "pointer": "none",
+              "childOpen": true,
+              "childPan": {
+                "x": -690.725,
+                "y": -516.325,
+                "left": 0,
+                "top": 0
+              },
+              "nested": false
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "webkit-reverse-cancel-retry",
+      "mid": {
+        "label": "entry-mid-animation",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3661,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 479,
+          "bottom": 1199,
+          "height": 720,
+          "visibleFraction": 0.3347222222222222,
+          "committing": true
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": true,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "cancelled": {
+        "label": "reverse-cancelled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3662,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 478,
+          "bottom": 1198,
+          "height": 720,
+          "visibleFraction": 0.33611111111111114,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "active": {
+        "label": "vault-active-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 4140,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 0,
+          "bottom": 720,
+          "height": 720,
+          "visibleFraction": 1,
+          "committing": false
+        },
+        "vault": {
+          "active": true,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": false,
+          "hidden": "false",
+          "pointer": "auto",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "reset": {
+        "label": "surface-loop-reset",
+        "url": "https://vctrsclo.com/experience/",
+        "scrollY": 0,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 4140,
+          "bottom": 4860,
+          "height": 720,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 1
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "webkit-delayed-child-load",
+      "pending": {
+        "label": "threshold-pending-before-child-load",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3657,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 483,
+          "bottom": 1203,
+          "height": 720,
+          "visibleFraction": 0.32916666666666666,
+          "committing": true
+        },
+        "vault": {
+          "active": false,
+          "loaded": false,
+          "pending": true,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": false,
+          "childPan": null,
+          "nested": false
+        }
+      },
+      "mid": {
+        "label": "entry-mid-animation",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3657,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 483,
+          "bottom": 1203,
+          "height": 720,
+          "visibleFraction": 0.32916666666666666,
+          "committing": true
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": true,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "active": {
+        "label": "vault-active-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 4140,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 0,
+          "bottom": 720,
+          "height": 720,
+          "visibleFraction": 1,
+          "committing": false
+        },
+        "vault": {
+          "active": true,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": false,
+          "hidden": "false",
+          "pointer": "auto",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "reset": {
+        "label": "surface-loop-reset",
+        "url": "https://vctrsclo.com/experience/",
+        "scrollY": 0,
+        "viewport": [
+          1280,
+          720
+        ],
+        "section": {
+          "top": 4140,
+          "bottom": 4860,
+          "height": 720,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 1
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "webkit-reduced-immediate-entry",
+      "active": {
+        "label": "vault-active-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3533,
+        "viewport": [
+          390,
+          844
+        ],
+        "section": {
+          "top": 0.171875,
+          "bottom": 844.15625,
+          "height": 843.984375,
+          "visibleFraction": 0.999796356635071,
+          "committing": false
+        },
+        "vault": {
+          "active": true,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": false,
+          "hidden": "false",
+          "pointer": "auto",
+          "childOpen": true,
+          "childPan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "reset": {
+        "label": "surface-loop-reset",
+        "url": "https://vctrsclo.com/experience/",
+        "scrollY": 0,
+        "viewport": [
+          390,
+          844
+        ],
+        "section": {
+          "top": 3533.171875,
+          "bottom": 4377.15625,
+          "height": 843.984375,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 1
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 0,
+            "top": 0
+          },
+          "nested": false
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "webkit-resize-mid-entry",
+      "mid": {
+        "label": "entry-mid-animation",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3491,
+        "viewport": [
+          390,
+          844
+        ],
+        "section": {
+          "top": 1012.78125,
+          "bottom": 1856.765625,
+          "height": 843.984375,
+          "visibleFraction": 0,
+          "committing": true
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": true,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 655,
+            "top": 378
+          },
+          "nested": false
+        }
+      },
+      "settled": {
+        "label": "vault-active-settled",
+        "url": "https://vctrsclo.com/experience/#story-return",
+        "scrollY": 3144,
+        "viewport": [
+          844,
+          390
+        ],
+        "section": {
+          "top": 0.59375,
+          "bottom": 390.59375,
+          "height": 390,
+          "visibleFraction": 0.998477564102564,
+          "committing": false
+        },
+        "vault": {
+          "active": true,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 0
+        },
+        "frame": {
+          "inert": false,
+          "hidden": "false",
+          "pointer": "auto",
+          "childOpen": true,
+          "childPan": {
+            "x": -1028.5290909090909,
+            "y": -1169.5945454545454,
+            "left": 1028,
+            "top": 1169
+          },
+          "nested": false
+        }
+      },
+      "reset": {
+        "label": "surface-loop-reset",
+        "url": "https://vctrsclo.com/experience/",
+        "scrollY": 0,
+        "viewport": [
+          844,
+          390
+        ],
+        "section": {
+          "top": 3144.59375,
+          "bottom": 3534.59375,
+          "height": 390,
+          "visibleFraction": 0,
+          "committing": false
+        },
+        "vault": {
+          "active": false,
+          "loaded": true,
+          "pending": false,
+          "settling": false,
+          "resetting": false,
+          "cycle": 1
+        },
+        "frame": {
+          "inert": true,
+          "hidden": "true",
+          "pointer": "none",
+          "childOpen": true,
+          "childPan": {
+            "x": -1028.5290909090909,
+            "y": -1169.5945454545454,
+            "left": 1028,
+            "top": 1169
+          },
+          "nested": false
+        }
+      },
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Headless WebKit/Chromium emulation; Chromium touch uses trusted CDP input but is not a physical-device claim.",
+    "History/refresh regressions run in the separate established 13-case gate."
+  ]
+}
