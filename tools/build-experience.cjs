@@ -635,7 +635,7 @@ story = replace(story, '</style>', `
 // native scrolling return to the original Vault. The former invitation,
 // photograph ending, signup and story-only archive are deliberately retired.
 const returnV = exactV.replace('aria-label="V" role="img"', 'aria-hidden="true" focusable="false"');
-const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="#story-vault" aria-label="Continue to the vault">${returnV}</a></div></section><section class="story-vault" id="story-vault" aria-label="The VCTRS Vault"><iframe id="story-vault-frame" title="The VCTRS Vault" data-src="../vault-embed.html?embed=vault&amp;cycle=0#vault" srcdoc="<style>html{background:#000}</style>" loading="eager" tabindex="-1" inert aria-hidden="true"></iframe></section>`;
+const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="#story-vault" aria-label="Continue to the vault">${returnV}</a></div></section><section class="story-vault" id="story-vault" aria-label="The VCTRS Vault"><iframe id="story-vault-frame" title="The VCTRS Vault" data-src="../vault-embed.html?embed=vault&amp;cycle=0" srcdoc="<style>html{background:#000}</style>" loading="eager" tabindex="-1" inert aria-hidden="true"></iframe></section>`;
 const oldStoryTail = /<section class="vault-invite\b[\s\S]*?<\/main><section class="signup-footer"[\s\S]*?<\/footer>/;
 if (!oldStoryTail.test(story)) throw new Error('Missing story invitation/photo/signup tail');
 story = story.replace(oldStoryTail, storyReturn + '</main>');
