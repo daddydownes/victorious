@@ -118,8 +118,9 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
   addEventListener('pageshow',function(event){
     if(!event.persisted)return;
     // BFCache can restore the child before the parent controller. Fail closed,
-    // report the actual cycle, then let the parent choose reset or visibility.
-    setActive(false); postSync(); post('vctrs-vault-ready');
+    // clear only the interrupted navigation latch, report the actual cycle,
+    // then let the parent retry that reset or choose visibility.
+    resetting=false; setActive(false); postSync(); post('vctrs-vault-ready');
   });
 })();
 </script>`;
