@@ -65,9 +65,12 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
     root.toggleAttribute('data-vctrs-vault-embed-paused',paused);
     if(document.body)document.body.toggleAttribute('inert',paused);
   }
+  function notifyVisibility(){
+    dispatchEvent(new CustomEvent('vctrs-vault-visibility',{detail:{active:active,cycle:cycle}}));
+  }
   function setActive(next){
     next=next===true;
-    if(next===active){ syncInert(!next); return; }
+    if(next===active){ syncInert(!next); notifyVisibility(); return; }
     if(!next){ blurInside(); pauseAnimations(); }
     active=next; window.__vctrsVaultEmbedActive=next; syncInert(!next);
     if(next){
@@ -76,7 +79,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
       var vault=document.getElementById('vault');
       if(vault)try{vault.focus({preventScroll:true});}catch(_focusError){vault.focus();}
     }
-    dispatchEvent(new CustomEvent('vctrs-vault-visibility',{detail:{active:next,cycle:cycle}}));
+    notifyVisibility();
   }
   function post(type){ parent.postMessage({type:type,cycle:cycle},parentOrigin); }
 
@@ -103,7 +106,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
       if(target.href===location.href)location.reload(); else location.replace(target.href);
     }
   });
-  function ready(){ syncInert(!active); post('vctrs-vault-ready'); }
+  function ready(){ syncInert(!active); notifyVisibility(); post('vctrs-vault-ready'); }
   if(document.readyState==='loading')addEventListener('DOMContentLoaded',ready,{once:true}); else ready();
 })();
 </script>`;
