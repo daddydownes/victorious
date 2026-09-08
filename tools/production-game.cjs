@@ -53,7 +53,7 @@ function tunePreviewMarkup(html) {
   return html.replaceAll('A new challenge every 25.', 'A new style every 10.');
 }
 const rawCore = between(snapshot, '  var COUPON_THRESHOLD=100;', '\n  measure(); updateScroll();');
-function tuneGamePaint(js, previewAll) {
+function tuneGamePaint(js, isPreview) {
   const start = '/* FLAPPY METAL BEGIN */';
   const end = '/* FLAPPY METAL END */';
   const a = js.indexOf(start), b = js.indexOf(end, a + start.length);
@@ -62,7 +62,7 @@ function tuneGamePaint(js, previewAll) {
   js = js.slice(0, a + start.length) + '\n' + graffitiSource + '\n' + cleanPaint + '\n    ' + js.slice(b);
   // g.phase is sampled once when the gate spawns. Pair it with the serial for
   // stable per-gate art without reading a clock or advancing course randomness.
-  const decorate = previewAll ? 'true' : 'g.serial%5===4';
+  const decorate = isPreview ? 'false' : 'g.serial%5===4';
   js = replace(js,
     "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,(FG.bgT||0)*.08+g.serial*.13);",
     `window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),${decorate});`);
