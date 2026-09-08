@@ -57,18 +57,25 @@ assert.ok(draw.passageSegmentCount(top, 0) >= 2);
 const bottom = [[19, 100], [61, 100], [70, 112], [70, 220], [10, 220], [10, 112]];
 assert.ok(draw.passageSegmentCount(bottom, 1) >= 2);
 
+// Every obstacle family stays plain for four gate pairs, then decorates both
+// halves of the fifth pair. Structural metal and lips render in either case.
+for(const kind of ['pillar','arch','slant','iris']){
+ for(let serial=0;serial<4;serial++){const skipped=[];draw(spyContext([],skipped),[[10,0],[70,0],[70,360],[61,372],[19,372],[10,360]],{d:2,h:720,cssH:720},kind,0,serial*16+.2,false);draw(spyContext([],skipped),[[19,100],[61,100],[70,112],[70,472],[10,472],[10,112]],{d:2,h:720,cssH:720},kind,1,serial*16+.2,false);assert.equal(skipped.filter(mark=>mark.atlas).length,0,kind+' decorated before the fifth pair')}
+ const decoratedTop=[],decoratedBottom=[],eligibleSeed=4*16+.2;draw(spyContext([],decoratedTop),[[10,0],[70,0],[70,360],[61,372],[19,372],[10,360]],{d:2,h:720,cssH:720},kind,0,eligibleSeed,true);draw(spyContext([],decoratedBottom),[[19,100],[61,100],[70,112],[70,472],[10,472],[10,112]],{d:2,h:720,cssH:720},kind,1,eligibleSeed,true);assert(decoratedTop.some(mark=>mark.atlas)&&decoratedBottom.some(mark=>mark.atlas),kind+' fifth gate did not decorate both halves');
+}
+
 // Tall pillars distribute all five deterministic marks across their faces. The
 // destination rectangles stay inside the already-applied collision clip and
 // leave the passage clear on both halves.
 const tallTop=[[10,0],[70,0],[70,360],[61,372],[19,372],[10,360]],tallBottom=[[19,100],[61,100],[70,112],[70,472],[10,472],[10,112]],firstMarks=[],sameMarks=[],variedMarks=[],shiftedMarks=[],deployedMarks=[],seed=101;
-draw(spyContext([],firstMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,seed);draw(spyContext([],firstMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,seed);
+draw(spyContext([],firstMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,seed,true);draw(spyContext([],firstMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,seed,true);
 const isGraffiti=mark=>mark.atlas,graffiti=firstMarks.filter(isGraffiti);assert.equal(graffiti.length,5);assert(graffiti.every(mark=>mark.clipped),'graffiti escaped the collision-polygon clip');
 const upper=graffiti.slice(0,3),lower=graffiti.slice(3),upperCentres=upper.map(mark=>mark.y+mark.h/2);assert(Math.max(...upperCentres)-Math.min(...upperCentres)>tallTop.at(-1)[1]*.4,'upper-pole paint is not distributed across the tall face');assert(upper.every(mark=>mark.y+mark.h<=344),'upper tag entered the 16-unit passage clear strip');assert(lower.every(mark=>mark.y>=128),'lower tag entered the 16-unit passage clear strip');
 const signature=(marks,dx=0,dy=0)=>marks.filter(isGraffiti).map(mark=>({sx:mark.sx,sw:mark.sw,x:+(mark.x-dx).toFixed(5),y:+(mark.y-dy).toFixed(5),w:+mark.w.toFixed(5),h:+mark.h.toFixed(5)}));
-draw(spyContext([],sameMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,seed);draw(spyContext([],sameMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,seed);assert.deepEqual(signature(sameMarks),signature(firstMarks),'identical gate seed changed graffiti placement');
-draw(spyContext([],variedMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,202);draw(spyContext([],variedMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,202);assert.notDeepEqual(signature(variedMarks),signature(firstMarks),'different gate seeds produced the same graffiti layout');
-draw(spyContext([],shiftedMarks),tallTop.map(([x,y])=>[x+100,y+23]),{d:2,h:720,cssH:720},'pillar',0,seed);draw(spyContext([],shiftedMarks),tallBottom.map(([x,y])=>[x+100,y+23]),{d:2,h:720,cssH:720},'pillar',1,seed);assert.deepEqual(signature(shiftedMarks,100,23),signature(firstMarks),'translation changed the seeded graffiti layout');
-const deployedTop=[[10,0],[70,0],[70,330],[61,342],[19,342],[10,330]],deployedBottom=[[19,130],[61,130],[70,142],[70,472],[10,472],[10,142]];draw(spyContext([],deployedMarks),deployedTop,{d:2,h:720,cssH:720},'pillar',0,seed);draw(spyContext([],deployedMarks),deployedBottom,{d:2,h:720,cssH:720},'pillar',1,seed);assert.deepEqual(signature(deployedMarks),signature(firstMarks),'deployment height redistributed the seeded graffiti');assert.equal(randomCalls,0,'obstacle decoration consumed random state');
+draw(spyContext([],sameMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,seed,true);draw(spyContext([],sameMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,seed,true);assert.deepEqual(signature(sameMarks),signature(firstMarks),'identical gate seed changed graffiti placement');
+draw(spyContext([],variedMarks),tallTop,{d:2,h:720,cssH:720},'pillar',0,202,true);draw(spyContext([],variedMarks),tallBottom,{d:2,h:720,cssH:720},'pillar',1,202,true);assert.notDeepEqual(signature(variedMarks),signature(firstMarks),'different gate seeds produced the same graffiti layout');
+draw(spyContext([],shiftedMarks),tallTop.map(([x,y])=>[x+100,y+23]),{d:2,h:720,cssH:720},'pillar',0,seed,true);draw(spyContext([],shiftedMarks),tallBottom.map(([x,y])=>[x+100,y+23]),{d:2,h:720,cssH:720},'pillar',1,seed,true);assert.deepEqual(signature(shiftedMarks,100,23),signature(firstMarks),'translation changed the seeded graffiti layout');
+const deployedTop=[[10,0],[70,0],[70,330],[61,342],[19,342],[10,330]],deployedBottom=[[19,130],[61,130],[70,142],[70,472],[10,472],[10,142]];draw(spyContext([],deployedMarks),deployedTop,{d:2,h:720,cssH:720},'pillar',0,seed,true);draw(spyContext([],deployedMarks),deployedBottom,{d:2,h:720,cssH:720},'pillar',1,seed,true);assert.deepEqual(signature(deployedMarks),signature(firstMarks),'deployment height redistributed the seeded graffiti');assert.equal(randomCalls,0,'obstacle decoration consumed random state');
 
 // Degenerate input does not touch canvas state.
 const untouched = [];
@@ -82,9 +89,9 @@ for (let i = 0; i < 90; i++) {
 }
 assert.equal(draw.cacheSize(), 64);
 assert.ok(draw.cacheBytes() <= 16 * 1024 * 1024);
-for(const d of [1,1.2,1.5,1.8,2.2])draw(spyContext([]),tallTop,{d,h:720,cssH:720},'pillar',0,0);
+for(const d of [1,1.2,1.5,1.8,2.2])draw(spyContext([]),tallTop,{d,h:720,cssH:720},'pillar',0,0,true);
 assert.equal(draw.graffitiCacheSize(),4);assert.ok(draw.graffitiCacheBytes()<=4*1024*1024);
-for(let i=0;i<90;i++)draw(spyContext([]),tallTop,{d:1,h:720,cssH:720},'pillar',0,i+1000);assert.equal(draw.graffitiLayoutCacheSize(),64);
+for(let i=0;i<90;i++)draw(spyContext([]),tallTop,{d:1,h:720,cssH:720},'pillar',0,i+1000,true);assert.equal(draw.graffitiLayoutCacheSize(),64);
 draw.clearCache();
 assert.equal(draw.cacheSize(), 0);
 assert.equal(draw.cacheBytes(), 0);
