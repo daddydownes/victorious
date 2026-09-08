@@ -1,12 +1,12 @@
 # Current status
 
-## September 8 continuous Vault loop release candidate
+## September 8 published continuous Vault loop
 
 The user authorized publishing the accepted Demo 02 motion, rounded gold graffiti and new story ending. Playable obstacles carry varied graffiti every fifth pair; the automatic preview retains the all-pair paint and ten-clear cycle. Actual gameplay still changes section every 25 clears. Original canonical artwork and all 37 media files remain unchanged.
 
 The story now scrolls past a spacious V-and-star directly into the original Vault. Its Surface control restarts the same parent story; the different next Surface is deferred. A WebKit reset bug caught during real browser QA was fixed by making embedded Vault navigation hashless. Final source checkpoint `d87d449`; WebKit desktop repeated loops, reduced-motion phone keyboard/pan, Chromium touch scroll/pan/reset and game Exit restoration pass. See [the portable review](reviews/seamless-vault-loop-2026-09-08/README.md) and [sparse graffiti evidence](reviews/flappy-graffiti-2026-09-08/sparse/results.json).
 
-Final checks pass: 15 integration checks, protected game functions, all ten root suites, 37/37 exact media, repeated browser loops, and offscreen-motion shutdown. Independent review approved the release. Publication is authorized and the checked release is ready to push. This entry will be updated with the verified Pages build after deployment. Earlier local-only restrictions below are historical and superseded by the explicit publication request.
+Release `4ecb0f3c0c057ff0a337389f848204f34e5ec238` was published to main and GitHub Pages built it successfully. Canonical root, story, game preview, Vault embed, state and used title/arrow resources match the local release byte for byte. Final checks pass: 15 integration checks, protected game functions, all ten root suites, 37/37 exact media, repeated browser loops, and offscreen-motion shutdown. Independent review approved the release. All three focused desktop/reduced-motion/touch journeys also passed against the live domain, including two desktop Surface loops. A reported brief demo pause was not reproduced in a focused direct-link check, and the user confirmed it worked. Earlier local-only restrictions below are historical and superseded by the explicit publication request.
 
 ## September 8 local Flappy graffiti demo
 

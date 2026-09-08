@@ -1,0 +1,231 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T01:57:28.557Z",
+  "viewport": "WebKit 1280x720 normal motion",
+  "samples": [
+    {
+      "label": "direct-fragment-settled",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 3240,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 900,
+        "bottom": 1620,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": false,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": true,
+        "ariaHidden": "true",
+        "pointer": "none"
+      }
+    },
+    {
+      "label": "wheel-1",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 3460,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 680,
+        "bottom": 1400,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": false,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": true,
+        "ariaHidden": "true",
+        "pointer": "none"
+      }
+    },
+    {
+      "label": "wheel-2",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 3680,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 460,
+        "bottom": 1180,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": false,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": true,
+        "ariaHidden": "true",
+        "pointer": "none"
+      }
+    },
+    {
+      "label": "wheel-3",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 3900,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 240,
+        "bottom": 960,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": false,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": true,
+        "ariaHidden": "true",
+        "pointer": "none"
+      }
+    },
+    {
+      "label": "wheel-4",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 4120,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 20,
+        "bottom": 740,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": false,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": true,
+        "ariaHidden": "true",
+        "pointer": "none"
+      }
+    },
+    {
+      "label": "wheel-5",
+      "url": "http://127.0.0.1:8922/experience/#story-return",
+      "scrollY": 4140,
+      "scrollMax": 4140,
+      "inner": [
+        1280,
+        720
+      ],
+      "client": [
+        1280,
+        720
+      ],
+      "visual": {
+        "width": 1280,
+        "height": 720,
+        "offsetTop": 0,
+        "scale": 1
+      },
+      "section": {
+        "top": 0,
+        "bottom": 720,
+        "height": 720,
+        "cssHeight": "720px"
+      },
+      "vault": {
+        "active": true,
+        "loaded": true,
+        "requested": true,
+        "cycle": 0,
+        "inert": false,
+        "ariaHidden": "false",
+        "pointer": "auto"
+      }
+    }
+  ],
+  "child": {
+    "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+    "vaultOpen": true,
+    "nested": false,
+    "pan": {
+      "x": -1250.5,
+      "y": -1418.5,
+      "left": 0,
+      "top": 0
+    },
+    "mode": "legacy"
+  },
+  "errors": [],
+  "limit": "Headless WebKit emulation; native Safari toolbar geometry requires separate native confirmation."
+}

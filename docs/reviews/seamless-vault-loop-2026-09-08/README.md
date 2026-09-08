@@ -22,3 +22,9 @@ A one-second Chromium sample observed zero child animation-frame callbacks, zero
 ## Release gates
 
 Final test checkpoint `c64fa52`: full-experience 15/15 with deterministic five-output generation, V-style protected-source checks 15 functions across three game routes, material guards, 37/37 byte-exact media and all ten workflow root suites pass. The legacy reveal VM fixture was updated to match the already-published backdrop isolation and reveal watchdog; no application behavior changed for that test repair. Independent Astra review approved source, visuals, repeated loops and hidden-work evidence.
+
+## Publication
+
+GitHub Pages built application release `4ecb0f3c0c057ff0a337389f848204f34e5ec238` successfully on the existing main/root deployment. Seven canonical live responses match local bytes exactly; see [live verification](live-byte-verification.json). A direct `#story-return` WebKit wheel check also passed after a transient demo report that the user retracted; see [direct-entry evidence](direct-return.json).
+
+All three focused journeys passed again against the live domain: WebKit desktop two loops with game Exit restoration, WebKit reduced-motion phone, and Chromium trusted-touch phone. No page errors or nested story documents occurred. See [live journey results](live-journey-results.json).
