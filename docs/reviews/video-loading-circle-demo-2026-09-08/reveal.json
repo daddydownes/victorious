@@ -1,0 +1,38 @@
+[
+  {
+    "name": "desktop",
+    "loading": {
+      "width": 28,
+      "height": 28,
+      "background": "rgba(0, 0, 0, 0)",
+      "opacity": "0",
+      "ring": "running",
+      "shade": "0"
+    },
+    "reveal": "0.54472",
+    "ready": {
+      "opacity": "1",
+      "width": 1280,
+      "paused": false
+    },
+    "errors": []
+  },
+  {
+    "name": "phone",
+    "loading": {
+      "width": 28,
+      "height": 28,
+      "background": "rgba(0, 0, 0, 0)",
+      "opacity": "0",
+      "ring": "running",
+      "shade": "0"
+    },
+    "reveal": "0.544482",
+    "ready": {
+      "opacity": "1",
+      "width": 1280,
+      "paused": false
+    },
+    "errors": []
+  }
+]

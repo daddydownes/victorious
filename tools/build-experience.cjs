@@ -257,7 +257,7 @@ story = replace(story, 'The original VCTRS brand logo in gold', 'The original V 
 story = story.replaceAll('../assets/', 'assets/');
 story = replace(story, '<title>VCTRS — For the ones who were there</title>', '<title>VCTRS — For the ones who were there</title><meta name="description" content="A Canberra clothing brand. Drops, pop-ups, music and good food."><link rel="preload" href="assets/cinzel.woff2" as="font" type="font/woff2" crossorigin>');
 story = replace(story, '<div class="intro-line">For the ones who were there</div>', '<div class="opening-invitation"><a class="story-cue" href="#portrait" aria-label="Scroll to the story">'+scrollCue+'</a></div>');
-story = story.replace(/<figure class="portrait-photo"[\s\S]*?<\/figure>/, '<div class="portrait-photo story-film-wrap"><video id="story-film" muted playsinline loop preload="none" aria-hidden="true" data-src="assets/story-film.mp4"></video><div class="film-loading" role="status"><span>Loading film</span></div></div><button class="film-retry" type="button" hidden>Play film</button>');
+story = story.replace(/<figure class="portrait-photo"[\s\S]*?<\/figure>/, '<div class="portrait-photo story-film-wrap"><video id="story-film" muted playsinline loop preload="none" aria-hidden="true" data-src="assets/story-film.mp4"></video></div><div class="film-loading" role="status"><span class="sr-only">Loading film</span></div><button class="film-retry" type="button" hidden>Play film</button>');
 story = story.replace(/(class="portrait-backmark[^>]*><svg[^>]*>)/, '$1<defs><linearGradient id="story-metal" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#e0c381"/><stop offset=".42" stop-color="#b29862"/><stop offset=".52" stop-color="#7d6334"/><stop offset="1" stop-color="#49371d"/></linearGradient></defs>');
 story = replace(story, '<h2 id="portrait-title">', '<h2 id="portrait-title" tabindex="-1">');
 story = story.replace(/logo\.style\.setProperty\('--logo-y',[^;]+;/, '').replace(/logo\.style\.setProperty\('--logo-scale',[^;]+;/, '');
@@ -431,7 +431,7 @@ story = replace(story, "catch{status.textContent='Not sent. Please try again.';}
 story = replace(story, "new IntersectionObserver(entries=>", "new IntersectionObserver(entries=>");
 story = replace(story, '</body></html>', `<script>(()=>{document.querySelector('.story-cue').addEventListener('click',e=>{e.preventDefault();const h=document.getElementById('portrait-title');document.getElementById('portrait').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});h.focus({preventScroll:true})});
 const film=document.getElementById('story-film'),scene=document.getElementById('portrait'),motion=matchMedia('(prefers-reduced-motion: reduce)'),game=document.getElementById('flapOverlay');
-const wrap=film.parentElement,loading=wrap.querySelector('.film-loading'),retry=document.querySelector('.film-retry');let visible=false;
+const wrap=film.parentElement,loading=scene.querySelector('.film-loading'),retry=document.querySelector('.film-retry');let visible=false;
 const wanted=()=>visible&&!motion.matches&&!document.hidden&&!game.classList.contains('on');
 function sync(){const active=wanted(),placeholderVisible=!wrap.classList.contains('film-ready')||wrap.classList.contains('film-waiting');wrap.classList.toggle('film-active',active);if(active){if(placeholderVisible){loading.removeAttribute('aria-hidden');loading.querySelector('span').textContent='Loading film'}if(!film.src)film.src=film.dataset.src;const p=film.play();if(p)p.then(()=>{if(!wanted())film.pause()}).catch(error=>{if(wanted()&&error.name!=='AbortError'){retry.hidden=false;wrap.classList.add('film-failed');loading.querySelector('span').textContent=film.error?'Film unavailable':'Film paused'}})}else{film.pause();if(motion.matches&&placeholderVisible){loading.setAttribute('aria-hidden','true');loading.querySelector('span').textContent='Film paused'}}}
 film.addEventListener('playing',()=>{wrap.classList.add('film-ready');wrap.classList.remove('film-waiting','film-failed');loading.setAttribute('aria-hidden','true');if(document.activeElement===retry){const heading=document.getElementById('portrait-title');heading.tabIndex=-1;heading.focus({preventScroll:true})}retry.hidden=true});
@@ -618,19 +618,21 @@ story = replace(story, '</style>', `
 .portrait-backmark.gold-lockup svg{filter:drop-shadow(1px 2px 0 #4a371d) drop-shadow(2px 4px 0 #201a10)}
 .portrait-backmark.gold-lockup path{fill:url(#story-metal);stroke:#d4bc8333;stroke-width:.55;stroke-linejoin:round}
 @media(min-width:701px){.portrait-backmark.gold-lockup{width:104%;left:3%;top:16%;transform:perspective(1400px) rotateY(-8deg) translateX(calc(var(--q)*-10%));transform-origin:center}}
-.story-film-wrap{background:#0c0c09}
-.story-film-wrap video{opacity:0;transition:opacity .45s ease}
+/* The loader sits outside the scaled media plane so its ring stays circular. */
+.story-film-wrap{background:transparent}
+.story-film-wrap:after{opacity:0;transition:opacity .75s ease}
+.story-film-wrap.film-ready:after{opacity:1}
+.story-film-wrap video{opacity:0;transition:opacity .75s cubic-bezier(.22,.61,.36,1)}
 .story-film-wrap.film-ready video{opacity:1}
-.film-loading{position:absolute;inset:0;overflow:hidden;background:linear-gradient(135deg,#12130f,#25251b 50%,#11120e);opacity:1;visibility:visible;transition:opacity .45s,visibility .45s;pointer-events:none}
-.film-loading:before{content:'';position:absolute;inset:-100% -20%;background:linear-gradient(170deg,transparent 30%,#b9a57012 44%,#d4bd8326 50%,#b9a57012 56%,transparent 70%);animation:film-scan 3s ease-in-out infinite;animation-play-state:paused}
-.film-loading span{position:absolute;left:0;right:0;top:48%;text-align:center;font:10px/1.5 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c4b488}
-.film-active:not(.film-failed) .film-loading:before{animation-play-state:running}
-.film-ready:not(.film-waiting):not(.film-failed) .film-loading{opacity:0;visibility:hidden}
-.film-ready:not(.film-waiting):not(.film-failed) .film-loading:before{animation-play-state:paused}
-.film-ready.film-waiting .film-loading{background:#12130f66}
-@keyframes film-scan{0%{transform:translateY(-30%)}100%{transform:translateY(30%)}}
+.film-loading{position:absolute;left:calc(var(--px,55%) + var(--pw,38%)/2);top:calc(var(--py,15%) + var(--ph,76%)/2);width:28px;height:28px;transform:translate(-50%,-50%);z-index:3;background:none;opacity:1;visibility:visible;transition:opacity .25s,visibility .25s;pointer-events:none}
+.film-loading:before{content:'';position:absolute;inset:0;border:1.5px solid #d4af5f33;border-top-color:#f0d492;border-radius:50%;animation:film-spin .9s linear infinite;animation-play-state:paused}
+.film-active:not(.film-failed) + .film-loading:before{animation-play-state:running}
+.film-ready:not(.film-waiting):not(.film-failed) + .film-loading{opacity:0;visibility:hidden}
+.film-ready:not(.film-waiting):not(.film-failed) + .film-loading:before{animation-play-state:paused}
+.film-failed + .film-loading:before{display:none}
+@keyframes film-spin{to{transform:rotate(1turn)}}
 .film-retry{position:absolute;right:6%;bottom:5%;z-index:6;min-height:44px;padding:10px 20px;border:1px solid #d4af5f;border-radius:999px;background:#12110e;color:#d4af5f;font:11px Arial,sans-serif;cursor:pointer}.film-retry[hidden]{display:none}
-@media(prefers-reduced-motion:reduce){.film-loading:before{animation:none}.film-loading,.story-film-wrap video{transition:none}.film-retry{display:none}}
+@media(prefers-reduced-motion:reduce){.film-loading,.film-retry{display:none}.film-loading:before{animation:none}.film-loading,.story-film-wrap video,.story-film-wrap:after{transition:none}}
 #play [data-reveal]{opacity:1;transform:none;transition:none}
 #play .live-game-shell{opacity:1;transform:none;transform-origin:center}
 #play:focus-within .live-game-shell{opacity:1;transform:none}

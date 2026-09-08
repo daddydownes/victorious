@@ -1,5 +1,9 @@
 # Current status
 
+## September 8 local video loading-circle demo
+
+Local review only, based on published `107ff39`. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). Await user review; do not publish this demo without authorization.
+
 ## September 8 Surface loop Scroll cue
 
 The embedded Vault → Surface return now focuses the existing visually hidden opening heading instead of the Scroll link. This removes the automatic highlight and matches the first arrival while preserving normal keyboard focus styling. The heading uses `tabindex="-1"` and `preventScroll`; loop timing, history, game and HD media remain unchanged. Sixteen focused browser loops pass across desktop, portrait, landscape and reduced-motion narrow layouts, including the returned appearance and keyboard activation. Navigation VM13/13, integration15/15, all ten root suites and media37/37 pass. See [screenshots and evidence](reviews/surface-scroll-cue-2026-09-08/README.md). Release `19f00f1` is live and built by GitHub Pages; seven canonical resources match local bytes, and the focused live loop/keyboard check passes.

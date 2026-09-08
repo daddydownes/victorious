@@ -1,0 +1,1090 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T05:57:32.014Z",
+  "expectSpinner": true,
+  "results": [
+    {
+      "name": "webkit-1280x720",
+      "engine": "webkit",
+      "viewport": [
+        1280,
+        720
+      ],
+      "mobile": false,
+      "pending1": {
+        "label": "held-pending-1",
+        "t": 302,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 871,
+            "y": 364.671875,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(0.104528, 0.994522, -0.994522, 0.104528, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "pending2": {
+        "label": "held-pending-2",
+        "t": 493,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 871,
+            "y": 364.671875,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(-0.934826, 0.355107, -0.355107, -0.934826, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready1": {
+        "label": "ready-1",
+        "t": 1221,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "0.97489",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.5684027499961043,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 871,
+            "y": 364.671875,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.68962, -0.724172, 0.724172, -0.68962, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready2": {
+        "label": "ready-2",
+        "t": 1492,
+        "scrollY": 993,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 582.19873046875,
+            "y": 99.253662109375,
+            "width": 605.602783203125,
+            "height": 558.85888671875
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.7596740722656,
+            "y": 97.8388671875,
+            "width": 998.5494384765625,
+            "height": 561.6876220703125
+          },
+          "opacity": "1",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.8394924583342919,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 871,
+            "y": 364.671875,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.68962, -0.724172, 0.724172, -0.68962, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "offscreen": {
+        "paused": {
+          "label": "offscreen-paused",
+          "t": 1600,
+          "scrollY": 0,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready",
+            "rect": {
+              "x": 704,
+              "y": 828,
+              "width": 486.394287109375,
+              "height": 547.1971435546875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 460.8452453613281,
+              "y": 828,
+              "width": 972.7886962890625,
+              "height": 547.1971435546875
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": true,
+            "currentTime": 0.8394924583342919,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 933.1875,
+              "y": 1087.59375,
+              "width": 28,
+              "height": 28
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -14, -14)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "26px",
+              "height": "26px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.68962, -0.724172, 0.724172, -0.68962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        },
+        "resumed1": {
+          "label": "onscreen-resumed-1",
+          "t": 1630,
+          "scrollY": 993,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready film-active",
+            "rect": {
+              "x": 582.19873046875,
+              "y": 99.253662109375,
+              "width": 605.602783203125,
+              "height": 558.85888671875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 385.7596740722656,
+              "y": 97.8388671875,
+              "width": 998.5494384765625,
+              "height": 561.6876220703125
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": false,
+            "currentTime": 0.938855375,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 871,
+              "y": 364.671875,
+              "width": 28,
+              "height": 28
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -14, -14)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "26px",
+              "height": "26px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.68962, -0.724172, 0.724172, -0.68962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        },
+        "resumed2": {
+          "label": "onscreen-resumed-2",
+          "t": 1875,
+          "scrollY": 993,
+          "wrap": {
+            "classes": "portrait-photo story-film-wrap film-ready film-active",
+            "rect": {
+              "x": 582.19873046875,
+              "y": 99.253662109375,
+              "width": 605.602783203125,
+              "height": 558.85888671875
+            },
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none"
+          },
+          "video": {
+            "rect": {
+              "x": 385.7596740722656,
+              "y": 97.8388671875,
+              "width": 998.5494384765625,
+              "height": 561.6876220703125
+            },
+            "opacity": "1",
+            "visibility": "visible",
+            "paused": false,
+            "currentTime": 1.2016381666692355,
+            "readyState": 4,
+            "networkState": 1,
+            "error": null,
+            "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+          },
+          "loading": {
+            "rect": {
+              "x": 871,
+              "y": 364.671875,
+              "width": 28,
+              "height": 28
+            },
+            "display": "block",
+            "visibility": "hidden",
+            "opacity": "0",
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "backgroundImage": "none",
+            "border": "0px none rgb(212, 175, 95)",
+            "borderRadius": "0px",
+            "animationName": "none",
+            "animationDuration": "0s",
+            "animationPlayState": "running",
+            "transform": "matrix(1, 0, 0, 1, -14, -14)",
+            "ariaHidden": "true",
+            "text": "Loading film",
+            "before": {
+              "content": "\"\"",
+              "width": "26px",
+              "height": "26px",
+              "border": "",
+              "borderRadius": "50%",
+              "animationName": "film-spin",
+              "animationDuration": "0.9s",
+              "animationPlayState": "paused",
+              "transform": "matrix(-0.68962, -0.724172, 0.724172, -0.68962, 0, 0)"
+            }
+          },
+          "retry": {
+            "hidden": true,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "activeElement": {
+            "tag": "BODY",
+            "id": "",
+            "className": ""
+          },
+          "hidden": false,
+          "reduced": false
+        }
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:8922/experience/assets/story-film.mp4",
+          "at": 1788847048022
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "chromium-390x844",
+      "engine": "chromium",
+      "viewport": [
+        390,
+        844
+      ],
+      "mobile": true,
+      "pending1": {
+        "label": "held-pending-1",
+        "t": 283,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 210.03125,
+            "y": 388,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(0.395975, 0.918261, -0.918261, 0.395975, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "pending2": {
+        "label": "held-pending-2",
+        "t": 470.3999999985099,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 2,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 210.03125,
+            "y": 388,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": null,
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "running",
+            "transform": "matrix(-0.835543, 0.549425, -0.549425, -0.835543, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready1": {
+        "label": "ready-1",
+        "t": 1142.1999999955297,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "0.971416",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.56268,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 210.03125,
+            "y": 388,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.972849, -0.231442, 0.231442, -0.972849, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "ready2": {
+        "label": "ready-2",
+        "t": 1409.0999999940395,
+        "scrollY": 1165,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 80.2269058227539,
+            "y": 129.8494110107422,
+            "width": 287.6327819824219,
+            "height": 544.3018798828125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 73.91746520996094,
+            "y": 127.65178680419922,
+            "width": 300.251708984375,
+            "height": 548.6972045898438
+          },
+          "opacity": "1",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.829336,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 210.03125,
+            "y": 388,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "hidden",
+          "opacity": "0",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(-0.972849, -0.231442, 0.231442, -0.972849, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "offscreen": null,
+      "requests": [
+        {
+          "url": "http://127.0.0.1:8922/experience/assets/story-film.mp4",
+          "at": 1788847050238
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "chromium-1280x720-failure-retry",
+      "failed": {
+        "label": "failed",
+        "t": 52.100000001490116,
+        "scrollY": 994,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-waiting film-failed",
+          "rect": {
+            "x": 581.081787109375,
+            "y": 99.17343139648438,
+            "width": 606.69580078125,
+            "height": 558.9658203125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.03643798828125,
+            "y": 97.74583435058594,
+            "width": 998.7865600585938,
+            "height": 561.821044921875
+          },
+          "opacity": "0",
+          "visibility": "visible",
+          "paused": true,
+          "currentTime": 0,
+          "readyState": 0,
+          "networkState": 3,
+          "error": {
+            "code": 4,
+            "message": "MEDIA_ELEMENT_ERROR: Format error"
+          },
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 870.421875,
+            "y": 364.65625,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": null,
+          "text": "Film unavailable",
+          "before": {
+            "content": "\"\"",
+            "width": "auto",
+            "height": "auto",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "none"
+          }
+        },
+        "retry": {
+          "hidden": false,
+          "rect": {
+            "x": 1119.640625,
+            "y": 640,
+            "width": 83.5625,
+            "height": 44
+          }
+        },
+        "activeElement": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "recovered": {
+        "label": "retry-recovered",
+        "t": 217.89999999850988,
+        "scrollY": 994,
+        "wrap": {
+          "classes": "portrait-photo story-film-wrap film-active film-ready",
+          "rect": {
+            "x": 581.081787109375,
+            "y": 99.17343139648438,
+            "width": 606.69580078125,
+            "height": 558.9658203125
+          },
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none"
+        },
+        "video": {
+          "rect": {
+            "x": 385.03643798828125,
+            "y": 97.74583435058594,
+            "width": 998.7865600585938,
+            "height": 561.821044921875
+          },
+          "opacity": "0.0642761",
+          "visibility": "visible",
+          "paused": false,
+          "currentTime": 0.032793,
+          "readyState": 4,
+          "networkState": 1,
+          "error": null,
+          "src": "http://127.0.0.1:8922/experience/assets/story-film.mp4"
+        },
+        "loading": {
+          "rect": {
+            "x": 870.421875,
+            "y": 364.65625,
+            "width": 28,
+            "height": 28
+          },
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "0.946392",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px none rgb(212, 175, 95)",
+          "borderRadius": "0px",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "animationPlayState": "running",
+          "transform": "matrix(1, 0, 0, 1, -14, -14)",
+          "ariaHidden": "true",
+          "text": "Loading film",
+          "before": {
+            "content": "\"\"",
+            "width": "26px",
+            "height": "26px",
+            "border": "",
+            "borderRadius": "50%",
+            "animationName": "film-spin",
+            "animationDuration": "0.9s",
+            "animationPlayState": "paused",
+            "transform": "matrix(0.974129, 0.225992, -0.225992, 0.974129, 0, 0)"
+          }
+        },
+        "retry": {
+          "hidden": true,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        },
+        "activeElement": {
+          "tag": "H2",
+          "id": "portrait-title",
+          "className": ""
+        },
+        "hidden": false,
+        "reduced": false
+      },
+      "errors": []
+    }
+  ],
+  "limits": "Headless WebKit desktop and Chromium mobile emulation; the request hold is test-only. No physical-device claim."
+}
