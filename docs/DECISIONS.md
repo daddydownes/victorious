@@ -179,3 +179,7 @@ The user requested integration of the supplied Demo 02 handoff and rounder spray
 ## Surface loop returns focus to the opening heading
 
 The repeated Surface should look like the first arrival. Returning from the embedded Vault focuses the existing visually hidden opening heading (`tabindex="-1"`) with `preventScroll`, instead of automatically highlighting the Scroll link. The next Tab reaches Scroll with its normal visible focus indicator. Keep focus recovery out of the inert child; do not remove keyboard focus styling.
+
+## Fast wheel input must not skip the Vault entrance
+
+A cancelable onward wheel step that would cross the24% entry threshold is capped at that threshold and commits the existing entrance synchronously. This prevents a single large step from bypassing the animation before the next scroll measurement. Full-view arrival with pending entry or recent forward intent still waits for readiness and input quiet; restoration/programmatic full-view activation without new forward intent retains its existing behavior. Round the projected threshold upward to avoid losing a pending entry to fractional layout. Preserve the media, game and separate touch handling.

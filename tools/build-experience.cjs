@@ -767,7 +767,10 @@ function measure(){
   const closed=gameClosed();
   if(document.hidden||resetting||!closed){touchHeld=false;touchSingle=false;if(entryPending||settling)cancelEntry();setActive(false);return}
   if(settling){setActive(false);return}
-  if(fullView(r)){entryPending=false;entryForced=false;section.classList.remove('is-committing');setActive(loaded&&!touchHeld);return}
+  if(fullView(r)){
+    if(entryPending||(!active&&intent===1&&performance.now()<=intentUntil)){commitEntry(false);return}
+    entryPending=false;entryForced=false;section.classList.remove('is-committing');setActive(loaded&&!touchHeld);return;
+  }
   setActive(false);
   if(entryPending&&!entryForced&&visibleRatio(r)<ENTRY_THRESHOLD){clearEntry();intent=0;intentUntil=0;return}
   if(!entryPending&&intent===1&&performance.now()<=intentUntil&&r.top>2&&visibleRatio(r)>=ENTRY_THRESHOLD)commitEntry(false);
@@ -811,7 +814,17 @@ addEventListener('message',event=>{
 function trusted(event){return event.isTrusted!==false}
 function forwardIntent(){if(document.hidden||resetting||!gameClosed())return false;intent=1;intentUntil=performance.now()+INTENT_WINDOW;request();return true}
 function reverseIntent(){clearEntry();intent=-1;intentUntil=performance.now()+INTENT_WINDOW;request()}
-function commitVisibleEntry(){const r=section.getBoundingClientRect();return r.top>2&&visibleRatio(r)>=ENTRY_THRESHOLD&&commitEntry(false)}
+function commitVisibleEntry(distance){
+  const r=section.getBoundingClientRect();
+  if(r.top>2&&visibleRatio(r)>=ENTRY_THRESHOLD)return commitEntry(false);
+  // A large wheel step must not skip the entrance before the next scroll frame.
+  const thresholdY=Math.ceil(scrollY+r.top-innerHeight*(1-ENTRY_THRESHOLD));
+  if(distance>0&&thresholdY>scrollY&&thresholdY<=vaultTarget()&&scrollY+distance>=thresholdY){
+    try{scrollTo({top:thresholdY,left:0,behavior:'instant'})}catch(_error){scrollTo(0,thresholdY)}
+    return commitEntry(false);
+  }
+  return false;
+}
 function wheelDistance(event){return event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1)}
 function interactive(target){return !!(target&&(target.isContentEditable||/^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(target.tagName)||target.closest&&target.closest('[contenteditable=true],[role=button],[role=slider]')))}
 addEventListener('wheel',event=>{
@@ -821,7 +834,7 @@ addEventListener('wheel',event=>{
     if(event.cancelable!==false)event.preventDefault();return;
   }
   if(event.deltaY<0){reverseIntent();return}
-  if(forwardIntent()&&commitVisibleEntry()&&event.cancelable!==false)event.preventDefault();
+  if(forwardIntent()&&commitVisibleEntry(event.cancelable!==false?wheelDistance(event):0)&&event.cancelable!==false)event.preventDefault();
 },{passive:false});
 addEventListener('keydown',event=>{
   if(!trusted(event)||event.defaultPrevented||document.hidden||!gameClosed()||event.altKey||event.ctrlKey||event.metaKey||interactive(event.target))return;

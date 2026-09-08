@@ -1,5 +1,9 @@
 # Current status
 
+## September 8 rapid-scroll Vault entrance correction
+
+A single large wheel step could skip the entrance and activate the Vault while a scroll burst was still arriving. The controller now caps crossing wheel input at24% and commits the existing animation immediately; a direct native full-view jump with recent forward intent also waits for readiness and input quiet. The matched Chrome/WebKit burst now has zero active frames until scrolling finishes. Fourteen desktop stress scenarios, ten rapid phone-emulation loops, six cold-load/End cases and eleven refresh/history cases pass. Navigation16/16, integration15/15, game source and media37/37 pass. See [evidence](reviews/rapid-vault-loop-2026-09-08/README.md). No HD media or game changes. Publication verification follows.
+
 ## September 8 approved video loading circle
 
 Based on published `107ff39`; the user approved publication after enlarging the reviewed ring from28px to36px. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). Release `4adef56` is published and built by GitHub Pages. Seven canonical resources match local bytes, and live desktop/phone loading and playback checks pass. The production site has no artificial loading delay.

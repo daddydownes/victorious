@@ -182,3 +182,7 @@ The Fly the V heading uses `experience/assets/fly-the-v-spray.png`, generated wi
 The title now uses experience/assets/play-the-game-spray-v1.png and hidden real heading text Play the game. PAINT_REVEAL strokes follow the new two-line lettering. The journey-play button retains its accessible name via sr-only text, while its visible content is the arrow. A nested SVG reveals experience/assets/play-arrow-spray-v1.png through an invisible stroked mask; only the raster pigment is visible. The inner SVG rotates ninety degrees on desktop, leaving the parent's directional movement intact. Reduced motion and focus bypass the mask animation. No new camera controller is present.
 
 Current section order is opening,Portrait Depth film,play,vault-invite,ending gallery. The former memory-passage markup and its scroll/click controller are removed; legacy unused CSS remains inert. The play paint controller and reveal observer remain active.
+
+## Rapid Vault approach
+
+The terminal controller in `tools/build-experience.cjs` projects normalized cancelable wheel distance before native scrolling. When one step would cross the24% threshold, it scrolls to the rounded threshold and commits the existing900ms entrance. Noncancelable/native full-view jumps with recent forward intent use the normal ready/touch/quiet handoff. Existing loaded, inert, Surface cycle and history behavior remain.
