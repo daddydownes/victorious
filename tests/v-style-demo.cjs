@@ -43,10 +43,10 @@ for(const relative of titleAssets.map(file=>file.replace('experience/','')))asse
 assert(story.includes(arrowAsset.replace('experience/','')),'play arrow is not wired into the story');
 assert(story.includes('<span class="paint-title-text">Play the game.</span>')&&story.includes('<span class="paint-title-text">Back to the vault</span>'),'readable title fallbacks changed');
 assert(story.includes('id="play-title" class="paint-pending"')&&story.includes('id="vault-title" class="paint-pending"'),'pending title layout contract changed');
-const paint=read('tools/flappy-clean-paint.js'),face=paint.slice(paint.indexOf('  function drawFacePaint('),paint.indexOf('\n  function flapDrawPaintBackdrop('));
+const paint=read('tools/flappy-clean-paint.js'),graffiti=require(path.join(root,'tools/flappy-graffiti-art.js')),atlas=paint.slice(paint.indexOf('  function graffitiAtlas('),paint.indexOf('\n  function textureSprite('));
 assert(paint.includes("var PAINT = '#f0d492';"),'canvas paint token must exactly match the canonical V');
-assert(face.includes('fillStyle = PAINT')&&face.includes('strokeStyle = PAINT'),'face mark and drips must share canonical gold');
-assert(!/(?:Gradient|shadow|filter|rgba\(|#[0-9a-f]{6})/i.test(face.replaceAll('#f0d492','')),'face paint introduced shading, glow, or another colour');
+assert.equal(graffiti.gold,'#f0d492','graffiti module must declare canonical gold');assert.equal(graffiti.motifs.length,5);assert(graffiti.motifs.every(motif=>motif.paths.length&&motif.paths.every(layer=>layer.fill==='#f0d492')),'graffiti motif uses a noncanonical fill');
+assert(atlas.includes('ctx.fillStyle = PAINT; ctx.fill(graffitiPath(motif, p));'),'graffiti atlas does not render from the canonical paint token');assert(!paint.includes('function drawFacePaint('),'retired line swash remains in the renderer');
 assert(paint.includes('pathPolygon(ctx, polygon, 0, 0);\n    ctx.clip();'),'all face decoration must remain inside the collision polygon');
 assert(read('index.html').includes('function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}'));
 assert(read('experience/game-preview.html').includes('function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}'));
