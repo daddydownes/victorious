@@ -1,5 +1,13 @@
 # Current status
 
+## September 8 continuous Vault loop release candidate
+
+The user authorized publishing the accepted Demo 02 motion, rounded gold graffiti and new story ending. Playable obstacles carry varied graffiti every fifth pair; the automatic preview retains the all-pair paint and ten-clear cycle. Actual gameplay still changes section every 25 clears. Original canonical artwork and all 37 media files remain unchanged.
+
+The story now scrolls past a spacious V-and-star directly into the original Vault. Its Surface control restarts the same parent story; the different next Surface is deferred. A WebKit reset bug caught during real browser QA was fixed by making embedded Vault navigation hashless. Final source checkpoint `d87d449`; WebKit desktop repeated loops, reduced-motion phone keyboard/pan, Chromium touch scroll/pan/reset and game Exit restoration pass. See [the portable review](reviews/seamless-vault-loop-2026-09-08/README.md) and [sparse graffiti evidence](reviews/flappy-graffiti-2026-09-08/sparse/results.json).
+
+Final checks pass: 15 integration checks, protected game functions, all ten root suites, 37/37 exact media, repeated browser loops, and offscreen-motion shutdown. Independent review approved the release. Publication is authorized and the checked release is ready to push. This entry will be updated with the verified Pages build after deployment. Earlier local-only restrictions below are historical and superseded by the explicit publication request.
+
 ## September 8 local Flappy graffiti demo
 
 The local 8922 demo now replaces the old obstacle swashes with five thicker rounded hot-gold graffiti motifs: canonical V-and-star, VCTRS, THE VAULT, FLY THE V and SURFACE. A pure seed from each gate's immutable serial and spawn phase varies motif order, angle, size and placement without calling gameplay randomness; the layout stays attached while the gate moves. Marks remain inside the collision polygon and outside a 16-unit passage reserve. Physics, collision, progression, 25-clear playable sections, ten-clear preview, 100-clear reward and all 37 existing media files are unchanged.

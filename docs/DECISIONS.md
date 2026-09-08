@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 8, 2026 — continuous Vault loop and sparse game graffiti
+
+The user approved publishing the integrated Demo 02 motion and rounded gold graffiti. In actual gameplay only every fifth obstacle pair carries the varied paint; the automatic preview keeps paint on every pair. Playable sections remain 25 clears and preview styles remain ten clears.
+
+Replace the old Back to the Vault invitation, six-photo ending and story signup/footer with a spacious canonical gold V-and-star followed by the original Vault continuously revealed by native scrolling. Reuse existing archive photos at their original quality. Surface in this embedded Vault resets the same parent story to its beginning. A different next Surface is explicitly deferred; no new second story is implemented.
+
 ## September 8, 2026 — local clean V-style art direction
 
 Prototype the requested visual direction across both story lettering and Flappy V without changing the public site. Use the canonical hot gold (`#f0d492`) and the same V-and-star geometry. Lettering is clean, flared soft-serif vector art with a few rounded drips and almost no overspray; avoid brush texture, amber haze, gradients, filters and raster concept-board reuse. Keep readable pending/failure text while title SVGs decode.

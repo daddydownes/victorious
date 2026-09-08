@@ -1,5 +1,13 @@
 # How the site works
 
+## Continuous story-to-Vault loop
+
+`tools/build-experience.cjs` ends the story with `#story-return` (spacious canonical V) and `#story-vault` (one viewport containing `#story-vault-frame`). It preloads the archive near the closing section, leaves it inert during partial reveal, and activates it only when fully visible with the game closed and document visible. Native page scrolling reveals the actual archive without a top-level navigation.
+
+`tools/vault-embed.cjs` derives the utility `vault-embed.html` from the final root HTML. The clone is noindex, starts inert, omits the unused intro film request, and suspends shared motion while inactive. Same-origin messages validate their source and cycle token. Embedded Surface resets the parent story scroll and reloads only the child with the next cycle; ordinary root Surface still opens `experience/`. This supersedes the invitation/gallery/Start again ending described in historical sections below.
+
+Rebuild five outputs together: root `index.html`, `vault-embed.html`, `experience/index.html`, `experience/game-preview.html`, and `experience/state.json`. The game paint adapter enables graffiti for every fifth playable pair and every automatic-preview pair; it preserves the shared physics and original media.
+
 ## Integrated Demo 02 host motion
 
 The story adapter in `tools/production-game.cjs` owns the bounded opening/closing clip lifecycle and input guards. `tools/build-experience.cjs` owns relevant-art decode gating and one-shot card/title/arrow arrival. Resize, reduced motion, hidden state and early Escape settle or reverse the current transition; real gameplay remains in the shared core. `tests/vstyle-motion.cjs` verifies these host behaviors. See the [integrated review](reviews/demo-02-integrated/README.md).

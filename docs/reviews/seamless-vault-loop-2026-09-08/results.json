@@ -1,0 +1,309 @@
+{
+  "base": "local HTTP review server",
+  "checkedAt": "2026-09-08T01:36:33.291Z",
+  "results": [
+    {
+      "name": "webkit-1280x720-wheel-two-loops",
+      "before": 2448,
+      "restored": {
+        "scrollY": 2448,
+        "hash": "#play",
+        "focus": "journey-play",
+        "active": false
+      },
+      "partial": {
+        "url": "http://127.0.0.1:8922/experience/#play",
+        "scrollY": 3708,
+        "active": false,
+        "loaded": true,
+        "resetting": false,
+        "cycle": 0,
+        "section": {
+          "top": 432,
+          "bottom": 1152,
+          "height": 720
+        },
+        "inert": true,
+        "ariaHidden": "true",
+        "tabindex": "-1",
+        "pointer": "none",
+        "frameSrc": null,
+        "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+        "returnHref": "#story-vault",
+        "oldTail": []
+      },
+      "first": {
+        "parent": {
+          "url": "http://127.0.0.1:8922/experience/#play",
+          "scrollY": 4140,
+          "active": true,
+          "loaded": true,
+          "resetting": false,
+          "cycle": 0,
+          "section": {
+            "top": 0,
+            "bottom": 720,
+            "height": 720
+          },
+          "inert": false,
+          "ariaHidden": "false",
+          "tabindex": null,
+          "pointer": "auto",
+          "frameSrc": null,
+          "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+          "returnHref": "#story-vault",
+          "oldTail": []
+        },
+        "child": {
+          "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+          "vault": true,
+          "vaultOpen": true,
+          "focus": "vault",
+          "nestedStory": false,
+          "pan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "panActive": false,
+          "mode": "legacy",
+          "surfaceVisible": true
+        }
+      },
+      "pan0": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      },
+      "pan1": {
+        "x": -1994.3390219015503,
+        "y": -2042.3390219015503,
+        "left": 0,
+        "top": 0
+      },
+      "reset1": {
+        "priorCycle": 0,
+        "afterCycle": 1,
+        "scrollY": 0,
+        "focus": "story-cue",
+        "childUrl": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=1"
+      },
+      "second": {
+        "parent": {
+          "url": "http://127.0.0.1:8922/experience/",
+          "scrollY": 4140,
+          "active": true,
+          "loaded": true,
+          "resetting": false,
+          "cycle": 1,
+          "section": {
+            "top": 0,
+            "bottom": 720,
+            "height": 720
+          },
+          "inert": false,
+          "ariaHidden": "false",
+          "tabindex": null,
+          "pointer": "auto",
+          "frameSrc": null,
+          "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+          "returnHref": "#story-vault",
+          "oldTail": []
+        },
+        "child": {
+          "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=1",
+          "vault": true,
+          "vaultOpen": true,
+          "focus": "vault",
+          "nestedStory": false,
+          "pan": {
+            "x": -1250.5,
+            "y": -1418.5,
+            "left": 0,
+            "top": 0
+          },
+          "panActive": false,
+          "mode": "legacy",
+          "surfaceVisible": true
+        }
+      },
+      "reset2": {
+        "priorCycle": 1,
+        "afterCycle": 2,
+        "scrollY": 0,
+        "focus": "story-cue",
+        "childUrl": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=2"
+      },
+      "errors": []
+    },
+    {
+      "name": "webkit-390x844-reduced-key",
+      "partial": {
+        "url": "http://127.0.0.1:8922/experience/?embed=reduced",
+        "scrollY": 3239,
+        "active": false,
+        "loaded": true,
+        "resetting": false,
+        "cycle": 0,
+        "section": {
+          "top": 294.171875,
+          "bottom": 1138.15625,
+          "height": 843.984375
+        },
+        "inert": true,
+        "ariaHidden": "true",
+        "tabindex": "-1",
+        "pointer": "none",
+        "frameSrc": null,
+        "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+        "returnHref": "#story-vault",
+        "oldTail": []
+      },
+      "active": {
+        "parent": {
+          "url": "http://127.0.0.1:8922/experience/?embed=reduced",
+          "scrollY": 3533,
+          "active": true,
+          "loaded": true,
+          "resetting": false,
+          "cycle": 0,
+          "section": {
+            "top": 0.171875,
+            "bottom": 844.15625,
+            "height": 843.984375
+          },
+          "inert": false,
+          "ariaHidden": "false",
+          "tabindex": null,
+          "pointer": "auto",
+          "frameSrc": null,
+          "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+          "returnHref": "#story-vault",
+          "oldTail": []
+        },
+        "child": {
+          "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+          "vault": true,
+          "vaultOpen": true,
+          "focus": "vault",
+          "nestedStory": false,
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 0,
+            "top": 0
+          },
+          "panActive": false,
+          "mode": "legacy",
+          "surfaceVisible": true
+        }
+      },
+      "pan0": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 0,
+        "top": 0
+      },
+      "pan1": {
+        "x": -719.725,
+        "y": -378.32500000000005,
+        "left": 0,
+        "top": 0
+      },
+      "reset": {
+        "priorCycle": 0,
+        "afterCycle": 1,
+        "scrollY": 0,
+        "focus": "story-cue",
+        "childUrl": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=1"
+      },
+      "errors": []
+    },
+    {
+      "name": "chromium-390x844-trusted-touch",
+      "partial": {
+        "url": "http://127.0.0.1:8922/experience/?embed=touch",
+        "scrollY": 4122,
+        "active": false,
+        "loaded": true,
+        "resetting": false,
+        "cycle": 0,
+        "section": {
+          "top": 381.796875,
+          "bottom": 1225.796875,
+          "height": 844
+        },
+        "inert": true,
+        "ariaHidden": "true",
+        "tabindex": "-1",
+        "pointer": "none",
+        "frameSrc": null,
+        "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+        "returnHref": "#story-vault",
+        "oldTail": []
+      },
+      "active": {
+        "parent": {
+          "url": "http://127.0.0.1:8922/experience/?embed=touch",
+          "scrollY": 4504,
+          "active": true,
+          "loaded": true,
+          "resetting": false,
+          "cycle": 0,
+          "section": {
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "height": 844
+          },
+          "inert": false,
+          "ariaHidden": "false",
+          "tabindex": null,
+          "pointer": "auto",
+          "frameSrc": null,
+          "dataSrc": "../vault-embed.html?embed=vault&cycle=0",
+          "returnHref": "#story-vault",
+          "oldTail": []
+        },
+        "child": {
+          "url": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=0",
+          "vault": true,
+          "vaultOpen": true,
+          "focus": "vault",
+          "nestedStory": false,
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          },
+          "panActive": true,
+          "mode": "native",
+          "surfaceVisible": true
+        }
+      },
+      "pan0": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "pan1": {
+        "x": -655.725,
+        "y": -757.325,
+        "left": 656,
+        "top": 757
+      },
+      "reset": {
+        "priorCycle": 0,
+        "afterCycle": 1,
+        "scrollY": 0,
+        "focus": "story-cue",
+        "childUrl": "http://127.0.0.1:8922/vault-embed.html?embed=vault&cycle=1"
+      },
+      "errors": []
+    }
+  ],
+  "limits": "Headless WebKit wheel/key and Chromium CDP trusted-touch emulation; no physical-device claim. Full game/motion behavior outside Exit restoration was not repeated."
+}

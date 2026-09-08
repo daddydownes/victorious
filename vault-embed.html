@@ -1,5 +1,97 @@
 <!DOCTYPE html>
-<html lang="en-AU">
+<html lang="en-AU" inert data-vctrs-vault-embed-paused>
+<head>
+<meta name="robots" content="noindex,nofollow">
+<style>
+html[data-vctrs-vault-embed-paused],
+html[data-vctrs-vault-embed-paused] *,
+html[data-vctrs-vault-embed-paused] *::before,
+html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!important}
+</style>
+<script>
+/* VCTRS_VAULT_EMBED_BRIDGE */
+(function(){
+  'use strict';
+  var root=document.documentElement, params=new URLSearchParams(location.search), parentOrigin='', embedded=false;
+  try{
+    parentOrigin=parent.location.origin;
+    embedded=params.get('embed')==='vault' && parent!==window && parentOrigin===location.origin;
+  }catch(_originError){}
+  window.__vctrsVaultEmbedMode=embedded;
+  window.__vctrsVaultEmbedActive=!embedded;
+  if(!embedded){
+    root.removeAttribute('inert'); root.removeAttribute('data-vctrs-vault-embed-paused');
+    var releaseBody=function(){ if(document.body)document.body.removeAttribute('inert'); };
+    if(document.readyState==='loading')addEventListener('DOMContentLoaded',releaseBody,{once:true}); else releaseBody();
+    return;
+  }
+
+  var cycle=params.get('cycle')||'0', active=false, resetting=false, surfaceSent=false, pausedAnimations=[];
+  function sameCycle(value){ return value!==undefined && String(value)===cycle; }
+  function blurInside(){
+    var focused=document.activeElement;
+    if(focused && focused!==document.body && focused!==root && focused.blur){
+      try{ focused.blur(); }catch(_blurError){}
+    }
+  }
+  function pauseAnimations(){
+    if(!document.getAnimations)return;
+    document.getAnimations().forEach(function(animation){
+      if(animation.playState==='running'){
+        try{ animation.pause(); pausedAnimations.push(animation); }catch(_pauseError){}
+      }
+    });
+  }
+  function syncInert(paused){
+    root.toggleAttribute('inert',paused);
+    root.toggleAttribute('data-vctrs-vault-embed-paused',paused);
+    if(document.body)document.body.toggleAttribute('inert',paused);
+  }
+  function notifyVisibility(){
+    dispatchEvent(new CustomEvent('vctrs-vault-visibility',{detail:{active:active,cycle:cycle}}));
+  }
+  function setActive(next){
+    next=next===true;
+    if(next===active){ syncInert(!next); notifyVisibility(); return; }
+    if(!next){ blurInside(); pauseAnimations(); }
+    active=next; window.__vctrsVaultEmbedActive=next; syncInert(!next);
+    if(next){
+      var resume=pausedAnimations; pausedAnimations=[];
+      resume.forEach(function(animation){ if(animation.playState==='paused')try{animation.play();}catch(_playError){} });
+      var vault=document.getElementById('vault');
+      if(vault)try{vault.focus({preventScroll:true});}catch(_focusError){vault.focus();}
+    }
+    notifyVisibility();
+  }
+  function post(type){ parent.postMessage({type:type,cycle:cycle},parentOrigin); }
+
+  syncInert(true);
+  window.__vctrsVaultEmbedSurface=function(){
+    if(!active||surfaceSent||resetting)return true;
+    surfaceSent=true; setActive(false); post('vctrs-vault-surface'); return true;
+  };
+  addEventListener('message',function(event){
+    var data=event.data;
+    if(event.origin!==parentOrigin || event.source!==parent || !data || typeof data!=='object' || !sameCycle(data.cycle))return;
+    if(data.type==='vctrs-vault-visibility' && typeof data.active==='boolean'){
+      if(data.active && surfaceSent)return;
+      setActive(data.active);
+      return;
+    }
+    if(data.type==='vctrs-vault-reset'){
+      if(resetting)return;
+      var next=data.nextCycle;
+      if((typeof next!=='string' && typeof next!=='number') || !/^[A-Za-z0-9._-]{1,64}$/.test(String(next)))return;
+      resetting=true; setActive(false);
+      var target=new URL(location.href);
+      target.search=''; target.searchParams.set('embed','vault'); target.searchParams.set('cycle',String(next)); target.hash='';
+      if(target.href===location.href)location.reload(); else location.replace(target.href);
+    }
+  });
+  function ready(){ syncInert(!active); notifyVisibility(); post('vctrs-vault-ready'); }
+  if(document.readyState==='loading')addEventListener('DOMContentLoaded',ready,{once:true}); else ready();
+})();
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>VICTORIOUS — The Vault</title>
@@ -852,9 +944,10 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   .intro-v-halo svg{display:block;width:100%;height:100%;overflow:visible}
   @media(prefers-reduced-motion:reduce){.stage #film{transition:none}.vault{touch-action:pinch-zoom}}
 </style>
-<body class="locked">
+</head>
+<body class="locked" inert>
 <div class="surface-story" aria-hidden="true"><div class="surface-story-logo"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="surface-story-invitation"><div class="surface-story-cue"><span class="scroll-label">Scroll</span><span class="scroll-line" aria-hidden="true"></span></div></div></div><div class="stage" id="stage" tabindex="-1" role="region" aria-label="VCTRS — scroll to continue">
-  <video id="film" muted playsinline preload="auto" aria-hidden="true" src="assets/hero-film-51129a88918e.mp4" poster="assets/hero-poster-311ec34583b0.jpg"></video>
+  <video id="film" muted playsinline preload="none" aria-hidden="true"></video>
   <div class="wash"></div>
   <div class="card-cover" id="cardCover" aria-hidden="true"></div>
   <div class="film-logo" id="filmLogo" aria-hidden="true"><div class="mk mk-gold"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div><div class="mk mk-white"><svg class="vmark" viewBox="170.4 94.8 295.5 357.7" aria-label="V" role="img"><path d="M 410.079 103.744 C 408.747 105.810, 403.877 112.610, 399.257 118.855 L 390.857 130.210 371.428 129.855 C 360.743 129.660, 352 129.806, 352 130.181 C 352 130.555, 356.542 137.080, 362.094 144.681 C 373.977 160.950, 374.528 162.078, 372.497 166.007 C 371.673 167.598, 371 169.368, 371 169.940 C 371 170.512, 368.719 177.103, 365.931 184.588 C 363.143 192.072, 361.060 198.393, 361.301 198.635 C 361.543 198.876, 364.049 198.163, 366.872 197.051 C 369.694 195.938, 377.917 193.212, 385.145 190.993 C 400.496 186.279, 396.857 185.152, 416.184 200.611 L 429.500 211.263 430 191.163 L 430.500 171.063 442.500 162.956 C 449.100 158.497, 456.196 153.895, 458.268 152.730 C 460.341 151.564, 461.879 150.137, 461.686 149.558 C 461.493 148.978, 453.272 145.854, 443.417 142.615 C 433.563 139.375, 425.375 136.624, 425.222 136.501 C 424.870 136.218, 418.133 112.153, 416.544 105.500 C 415.069 99.328, 413.244 98.832, 410.079 103.744 M 379 203.470 C 336.109 217.148, 308.434 226.456, 307.761 227.430 C 307.354 228.019, 307.309 229.175, 307.660 230 C 308.012 230.825, 309.413 235.325, 310.774 240 C 312.135 244.675, 313.578 248.862, 313.979 249.304 C 314.380 249.747, 318.487 249.331, 323.104 248.381 C 337.171 245.486, 343.852 249.176, 344.779 260.351 C 346.351 279.307, 326.852 354.091, 316.060 370.493 C 310.245 379.331, 309.929 378.650, 297.478 330.500 C 292.358 310.700, 285.669 284.825, 282.615 273 C 277.056 251.476, 274.012 235.820, 274.004 228.710 C 274.002 226.626, 273.052 223.026, 271.892 220.710 C 268.518 213.969, 257.697 200.032, 255.351 199.407 C 254.070 199.065, 248.615 200.516, 241.851 202.996 C 202.495 217.427, 176.340 227.404, 175.313 228.376 C 174.401 229.240, 174.691 231.438, 176.563 237.863 C 177.903 242.463, 179 247.090, 179 248.145 C 179 250.774, 181.236 251.407, 185.524 249.992 C 201.666 244.665, 209.420 259.782, 233.490 343.500 C 255.216 419.063, 260.382 431.606, 273.412 440.423 C 281.164 445.667, 287.280 447.030, 306.095 447.702 C 327.234 448.457, 327.320 448.434, 329.929 441.459 C 332.527 434.518, 347.114 392.667, 354.919 369.768 C 361.430 350.663, 363.917 343.588, 374.166 315 C 390.991 268.072, 400.852 247.265, 411.625 235.958 C 415.747 231.632, 415.936 228.531, 412.614 219.706 C 407.639 206.490, 401.693 197.908, 397.646 198.104 C 396.466 198.161, 388.075 200.576, 379 203.470" fill="currentColor"/></svg></div></div>
@@ -1091,7 +1184,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   }
   if(motionQuery.addEventListener) motionQuery.addEventListener('change',refreshMotionPreference);
   else if(motionQuery.addListener) motionQuery.addListener(refreshMotionPreference);
-  var directVault=location.hash==='#vault';
+  var directVault=location.hash==='#vault'||window.__vctrsVaultEmbedMode===true;
   var phase='ready'; // ready -> playing -> done
 
   /* letter-stagger wordmarks (idea 06): wrap each glyph, reveal with a cascade */
@@ -1186,7 +1279,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     if(motionHasWork()) scheduleMotion(); else motionSleep();
   }
   function scheduleMotion(){
-    if(motionRaf||document.hidden) return;
+    if(motionRaf||document.hidden||window.__vctrsVaultEmbedActive===false) return;
     var ticket=++motionTicket;
     motionRaf=requestAnimationFrame(function(now){ motionFrame(now,ticket); });
   }
@@ -1196,10 +1289,14 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     motionLast=0;
   }
   function wakeMotion(){
-    if(document.hidden||!motionHasWork()||motionRaf) return;
+    if(document.hidden||window.__vctrsVaultEmbedActive===false||!motionHasWork()||motionRaf) return;
     motionLast=motionNow(); motionRafSeen=Date.now();
     scheduleMotion();
   }
+  addEventListener('vctrs-vault-visibility',function(event){
+    if(!event.detail||event.detail.active!==true){ motionSleep(); return; }
+    motionLast=motionNow(); measure(); updateScroll(); wakeMotion();
+  });
   addEventListener('visibilitychange',function(){
     if(document.hidden){
       // CSS transitions, keyframes and the shared-element flight keep their
@@ -1225,7 +1322,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     measure(); updateScroll(); wakeMotion();
   });
   setInterval(function(){
-    if(document.hidden||!motionHasWork()||Date.now()-motionRafSeen<=200) return;
+    if(document.hidden||window.__vctrsVaultEmbedActive===false||!motionHasWork()||Date.now()-motionRafSeen<=200) return;
     motionTicket++;
     if(motionRaf){ cancelAnimationFrame(motionRaf); motionRaf=0; }
     motionAdvance(motionNow());
@@ -2403,7 +2500,9 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     var next=document.getElementById('nextDrop');
     if(next){ next.setAttribute('aria-hidden','true'); setNextDropInert(next,true); }
     var btn=document.getElementById('nextVaultHold'); if(btn) btn.disabled=true;
+    if(window.__vctrsVaultEmbedActive!==false){
     try{ vault.focus({preventScroll:true}); }catch(_e){ vault.focus(); }
+    }
   }
   function flyIn(){
     // scroll + submit can race into here — only the first wins. The closing /
@@ -2670,7 +2769,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
         tw:Math.random()*6.28, ts:0.03+Math.random()*0.04});
     }
     setInterval(function(){
-      if(document.hidden || reduced) return;
+      if(document.hidden || window.__vctrsVaultEmbedActive===false || reduced) return;
       if(parseFloat(vault.style.opacity||'0')<=0) return;   // vault not on screen
       if(dragging || inertia || nativePanScrolling || nativePanPointerDown || nativePanInputArmed) return; // keep the decorative 20fps canvas off the critical pan/coast path
       // backing store was in CSS px and the compositor stretched it to the real
@@ -3278,6 +3377,7 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
     filmLogo.style.opacity='1'; filmLogo.style.transform=''; filmLogo.style.willChange='';
     filmLogo.style.filter='drop-shadow(0 0 3.5px rgba(240,212,146,0.30))';
     try{history.replaceState(history.state,'',location.pathname+location.search+'#vault');}catch(_history){}
+    if(window.__vctrsVaultEmbedSurface&&window.__vctrsVaultEmbedSurface()) return;
     location.assign(new URL('experience/', location.href).href);
     try{ stage.focus({preventScroll:true}); }catch(_focusErr){ stage.focus(); }
   }

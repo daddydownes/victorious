@@ -1,0 +1,28 @@
+{
+  "inactive": {
+    "frames": 0,
+    "active": false,
+    "inert": true,
+    "animations": 0,
+    "filmSource": null,
+    "playingMedia": 0
+  },
+  "active": {
+    "frames": 20,
+    "active": true,
+    "inert": false,
+    "animations": 7,
+    "filmSource": null,
+    "playingMedia": 0
+  },
+  "pausedAgain": {
+    "frames": 0,
+    "active": false,
+    "inert": true,
+    "animations": 0,
+    "filmSource": null,
+    "playingMedia": 0
+  },
+  "heroRequests": [],
+  "limits": "One headless Chromium desktop lifecycle sample; rAF count is diagnostic, not a frame-rate benchmark or physical-device test."
+}
