@@ -9,3 +9,5 @@ The builder now makes the existing visually hidden opening heading programmatica
 Screenshots: [first arrival](first-desktop.png), [returned Surface](after-desktop.png), [intentional keyboard focus](keyboard-focus.png), [phone](after-phone.png), [landscape](after-landscape.png). Root inspected before/after desktop and phone screenshots. These are browser emulations, not physical-device or screen-reader certification. No page errors or real form submissions.
 
 Source validation: navigation VM13/13, deterministic integration15/15, protected game source, media37/37 byte-exact, and all ten repository root suites pass. Astra independently approved the minimal focus change.
+
+Application release `19f00f11191c1bb9b69fee62bf4fc8630907c753` is published and successfully built by GitHub Pages. [Seven canonical resources](live-resources.json) match local bytes. A [focused live WebKit loop](live.json) confirms the clean returned Scroll cue, heading focus, keyboard cue highlight and Enter activation.

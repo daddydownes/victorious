@@ -2,7 +2,7 @@
 
 ## September 8 Surface loop Scroll cue
 
-The embedded Vault → Surface return now focuses the existing visually hidden opening heading instead of the Scroll link. This removes the automatic highlight and matches the first arrival while preserving normal keyboard focus styling. The heading uses `tabindex="-1"` and `preventScroll`; loop timing, history, game and HD media remain unchanged. Sixteen focused browser loops pass across desktop, portrait, landscape and reduced-motion narrow layouts, including the returned appearance and keyboard activation. Navigation VM13/13, integration15/15, all ten root suites and media37/37 pass. See [screenshots and evidence](reviews/surface-scroll-cue-2026-09-08/README.md). Publication follows the standing authorization.
+The embedded Vault → Surface return now focuses the existing visually hidden opening heading instead of the Scroll link. This removes the automatic highlight and matches the first arrival while preserving normal keyboard focus styling. The heading uses `tabindex="-1"` and `preventScroll`; loop timing, history, game and HD media remain unchanged. Sixteen focused browser loops pass across desktop, portrait, landscape and reduced-motion narrow layouts, including the returned appearance and keyboard activation. Navigation VM13/13, integration15/15, all ten root suites and media37/37 pass. See [screenshots and evidence](reviews/surface-scroll-cue-2026-09-08/README.md). Release `19f00f1` is live and built by GitHub Pages; seven canonical resources match local bytes, and the focused live loop/keyboard check passes.
 
 ## September 8 continued-scroll correction
 
