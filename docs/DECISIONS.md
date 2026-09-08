@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 8, 2026 — one entrance while scrolling continues
+
+Continued forward input must not restart the committed Vault entrance or pull its movement backward. Absorb additional forward wheel/key/touch input, distinguish tiny reverse jitter from deliberate reversal during the commitment, and keep the child inactive until the gesture has been quiet for 140ms with touch released. Preserve the 24% threshold, 900ms motion, native input elsewhere, pinch zoom and deliberate reverse escape. This corrects the earlier rule that a new touch immediately cancelled an in-progress entrance.
+
 ## September 8, 2026 — committed story-to-Vault entrance
 
 The user found that native scrolling could stop with the ending Vault half visible and inactive. Once deliberate onward scrolling reveals about 24% of the Vault, finish the entrance with a bounded 900ms animation. A touch gesture commits after release; reduced motion lands immediately. Preserve the spacious canonical V-and-star section, real archive, original media quality and existing Surface loop.

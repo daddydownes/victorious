@@ -1,5 +1,11 @@
 # Current status
 
+## September 8 continued-scroll correction
+
+Continuing to scroll through the new Vault entrance now preserves one timeline instead of causing a backward jump or restarting it. An eligible wheel/key is consumed before native scrolling can race the animation; applied motion is monotonic; further single touches stay with the entrance. Deliberate reverse still cancels, tiny jitter is absorbed, and a 140ms input-quiet gate keeps residual input with the parent at landing. No HD media or game changes were made.
+
+Source `ed150d8`, tests `6b208e9`. Chromium/WebKit sustained wheel and jitter tests each show zero backward steps and one entry. Trusted Chromium portrait/landscape repeated swipes show one settling transition and zero interruptions, with active pan and deliberate reverse recovery preserved. All eight broader browser scenarios (sixteen loops), eleven refresh/history cases, twelve navigation VM checks, fifteen deterministic integration checks and 37/37 media identity pass. The resize harness now waits for actual active landing rather than briefly observing the frame between animation cleanup and activation. See [the evidence](reviews/vault-continuous-scroll-2026-09-08/README.md). Ready for authorized publication and live verification.
+
 ## September 8 animated story-to-Vault entrance
 
 The terminal Vault now commits to a 900ms entrance after deliberate onward scrolling reveals 24% of it. Touch waits for release; reduced motion lands immediately. Reverse input can cancel, slow loading preserves the requested entry, and refresh/history/game/resize cannot accidentally initiate it. A transparent parent input surface also fixes the reproduced Chromium dead zone when a swipe starts over the partially visible iframe. Original media, game, root and embedded Vault files remain unchanged.

@@ -1,0 +1,122 @@
+[
+  {
+    "engine": "chromium",
+    "kind": "forward",
+    "reversals": 0,
+    "starts": 1,
+    "first": {
+      "t": 8.199999998509881,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2809.0999999985097,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "chromium",
+    "kind": "jitter",
+    "reversals": 0,
+    "starts": 1,
+    "first": {
+      "t": 2.7000000014901104,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2803.4000000014903,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "webkit",
+    "kind": "forward",
+    "reversals": 0,
+    "starts": 1,
+    "first": {
+      "t": 20,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2529,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "webkit",
+    "kind": "jitter",
+    "reversals": 0,
+    "starts": 1,
+    "first": {
+      "t": 5,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2569,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  }
+]

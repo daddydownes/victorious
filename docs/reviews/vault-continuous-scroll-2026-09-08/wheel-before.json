@@ -1,0 +1,122 @@
+[
+  {
+    "engine": "chromium",
+    "kind": "forward",
+    "reversals": 1,
+    "starts": 1,
+    "first": {
+      "t": 11.300000000745058,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2812.1000000007452,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "chromium",
+    "kind": "jitter",
+    "reversals": 2,
+    "starts": 2,
+    "first": {
+      "t": 0,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2800.8,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "webkit",
+    "kind": "forward",
+    "reversals": 0,
+    "starts": 1,
+    "first": {
+      "t": 8,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2686,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  },
+  {
+    "engine": "webkit",
+    "kind": "jitter",
+    "reversals": 0,
+    "starts": 2,
+    "first": {
+      "t": 6,
+      "y": 3607,
+      "settling": false,
+      "active": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "last": {
+      "t": 2690,
+      "y": 4140,
+      "settling": false,
+      "active": true,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    }
+  }
+]
