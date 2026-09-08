@@ -134,13 +134,14 @@ test('Embedded clone authenticates sync, reports its actual cycle, and keeps res
   run.dispatch('message',{origin:run.location.origin,source:{},data:{type:'vctrs-vault-sync',cycle:'99'}});
   assert.deepEqual(run.messages,[]);
   run.dispatch('message',{origin:run.location.origin,source:run.parent,data:{type:'vctrs-vault-sync',cycle:'99'}});
-  assert.deepEqual(plain(run.messages.pop()),{data:{type:'vctrs-vault-sync',cycle:'7',active:false},origin:run.location.origin});
+  const sync=plain(run.messages.pop());
+  assert.deepEqual({type:sync.data.type,cycle:sync.data.cycle,active:sync.data.active,origin:sync.origin},{type:'vctrs-vault-sync',cycle:'7',active:false,origin:run.location.origin});
   run.dispatch('message',{origin:run.location.origin,source:run.parent,data:{type:'vctrs-vault-visibility',cycle:'7',active:true}});
   assert.equal(run.context.__vctrsVaultEmbedActive,true);
   const before=run.messages.length;
   run.dispatch('pageshow',{persisted:true});
   assert.equal(run.context.__vctrsVaultEmbedActive,false);
-  assert.deepEqual(plain(run.messages.slice(before).map(item=>item.data)),[
+  assert.deepEqual(plain(run.messages.slice(before).map(item=>({type:item.data.type,cycle:item.data.cycle,active:item.data.active}))),[
     {type:'vctrs-vault-sync',cycle:'7',active:false},
     {type:'vctrs-vault-ready',cycle:'7'}
   ]);
@@ -155,6 +156,33 @@ test('Embedded clone authenticates sync, reports its actual cycle, and keeps res
   run.dispatch('message',{origin:run.location.origin,source:run.parent,data:{type:'vctrs-vault-reset',cycle:'7',nextCycle:8}});
   assert.equal(run.replacements.length,beforeRetry+1,'persisted old child ignored the parent reset retry');
   assert.equal(new URL(run.replacements.at(-1)).search,'?embed=vault&cycle=8');
+});
+
+test('A Surface handoff lost to pagehide resumes the ordinary parent reset loop',()=>{
+  const childRun=runEmbedBridge(bridge,{cycle:'7'});
+  childRun.dispatch('message',{origin:childRun.location.origin,source:childRun.parent,data:{type:'vctrs-vault-visibility',cycle:'7',active:true}});
+  childRun.messages.length=0;
+  assert.equal(childRun.context.__vctrsVaultEmbedSurface(),true);
+  assert(childRun.messages.some(item=>item.data.type==='vctrs-vault-surface'),'child did not emit the original Surface handoff');
+  // Model pagehide dropping that message before the parent observes it.
+  childRun.messages.length=0;
+  childRun.dispatch('pageshow',{persisted:true});
+  const recovered=plain(childRun.messages.find(item=>item.data.type==='vctrs-vault-sync'));
+  assert(recovered,'restored child did not resynchronize');
+  assert.deepEqual(recovered.data,{type:'vctrs-vault-sync',cycle:'7',active:false,surfaceSent:true});
+
+  const parentRun=runStoryController(controller),send=data=>parentRun.dispatch('message',{source:parentRun.child,origin:'https://vctrsclo.com',data});
+  send({type:'vctrs-vault-ready',cycle:0});
+  assert.equal(parentRun.context.__storyVault.active,true);
+  parentRun.dispatch('pageshow',{persisted:true});
+  assert.equal(parentRun.context.__storyVault.active,false);assert.equal(parentRun.context.__storyVault.resetting,false);
+  const resetsBefore=parentRun.posts.filter(item=>item.data.type==='vctrs-vault-reset').length;
+  send({type:'vctrs-vault-sync',cycle:0,active:false,surfaceSent:true});
+  assert.equal(parentRun.context.__storyVault.resetting,true);assert.equal(parentRun.context.__storyVault.pendingCycle,1);assert.equal(parentRun.context.__storyVault.loaded,false);
+  const resets=parentRun.posts.filter(item=>item.data.type==='vctrs-vault-reset');
+  assert.equal(resets.length,resetsBefore+1,'recovered Surface should begin one normal reset');
+  assert.deepEqual(plain(resets.at(-1).data),{type:'vctrs-vault-reset',cycle:0,nextCycle:1});
+  assert.equal(parentRun.historyCalls.length,1);assert(parentRun.scrollCalls.length>=2);
 });
 
 test('Parent keeps a pending reset until the authenticated child reaches that cycle',()=>{
