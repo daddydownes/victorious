@@ -1,0 +1,29 @@
+{
+  "base": "https://vctrsclo.com",
+  "before": {
+    "ready": "interactive",
+    "settling": true,
+    "top": 533,
+    "life": []
+  },
+  "after": {
+    "ready": "complete",
+    "settling": true,
+    "active": false,
+    "top": 178,
+    "life": [
+      {
+        "name": "load",
+        "t": 1304.199999999255,
+        "settling": true
+      },
+      {
+        "name": "pageshow",
+        "t": 1304.199999999255,
+        "persisted": false,
+        "settling": true
+      }
+    ]
+  },
+  "limits": "Real browser initial pageshow delayed by a test-only invisible image response; product script is unchanged."
+}

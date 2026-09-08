@@ -1,0 +1,3516 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T04:48:55.024Z",
+  "expectFixed": true,
+  "results": [
+    {
+      "name": "chromium-390x844",
+      "viewport": [
+        390,
+        844
+      ],
+      "forward": {
+        "pre": {
+          "label": "controlled-precondition",
+          "t": 1029.7000000029802,
+          "scrollY": 3913,
+          "top": 590.796875,
+          "bottom": 1434.796875,
+          "visible": 0.30000370260663506,
+          "active": false,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          },
+          "responseSha256": "cdc4f336d94e45633fd3ec14ac41e73a056018d03ae04bc03353889867834f26"
+        },
+        "initial": {
+          "label": "initial-settling",
+          "t": 1401.7000000029802,
+          "scrollY": 3979,
+          "top": 524.796875,
+          "bottom": 1368.796875,
+          "visible": 0.3782027547393365,
+          "active": false,
+          "settling": true,
+          "pending": false,
+          "committing": true,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          }
+        },
+        "samples": [
+          {
+            "label": "sample",
+            "t": 1543.1000000014901,
+            "scrollY": 4041,
+            "top": 462.796875,
+            "bottom": 1306.796875,
+            "visible": 0.4516624703791469,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1567.7000000029802,
+            "scrollY": 4051,
+            "top": 452.796875,
+            "bottom": 1296.796875,
+            "visible": 0.4635108116113744,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1591.6000000014901,
+            "scrollY": 4075,
+            "top": 428.796875,
+            "bottom": 1272.796875,
+            "visible": 0.4919468305687204,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1615.5,
+            "scrollY": 4088,
+            "top": 415.796875,
+            "bottom": 1259.796875,
+            "visible": 0.5073496741706162,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1639.6000000014901,
+            "scrollY": 4116,
+            "top": 387.796875,
+            "bottom": 1231.796875,
+            "visible": 0.540525029620853,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1664.5,
+            "scrollY": 4131,
+            "top": 372.796875,
+            "bottom": 1216.796875,
+            "visible": 0.5582975414691943,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1690,
+            "scrollY": 4163,
+            "top": 340.796875,
+            "bottom": 1184.796875,
+            "visible": 0.5962122334123223,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1712.300000000745,
+            "scrollY": 4180,
+            "top": 323.796875,
+            "bottom": 1167.796875,
+            "visible": 0.616354413507109,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1743.300000000745,
+            "scrollY": 4217,
+            "top": 286.796875,
+            "bottom": 1130.796875,
+            "visible": 0.6601932760663507,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1766.4000000022352,
+            "scrollY": 4236,
+            "top": 267.796875,
+            "bottom": 1111.796875,
+            "visible": 0.6827051244075829,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1790.2000000029802,
+            "scrollY": 4255,
+            "top": 248.796875,
+            "bottom": 1092.796875,
+            "visible": 0.7052169727488151,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1813.2000000029802,
+            "scrollY": 4292,
+            "top": 211.796875,
+            "bottom": 1055.796875,
+            "visible": 0.7490558353080569,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1837,
+            "scrollY": 4309,
+            "top": 194.796875,
+            "bottom": 1038.796875,
+            "visible": 0.7691980154028436,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1861.1000000014901,
+            "scrollY": 4326,
+            "top": 177.796875,
+            "bottom": 1021.796875,
+            "visible": 0.7893401954976303,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1885.800000000745,
+            "scrollY": 4357,
+            "top": 146.796875,
+            "bottom": 990.796875,
+            "visible": 0.8260700533175356,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1909.7000000029802,
+            "scrollY": 4371,
+            "top": 132.796875,
+            "bottom": 976.796875,
+            "visible": 0.8426577310426541,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1933,
+            "scrollY": 4397,
+            "top": 106.796875,
+            "bottom": 950.796875,
+            "visible": 0.8734634182464455,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1956.5,
+            "scrollY": 4421,
+            "top": 82.796875,
+            "bottom": 926.796875,
+            "visible": 0.9018994372037915,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1980.7000000029802,
+            "scrollY": 4432,
+            "top": 71.796875,
+            "bottom": 915.796875,
+            "visible": 0.9149326125592417,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2004.6000000014901,
+            "scrollY": 4442,
+            "top": 61.796875,
+            "bottom": 905.796875,
+            "visible": 0.9267809537914692,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2028.6000000014901,
+            "scrollY": 4459,
+            "top": 44.796875,
+            "bottom": 888.796875,
+            "visible": 0.9469231338862559,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2122.60000000149,
+            "scrollY": 4494,
+            "top": 9.796875,
+            "bottom": 853.796875,
+            "visible": 0.9883923281990521,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2147.7000000029802,
+            "scrollY": 4498,
+            "top": 5.796875,
+            "bottom": 849.796875,
+            "visible": 0.9931316646919431,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2171.60000000149,
+            "scrollY": 4502,
+            "top": 1.796875,
+            "bottom": 845.796875,
+            "visible": 0.9978710011848341,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2195.7000000029802,
+            "scrollY": 4503,
+            "top": 0.796875,
+            "bottom": 844.796875,
+            "visible": 0.9990558353080569,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2218.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2242.2000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2266.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2289.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2313,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2335.300000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2359.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -391.32500000000005,
+              "left": 656,
+              "top": 391
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2383.2000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -405.32500000000005,
+              "left": 656,
+              "top": 405
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2407.7000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -419.32500000000005,
+              "left": 656,
+              "top": 419
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2431,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -419.32500000000005,
+              "left": 656,
+              "top": 419
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2454.5,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -433.32500000000005,
+              "left": 656,
+              "top": 433
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2479.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -433.32500000000005,
+              "left": 656,
+              "top": 433
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2504.300000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -433.32500000000005,
+              "left": 656,
+              "top": 433
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2534.5,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -433.32500000000005,
+              "left": 656,
+              "top": 433
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2559.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -455.32500000000005,
+              "left": 656,
+              "top": 455
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2646,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -460.32500000000005,
+              "left": 656,
+              "top": 460
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2673,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -479.32500000000005,
+              "left": 656,
+              "top": 479
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2697,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -481.32500000000005,
+              "left": 656,
+              "top": 481
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2720.5,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -483.32500000000005,
+              "left": 656,
+              "top": 483
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2744.400000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -485.32500000000005,
+              "left": 656,
+              "top": 485
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2768.400000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -486.32500000000005,
+              "left": 656,
+              "top": 486
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2791.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -487.32500000000005,
+              "left": 656,
+              "top": 487
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2815.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -487.32500000000005,
+              "left": 656,
+              "top": 487
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2839.7000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -487.32500000000005,
+              "left": 656,
+              "top": 487
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2864,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -487.32500000000005,
+              "left": 656,
+              "top": 487
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2888.300000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -487.32500000000005,
+              "left": 656,
+              "top": 487
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2913.5,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -500.32500000000005,
+              "left": 656,
+              "top": 500
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2937.400000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -514.325,
+              "left": 656,
+              "top": 514
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2962,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -514.325,
+              "left": 656,
+              "top": 514
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2987.300000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -528.325,
+              "left": 656,
+              "top": 528
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3012,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -528.325,
+              "left": 656,
+              "top": 528
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3036.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3060,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3085,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3111.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3141.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3227.7000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.325,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3253.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3277.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3301.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3325.5,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3349.2000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3374.2000000029802,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3398.400000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3423,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3446.800000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3470.800000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3494.900000002235,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3518.800000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3543.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3567.60000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3592.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3616.300000000745,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3641.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          }
+        ],
+        "classification": {
+          "settlingTransitions": 1,
+          "interruptions": 0,
+          "maxStep": 37,
+          "start": {
+            "label": "sample",
+            "t": 1543.1000000014901,
+            "scrollY": 4041,
+            "top": 462.796875,
+            "bottom": 1306.796875,
+            "visible": 0.4516624703791469,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            }
+          },
+          "end": {
+            "label": "sample",
+            "t": 3641.10000000149,
+            "scrollY": 4504,
+            "top": -0.203125,
+            "bottom": 843.796875,
+            "visible": 0.9997593305687204,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -655.725,
+              "y": -542.3249999999999,
+              "left": 656,
+              "top": 542
+            }
+          }
+        },
+        "landed": {
+          "label": "landed",
+          "t": 3667.400000002235,
+          "scrollY": 4504,
+          "top": -0.203125,
+          "bottom": 843.796875,
+          "visible": 0.9997593305687204,
+          "active": true,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": false,
+          "pointer": "auto",
+          "pan": {
+            "x": -655.725,
+            "y": -542.3249999999999,
+            "left": 656,
+            "top": 542
+          }
+        },
+        "activePan": {
+          "before": {
+            "x": -655.725,
+            "y": -542.3249999999999,
+            "left": 656,
+            "top": 542
+          },
+          "after": {
+            "x": -655.725,
+            "y": -738.3249999999999,
+            "left": 656,
+            "top": 738
+          }
+        }
+      },
+      "reverse": {
+        "pre": {
+          "label": "controlled-precondition",
+          "t": 281,
+          "scrollY": 3913,
+          "top": 590.796875,
+          "bottom": 1434.796875,
+          "visible": 0.30000370260663506,
+          "active": false,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          },
+          "responseSha256": "cdc4f336d94e45633fd3ec14ac41e73a056018d03ae04bc03353889867834f26"
+        },
+        "before": {
+          "label": "before-deliberate-reverse",
+          "t": 683.5999999977648,
+          "scrollY": 4023,
+          "top": 480.796875,
+          "bottom": 1324.796875,
+          "visible": 0.43033545616113744,
+          "active": false,
+          "settling": true,
+          "pending": false,
+          "committing": true,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          }
+        },
+        "cancelled": {
+          "label": "after-deliberate-reverse",
+          "t": 1267.3999999985099,
+          "scrollY": 3968,
+          "top": 535.796875,
+          "bottom": 1379.796875,
+          "visible": 0.3651695793838863,
+          "active": false,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          }
+        },
+        "recovered": {
+          "label": "forward-recovered",
+          "t": 2595.099999997765,
+          "scrollY": 4504,
+          "top": -0.203125,
+          "bottom": 843.796875,
+          "visible": 0.9997593305687204,
+          "active": true,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": false,
+          "pointer": "auto",
+          "pan": {
+            "x": -655.725,
+            "y": -378.32500000000005,
+            "left": 656,
+            "top": 378
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "chromium-844x390",
+      "viewport": [
+        844,
+        390
+      ],
+      "forward": {
+        "pre": {
+          "label": "controlled-precondition",
+          "t": 458.1000000014901,
+          "scrollY": 2872,
+          "top": 272.59375,
+          "bottom": 662.59375,
+          "visible": 0.30104166666666665,
+          "active": false,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -1028.5290909090909,
+            "y": -1169.5945454545454,
+            "left": 1029,
+            "top": 1170
+          },
+          "responseSha256": "cdc4f336d94e45633fd3ec14ac41e73a056018d03ae04bc03353889867834f26"
+        },
+        "initial": {
+          "label": "initial-settling",
+          "t": 781.8999999985099,
+          "scrollY": 2963,
+          "top": 181.59375,
+          "bottom": 571.59375,
+          "visible": 0.534375,
+          "active": false,
+          "settling": true,
+          "pending": false,
+          "committing": true,
+          "inert": true,
+          "pointer": "none",
+          "pan": {
+            "x": -1028.5290909090909,
+            "y": -1169.5945454545454,
+            "left": 1029,
+            "top": 1170
+          }
+        },
+        "samples": [
+          {
+            "label": "sample",
+            "t": 914.8999999985099,
+            "scrollY": 2981,
+            "top": 163.59375,
+            "bottom": 553.59375,
+            "visible": 0.5805288461538461,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 938.6999999992549,
+            "scrollY": 2988,
+            "top": 156.59375,
+            "bottom": 546.59375,
+            "visible": 0.5984775641025641,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 962.3000000007451,
+            "scrollY": 2989,
+            "top": 155.59375,
+            "bottom": 545.59375,
+            "visible": 0.6010416666666667,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 987.1000000014901,
+            "scrollY": 2990,
+            "top": 154.59375,
+            "bottom": 544.59375,
+            "visible": 0.6036057692307693,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1010.6000000014901,
+            "scrollY": 2991,
+            "top": 153.59375,
+            "bottom": 543.59375,
+            "visible": 0.6061698717948718,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1034.8999999985099,
+            "scrollY": 2993,
+            "top": 151.59375,
+            "bottom": 541.59375,
+            "visible": 0.6112980769230769,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1059.800000000745,
+            "scrollY": 3005,
+            "top": 139.59375,
+            "bottom": 529.59375,
+            "visible": 0.6420673076923077,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1083.1000000014901,
+            "scrollY": 3012,
+            "top": 132.59375,
+            "bottom": 522.59375,
+            "visible": 0.6600160256410257,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1107.199999999255,
+            "scrollY": 3025,
+            "top": 119.59375,
+            "bottom": 509.59375,
+            "visible": 0.693349358974359,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1131.6000000014901,
+            "scrollY": 3039,
+            "top": 105.59375,
+            "bottom": 495.59375,
+            "visible": 0.7292467948717949,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1156.800000000745,
+            "scrollY": 3040,
+            "top": 104.59375,
+            "bottom": 494.59375,
+            "visible": 0.7318108974358974,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1182.3999999985099,
+            "scrollY": 3062,
+            "top": 82.59375,
+            "bottom": 472.59375,
+            "visible": 0.7882211538461539,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1208.699999999255,
+            "scrollY": 3076,
+            "top": 68.59375,
+            "bottom": 458.59375,
+            "visible": 0.8241185897435898,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1231.300000000745,
+            "scrollY": 3076,
+            "top": 68.59375,
+            "bottom": 458.59375,
+            "visible": 0.8241185897435898,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1257,
+            "scrollY": 3081,
+            "top": 63.59375,
+            "bottom": 453.59375,
+            "visible": 0.8369391025641025,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1281.5,
+            "scrollY": 3093,
+            "top": 51.59375,
+            "bottom": 441.59375,
+            "visible": 0.8677083333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1305.699999999255,
+            "scrollY": 3103,
+            "top": 41.59375,
+            "bottom": 431.59375,
+            "visible": 0.893349358974359,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1384.6000000014901,
+            "scrollY": 3120,
+            "top": 24.59375,
+            "bottom": 414.59375,
+            "visible": 0.9369391025641025,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1408.199999999255,
+            "scrollY": 3127,
+            "top": 17.59375,
+            "bottom": 407.59375,
+            "visible": 0.9548878205128205,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1431.800000000745,
+            "scrollY": 3130,
+            "top": 14.59375,
+            "bottom": 404.59375,
+            "visible": 0.9625801282051282,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1455.3999999985099,
+            "scrollY": 3135,
+            "top": 9.59375,
+            "bottom": 399.59375,
+            "visible": 0.9754006410256411,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1478.8999999985099,
+            "scrollY": 3138,
+            "top": 6.59375,
+            "bottom": 396.59375,
+            "visible": 0.9830929487179487,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1502.3999999985099,
+            "scrollY": 3139,
+            "top": 5.59375,
+            "bottom": 395.59375,
+            "visible": 0.9856570512820513,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1526.199999999255,
+            "scrollY": 3142,
+            "top": 2.59375,
+            "bottom": 392.59375,
+            "visible": 0.9933493589743589,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1549.8999999985099,
+            "scrollY": 3143,
+            "top": 1.59375,
+            "bottom": 391.59375,
+            "visible": 0.9959134615384615,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1572.8999999985099,
+            "scrollY": 3144,
+            "top": 0.59375,
+            "bottom": 390.59375,
+            "visible": 0.998477564102564,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1598.199999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1623,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1647.300000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1670.8999999985099,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1694.699999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1719.3999999985099,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1743.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1838.8999999985099,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1863.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1887.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1911.1000000014901,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1934.6000000014901,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1957.699999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 1981.199999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2004.6000000014901,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2030.699999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1182.5945454545454,
+              "left": 1029,
+              "top": 1183
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2055.10000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1196.5945454545454,
+              "left": 1029,
+              "top": 1197
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2081.39999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1196.5945454545454,
+              "left": 1029,
+              "top": 1197
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2107.199999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1210.5945454545454,
+              "left": 1029,
+              "top": 1211
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2132,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1210.5945454545454,
+              "left": 1029,
+              "top": 1211
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2156.89999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2182.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2208.10000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2232.699999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2257.199999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2281.39999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2375,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2401.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2425.60000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2449,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2472.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2495,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2518.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2542.60000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2566.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2590.300000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2614.199999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2640.60000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2665.39999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2690,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2715.10000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2740.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2765.60000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2791.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2816,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2841.800000000745,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2864.89999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2889.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2913.5,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2937.60000000149,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2962.89999999851,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 2987.699999999255,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          },
+          {
+            "label": "sample",
+            "t": 3014,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          }
+        ],
+        "classification": {
+          "settlingTransitions": 1,
+          "interruptions": 0,
+          "maxStep": 22,
+          "start": {
+            "label": "sample",
+            "t": 914.8999999985099,
+            "scrollY": 2981,
+            "top": 163.59375,
+            "bottom": 553.59375,
+            "visible": 0.5805288461538461,
+            "active": false,
+            "settling": true,
+            "pending": false,
+            "committing": true,
+            "inert": true,
+            "pointer": "none",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1169.5945454545454,
+              "left": 1029,
+              "top": 1170
+            }
+          },
+          "end": {
+            "label": "sample",
+            "t": 3014,
+            "scrollY": 3145,
+            "top": -0.40625,
+            "bottom": 389.59375,
+            "visible": 0.9989583333333333,
+            "active": true,
+            "settling": false,
+            "pending": false,
+            "committing": false,
+            "inert": false,
+            "pointer": "auto",
+            "pan": {
+              "x": -1028.5290909090909,
+              "y": -1224.5945454545454,
+              "left": 1029,
+              "top": 1225
+            }
+          }
+        },
+        "landed": {
+          "label": "landed",
+          "t": 3041.800000000745,
+          "scrollY": 3145,
+          "top": -0.40625,
+          "bottom": 389.59375,
+          "visible": 0.9989583333333333,
+          "active": true,
+          "settling": false,
+          "pending": false,
+          "committing": false,
+          "inert": false,
+          "pointer": "auto",
+          "pan": {
+            "x": -1028.5290909090909,
+            "y": -1224.5945454545454,
+            "left": 1029,
+            "top": 1225
+          }
+        },
+        "activePan": {
+          "before": {
+            "x": -1028.5290909090909,
+            "y": -1224.5945454545454,
+            "left": 1029,
+            "top": 1225
+          },
+          "after": {
+            "x": -1028.5290909090909,
+            "y": -1423.5945454545454,
+            "left": 1029,
+            "top": 1424
+          }
+        }
+      },
+      "reverse": null,
+      "errors": []
+    }
+  ],
+  "limits": "Trusted CDP touch in headless Chromium; reproduces native touch event ordering but is not a physical-device claim."
+}

@@ -1,0 +1,94 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T04:48:43.635Z",
+  "errors": [],
+  "responseIdentity": {
+    "url": "https://vctrsclo.com/experience/",
+    "status": 200,
+    "fromServiceWorker": false,
+    "headers": {
+      "accept-ranges": "bytes",
+      "access-control-allow-origin": "*",
+      "age": "0",
+      "cache-control": "max-age=600",
+      "content-encoding": "gzip",
+      "content-length": "97833",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Tue, 08 Sep 2026 04:48:44 GMT",
+      "etag": "W/\"6a9f935d-478ac\"",
+      "expires": "Tue, 08 Sep 2026 04:58:44 GMT",
+      "last-modified": "Tue, 08 Sep 2026 04:47:25 GMT",
+      "server": "GitHub.com",
+      "vary": "Accept-Encoding",
+      "via": "1.1 varnish",
+      "x-cache": "MISS",
+      "x-cache-hits": "0",
+      "x-fastly-request-id": "c9670f4a84c957fd4927ea8437249fd6d765994d",
+      "x-github-edge-region": "australiaeast",
+      "x-github-request-id": "6470:2FA949:5222C5:5D8848:6A9F93AA",
+      "x-origin-cache": "HIT",
+      "x-proxy-cache": "MISS",
+      "x-served-by": "cache-wsi-ysbk1060060-WSI",
+      "x-timer": "S1788842924.198815,VS0,VE229"
+    },
+    "bytes": 293036,
+    "sha256": "cdc4f336d94e45633fd3ec14ac41e73a056018d03ae04bc03353889867834f26",
+    "browserVersion": "151.0.7922.34",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36"
+  },
+  "browserFetch": {
+    "url": "https://vctrsclo.com/experience/",
+    "status": 200,
+    "bytes": 293036,
+    "sha256": "cdc4f336d94e45633fd3ec14ac41e73a056018d03ae04bc03353889867834f26",
+    "headers": {
+      "age": "6",
+      "cache-control": "max-age=600",
+      "etag": "W/\"6a9f935d-478ac\"",
+      "last-modified": "Tue, 08 Sep 2026 04:47:25 GMT"
+    },
+    "signatures": {
+      "hasQuietHandoff": true,
+      "hasLandingState": true,
+      "hasOldTouchCancel": false
+    }
+  },
+  "final": {
+    "label": "final",
+    "t": 5682.5,
+    "scrollY": 4504,
+    "inner": [
+      390,
+      844
+    ],
+    "visual": [
+      390,
+      844,
+      0,
+      1
+    ],
+    "top": -0.203125,
+    "bottom": 843.796875,
+    "visible": 0.9997593305687204,
+    "active": true,
+    "settling": false,
+    "landing": false,
+    "pending": false,
+    "loaded": true,
+    "resetting": false,
+    "committing": false,
+    "inert": false,
+    "pointer": "auto",
+    "hidden": false,
+    "visibility": "visible",
+    "readyState": "complete",
+    "bodyClass": "",
+    "overlayClass": "flap-overlay",
+    "motion": false
+  },
+  "postCommitVerification": {
+    "interruptions": 0,
+    "entryStarts": 1,
+    "note": "The raw classification begins before the initiating gesture; its initial inactive samples are expected. After first settling=true there are no interruptions."
+  }
+}
