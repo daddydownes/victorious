@@ -1,0 +1,29 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "before": {
+    "ready": "interactive",
+    "settling": true,
+    "top": 533,
+    "life": []
+  },
+  "after": {
+    "ready": "complete",
+    "settling": false,
+    "active": false,
+    "top": 533,
+    "life": [
+      {
+        "name": "load",
+        "t": 147.5,
+        "settling": true
+      },
+      {
+        "name": "pageshow",
+        "t": 147.5,
+        "persisted": false,
+        "settling": true
+      }
+    ]
+  },
+  "limits": "Real browser initial pageshow delayed by a test-only invisible image response; product script is unchanged."
+}
