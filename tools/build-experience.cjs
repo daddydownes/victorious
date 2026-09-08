@@ -629,6 +629,69 @@ story = replace(story, '</style>', `
 .polish-paused #play .play-cue-arrow,.polish-paused .vault-return::before,.polish-paused .signup-footer .action::before,.polish-paused #restart-page::before,.polish-paused #signup-title span{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){#play-title .spray-headline,.vault-return::before,.signup-footer .action::before,.ending-copy #restart-page::before,.signup-footer #signup-title span{animation:none!important}#play .live-game-shell{opacity:1;transform:none}#play .spray-arrow-art mask path{animation:none!important;stroke-dashoffset:0!important}.vault-return,.signup-footer .action,.ending-copy #restart-page,.ending-copy #restart-page span{transition:none}.ending-copy #restart-page:hover span{transform:none}}
 </style>`);
+
+// After the game, keep one quiet page of the canonical mark and let continued
+// native scrolling return to the original Vault. The former invitation,
+// photograph ending, signup and story-only archive are deliberately retired.
+const returnV = exactV.replace('aria-label="V" role="img"', 'aria-hidden="true" focusable="false"');
+const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="../#vault" aria-label="Return to the vault">${returnV}</a></div><span id="story-return-end" aria-hidden="true"></span></section>`;
+const oldStoryTail = /<section class="vault-invite\b[\s\S]*?<\/main><section class="signup-footer"[\s\S]*?<\/footer>/;
+if (!oldStoryTail.test(story)) throw new Error('Missing story invitation/photo/signup tail');
+story = story.replace(oldStoryTail, storyReturn + '</main>');
+const oldStoryDialogs = /<dialog class="vault-dialog"[\s\S]*?<\/dialog>\s*<dialog class="lightbox"[\s\S]*?<\/dialog>/;
+if (!oldStoryDialogs.test(story)) throw new Error('Missing story photo dialogs');
+story = story.replace(oldStoryDialogs, '');
+
+// Remove scripts whose controls left with the retired tail. Keep the opening,
+// portrait, game preview and production-game lifecycle untouched.
+const oldDialogController = /const vault=\$\('#sharedVault'\)[\s\S]*?lightbox\.addEventListener\('close',\(\)=>photoTrigger\?\.focus\(\{preventScroll:true\}\)\);/;
+if (!oldDialogController.test(story)) throw new Error('Missing story dialog controller');
+story = story.replace(oldDialogController, '');
+const oldSignupController = /<script>\(\(\)=>\{const form=document\.getElementById\('signup-form'\)[\s\S]*?<\/script>/;
+if (!oldSignupController.test(story)) throw new Error('Missing story signup controller');
+story = story.replace(oldSignupController, '');
+const oldRestartController = /document\.getElementById\('restart-page'\)\.addEventListener\('click',[\s\S]*?\}\);window\.__gameInvitation=/;
+if (!oldRestartController.test(story)) throw new Error('Missing story restart controller');
+story = story.replace(oldRestartController, 'window.__gameInvitation=');
+const oldVaultPaint = /paintTitle\('vault-title','vault-invite',[\s\S]*?\],150\);/;
+if (!oldVaultPaint.test(story)) throw new Error('Missing retired Vault title paint call');
+story = story.replace(oldVaultPaint, '');
+
+story = replace(story, '</style></head>', `</style><style>
+.story-return{position:relative;height:125svh!important;min-height:760px;background:#000;overflow:hidden}
+.story-return-stage{display:grid;place-items:center;height:100svh;min-height:0;background:#000}
+.story-return-link{display:block;width:min(42vw,380px,48svh);aspect-ratio:295.5/357.7;color:#f0d492}
+.story-return-link:focus-visible{outline:2px solid #f0d492;outline-offset:12px}
+.story-return-link svg{display:block;width:100%;height:100%;color:inherit;filter:none}
+#story-return-end{position:absolute;left:50%;bottom:0;width:1px;height:1px;pointer-events:none}
+@media(max-width:700px){.story-return{height:120svh!important;min-height:620px}.story-return-link{width:min(52vw,270px,44svh)}}
+</style></head>`);
+
+// Position alone never redirects. A trusted forward gesture must first reach
+// the closing section; another forward gesture at the settled page end returns.
+story = replace(story, '</body></html>', `<script>(()=>{
+const section=document.getElementById('story-return'),end=document.getElementById('story-return-end'),link=section.querySelector('.story-return-link'),overlay=document.getElementById('flapOverlay');
+let closingVisited=false,returning=false,touchY=0,touchReady=false;
+const closed=()=>!document.hidden&&!document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed');
+const visible=()=>{const r=section.getBoundingClientRect();return r.top<=innerHeight*.82&&r.bottom>0};
+const atEnd=()=>document.documentElement.scrollHeight-(scrollY+innerHeight)<=2&&end.getBoundingClientRect().top<=innerHeight+2;
+function returnToVault(){
+  if(returning||!closed())return;returning=true;closingVisited=false;
+  location.replace(new URL('../#vault',location.href).href);
+}
+function forwardIntent(){
+  if(returning||!closed()||!visible())return;
+  if(closingVisited&&atEnd()){returnToVault();return}
+  closingVisited=true;
+}
+addEventListener('wheel',event=>{if(event.isTrusted&&event.deltaY>0)forwardIntent()},{passive:true});
+addEventListener('keydown',event=>{if(!event.isTrusted||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||(event.target.closest&&event.target.closest('input,textarea,select,button,a,[contenteditable]')))return;if(['ArrowDown','PageDown','End',' ','Spacebar'].includes(event.key))forwardIntent()});
+addEventListener('touchstart',event=>{if(!event.isTrusted||event.touches.length!==1)return;touchY=event.touches[0].clientY;touchReady=closingVisited&&visible()&&atEnd()&&closed()},{passive:true});
+addEventListener('touchmove',event=>{if(!event.isTrusted||event.touches.length!==1||touchY-event.touches[0].clientY<12)return;if(touchReady)returnToVault();else if(!returning&&closed()&&visible())closingVisited=true},{passive:true});
+link.addEventListener('click',event=>{if(event.button!==0||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;event.preventDefault();returnToVault()});
+addEventListener('pageshow',event=>{if(event.persisted){returning=false;closingVisited=false;touchReady=false}});
+window.__storyReturn={get visited(){return closingVisited},get returning(){return returning},atEnd};
+})();</script></body></html>`);
 vault = productionGame.tunePage(vault);
 story = productionGame.integrate(story);
 const preview = productionGame.preview();
