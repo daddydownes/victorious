@@ -705,13 +705,19 @@ story = replace(story, '</style></head>', `</style><style>
 @media(max-width:700px){.story-return{height:120svh!important;min-height:620px}.story-return-link{width:min(52vw,270px,44svh)}}
 </style></head>`);
 
-// The page owns scrolling until the terminal Vault fills the viewport. Only
-// then can the preloaded same-origin document receive pointer or focus input.
+// The page owns scrolling until the terminal Vault fills the viewport. A
+// trusted onward gesture that reveals a clear part of the Vault commits the
+// remaining parent-page travel; the child stays inert until it fills the view.
 story = replace(story, '</body></html>', `<script>(()=>{
-const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue');
-let active=false,loaded=false,requested=false,queued=false,resetting=false,cycle=0,pendingCycle=null;
+const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue'),returnLink=document.querySelector('.story-return-link'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+const ENTRY_THRESHOLD=.24,ENTRY_DURATION=900,INTENT_WINDOW=900;
+let active=false,loaded=false,requested=false,queued=false,resetting=false,cycle=0,pendingCycle=null,entryPending=false,entryForced=false,settling=false,settleFrame=0,settleFrom=0,settleTo=0,settleStarted=0,intent=0,intentUntil=0,touchHeld=false,touchSingle=false,touchY=0;
 function post(type,detail,token){if(frame.contentWindow)frame.contentWindow.postMessage(Object.assign({type,cycle:token===undefined?cycle:token},detail||{}),location.origin)}
 function ensureLoaded(){if(requested)return;requested=true;frame.contentWindow.location.replace(new URL(frame.dataset.src,location.href).href)}
+function gameClosed(){return !document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed')}
+function vaultTarget(){const r=section.getBoundingClientRect(),max=Math.max(0,document.documentElement.scrollHeight-innerHeight);return Math.max(0,Math.min(scrollY+r.top,max))}
+function visibleRatio(r){const shown=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,0));return shown/Math.max(1,Math.min(r.height||innerHeight,innerHeight))}
+function fullView(r){return r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2}
 function setActive(next){
   next=!!next;if(active===next)return;active=next;section.classList.toggle('is-active',next);
   if(!next&&document.activeElement===frame)frame.blur();
@@ -719,14 +725,44 @@ function setActive(next){
   if(next)frame.removeAttribute('tabindex');else frame.tabIndex=-1;
   post('vctrs-vault-visibility',{active:next});
 }
+function clearEntry(){
+  if(settleFrame)cancelAnimationFrame(settleFrame);settleFrame=0;settling=false;entryPending=false;entryForced=false;section.classList.remove('is-committing');
+}
+function cancelEntry(){clearEntry();intent=0;intentUntil=0;request()}
+function finishEntry(){
+  if(!settling)return;settleFrame=0;try{scrollTo({top:settleTo,left:0,behavior:'instant'})}catch(_error){scrollTo(0,settleTo)}clearEntry();intent=0;intentUntil=0;request();
+}
+function settleStep(now){
+  if(!settling)return;
+  if(document.hidden||resetting||!gameClosed()){cancelEntry();return}
+  const progress=Math.min(1,Math.max(0,(now-settleStarted)/ENTRY_DURATION)),eased=progress<.5?2*progress*progress:1-Math.pow(-2*progress+2,2)/2;
+  scrollTo(0,settleFrom+(settleTo-settleFrom)*eased);
+  if(progress>=1)finishEntry();else settleFrame=requestAnimationFrame(settleStep);
+}
+function startEntry(){
+  if(settling||!entryPending||!loaded||resetting||document.hidden||!gameClosed()||touchHeld)return;
+  entryPending=false;settling=true;section.classList.add('is-committing');setActive(false);settleFrom=scrollY;settleTo=vaultTarget();settleStarted=performance.now();intent=0;intentUntil=0;
+  try{scrollTo({top:settleFrom,left:0,behavior:'instant'})}catch(_error){scrollTo(0,settleFrom)}
+  if(motion.matches||Math.abs(settleTo-settleFrom)<=2)finishEntry();else settleFrame=requestAnimationFrame(settleStep);
+}
+function commitEntry(force){
+  if(resetting||document.hidden||!gameClosed())return false;
+  entryPending=true;entryForced=entryForced||!!force;section.classList.add('is-committing');ensureLoaded();if(loaded&&!touchHeld)startEntry();return true;
+}
 function measure(){
   queued=false;const r=section.getBoundingClientRect();
-  const gameClosed=!document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed');
-  setActive(loaded&&!resetting&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
+  const closed=gameClosed();
+  if(document.hidden||resetting||!closed){touchHeld=false;touchSingle=false;if(entryPending||settling)cancelEntry();setActive(false);return}
+  if(settling){setActive(false);return}
+  if(fullView(r)){entryPending=false;entryForced=false;section.classList.remove('is-committing');setActive(loaded&&!touchHeld);return}
+  setActive(false);
+  if(entryPending&&!entryForced&&visibleRatio(r)<ENTRY_THRESHOLD){clearEntry();intent=0;intentUntil=0;return}
+  if(!entryPending&&intent===1&&performance.now()<=intentUntil&&r.top>2&&visibleRatio(r)>=ENTRY_THRESHOLD)commitEntry(false);
+  if(entryPending&&loaded&&!touchHeld&&(entryForced||visibleRatio(r)>=ENTRY_THRESHOLD))startEntry();
 }
 function request(){if(!queued){queued=true;requestAnimationFrame(measure)}}
 function restartStory(force){
-  if(resetting||(!active&&force!==true))return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
+  if(resetting||(!active&&force!==true))return;cancelEntry();resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
   const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
   requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
@@ -759,10 +795,36 @@ addEventListener('message',event=>{
   if(event.data.type==='vctrs-vault-ready'){loaded=true;post('vctrs-vault-visibility',{active});request()}
   else if(event.data.type==='vctrs-vault-surface'&&active&&!resetting)restartStory();
 });
-addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
-document.addEventListener('visibilitychange',request);addEventListener('pageshow',event=>{setActive(false);if(event.persisted&&requested){loaded=false;post('vctrs-vault-sync')}request()});
+function trusted(event){return event.isTrusted!==false}
+function forwardIntent(){if(document.hidden||resetting||!gameClosed())return false;intent=1;intentUntil=performance.now()+INTENT_WINDOW;request();return true}
+function reverseIntent(){clearEntry();intent=-1;intentUntil=performance.now()+INTENT_WINDOW;request()}
+function interactive(target){return !!(target&&(target.isContentEditable||/^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(target.tagName)||target.closest&&target.closest('[contenteditable=true],[role=button],[role=slider]')))}
+addEventListener('wheel',event=>{
+  if(!trusted(event)||event.defaultPrevented||document.hidden||!gameClosed()||event.ctrlKey||event.metaKey||!event.deltaY)return;
+  if(event.deltaY<0){reverseIntent();return}
+  if(settling){event.preventDefault();return}
+  forwardIntent();
+},{passive:false});
+addEventListener('keydown',event=>{
+  if(!trusted(event)||event.defaultPrevented||document.hidden||!gameClosed()||event.altKey||event.ctrlKey||event.metaKey||interactive(event.target))return;
+  const reverse=event.key==='ArrowUp'||event.key==='PageUp'||event.key==='Home'||(event.key===' '&&event.shiftKey),forward=event.key==='ArrowDown'||event.key==='PageDown'||event.key==='End'||(event.key===' '&&!event.shiftKey);
+  if(reverse){reverseIntent();return}if(!forward)return;if(settling){event.preventDefault();return}forwardIntent();
+});
+addEventListener('touchstart',event=>{
+  if(!trusted(event)||!event.touches.length||document.hidden||!gameClosed())return;if(settling)cancelEntry();touchHeld=true;if(event.touches.length!==1){touchSingle=false;cancelEntry();return}touchSingle=true;touchY=event.touches[0].clientY;request();
+},{passive:true});
+addEventListener('touchmove',event=>{
+  if(!trusted(event)||!touchHeld||!event.touches.length)return;if(event.touches.length!==1||!touchSingle){touchSingle=false;cancelEntry();return}const nextY=event.touches[0].clientY,delta=touchY-nextY;touchY=nextY;if(delta>2)forwardIntent();else if(delta< -2)reverseIntent();
+},{passive:true});
+function endTouch(event){if(!touchHeld)return;if(event.touches&&event.touches.length){touchSingle=false;return}const canCommit=touchSingle&&(entryPending||(intent===1&&performance.now()<=intentUntil));touchHeld=false;touchSingle=false;if(canCommit)request();else cancelEntry()}
+function cancelTouch(){touchHeld=false;touchSingle=false;cancelEntry()}
+addEventListener('touchend',endTouch,{passive:true});addEventListener('touchcancel',cancelTouch,{passive:true});
+returnLink.addEventListener('click',event=>{if(!trusted(event)||event.defaultPrevented||event.button>0||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;event.preventDefault();if(forwardIntent())commitEntry(true)});
+addEventListener('scroll',request,{passive:true});addEventListener('resize',()=>{if(!settling)cancelEntry();else{settleTo=vaultTarget();request()}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelTouch();else request()});addEventListener('pagehide',cancelTouch);addEventListener('pageshow',event=>{cancelTouch();setActive(false);if(event.persisted&&requested){loaded=false;post('vctrs-vault-sync')}request()});
+motion.addEventListener('change',()=>{if(motion.matches&&settling)finishEntry();else request()});
 new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
-window.__storyVault={get active(){return active},get loaded(){return loaded},get requested(){return requested},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
+window.__storyVault={get active(){return active},get loaded(){return loaded},get requested(){return requested},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},get entryPending(){return entryPending},get settling(){return settling},measure,cancelEntry};
 if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();
 request();
 })();</script></body></html>`);
