@@ -66,26 +66,43 @@ function classList(initial=[]){
 }
 
 function runStoryController(script){
-  const listeners=new Map(),documentListeners=new Map(),posts=[],childReplaces=[],historyCalls=[],scrollCalls=[];
-  const section={classList:classList(),getBoundingClientRect:()=>({top:0,bottom:844})};
+  const listeners=new Map(),documentListeners=new Map(),returnLinkListeners=new Map(),posts=[],childReplaces=[],historyCalls=[],scrollCalls=[],rafTasks=new Map(),motionListeners=[];
+  let now=0,nextRaf=1,scrollY=0,sectionTop=0,sectionHeight=844,documentHeight=844;
+  const section={classList:classList(),getBoundingClientRect:()=>{const top=sectionTop-scrollY;return {top,bottom:top+sectionHeight,height:sectionHeight}}};
   const child={postMessage:(data,origin)=>posts.push({data,origin}),location:{replace:href=>childReplaces.push(String(href))}};
   const frame={contentWindow:child,dataset:{src:'../vault-embed.html?embed=vault&cycle=0'},tabIndex:-1,attrs:new Map([['inert',''],['aria-hidden','true']]),addEventListener(){},toggleAttribute(name,on){if(on)this.attrs.set(name,'');else this.attrs.delete(name)},setAttribute(name,value){this.attrs.set(name,String(value))},removeAttribute(name){this.attrs.delete(name)},blur(){}};
   const overlay={classList:classList()};
   const startCue={focus(){}};
+  const returnLink={tagName:'A',addEventListener:(name,fn)=>{const list=returnLinkListeners.get(name)||[];list.push(fn);returnLinkListeners.set(name,list)}};
   const body={classList:classList()};
   const document={
-    body,hidden:false,activeElement:null,
+    body,documentElement:{get scrollHeight(){return documentHeight}},hidden:false,activeElement:null,
     getElementById:id=>id==='story-vault'?section:id==='story-vault-frame'?frame:id==='flapOverlay'?overlay:id==='story-return'?{}:null,
-    querySelector:selector=>selector==='.story-cue'?startCue:null,
+    querySelector:selector=>selector==='.story-cue'?startCue:selector==='.story-return-link'?returnLink:null,
     addEventListener:(name,fn)=>{const list=documentListeners.get(name)||[];list.push(fn);documentListeners.set(name,list)}
   };
   const location={origin:'https://vctrsclo.com',href:'https://vctrsclo.com/experience/',hash:'',reload(){throw new Error('parent controller must not reload')}};
   const history={state:{journey:'kept'},replaceState:(state,title,href)=>historyCalls.push({state,title,href:String(href)})};
-  const context={URL,document,location,history,innerHeight:844,scrollTo:(...args)=>scrollCalls.push(args),requestAnimationFrame:fn=>{fn();return 1},MutationObserver:class MutationObserver{observe(){}},addEventListener:(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list)}};
+  const motion={matches:false,addEventListener:(name,fn)=>{if(name==='change')motionListeners.push(fn)},removeEventListener:(name,fn)=>{if(name==='change'){const at=motionListeners.indexOf(fn);if(at>=0)motionListeners.splice(at,1)}}};
+  const context={URL,document,location,history,innerHeight:844,performance:{now:()=>now},matchMedia:()=>motion,
+    scrollTo(...args){scrollCalls.push(args);const value=typeof args[0]==='object'?args[0].top:args[1];if(Number.isFinite(value))scrollY=value},
+    requestAnimationFrame(fn){const id=nextRaf++;rafTasks.set(id,fn);return id},cancelAnimationFrame:id=>rafTasks.delete(id),
+    MutationObserver:class MutationObserver{observe(){}},addEventListener:(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list)}};
+  Object.defineProperty(context,'scrollY',{get:()=>scrollY,set:value=>{scrollY=value}});
   context.window=context;
   vm.runInNewContext(script,context);
-  const dispatch=(name,event)=>{for(const listener of listeners.get(name)||[])listener(event)};
-  return {context,section,frame,child,posts,childReplaces,historyCalls,scrollCalls,dispatch,documentListeners};
+  const step=(ms=16)=>{now+=ms;const pending=[...rafTasks.values()];rafTasks.clear();for(const fn of pending)fn(now)};
+  const flush=(limit=80)=>{let frames=0;while(rafTasks.size){assert(frames++<limit,'controller rAF did not settle');step(16)}};
+  const dispatch=(name,event,settle=true)=>{for(const listener of listeners.get(name)||[])listener(event);if(settle)flush()};
+  const dispatchDocument=(name,event,settle=true)=>{for(const listener of documentListeners.get(name)||[])listener(event);if(settle)flush()};
+  const dispatchLink=(name,event,settle=true)=>{for(const listener of returnLinkListeners.get(name)||[])listener(event);if(settle)flush()};
+  const setReduced=matches=>{motion.matches=matches;for(const fn of [...motionListeners])fn({matches});flush()};
+  const setGeometry=({top=sectionTop-scrollY,height=sectionHeight,scrollHeight=Math.max(documentHeight,scrollY+top+height)}={})=>{sectionTop=scrollY+top;sectionHeight=height;documentHeight=scrollHeight};
+  const setScroll=value=>{scrollY=value};
+  const setViewport=height=>{context.innerHeight=height};
+  const setHidden=hidden=>{document.hidden=hidden;dispatchDocument('visibilitychange',{})};
+  flush();
+  return {context,section,frame,child,posts,childReplaces,historyCalls,scrollCalls,dispatch,dispatchDocument,dispatchLink,documentListeners,motion,setReduced,setGeometry,setScroll,setViewport,setHidden,step,flush,rafTasks};
 }
 
 const original=read('index.html');
@@ -210,6 +227,92 @@ test('Parent BFCache restore probes the child without reload or cycle loss',()=>
   assert.deepEqual(plain(run.posts.slice(before).map(item=>item.data.type)),['vctrs-vault-visibility','vctrs-vault-sync']);
   send({type:'vctrs-vault-sync',cycle:0,active:false});
   assert.equal(run.context.__storyVault.loaded,true);assert.equal(run.context.__storyVault.cycle,0);
+});
+
+function inputEvent(properties={}){
+  return {isTrusted:true,target:{tagName:'BODY',closest:()=>null},defaultPrevented:false,preventDefault(){this.defaultPrevented=true},...properties};
+}
+
+function partialVault({top=660,height=844,loaded=true}={}){
+  const run=runStoryController(controller);
+  run.setGeometry({top,height,scrollHeight:top+height});
+  run.dispatch('scroll',{});
+  if(loaded)run.dispatch('message',{source:run.child,origin:'https://vctrsclo.com',data:{type:'vctrs-vault-ready',cycle:0}});
+  assert.equal(run.context.__storyVault.active,false);
+  return run;
+}
+
+test('Entry waits for the threshold and reverse, pinch, touch cancellation, or resize cannot create a commitment',()=>{
+  let run=partialVault({top:660});
+  const forward=inputEvent({deltaY:120});run.dispatch('wheel',forward);
+  assert.equal(forward.defaultPrevented,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
+  run.setScroll(40);const reverse=inputEvent({deltaY:-80});run.dispatch('wheel',reverse);run.dispatch('scroll',{});
+  assert.equal(reverse.defaultPrevented,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
+
+  run=partialVault({top:660});run.dispatch('wheel',inputEvent({deltaY:120}));
+  run.setViewport(1000);run.dispatch('resize',{});
+  assert.equal(run.context.__storyVault.entryPending,false,'resize reused an old forward intent');assert.equal(run.context.__storyVault.settling,false);
+
+  run=partialVault({top:620});
+  run.dispatch('touchstart',inputEvent({touches:[{clientY:520},{clientY:500}]}));
+  run.dispatch('touchmove',inputEvent({touches:[{clientY:280},{clientY:260}]}));run.dispatch('touchend',inputEvent({touches:[]}));
+  assert.equal(run.context.__storyVault.entryPending,false,'pinch was mistaken for a forward swipe');assert.equal(run.context.__storyVault.settling,false);
+
+  run=partialVault({top:620});
+  run.dispatch('touchstart',inputEvent({touches:[{clientY:520}]}));
+  run.dispatch('touchmove',inputEvent({touches:[{clientY:280}]}));
+  assert.equal(run.context.__storyVault.entryPending,true);assert.equal(run.context.__storyVault.settling,false,'touch committed before release');
+  run.dispatch('touchcancel',inputEvent({touches:[]}));
+  assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);assert.equal(run.section.classList.contains('is-committing'),false);
+
+  run=partialVault({top:620});
+  run.dispatch('touchstart',inputEvent({touches:[{clientY:520}]}));run.dispatch('touchmove',inputEvent({touches:[{clientY:280}]}));
+  assert.equal(run.context.__storyVault.entryPending,true);run.step(1000);
+  run.dispatch('touchend',inputEvent({touches:[]}));
+  assert(Math.abs(run.section.getBoundingClientRect().top)<=.001,'a deliberate long hold lost its pending entry');assert.equal(run.context.__storyVault.active,true);
+});
+
+test('Committed entry lands on the exact active viewport and suppresses only onward input during travel',()=>{
+  const run=partialVault({top:620}),forward=inputEvent({deltaY:120});
+  run.dispatch('wheel',forward,false);run.step();
+  assert.equal(run.context.__storyVault.settling,true);assert.equal(run.section.classList.contains('is-committing'),true);assert.equal(forward.defaultPrevented,false);
+  const onward=inputEvent({deltaY:80});run.dispatch('wheel',onward,false);
+  assert.equal(onward.defaultPrevented,true);
+  run.step(450);const mid=run.context.scrollY;assert(mid>0&&mid<620,'entry did not produce a bounded midpoint');
+  run.step(500);run.flush();
+  const rect=run.section.getBoundingClientRect();
+  assert(Math.abs(rect.top)<=.001);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.active,true);
+  assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.frame.attrs.has('inert'),false);assert.deepEqual(run.historyCalls,[]);
+});
+
+test('Reverse and lifecycle changes cancel cleanly while reduced motion and resize settle to the current target',()=>{
+  let run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(300);
+  const beforeReverse=run.context.scrollY,reverse=inputEvent({deltaY:-60});run.dispatch('wheel',reverse);
+  assert.equal(reverse.defaultPrevented,false);assert.equal(run.context.__storyVault.settling,false);assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.rafTasks.size,0);assert.equal(run.context.scrollY,beforeReverse);
+
+  run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(250);run.setHidden(true);
+  assert.equal(run.context.__storyVault.settling,false);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.section.classList.contains('is-committing'),false);assert.equal(run.rafTasks.size,0);
+  run.setHidden(false);run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();assert.equal(run.context.__storyVault.settling,true,'visibility restoration did not rearm entry');
+  run.dispatch('pagehide',{});assert.equal(run.context.__storyVault.settling,false);assert.equal(run.rafTasks.size,0);
+
+  run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(250);run.setReduced(true);
+  assert(Math.abs(run.section.getBoundingClientRect().top)<=.001);assert.equal(run.context.__storyVault.active,true);assert.equal(run.context.__storyVault.settling,false);
+
+  run=partialVault({top:620});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(250);
+  const newTop=700;run.setViewport(700);run.setGeometry({top:newTop-run.context.scrollY,height:700,scrollHeight:1400});run.dispatch('resize',{},false);run.step(700);run.flush();
+  assert(Math.abs(run.section.getBoundingClientRect().top)<=.001);assert.equal(run.context.__storyVault.active,true);assert.equal(run.context.__storyVault.settling,false);
+});
+
+test('Surface reset clears entry state and the next story loop can commit again',()=>{
+  const run=partialVault({top:620}),send=data=>run.dispatch('message',{source:run.child,origin:'https://vctrsclo.com',data});
+  run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();run.step(950);run.flush();assert.equal(run.context.__storyVault.active,true);
+  send({type:'vctrs-vault-surface',cycle:0});
+  assert.equal(run.context.__storyVault.resetting,true);assert.equal(run.context.__storyVault.pendingCycle,1);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
+  send({type:'vctrs-vault-ready',cycle:1});
+  assert.equal(run.context.__storyVault.cycle,1);assert.equal(run.context.__storyVault.resetting,false);
+  run.setScroll(30);run.dispatch('scroll',{});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();
+  assert.equal(run.context.__storyVault.settling,true,'second loop did not rearm the entry commitment');
+  run.step(950);run.flush();assert.equal(run.context.__storyVault.active,true);assert.equal(run.context.__storyVault.cycle,1);
 });
 
 console.log(JSON.stringify({passed,limits:'Focused VM/static navigation lifecycle checks; browser history journey is separate. No form transport.'}));
