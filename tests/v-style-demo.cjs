@@ -46,9 +46,10 @@ assert(story.includes('id="play-title" class="paint-pending"'),'pending play-tit
 assert(!/<section\b[^>]*\bid="vault-invite"/.test(story)&&!story.includes('id="vault-title"')&&!story.includes('class="action vault-return"'),'retired Back to the Vault invitation remains in the story');
 const vaultSection=story.match(/<section\b[^>]*\bid="story-vault"[^>]*>/)?.[0]||'',vaultFrame=story.match(/<iframe\b[^>]*\bid="story-vault-frame"[^>]*>/)?.[0]||'';
 assert(/\bclass="[^"]*\bstory-vault\b/.test(vaultSection),'embedded Vault section is missing');
-for(const token of ['title="The VCTRS Vault"','data-src="../?embed=vault#vault"','loading="eager"','tabindex="-1"','inert','aria-hidden="true"'])assert(vaultFrame.includes(token),'embedded Vault frame is missing '+token);
+for(const token of ['title="The VCTRS Vault"','data-src="../vault-embed.html?embed=vault&amp;cycle=1#vault"','loading="eager"','tabindex="-1"','inert','aria-hidden="true"'])assert(vaultFrame.includes(token),'embedded Vault frame is missing '+token);
 for(const token of ['vctrs-vault-ready','vctrs-vault-surface','vctrs-vault-visibility','vctrs-vault-reset','window.__storyVault'])assert(story.includes(token),'embedded Vault lifecycle is missing '+token);
-assert(!story.includes('story-return-link')&&!story.includes('story-return-end')&&!story.includes("location.replace(new URL('../#vault'"),'retired redirect-based story return remains');
+assert(/class="story-return-link"[^>]*href="#story-vault"[^>]*aria-label="Continue to the vault"/.test(story),'closing V does not advance to the embedded Vault');
+assert(!story.includes('story-return-end')&&!story.includes('href="../#vault"')&&!story.includes("location.replace(new URL('../#vault'"),'retired external Vault redirect remains');
 for(const retired of ['id="ending"','class="ending-grid"','id="restart-page"','class="signup-footer"','id="signup-form"','class="closing-footer"','id="sharedVault"','id="sharedLightbox"'])assert(!story.includes(retired),retired+' remains after the playable story');
 const paint=read('tools/flappy-clean-paint.js'),graffiti=require(path.join(root,'tools/flappy-graffiti-art.js')),atlas=paint.slice(paint.indexOf('  function graffitiAtlas('),paint.indexOf('\n  function textureSprite('));
 assert(paint.includes("var PAINT = '#f0d492';"),'canvas paint token must exactly match the canonical V');
