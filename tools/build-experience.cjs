@@ -624,7 +624,7 @@ story = replace(story, '</style>', `
 .story-film-wrap.film-ready:after{opacity:1}
 .story-film-wrap video{opacity:0;transition:opacity .75s cubic-bezier(.22,.61,.36,1)}
 .story-film-wrap.film-ready video{opacity:1}
-.film-loading{position:absolute;left:calc(var(--px,55%) + var(--pw,38%)/2);top:calc(var(--py,15%) + var(--ph,76%)/2);width:28px;height:28px;transform:translate(-50%,-50%);z-index:3;background:none;opacity:1;visibility:visible;transition:opacity .25s,visibility .25s;pointer-events:none}
+.film-loading{position:absolute;left:calc(var(--px,55%) + var(--pw,38%)/2);top:calc(var(--py,15%) + var(--ph,76%)/2);width:36px;height:36px;transform:translate(-50%,-50%);z-index:3;background:none;opacity:1;visibility:visible;transition:opacity .25s,visibility .25s;pointer-events:none}
 .film-loading:before{content:'';position:absolute;inset:0;border:1.5px solid #d4af5f33;border-top-color:#f0d492;border-radius:50%;animation:film-spin .9s linear infinite;animation-play-state:paused}
 .film-active:not(.film-failed) + .film-loading:before{animation-play-state:running}
 .film-ready:not(.film-waiting):not(.film-failed) + .film-loading{opacity:0;visibility:hidden}

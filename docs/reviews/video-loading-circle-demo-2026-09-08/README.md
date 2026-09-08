@@ -7,3 +7,7 @@ Run `node tools/serve-film-loading-demo.cjs` from the repository. Open http://12
 [Reveal checks](reveal.json) cover Chromium desktop/phone: circle28×28, transparent wrapper, no pending gradient/video, intermediate opacity about0.54, final opacity1 with real1280px video playing. [Lifecycle checks](lifecycle.json) cover WebKit desktop, Chromium phone and hard-failure retry, including offscreen pause/resume and no page errors. Root inspected desktop pending and phone ready screenshots. Navigation13/13, integration15/15, geometry/rebuild identity and media37/37 pass. No physical-device certification or publication.
 
 Screenshots: [desktop loading](desktop-loading.png), [desktop ready](desktop-ready.png), [phone loading](phone-loading.png), [phone ready](phone-ready.png).
+
+## Approved larger circle
+
+The user approved publication after increasing the ring from28px to36px. All other reveal settings remain as reviewed. [Release browser checks](release-checks.json) pass held loading/reveal in WebKit desktop and Chromium phone, offscreen pause/resume and failed-load retry. Reduced-motion Chromium desktop/phone separately confirmed no spinner, hidden film and paused playback. Navigation13/13, integration15/15 and exact media37/37 pass. The2.5second delay exists only in the separate loopback demo-server tool, never in the published page.

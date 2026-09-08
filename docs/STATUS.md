@@ -1,8 +1,8 @@
 # Current status
 
-## September 8 local video loading-circle demo
+## September 8 approved video loading circle
 
-Local review only, based on published `107ff39`. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). Await user review; do not publish this demo without authorization.
+Based on published `107ff39`; the user approved publication after enlarging the reviewed ring from28px to36px. Video loading now shows a small gold circle without the rectangular placeholder; real playback fades the original HD video in over750ms. Desktop/phone reveal screenshots and WebKit/Chromium loading, offscreen and retry checks pass, together with navigation13/13, integration15/15 and media37/37. The preview server on8923 adds a demonstration-only2.5second delay. See [demo evidence and restart instructions](reviews/video-loading-circle-demo-2026-09-08/README.md). The enlarged circle passed focused browser/reduced-motion checks; publication is authorized. The production site has no artificial loading delay.
 
 ## September 8 Surface loop Scroll cue
 
