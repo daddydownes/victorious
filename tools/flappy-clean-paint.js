@@ -10,23 +10,36 @@
   var CACHE_BYTE_LIMIT = 16 * 1024 * 1024, metalCacheBytes = 0;
   var graffitiCache = new Map(), graffitiCacheBytes = 0, graffitiPaths = Object.create(null);
   var GRAFFITI_CACHE_LIMIT = 4, GRAFFITI_BYTE_LIMIT = 4 * 1024 * 1024;
-  var PILLAR_TOP_MOTIFS = [
-    { index: 0, angle: -.314, x: .34, offset: 48, cover: .72 },
-    { index: 1, angle: .419, x: .64, offset: 140, cover: .95 },
-    { index: 2, angle: -.489, x: .42, offset: 230, cover: .95 }
+  var graffitiLayoutCache = new Map(), GRAFFITI_LAYOUT_LIMIT = 64;
+  var PILLAR_TOP_SLOTS = [
+    { angle: -.314, x: .34, offset: 48, cover: .72 },
+    { angle: .419, x: .64, offset: 140, cover: .95 },
+    { angle: -.489, x: .42, offset: 230, cover: .95 }
   ];
-  var PILLAR_BOTTOM_MOTIFS = [
-    { index: 3, angle: .593, x: .66, offset: 180, cover: .95 },
-    { index: 4, angle: 1.431, x: .38, offset: 48, cover: .64 }
+  var PILLAR_BOTTOM_SLOTS = [
+    { angle: .593, x: .66, offset: 180, cover: .95 },
+    { angle: 1.431, x: .38, offset: 48, cover: .64 }
   ];
-  var FINITE_MOTIFS = {
-    arch: [{ index: 1, angle: -.244, x: .38, cover: .70 }, { index: 0, angle: .314, x: .64, cover: .54 }],
-    slant: [{ index: 0, angle: .209, x: .36, cover: .54 }, { index: 1, angle: -.384, x: .62, cover: .72 }],
-    iris: [{ index: 1, angle: .279, x: .40, cover: .68 }, { index: 0, angle: -.349, x: .60, cover: .52 }]
+  var FINITE_SLOTS = {
+    arch: [{ angle: -.244, x: .38, cover: .70 }, { angle: .314, x: .64, cover: .54 }],
+    slant: [{ angle: .209, x: .36, cover: .54 }, { angle: -.384, x: .62, cover: .72 }],
+    iris: [{ angle: .279, x: .40, cover: .68 }, { angle: -.349, x: .60, cover: .52 }]
   };
   var PAINT = '#f0d492';
 
   function q(n, step) { return Math.round(n / step) * step; }
+  function mix32(n) {
+    n = Math.imul(n ^ n >>> 16, 0x7feb352d);
+    n = Math.imul(n ^ n >>> 15, 0x846ca68b);
+    return (n ^ n >>> 16) >>> 0;
+  }
+  function seed32(value) {
+    var n = Number(value) || 0, whole = Math.floor(n), fraction = Math.floor((n - whole) * 1048576);
+    return mix32((Math.imul(whole, 0x9e3779b1) ^ fraction) >>> 0);
+  }
+  function seedUnit(seed, salt) {
+    return mix32(seed ^ Math.imul(salt + 1, 0x85ebca6b)) / 4294967296;
+  }
   function pathPolygon(g, p, ox, oy) {
     g.beginPath();
     g.moveTo(p[0][0] - ox, p[0][1] - oy);
@@ -67,6 +80,49 @@
   function graffitiArt() {
     return typeof FLAPPY_GRAFFITI_ART !== 'undefined' && FLAPPY_GRAFFITI_ART &&
       FLAPPY_GRAFFITI_ART.motifs && FLAPPY_GRAFFITI_ART.motifs.length ? FLAPPY_GRAFFITI_ART : null;
+  }
+  function variedPlacement(slot, motifIndex, art, seed, salt) {
+    var motif = art.motifs[motifIndex], jitter = (seedUnit(seed, salt) - .5) * .22;
+    var angle = slot.angle + jitter;
+    // Long single-line art follows the pole while compact marks can lean more.
+    if (motif.aspect > 3.4) {
+      var sign = seedUnit(seed, salt + 1) < .5 ? -1 : 1;
+      angle = sign * (1.39 + (seedUnit(seed, salt + 2) - .5) * .14);
+    }
+    var cover = slot.cover * (.88 + seedUnit(seed, salt + 5) * .18);
+    if (motifIndex === 1) cover = Math.max(.94, cover);
+    else if (motifIndex === 2 || motifIndex === 3) cover = Math.max(.88, cover);
+    return {
+      index: motifIndex,
+      angle: angle,
+      x: slot.x + (seedUnit(seed, salt + 3) - .5) * .12,
+      offset: slot.offset === undefined ? 0 : slot.offset + (seedUnit(seed, salt + 4) - .5) * 8,
+      cover: Math.min(.98, cover)
+    };
+  }
+  function graffitiLayout(kind, variantSeed, art) {
+    var kindSalt = kind === 'pillar' ? 0x13579bdf : kind === 'arch' ? 0x2468ace0 :
+      kind === 'slant' ? 0x31415926 : 0x27182818;
+    var seed = mix32(seed32(variantSeed) ^ kindSalt), key = kind + '|' + String(variantSeed);
+    if (graffitiLayoutCache.has(key)) return graffitiLayoutCache.get(key);
+    var layout = { top: [], bottom: [] }, i;
+    if (kind === 'pillar') {
+      var order = [0, 1, 2, 3, 4];
+      for (i = order.length - 1; i > 0; i--) {
+        var swap = Math.floor(seedUnit(seed, 20 + i) * (i + 1)), held = order[i];
+        order[i] = order[swap]; order[swap] = held;
+      }
+      for (i = 0; i < 3; i++) layout.top.push(variedPlacement(PILLAR_TOP_SLOTS[i], order[i], art, seed, i * 8));
+      for (i = 0; i < 2; i++) layout.bottom.push(variedPlacement(PILLAR_BOTTOM_SLOTS[i], order[i + 3], art, seed, 32 + i * 8));
+    } else {
+      var slots = FINITE_SLOTS[kind] || FINITE_SLOTS.arch;
+      var first = Math.floor(seedUnit(seed, 60) * 4), second = (first + 1 + Math.floor(seedUnit(seed, 61) * 3)) % 4;
+      layout.top.push(variedPlacement(slots[0], first, art, seed, 64));
+      layout.bottom.push(variedPlacement(slots[1], second, art, seed, 72));
+    }
+    while (graffitiLayoutCache.size >= GRAFFITI_LAYOUT_LIMIT) graffitiLayoutCache.delete(graffitiLayoutCache.keys().next().value);
+    graffitiLayoutCache.set(key, layout);
+    return layout;
   }
   function graffitiPath(motif, index) {
     var key = motif.id + '|' + index;
@@ -201,15 +257,16 @@
     ctx.restore();
   }
 
-  function drawGraffiti(ctx, polygon, b, side, kind, s) {
+  function drawGraffiti(ctx, polygon, b, side, kind, s, variantSeed) {
     var art = graffitiArt(), atlas = graffitiAtlas(Math.max(1, (s && s.d) || 1));
     if (!art || !atlas) return;
     var cssScale = s && s.cssH ? s.cssH / s.h : 1;
+    var layout = graffitiLayout(kind, variantSeed, art);
 
     if (kind === 'pillar') {
       // Screen-stable angled slots do not redistribute while a pole deploys.
       // Every destination stays at or below the atlas's 36-unit source height.
-      var indices = side ? PILLAR_BOTTOM_MOTIFS : PILLAR_TOP_MOTIFS;
+      var indices = side ? layout.bottom : layout.top;
       for (var i = 0; i < indices.length; i++) {
         var placement = indices[i], motifIndex = placement.index, motif = art.motifs[motifIndex];
         var cosine = Math.abs(Math.cos(placement.angle)), sine = Math.abs(Math.sin(placement.angle));
@@ -232,7 +289,7 @@
     }
 
     // Finite arches, slants and iris jaws carry one fitted compact mark.
-    var placement = (FINITE_MOTIFS[kind] || FINITE_MOTIFS.arch)[side];
+    var placement = side ? layout.bottom[0] : layout.top[0];
     var motifIndex = placement.index, motif = art.motifs[motifIndex], rangeX = b.x + b.w * placement.x;
     var localRange = verticalRange(polygon, rangeX, b), depth = localRange.max - localRange.min;
     var cosine = Math.abs(Math.cos(placement.angle)), sine = Math.abs(Math.sin(placement.angle));
@@ -261,7 +318,7 @@
     ctx.restore();
   }
 
-  function flapDrawMetal(ctx, polygon, s, kind, side, phase) {
+  function flapDrawMetal(ctx, polygon, s, kind, side, variantSeed) {
     if (!ctx || !polygon || polygon.length < 3) return;
     kind = kind || 'pillar'; side = side ? 1 : 0;
     var b = bounds(polygon), d = Math.max(1, (s && s.d) || 1);
@@ -272,7 +329,7 @@
     ctx.clip();
     var segs = passageSegments(polygon, side);
     ctx.drawImage(sprite, 0, 0, sprite.width, sprite.height, b.x, b.y, b.w, b.h);
-    drawGraffiti(ctx, polygon, b, side, kind, s);
+    drawGraffiti(ctx, polygon, b, side, kind, s, variantSeed);
 
     // The uninterrupted passage lip remains the brightest collision boundary.
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
@@ -292,11 +349,13 @@
   flapDrawMetal.clearCache = function () {
     metalCache.clear(); metalCacheBytes = 0;
     graffitiCache.clear(); graffitiCacheBytes = 0; graffitiPaths = Object.create(null);
+    graffitiLayoutCache.clear();
   };
   flapDrawMetal.cacheSize = function () { return metalCache.size; };
   flapDrawMetal.cacheBytes = function () { return metalCacheBytes; };
   flapDrawMetal.graffitiCacheSize = function () { return graffitiCache.size; };
   flapDrawMetal.graffitiCacheBytes = function () { return graffitiCacheBytes; };
+  flapDrawMetal.graffitiLayoutCacheSize = function () { return graffitiLayoutCache.size; };
   flapDrawMetal.passageSegmentCount = function (polygon, side) {
     return passageSegments(polygon, side ? 1 : 0).length;
   };
