@@ -72,12 +72,12 @@ function runStoryController(script){
   const child={postMessage:(data,origin)=>posts.push({data,origin}),location:{replace:href=>childReplaces.push(String(href))}};
   const frame={contentWindow:child,dataset:{src:'../vault-embed.html?embed=vault&cycle=0'},tabIndex:-1,attrs:new Map([['inert',''],['aria-hidden','true']]),addEventListener(){},toggleAttribute(name,on){if(on)this.attrs.set(name,'');else this.attrs.delete(name)},setAttribute(name,value){this.attrs.set(name,String(value))},removeAttribute(name){this.attrs.delete(name)},blur(){}};
   const overlay={classList:classList()};
-  const startCue={focus(){}};
+  const startCue={focus(){document.activeElement=startCue}},startHeading={focus(options){document.activeElement=startHeading;this.focusOptions=options}};
   const returnLink={tagName:'A',addEventListener:(name,fn)=>{const list=returnLinkListeners.get(name)||[];list.push(fn);returnLinkListeners.set(name,list)}};
   const body={classList:classList()};
   const document={
     body,documentElement:{get scrollHeight(){return documentHeight}},hidden:false,activeElement:null,
-    getElementById:id=>id==='story-vault'?section:id==='story-vault-frame'?frame:id==='flapOverlay'?overlay:id==='story-return'?{}:null,
+    getElementById:id=>id==='brand-title'?startHeading:id==='story-vault'?section:id==='story-vault-frame'?frame:id==='flapOverlay'?overlay:id==='story-return'?{}:null,
     querySelector:selector=>selector==='.story-cue'?startCue:selector==='.story-return-link'?returnLink:null,
     addEventListener:(name,fn)=>{const list=documentListeners.get(name)||[];list.push(fn);documentListeners.set(name,list)}
   };
@@ -103,7 +103,7 @@ function runStoryController(script){
   const setViewport=height=>{context.innerHeight=height};
   const setHidden=hidden=>{document.hidden=hidden;dispatchDocument('visibilitychange',{})};
   flush();
-  return {context,section,frame,child,posts,childReplaces,historyCalls,scrollCalls,dispatch,dispatchDocument,dispatchLink,documentListeners,motion,setReduced,setGeometry,setScroll,setViewport,setHidden,step,flush,rafTasks,timerTasks};
+  return {context,section,frame,child,startHeading,posts,childReplaces,historyCalls,scrollCalls,dispatch,dispatchDocument,dispatchLink,documentListeners,motion,setReduced,setGeometry,setScroll,setViewport,setHidden,step,flush,rafTasks,timerTasks};
 }
 
 const original=read('index.html');
@@ -352,6 +352,9 @@ test('Surface reset clears entry state and the next story loop can commit again'
   assert.equal(run.context.__storyVault.resetting,true);assert.equal(run.context.__storyVault.pendingCycle,1);assert.equal(run.context.__storyVault.entryPending,false);assert.equal(run.context.__storyVault.settling,false);
   send({type:'vctrs-vault-ready',cycle:1});
   assert.equal(run.context.__storyVault.cycle,1);assert.equal(run.context.__storyVault.resetting,false);
+  assert.equal(run.context.document.activeElement,run.startHeading,'Surface returns focus to the opening heading, leaving Scroll unselected');
+  assert.equal(run.startHeading.focusOptions.preventScroll,true,'focus must not move the restored opening');
+  assert.match(story,/<h1 id="brand-title" class="sr-only" tabindex="-1">/);
   run.setScroll(30);run.dispatch('scroll',{});run.dispatch('wheel',inputEvent({deltaY:100}),false);run.step();
   assert.equal(run.context.__storyVault.settling,true,'second loop did not rearm the entry commitment');
   run.step(950);run.flush();assert.equal(run.context.__storyVault.active,true);assert.equal(run.context.__storyVault.cycle,1);

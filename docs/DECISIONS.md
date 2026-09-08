@@ -175,3 +175,7 @@ September7: user explicitly removes the full Some things stay with you / The peo
 ## September 8 — Demo 02 motion and rounded paint
 
 The user requested integration of the supplied Demo 02 handoff and rounder spray drips into the existing local demo. Adopt its bounded card arrival and card-bound fullscreen reveal/return while preserving real gameplay and real Vault navigation. Replace overlapping looping game-title/arrow effects with one-shot motion. Use connected rounded bulb drips in native SVG/canvas with exact gold; preserve collision clearance and original HD media. This instruction is local-demo work, not publication authorization. See the [review](reviews/demo-02-integrated/README.md).
+
+## Surface loop returns focus to the opening heading
+
+The repeated Surface should look like the first arrival. Returning from the embedded Vault focuses the existing visually hidden opening heading (`tabindex="-1"`) with `preventScroll`, instead of automatically highlighting the Scroll link. The next Tab reaches Scroll with its normal visible focus indicator. Keep focus recovery out of the inert child; do not remove keyboard focus styling.

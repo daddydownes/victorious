@@ -1,5 +1,9 @@
 # Current status
 
+## September 8 Surface loop Scroll cue
+
+The embedded Vault → Surface return now focuses the existing visually hidden opening heading instead of the Scroll link. This removes the automatic highlight and matches the first arrival while preserving normal keyboard focus styling. The heading uses `tabindex="-1"` and `preventScroll`; loop timing, history, game and HD media remain unchanged. Sixteen focused browser loops pass across desktop, portrait, landscape and reduced-motion narrow layouts, including the returned appearance and keyboard activation. Navigation VM13/13, integration15/15, all ten root suites and media37/37 pass. See [screenshots and evidence](reviews/surface-scroll-cue-2026-09-08/README.md). Publication follows the standing authorization.
+
 ## September 8 continued-scroll correction
 
 Continuing to scroll through the new Vault entrance now preserves one timeline instead of causing a backward jump or restarting it. An eligible wheel/key is consumed before native scrolling can race the animation; applied motion is monotonic; further single touches stay with the entrance. Deliberate reverse still cancels, tiny jitter is absorbed, and a 140ms input-quiet gate keeps residual input with the parent at landing. No HD media or game changes were made.

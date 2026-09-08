@@ -252,6 +252,7 @@ const storyReloadGuard = `<script>(function(){
 })();</script>`;
 story = replace(story, '<head>', '<head>'+storyReloadGuard);
 story = replace(story, exactLogo, exactV);
+story = replace(story, '<h1 id="brand-title" class="sr-only">', '<h1 id="brand-title" class="sr-only" tabindex="-1">');
 story = replace(story, 'The original VCTRS brand logo in gold', 'The original V and star brand mark in gold');
 story = story.replaceAll('../assets/', 'assets/');
 story = replace(story, '<title>VCTRS — For the ones who were there</title>', '<title>VCTRS — For the ones who were there</title><meta name="description" content="A Canberra clothing brand. Drops, pop-ups, music and good food."><link rel="preload" href="assets/cinzel.woff2" as="font" type="font/woff2" crossorigin>');
@@ -711,7 +712,7 @@ story = replace(story, '</style></head>', `</style><style>
 // trusted onward gesture that reveals a clear part of the Vault commits the
 // remaining parent-page travel; the child stays inert until it fills the view.
 story = replace(story, '</body></html>', `<script>(()=>{
-const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue'),returnLink=document.querySelector('.story-return-link'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startHeading=document.getElementById('brand-title'),returnLink=document.querySelector('.story-return-link'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 const ENTRY_THRESHOLD=.24,ENTRY_DURATION=900,INTENT_WINDOW=900,HANDOFF_QUIET=140,REVERSE_DISTANCE=12;
 let active=false,loaded=false,requested=false,queued=false,resetting=false,cycle=0,pendingCycle=null,entryPending=false,entryForced=false,settling=false,landing=false,settleFrame=0,settleTimer=0,settleFrom=0,settleTo=0,settleApplied=0,settleStarted=0,quietUntil=0,wheelReverse=0,touchReverse=0,intent=0,intentUntil=0,touchHeld=false,touchSingle=false,touchY=0;
 function post(type,detail,token){if(frame.contentWindow)frame.contentWindow.postMessage(Object.assign({type,cycle:token===undefined?cycle:token},detail||{}),location.origin)}
@@ -775,7 +776,7 @@ function restartStory(force){
   if(resetting||(!active&&force!==true))return;cancelEntry();resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
   const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
-  requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
+  requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startHeading)startHeading.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
 }
 function acceptPendingCycle(){
   cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active:false});request();

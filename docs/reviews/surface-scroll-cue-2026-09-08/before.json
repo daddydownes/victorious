@@ -1,0 +1,131 @@
+{
+  "base": "https://vctrsclo.com",
+  "checkedAt": "2026-09-08T05:06:11.017Z",
+  "expectFixed": false,
+  "baselineOnly": true,
+  "returnCount": 1,
+  "results": [
+    {
+      "name": "webkit-1280x720",
+      "engine": "webkit",
+      "viewport": [
+        1280,
+        720
+      ],
+      "touch": false,
+      "first": {
+        "label": "first-arrival",
+        "url": "https://vctrsclo.com/experience/",
+        "scrollY": 0,
+        "active": {
+          "tag": "BODY",
+          "id": "",
+          "className": ""
+        },
+        "cue": {
+          "focused": false,
+          "focusVisible": false,
+          "outline": "3px none rgb(212, 175, 95)",
+          "outlineOffset": "0px",
+          "color": "rgb(212, 175, 95)",
+          "background": "rgba(0, 0, 0, 0)",
+          "boxShadow": "none",
+          "rect": {
+            "x": 605,
+            "y": 605.609375,
+            "width": 70,
+            "height": 64
+          }
+        },
+        "brand": {
+          "focused": false,
+          "tabindex": null
+        },
+        "vault": {
+          "active": false,
+          "loaded": false,
+          "resetting": false,
+          "cycle": 0
+        }
+      },
+      "returns": [
+        {
+          "gestures": 13,
+          "priorCycle": 0,
+          "returned": {
+            "label": "returned-1",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 0,
+            "active": {
+              "tag": "A",
+              "id": "",
+              "className": "story-cue"
+            },
+            "cue": {
+              "focused": true,
+              "focusVisible": true,
+              "outline": "2px solid rgb(238, 229, 207)",
+              "outlineOffset": "6px",
+              "color": "rgb(212, 175, 95)",
+              "background": "rgba(0, 0, 0, 0)",
+              "boxShadow": "none",
+              "rect": {
+                "x": 605,
+                "y": 605.609375,
+                "width": 70,
+                "height": 64
+              }
+            },
+            "brand": {
+              "focused": false,
+              "tabindex": null
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "resetting": false,
+              "cycle": 1
+            }
+          },
+          "entered": {
+            "label": "cue-entered-1",
+            "url": "https://vctrsclo.com/experience/",
+            "scrollY": 44,
+            "active": {
+              "tag": "H2",
+              "id": "portrait-title",
+              "className": ""
+            },
+            "cue": {
+              "focused": false,
+              "focusVisible": false,
+              "outline": "3px none rgb(212, 175, 95)",
+              "outlineOffset": "0px",
+              "color": "rgb(212, 175, 95)",
+              "background": "rgba(0, 0, 0, 0)",
+              "boxShadow": "none",
+              "rect": {
+                "x": 605,
+                "y": 561.609375,
+                "width": 70,
+                "height": 64
+              }
+            },
+            "brand": {
+              "focused": false,
+              "tabindex": null
+            },
+            "vault": {
+              "active": false,
+              "loaded": true,
+              "resetting": false,
+              "cycle": 1
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "limits": "Headless WebKit pointer/wheel and Chromium CDP touch emulation; no physical-device or assistive-technology claim."
+}
