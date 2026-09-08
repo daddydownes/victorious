@@ -1,0 +1,70 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T00:20:31.165Z",
+  "rows": [
+    {
+      "name": "webkit-320x568",
+      "status": 200,
+      "visual": {
+        "state": "play",
+        "score": 25,
+        "gate": "ARCH",
+        "overflow": false
+      },
+      "interactions": [
+        "touch launch",
+        "touch Start",
+        "touch flap",
+        "touch pause",
+        "touch resume",
+        "touch Exit"
+      ],
+      "focusReturn": "journey-play",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "name": "webkit-390x844",
+      "status": 200,
+      "visual": {
+        "state": "play",
+        "score": 25,
+        "gate": "ARCH",
+        "overflow": false
+      },
+      "interactions": [
+        "touch launch",
+        "touch Start",
+        "touch flap",
+        "touch pause",
+        "touch resume",
+        "touch Exit"
+      ],
+      "focusReturn": "journey-play",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "name": "webkit-844x390",
+      "status": 200,
+      "visual": {
+        "state": "play",
+        "score": 25,
+        "gate": "ARCH",
+        "overflow": false
+      },
+      "interactions": [
+        "touch launch",
+        "touch Start",
+        "touch flap",
+        "touch pause",
+        "touch resume",
+        "touch Exit"
+      ],
+      "focusReturn": "journey-play",
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "limits": "Headless WebKit touch/viewport emulation. Stage 0 and 25 are fixture-positioned visual witnesses; no physical-device certification."
+}

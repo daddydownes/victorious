@@ -1,0 +1,45 @@
+{
+  "browser": "Playwright Chromium",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "warmupMs": 750,
+  "measuredMs": 3000,
+  "stages": [
+    {
+      "score": 0,
+      "kind": "PILLAR",
+      "level": 0,
+      "opening": 156,
+      "widthScale": 0.84
+    }
+  ],
+  "backgroundCrewVisible": {
+    "label": "root overlay with crew intersecting behind it",
+    "frames": 180,
+    "meanMs": 16.671508379888273,
+    "p50Ms": 16.699999999999818,
+    "p95Ms": 17.600000000000364,
+    "maxMs": 17.700000000000273,
+    "over25ms": 0,
+    "over50ms": 0,
+    "crewTransformChanges": 180,
+    "longTasks": [],
+    "score": 2
+  },
+  "backgroundCrewHidden": {
+    "label": "root overlay after crew leaves rendering",
+    "frames": 181,
+    "meanMs": 16.668333333333333,
+    "p50Ms": 16.699999999999818,
+    "p95Ms": 17.699999999999818,
+    "maxMs": 17.800000000000182,
+    "over25ms": 0,
+    "over50ms": 0,
+    "crewTransformChanges": 1,
+    "longTasks": [],
+    "score": 5
+  },
+  "limits": "Desktop headless Chromium on a shared machine. A synthetic centred-gate survivor changes positions while retaining the production physics and draw loops; this is not a representative route, human playability, physical-device, GPU-memory or universal smoothness result."
+}

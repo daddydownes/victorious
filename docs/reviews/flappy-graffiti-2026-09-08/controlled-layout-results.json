@@ -1,0 +1,183 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T00:32:22.794Z",
+  "rows": [
+    {
+      "name": "webkit-390x844",
+      "status": 200,
+      "touch": true,
+      "seeded": {
+        "w": 332.70142180094786,
+        "identities": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 139.73459715639808
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 212.92890995260663
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 286.1232227488151
+          }
+        ]
+      },
+      "before": {
+        "state": "play",
+        "score": 0,
+        "paused": false,
+        "gates": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 139.58099829263273,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 212.77531108884128,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 285.96962388504977,
+            "kind": "PILLAR"
+          }
+        ],
+        "overflow": false
+      },
+      "after": {
+        "state": "play",
+        "score": 0,
+        "paused": false,
+        "gates": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 120.18795053153912,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 193.3822633277477,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 266.57657612395616,
+            "kind": "PILLAR"
+          }
+        ],
+        "overflow": false
+      },
+      "interactions": [
+        "touch launch",
+        "Start",
+        "flap",
+        "pause",
+        "resume",
+        "Exit"
+      ],
+      "focusReturn": "journey-play",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "name": "webkit-1280x720",
+      "status": 200,
+      "touch": false,
+      "seeded": {
+        "w": 1280,
+        "identities": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 537.6
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 819.2
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 1100.8
+          }
+        ]
+      },
+      "before": {
+        "state": "play",
+        "score": 0,
+        "paused": false,
+        "gates": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 537.0090600979239,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 818.6090600979239,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 1100.2090600979236,
+            "kind": "PILLAR"
+          }
+        ],
+        "overflow": false
+      },
+      "after": {
+        "state": "play",
+        "score": 0,
+        "paused": false,
+        "gates": [
+          {
+            "serial": 0,
+            "phase": 0.2,
+            "x": 472.35626913116226,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 1,
+            "phase": 2.3,
+            "x": 753.9562691311622,
+            "kind": "PILLAR"
+          },
+          {
+            "serial": 2,
+            "phase": 5.1,
+            "x": 1035.556269131162,
+            "kind": "PILLAR"
+          }
+        ],
+        "overflow": false
+      },
+      "interactions": [
+        "mouse launch",
+        "Start",
+        "flap",
+        "pause",
+        "resume",
+        "Exit"
+      ],
+      "focusReturn": "journey-play",
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "limits": "Headless WebKit fixture: fixed serial/phase values demonstrate controlled visual variation and stable identity while translated; no rule/difficulty changes or physical-device claim."
+}

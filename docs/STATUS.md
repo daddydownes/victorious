@@ -1,5 +1,11 @@
 # Current status
 
+## September 8 local Flappy graffiti demo
+
+The local 8922 demo now replaces the old obstacle swashes with five thicker rounded hot-gold graffiti motifs: canonical V-and-star, VCTRS, THE VAULT, FLY THE V and SURFACE. A pure seed from each gate's immutable serial and spawn phase varies motif order, angle, size and placement without calling gameplay randomness; the layout stays attached while the gate moves. Marks remain inside the collision polygon and outside a 16-unit passage reserve. Physics, collision, progression, 25-clear playable sections, ten-clear preview, 100-clear reward and all 37 existing media files are unchanged.
+
+Final checkpoint `c500d55`; application bytes last changed at `95c27de`. Material, V-style and 16/16 deterministic integration checks pass. WebKit 390×844 touch and 1280×720 mouse journeys passed with distinct, translation-stable layouts, no overflow/errors and correct Exit focus return. Matched Chromium pillar timing measured p95 17.6–17.7ms, max 17.8ms, zero frames above 25ms and no long task, versus the 17.7ms baseline. Review at `http://127.0.0.1:8922/experience/#play` and see the [evidence](reviews/flappy-graffiti-2026-09-08/README.md). Browser fixtures are not physical-device, human-difficulty or universal performance results. Nothing was pushed or published.
+
 ## September 8 integrated Demo 02 motion and rounded drips
 
 The supplied Demo 02 handoff is now integrated into the local playable demo: one-shot decoded card arrival, 560ms card-bound clip entry, 430ms return, sampled early-Escape reversal and coordinated focus/scroll/lifecycle cleanup. Titles, arrow and game paint use connected rounded drip bulbs in exact `#f0d492`. Original media, canonical V/star, physics, collision, 25-clear gameplay and ten-clear preview remain preserved. Real Vault navigation remains; no automatic-only game or mock navigation was substituted.

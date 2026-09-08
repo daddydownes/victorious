@@ -1,0 +1,11 @@
+# Controlled Flappy graffiti — September 8, 2026
+
+Local branch `demo/v-style-20260908`; final checkpoint `c500d553a3df6ce825a87e41c620cd2f201e3e5b`; application bytes `95c27de53cf56672e9b50b2aea0e1a1cd2e10a0a`. Review at http://127.0.0.1:8922/experience/#play while the local server runs. No push or publication.
+
+Five authored `#f0d492` path sets — canonical V-and-star, VCTRS, THE VAULT, FLY THE V and SURFACE — replace the old line swashes. Thick rounded title-style marks are distributed at mixed angles, sizes and positions across every obstacle family. `g.serial * 16 + g.phase` supplies an immutable identity to a pure hash: different gates vary, the same gate reproduces exactly and paint stays fixed during translation. The renderer does not call `Math.random`. Polygon clipping and a 16-unit passage reserve contain every transformed stamp; existing metal, structural lips and mechanics remain.
+
+Material and V-style guards pass for deterministic variation, five-mark pillar coverage, clipping, passage clearance, cache bounds and all three generated routes. Deterministic integration passed 16/16, and all 37 original media files remain byte-identical.
+
+[Controlled-layout results](controlled-layout-results.json) cover WebKit touch at 390×844 and mouse at 1280×720 through Start, flap, pause/resume and Exit. Three fixed identities retain distinct layouts after translation. [Current timing](frame-current.json) measured pillar p95 17.6–17.7ms, max 17.8ms, zero frames above 25ms and no long task; the matched [baseline](frame-baseline.json) measured p95 17.7ms. [Earlier three-phone interactions](same-art-three-phone-results.json) cover the same final artwork at 320×568, 390×844 and 844×390 before seeded variation and support interaction only.
+
+Visuals: [desktop before](desktop-before.png), [desktop after](desktop-after.png), [phone before](phone-before.png), [phone after](phone-after.png). Reproduction: [layout harness](controlled-layout.cjs), [frame harness](frame-sample.cjs), [three-phone harness](three-phone-interaction.cjs). Fixtures use emulated viewports and fixed gate identities; they do not submit forms or establish physical-device behavior, human difficulty or universal frame timing.
