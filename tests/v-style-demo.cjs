@@ -44,7 +44,8 @@ assert(story.includes(arrowAsset.replace('experience/','')),'play arrow is not w
 assert(story.includes('<span class="paint-title-text">Play the game.</span>'),'readable play-title fallback changed');
 assert(story.includes('id="play-title" class="paint-pending"'),'pending play-title layout contract changed');
 assert(!/<section\b[^>]*\bid="vault-invite"/.test(story)&&!story.includes('id="vault-title"')&&!story.includes('class="action vault-return"'),'retired Back to the Vault invitation remains in the story');
-assert(!/<section\b[^>]*\bid="ending"/.test(story)&&!story.includes('class="signup-footer"')&&!story.includes('class="closing-footer"'),'retired post-game gallery or signup remains in the story');
+assert(story.includes('class="story-return-link" href="../#vault"')&&story.includes('id="story-return-end"'),'story return does not retain its accessible Vault route');
+for(const retired of ['id="ending"','class="ending-grid"','id="restart-page"','class="signup-footer"','id="signup-form"','class="closing-footer"','id="sharedVault"','id="sharedLightbox"'])assert(!story.includes(retired),retired+' remains after the playable story');
 const paint=read('tools/flappy-clean-paint.js'),graffiti=require(path.join(root,'tools/flappy-graffiti-art.js')),atlas=paint.slice(paint.indexOf('  function graffitiAtlas('),paint.indexOf('\n  function textureSprite('));
 assert(paint.includes("var PAINT = '#f0d492';"),'canvas paint token must exactly match the canonical V');
 assert.equal(graffiti.gold,'#f0d492','graffiti module must declare canonical gold');assert.equal(graffiti.motifs.length,5);assert(graffiti.motifs.every(motif=>motif.paths.length&&motif.paths.every(layer=>layer.fill==='#f0d492')),'graffiti motif uses a noncanonical fill');
