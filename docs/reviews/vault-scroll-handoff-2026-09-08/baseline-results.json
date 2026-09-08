@@ -1,0 +1,878 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T03:54:08.777Z",
+  "mode": "baseline exact-full activation",
+  "results": [
+    {
+      "engine": "webkit",
+      "viewport": "1280x720",
+      "input": "Playwright wheel",
+      "results": [
+        {
+          "target": 0.2,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3564,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 576,
+              "bottom": 1296,
+              "height": 720,
+              "visible": 144,
+              "visibleFraction": 0.2
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3564,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 576,
+              "bottom": 1296,
+              "height": 720,
+              "visible": 144,
+              "visibleFraction": 0.2
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": null
+        },
+        {
+          "target": 0.4,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3708,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 432,
+              "bottom": 1152,
+              "height": 720,
+              "visible": 288,
+              "visibleFraction": 0.4
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3708,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 432,
+              "bottom": 1152,
+              "height": 720,
+              "visible": 288,
+              "visibleFraction": 0.4
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": {
+            "label": "after-additional-wheel",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3798,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 342,
+              "bottom": 1062,
+              "height": 720,
+              "visible": 378,
+              "visibleFraction": 0.525
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          }
+        },
+        {
+          "target": 0.6,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3852,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 288,
+              "bottom": 1008,
+              "height": 720,
+              "visible": 432,
+              "visibleFraction": 0.6
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3852,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 288,
+              "bottom": 1008,
+              "height": 720,
+              "visible": 432,
+              "visibleFraction": 0.6
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": "1280x720",
+      "input": "Playwright wheel",
+      "results": [
+        {
+          "target": 0.2,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3564,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 576,
+              "bottom": 1296,
+              "height": 720,
+              "visible": 144,
+              "visibleFraction": 0.2
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3564,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 576,
+              "bottom": 1296,
+              "height": 720,
+              "visible": 144,
+              "visibleFraction": 0.2
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": null
+        },
+        {
+          "target": 0.4,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3708,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 432,
+              "bottom": 1152,
+              "height": 720,
+              "visible": 288,
+              "visibleFraction": 0.4
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3708,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 432,
+              "bottom": 1152,
+              "height": 720,
+              "visible": 288,
+              "visibleFraction": 0.4
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": {
+            "label": "after-additional-wheel",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3798,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 342,
+              "bottom": 1062,
+              "height": 720,
+              "visible": 378,
+              "visibleFraction": 0.525
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          }
+        },
+        {
+          "target": 0.6,
+          "released": {
+            "label": "released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3852,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 288,
+              "bottom": 1008,
+              "height": 720,
+              "visible": 432,
+              "visibleFraction": 0.6
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3852,
+            "viewport": [
+              1280,
+              720
+            ],
+            "section": {
+              "top": 288,
+              "bottom": 1008,
+              "height": 720,
+              "visible": 432,
+              "visibleFraction": 0.6
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -1250.5,
+              "y": -1418.5,
+              "left": 0,
+              "top": 0
+            },
+            "childActive": false
+          },
+          "continued": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "viewport": "390x844",
+      "input": "controlled positioning only",
+      "results": [
+        {
+          "target": 0.2,
+          "released": {
+            "label": "controlled-position",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3828,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 675.78125,
+              "bottom": 1519.765625,
+              "height": 843.984375,
+              "visible": 168.21875,
+              "visibleFraction": 0.19931131516587677
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3828,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 675.78125,
+              "bottom": 1519.765625,
+              "height": 843.984375,
+              "visible": 168.21875,
+              "visibleFraction": 0.19931131516587677
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "limitation": "Controlled scroll positioning for WebKit mobile visual/state evidence; not a native touch gesture."
+        },
+        {
+          "target": 0.4,
+          "released": {
+            "label": "controlled-position",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3997,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 506.78125,
+              "bottom": 1350.765625,
+              "height": 843.984375,
+              "visible": 337.21875,
+              "visibleFraction": 0.39954828199052134
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3997,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 506.78125,
+              "bottom": 1350.765625,
+              "height": 843.984375,
+              "visible": 337.21875,
+              "visibleFraction": 0.39954828199052134
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "limitation": "Controlled scroll positioning for WebKit mobile visual/state evidence; not a native touch gesture."
+        },
+        {
+          "target": 0.6,
+          "released": {
+            "label": "controlled-position",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 4166,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 337.78125,
+              "bottom": 1181.765625,
+              "height": 843.984375,
+              "visible": 506.21875,
+              "visibleFraction": 0.5997852488151659
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 4166,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 337.78125,
+              "bottom": 1181.765625,
+              "height": 843.984375,
+              "visible": 506.21875,
+              "visibleFraction": 0.5997852488151659
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 655,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "limitation": "Controlled scroll positioning for WebKit mobile visual/state evidence; not a native touch gesture."
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": "390x844",
+      "input": "trusted CDP touch gestures",
+      "results": [
+        {
+          "target": 0.2,
+          "targetReached": true,
+          "released": {
+            "label": "trusted-touch-released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3814,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 689.796875,
+              "bottom": 1533.796875,
+              "height": 844,
+              "visible": 154.203125,
+              "visibleFraction": 0.18270512440758294
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3814,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 689.796875,
+              "bottom": 1533.796875,
+              "height": 844,
+              "visible": 154.203125,
+              "visibleFraction": 0.18270512440758294
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "continued": null,
+          "continuationAdvanced": null
+        },
+        {
+          "target": 0.4,
+          "targetReached": true,
+          "released": {
+            "label": "trusted-touch-released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3915,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 588.796875,
+              "bottom": 1432.796875,
+              "height": 844,
+              "visible": 255.203125,
+              "visibleFraction": 0.3023733708530806
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3915,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 588.796875,
+              "bottom": 1432.796875,
+              "height": 844,
+              "visible": 255.203125,
+              "visibleFraction": 0.3023733708530806
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "continued": {
+            "label": "after-additional-trusted-swipe",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 3915,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 588.796875,
+              "bottom": 1432.796875,
+              "height": 844,
+              "visible": 255.203125,
+              "visibleFraction": 0.3023733708530806
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "continuationAdvanced": false
+        },
+        {
+          "target": 0.6,
+          "targetReached": true,
+          "released": {
+            "label": "trusted-touch-released",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 4151,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 352.796875,
+              "bottom": 1196.796875,
+              "height": 844,
+              "visible": 491.203125,
+              "visibleFraction": 0.5819942239336493
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "settled": {
+            "label": "settled-1200ms",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "scrollY": 4151,
+            "viewport": [
+              390,
+              844
+            ],
+            "section": {
+              "top": 352.796875,
+              "bottom": 1196.796875,
+              "height": 844,
+              "visible": 491.203125,
+              "visibleFraction": 0.5819942239336493
+            },
+            "active": false,
+            "loaded": true,
+            "requested": true,
+            "inert": true,
+            "ariaHidden": "true",
+            "pointer": "none",
+            "childPan": {
+              "x": -655.725,
+              "y": -378.32500000000005,
+              "left": 656,
+              "top": 378
+            },
+            "childActive": false
+          },
+          "continued": null,
+          "continuationAdvanced": null
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "conclusion": "At 20%, 40%, and 60% exposure the current Vault remains stationary, inert, aria-hidden, and pointer-disabled after input release. Additional input still scrolls the parent, so this is an interaction limbo rather than a hard scroll lock.",
+  "limits": [
+    "Headless browser emulation; no physical-device claim.",
+    "Only Chromium mobile uses trusted touch input; WebKit mobile uses controlled positioning for visual/state evidence."
+  ]
+}

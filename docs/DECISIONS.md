@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 8, 2026 — committed story-to-Vault entrance
+
+The user found that native scrolling could stop with the ending Vault half visible and inactive. Once deliberate onward scrolling reveals about 24% of the Vault, finish the entrance with a bounded 900ms animation. A touch gesture commits after release; reduced motion lands immediately. Preserve the spacious canonical V-and-star section, real archive, original media quality and existing Surface loop.
+
+Native scrolling remains in charge before commitment. Reverse intent can cancel, and history restoration, resize, game Exit or programmatic positioning must not create onward intent. Keep the child inactive until the landing is complete. Slow child loading retains the requested entrance without requiring another scroll. The entrance itself adds no history entry or fragment.
+
 ## September 8, 2026 — refresh starts the whole website over
 
 An intentional top-level browser refresh starts the original root opening, including refresh from the story, open game or embedded Vault. Clear route fragments and query parameters for that restart. Preserve saved best score/reward state and all media.

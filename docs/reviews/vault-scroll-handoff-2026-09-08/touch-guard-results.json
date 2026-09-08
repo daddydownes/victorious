@@ -1,0 +1,71 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "loops": [
+    {
+      "i": 1,
+      "before": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "after": {
+        "x": -861.725,
+        "y": -378.32500000000005,
+        "left": 862,
+        "top": 378
+      },
+      "cycle": 1
+    },
+    {
+      "i": 2,
+      "before": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "after": {
+        "x": -770.725,
+        "y": -378.32500000000005,
+        "left": 771,
+        "top": 378
+      },
+      "cycle": 2
+    },
+    {
+      "i": 3,
+      "before": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "after": {
+        "x": -861.725,
+        "y": -378.32500000000005,
+        "left": 862,
+        "top": 378
+      },
+      "cycle": 3
+    },
+    {
+      "i": 4,
+      "before": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "after": {
+        "x": -858.725,
+        "y": -378.32500000000005,
+        "left": 859,
+        "top": 378
+      },
+      "cycle": 4
+    }
+  ],
+  "errors": [],
+  "limits": "Trusted CDP gestures in Chromium phone emulation. Each loop uses controlled 23% preposition to isolate the reproduced dead zone; not physical-device or full-story travel testing."
+}

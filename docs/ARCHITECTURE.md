@@ -8,7 +8,9 @@ Early builder-owned root/story scripts classify top-level navigation. Explicit r
 
 ## Continuous story-to-Vault loop
 
-`tools/build-experience.cjs` ends the story with `#story-return` (spacious canonical V) and `#story-vault` (one viewport containing `#story-vault-frame`). It preloads the archive near the closing section, leaves it inert during partial reveal, and activates it only when fully visible with the game closed and document visible. Native page scrolling reveals the actual archive without a top-level navigation.
+`tools/build-experience.cjs` ends the story with `#story-return` (spacious canonical V) and `#story-vault` (one viewport containing `#story-vault-frame`). It preloads the archive near the closing section and leaves it inert during partial reveal. Trusted onward input revealing 24% commits a 900ms parent scroll animation; a single touch waits for release, and reduced motion lands immediately. Geometry alone cannot initiate entry. Reverse intent cancels, slow loading retains a pending commitment, and lifecycle/game interruptions clear it. The target is cached during animation and updated on resize.
+
+A transparent parent `::after` input surface covers the inactive iframe with `touch-action:pan-y pinch-zoom`. This prevents Chromium's partial-iframe touch dead zone even when the iframe already has `pointer-events:none`. The surface stops intercepting input only when the existing exact full-viewport gate activates the archive. No media transform, resolution change, top-level navigation or new history entry is involved. `window.__storyVault` exposes pending/settling state for lifecycle regression checks.
 
 `tools/vault-embed.cjs` derives the utility `vault-embed.html` from the final root HTML. The clone is noindex, starts inert, omits the unused intro film request, and suspends shared motion while inactive. Same-origin messages validate their source and cycle token. Embedded Surface resets the parent story scroll and reloads only the child with the next cycle; ordinary root Surface still opens `experience/`. This supersedes the invitation/gallery/Start again ending described in historical sections below.
 

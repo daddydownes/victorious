@@ -1,0 +1,1679 @@
+{
+  "base": "http://127.0.0.1:8922",
+  "checkedAt": "2026-09-08T03:57:16.326Z",
+  "results": [
+    {
+      "engine": "webkit",
+      "context": "desktop-1280x720",
+      "options": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      "scenarios": [
+        {
+          "name": "refresh-root-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-root-vault",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 166,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839806847
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839806932
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839806933
+            }
+          ]
+        },
+        {
+          "name": "refresh-story-game",
+          "ok": true,
+          "before": {
+            "label": "before-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 23,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "flap",
+            "bodyClass": "flap-game-locked polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": "37",
+              "won": "1"
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": true,
+              "motion": "open",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay on flap-motion-open"
+            }
+          },
+          "after": {
+            "label": "after-reload-story-game",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 57,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": "37",
+              "won": "1"
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788839808036
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788839808780
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839808800
+            }
+          ]
+        },
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4140,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 23,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 50,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839809959
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839810107
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839810118
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 45,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 46,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 31,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": 200,
+            "forward": 200
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839811278
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839813425
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839813450
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839814447
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839815385
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "context": "mobile-reduced-390x844",
+      "options": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hasTouch": true,
+        "isMobile": true,
+        "deviceScaleFactor": 2,
+        "reducedMotion": "reduce"
+      },
+      "scenarios": [
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 3533,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 24,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 48,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked next-drop-entering next-drop-landed",
+            "bodyClass": "locked next-drop-entering next-drop-landed",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "hidden",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839816444
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839816586
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839816591
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 22,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "polish-paused",
+            "bodyClass": "polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 64,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "back_forward",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 25,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "polish-paused",
+            "bodyClass": "polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": 200,
+            "forward": 200
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839817751
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839817878
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839817884
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839818824
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839819774
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "context": "desktop-1280x720",
+      "options": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      "scenarios": [
+        {
+          "name": "refresh-story-game",
+          "ok": true,
+          "before": {
+            "label": "before-reload-story-game",
+            "url": "http://127.0.0.1:8922/experience/#play",
+            "path": "/experience/",
+            "hash": "#play",
+            "scrollY": 2448,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 134.90000000223517,
+                "url": "http://127.0.0.1:8922/experience/#play"
+              }
+            ],
+            "focus": "flap",
+            "bodyClass": "flap-game-locked polish-paused",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": "37",
+              "won": "1"
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": true,
+              "motion": "open",
+              "embedActive": false,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay on flap-motion-open"
+            }
+          },
+          "after": {
+            "label": "after-reload-story-game",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 175.19999999925494,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": "37",
+              "won": "1"
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788839821526
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#play",
+              "at": 1788839822373
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839822395
+            }
+          ]
+        },
+        {
+          "name": "root-surface-back-forward",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 55.19999999925494,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 85.10000000149012,
+                "url": "http://127.0.0.1:8922/#vault"
+              },
+              {
+                "event": "pagehide",
+                "persisted": true,
+                "time": 2190.5,
+                "url": "http://127.0.0.1:8922/#vault"
+              },
+              {
+                "event": "pageshow",
+                "persisted": true,
+                "time": 3186.400000002235,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 55.19999999925494,
+                "url": "http://127.0.0.1:8922/experience/"
+              },
+              {
+                "event": "pagehide",
+                "persisted": true,
+                "time": 1037.0999999977648,
+                "url": "http://127.0.0.1:8922/experience/"
+              },
+              {
+                "event": "pageshow",
+                "persisted": true,
+                "time": 1998.300000000745,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": null,
+            "forward": null
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839823456
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839825597
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839825635
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839826631
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839827596
+            }
+          ]
+        },
+        {
+          "name": "root-surface-bfcache-witness",
+          "ok": true,
+          "root": {
+            "label": "root-vault-before-surface",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 59.69999999925494,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "story": {
+            "label": "story-after-surface",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 66.30000000074506,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "back": {
+            "label": "after-goBack",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2153,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 59.69999999925494,
+                "url": "http://127.0.0.1:8922/#vault"
+              },
+              {
+                "event": "pagehide",
+                "persisted": true,
+                "time": 2218.5,
+                "url": "http://127.0.0.1:8922/#vault"
+              },
+              {
+                "event": "pageshow",
+                "persisted": true,
+                "time": 3212.900000002235,
+                "url": "http://127.0.0.1:8922/#vault"
+              }
+            ],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -1250.5,
+                "y": -1418.5,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "forward": {
+            "label": "after-goForward",
+            "url": "http://127.0.0.1:8922/experience/",
+            "path": "/experience/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 66.30000000074506,
+                "url": "http://127.0.0.1:8922/experience/"
+              },
+              {
+                "event": "pagehide",
+                "persisted": true,
+                "time": 1047.4000000022352,
+                "url": "http://127.0.0.1:8922/experience/"
+              },
+              {
+                "event": "pageshow",
+                "persisted": true,
+                "time": 2146.800000000745,
+                "url": "http://127.0.0.1:8922/experience/"
+              }
+            ],
+            "focus": "BODY",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": false,
+              "embedLoaded": false,
+              "embedCycle": 0,
+              "frameInert": true,
+              "frameHidden": "true",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "responses": {
+            "back": null,
+            "forward": null
+          },
+          "limitation": "Playwright page.goBack/goForward exercise browser history traversal; this is not a physical edge-swipe gesture.",
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839828608
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839830767
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839830817
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839831812
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/",
+              "at": 1788839832913
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "context": "mobile-390x844",
+      "options": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hasTouch": true,
+        "isMobile": true,
+        "deviceScaleFactor": 2
+      },
+      "scenarios": [
+        {
+          "name": "refresh-root-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-root-vault",
+            "url": "http://127.0.0.1:8922/#vault",
+            "path": "/",
+            "hash": "#vault",
+            "scrollY": 2524,
+            "navType": "navigate",
+            "events": [],
+            "focus": "vault",
+            "bodyClass": "next-vault-open",
+            "root": {
+              "present": true,
+              "open": true,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 656,
+                "top": 378
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-root-vault",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "reload",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 54.5,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839834004
+            },
+            {
+              "url": "http://127.0.0.1:8922/#vault",
+              "at": 1788839834061
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839834082
+            }
+          ]
+        },
+        {
+          "name": "refresh-embedded-vault",
+          "ok": true,
+          "before": {
+            "label": "before-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/experience/#story-return",
+            "path": "/experience/",
+            "hash": "#story-return",
+            "scrollY": 4504,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 30.5,
+                "url": "http://127.0.0.1:8922/experience/#story-return"
+              }
+            ],
+            "focus": "story-vault-frame",
+            "bodyClass": "",
+            "root": {
+              "present": false,
+              "open": false,
+              "pan": null
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": null,
+            "story": {
+              "present": true,
+              "gameOpen": false,
+              "motion": "closed",
+              "embedActive": true,
+              "embedLoaded": true,
+              "embedCycle": 0,
+              "frameInert": false,
+              "frameHidden": "false",
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "after": {
+            "label": "after-reload-embedded-vault",
+            "url": "http://127.0.0.1:8922/",
+            "path": "/",
+            "hash": "",
+            "scrollY": 0,
+            "navType": "navigate",
+            "events": [
+              {
+                "event": "pageshow",
+                "persisted": false,
+                "time": 43.399999998509884,
+                "url": "http://127.0.0.1:8922/"
+              }
+            ],
+            "focus": "locked",
+            "bodyClass": "locked",
+            "root": {
+              "present": true,
+              "open": false,
+              "pan": {
+                "x": -655.725,
+                "y": -378.32500000000005,
+                "left": 0,
+                "top": 0
+              }
+            },
+            "storage": {
+              "best": null,
+              "won": null
+            },
+            "film": {
+              "display": "block",
+              "visibility": "visible",
+              "paused": true,
+              "src": "http://127.0.0.1:8922/assets/hero-film-51129a88918e.mp4"
+            },
+            "story": {
+              "present": false,
+              "gameOpen": false,
+              "motion": null,
+              "embedActive": null,
+              "embedLoaded": null,
+              "embedCycle": null,
+              "frameInert": null,
+              "frameHidden": null,
+              "overlayClass": "flap-overlay"
+            }
+          },
+          "errors": [],
+          "navigations": [
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839835140
+            },
+            {
+              "url": "http://127.0.0.1:8922/experience/#story-return",
+              "at": 1788839835302
+            },
+            {
+              "url": "http://127.0.0.1:8922/",
+              "at": 1788839835318
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Headless WebKit/Chromium emulation; no physical-device or edge-swipe claim.",
+    "Chromium launched without Playwright’s --disable-back-forward-cache default argument; persisted pageshow is required for its desktop Back/Forward witness."
+  ]
+}

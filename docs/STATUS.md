@@ -1,5 +1,11 @@
 # Current status
 
+## September 8 animated story-to-Vault entrance
+
+The terminal Vault now commits to a 900ms entrance after deliberate onward scrolling reveals 24% of it. Touch waits for release; reduced motion lands immediately. Reverse input can cancel, slow loading preserves the requested entry, and refresh/history/game/resize cannot accidentally initiate it. A transparent parent input surface also fixes the reproduced Chromium dead zone when a swipe starts over the partially visible iframe. Original media, game, root and embedded Vault files remain unchanged.
+
+Source checkpoint `cd1a4b8`; tests `7bb4829`. Eight final browser scenarios pass, including sixteen desktop/portrait/landscape/narrow-keyboard loops, delayed child loading, reverse retry, reduced motion and mid-entry resize. Four additional trusted-touch entry/pan/Surface loops isolate the 23% dead zone. Prior thirteen refresh/history checks remain green. Navigation VM 11/11, integration 15/15, protected game source, 37/37 media identity and relevant root suites pass. See [the audit and screenshots](reviews/vault-scroll-handoff-2026-09-08/README.md) for exact environments, timing and physical-device limits. Ready for the authorized release; live verification will be recorded after publishing.
+
 ## September 8 refresh and browser-history release
 
 Explicit browser refresh from the root Vault, story, open game or embedded Vault now restarts the original root opening with a clean URL. Saved best score and reward state remain intact. Browser Back/Forward preserves the previous part; root cached-Vault returns no longer trigger another reload. Embedded cached restores reconcile pending cycles and interrupted Surface handoffs.

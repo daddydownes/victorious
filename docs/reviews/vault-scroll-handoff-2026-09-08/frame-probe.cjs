@@ -1,0 +1,23 @@
+'use strict';
+const fs=require('fs');
+const {chromium}=require('playwright');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const page=await browser.newPage({viewport:{width:1280,height:900},reducedMotion:'no-preference'});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto('http://127.0.0.1:8922/experience/',{waitUntil:'domcontentloaded'});
+ await page.waitForSelector('#story-vault');
+ await page.evaluate(()=>{const s=document.getElementById('story-vault');scrollTo(0,s.offsetTop-innerHeight*.75)});
+ await page.waitForFunction(()=>__storyVault.loaded);
+ await page.waitForTimeout(150);
+ const before=await page.evaluate(()=>{const r=document.getElementById('story-vault').getBoundingClientRect();return{y:scrollY,top:r.top,bottom:r.bottom,ratio:(innerHeight-r.top)/innerHeight,active:__storyVault.active,settling:__storyVault.settling}});
+ await page.evaluate(()=>{window.__thresholdProbe={frames:[],scrolls:[],start:0,settleStart:0,activeAt:0};const p=__thresholdProbe;function tick(t){p.frames.push(t);if(__storyVault.settling&&!p.settleStart)p.settleStart=t;if(__storyVault.active&&!p.activeAt)p.activeAt=t;if(p.frames.length<180)requestAnimationFrame(tick)}requestAnimationFrame(tick);addEventListener('scroll',()=>p.scrolls.push({t:performance.now(),y:scrollY,settling:__storyVault.settling,active:__storyVault.active}),{passive:true});p.start=performance.now()});
+ await page.mouse.move(640,500);await page.mouse.wheel(0,18);
+ await page.waitForFunction(()=>__storyVault.settling||__storyVault.active);
+ await page.waitForFunction(()=>__storyVault.active,{timeout:3000});
+ await page.waitForTimeout(250);
+ const after=await page.evaluate(()=>{const r=document.getElementById('story-vault').getBoundingClientRect(),p=__thresholdProbe;return{y:scrollY,top:r.top,bottom:r.bottom,active:__storyVault.active,settling:__storyVault.settling,frames:p.frames,scrolls:p.scrolls,settleStart:p.settleStart,activeAt:p.activeAt}});
+ const transitionFrames=after.frames.filter(t=>t>=after.settleStart&&t<=after.activeAt);const deltas=transitionFrames.slice(1).map((t,i)=>t-transitionFrames[i]).sort((a,b)=>a-b);const q=p=>deltas[Math.floor((deltas.length-1)*p)]||0;
+ const result={commit:'cd1a4b8 generated output',engine:'headless Chromium',viewport:'1280x900',before,after:{y:after.y,top:after.top,bottom:after.bottom,active:after.active,settling:after.settling,scrollEvents:after.scrolls.length},timing:{durationMs:after.activeAt-after.settleStart,frames:deltas.length,medianMs:q(.5),p95Ms:q(.95),maxMs:deltas[deltas.length-1]||0,gapsOver25:deltas.filter(x=>x>25).length,gapsOver34:deltas.filter(x=>x>34).length},errors,limits:'One warmed local headless Chromium transition; callback cadence, not physical-device GPU/paint performance.'};
+ fs.writeFileSync('/private/tmp/vctrs-vault-threshold-perf.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));await browser.close();
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,205 @@
+[
+  {
+    "variant": "baseline",
+    "before": {
+      "top": 649.796875,
+      "hit": "<section class=\"story-vault\" id=\"story-vault\" aria-label=\"The VCTRS Vault\"><iframe id=\"story-vault-frame\" title=\"The VCTRS Vault\" data-src=\"../vault-e"
+    },
+    "after": {
+      "active": false,
+      "settling": false,
+      "pending": false,
+      "top": 649.796875,
+      "trace": [
+        {
+          "t": "touchstart",
+          "target": "story-vault",
+          "cancelable": true,
+          "prevented": false,
+          "y": 658
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": true,
+          "prevented": false,
+          "y": 640
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 622
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 604
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 586
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 568
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 550
+        },
+        {
+          "t": "touchend",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false
+        }
+      ]
+    }
+  },
+  {
+    "variant": "overlay",
+    "before": {
+      "top": 649.796875,
+      "hit": "<div id=\"test-guard\" style=\"position: absolute; inset: 0px; z-index: 2; touch-action: pan-y;\"></div>"
+    },
+    "after": {
+      "active": true,
+      "settling": false,
+      "pending": false,
+      "top": -0.203125,
+      "trace": [
+        {
+          "t": "touchstart",
+          "target": "test-guard",
+          "cancelable": true,
+          "prevented": false,
+          "y": 658
+        },
+        {
+          "t": "touchmove",
+          "target": "test-guard",
+          "cancelable": true,
+          "prevented": false,
+          "y": 640
+        },
+        {
+          "t": "touchmove",
+          "target": "test-guard",
+          "cancelable": false,
+          "prevented": false,
+          "y": 622
+        },
+        {
+          "t": "touchmove",
+          "target": "test-guard",
+          "cancelable": false,
+          "prevented": false,
+          "y": 586
+        },
+        {
+          "t": "touchmove",
+          "target": "test-guard",
+          "cancelable": false,
+          "prevented": false,
+          "y": 568
+        },
+        {
+          "t": "touchmove",
+          "target": "test-guard",
+          "cancelable": false,
+          "prevented": false,
+          "y": 550
+        },
+        {
+          "t": "touchend",
+          "target": "test-guard",
+          "cancelable": false,
+          "prevented": false
+        }
+      ]
+    }
+  },
+  {
+    "variant": "hidden",
+    "before": {
+      "top": 649.796875,
+      "hit": "<section class=\"story-vault\" id=\"story-vault\" aria-label=\"The VCTRS Vault\"><iframe id=\"story-vault-frame\" title=\"The VCTRS Vault\" data-src=\"../vault-e"
+    },
+    "after": {
+      "active": true,
+      "settling": false,
+      "pending": false,
+      "top": -0.203125,
+      "trace": [
+        {
+          "t": "touchstart",
+          "target": "story-vault",
+          "cancelable": true,
+          "prevented": false,
+          "y": 658
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": true,
+          "prevented": false,
+          "y": 640
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 622
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 604
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 586
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 568
+        },
+        {
+          "t": "touchmove",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false,
+          "y": 550
+        },
+        {
+          "t": "touchend",
+          "target": "story-vault",
+          "cancelable": false,
+          "prevented": false
+        }
+      ]
+    }
+  }
+]

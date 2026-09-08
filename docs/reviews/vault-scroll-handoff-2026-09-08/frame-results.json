@@ -1,0 +1,32 @@
+{
+  "commit": "cd1a4b8 generated output",
+  "engine": "headless Chromium",
+  "viewport": "1280x900",
+  "before": {
+    "y": 4500,
+    "top": 675,
+    "bottom": 1575,
+    "ratio": 0.25,
+    "active": false,
+    "settling": false
+  },
+  "after": {
+    "y": 5175,
+    "top": 0,
+    "bottom": 900,
+    "active": true,
+    "settling": false,
+    "scrollEvents": 54
+  },
+  "timing": {
+    "durationMs": 917,
+    "frames": 54,
+    "medianMs": 16.699999999999932,
+    "p95Ms": 17,
+    "maxMs": 33.39999999999998,
+    "gapsOver25": 1,
+    "gapsOver34": 0
+  },
+  "errors": [],
+  "limits": "One warmed local headless Chromium transition; callback cadence, not physical-device GPU/paint performance."
+}
