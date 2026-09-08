@@ -635,7 +635,7 @@ story = replace(story, '</style>', `
 // native scrolling return to the original Vault. The former invitation,
 // photograph ending, signup and story-only archive are deliberately retired.
 const returnV = exactV.replace('aria-label="V" role="img"', 'aria-hidden="true" focusable="false"');
-const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="#story-vault" aria-label="Continue to the vault">${returnV}</a></div></section><section class="story-vault" id="story-vault" aria-label="The VCTRS Vault"><iframe id="story-vault-frame" title="The VCTRS Vault" data-src="../vault-embed.html?embed=vault&amp;cycle=1#vault" srcdoc="<style>html{background:#000}</style>" loading="eager" tabindex="-1" inert aria-hidden="true"></iframe></section>`;
+const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="#story-vault" aria-label="Continue to the vault">${returnV}</a></div></section><section class="story-vault" id="story-vault" aria-label="The VCTRS Vault"><iframe id="story-vault-frame" title="The VCTRS Vault" data-src="../vault-embed.html?embed=vault&amp;cycle=0#vault" srcdoc="<style>html{background:#000}</style>" loading="eager" tabindex="-1" inert aria-hidden="true"></iframe></section>`;
 const oldStoryTail = /<section class="vault-invite\b[\s\S]*?<\/main><section class="signup-footer"[\s\S]*?<\/footer>/;
 if (!oldStoryTail.test(story)) throw new Error('Missing story invitation/photo/signup tail');
 story = story.replace(oldStoryTail, storyReturn + '</main>');
@@ -674,7 +674,7 @@ story = replace(story, '</style></head>', `</style><style>
 // then can the preloaded same-origin document receive pointer or focus input.
 story = replace(story, '</body></html>', `<script>(()=>{
 const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue');
-let active=false,loaded=false,queued=false,resetting=false,cycle=1;
+let active=false,loaded=false,queued=false,resetting=false,cycle=0,pendingCycle=null;
 function post(type,detail,token){if(frame.contentWindow)frame.contentWindow.postMessage(Object.assign({type,cycle:token===undefined?cycle:token},detail||{}),location.origin)}
 function ensureLoaded(){if(frame.getAttribute('src'))return;frame.removeAttribute('srcdoc');frame.src=frame.dataset.src}
 function setActive(next){
@@ -687,26 +687,29 @@ function setActive(next){
 function measure(){
   queued=false;const r=section.getBoundingClientRect();
   const gameClosed=!document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed');
-  setActive(loaded&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
+  setActive(loaded&&!resetting&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
 }
 function request(){if(!queued){queued=true;requestAnimationFrame(measure)}}
 function restartStory(){
-  if(resetting||!active)return;resetting=true;const previousCycle=cycle;setActive(false);loaded=false;cycle++;
+  if(resetting||!active)return;resetting=true;const previousCycle=cycle;pendingCycle=cycle+1;setActive(false);loaded=false;
   const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
-  requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:cycle},previousCycle)});
+  requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
 }
-frame.addEventListener('load',()=>{if(!frame.getAttribute('src'))return;loaded=true;post('vctrs-vault-visibility',{active});request()});
+frame.addEventListener('load',()=>{if(!frame.getAttribute('src')||resetting)return;loaded=true;post('vctrs-vault-visibility',{active});request()});
 addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||!event.data)return;
+  if(event.data.type==='vctrs-vault-ready'&&resetting&&String(event.data.cycle)===String(pendingCycle)){
+    cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request();return;
+  }
   if(String(event.data.cycle)!==String(cycle))return;
   if(event.data.type==='vctrs-vault-ready'){loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request()}
   else if(event.data.type==='vctrs-vault-surface'&&active&&!resetting)restartStory();
 });
 addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
-document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{resetting=false;setActive(false);request()});
+document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{setActive(false);request()});
 new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
-window.__storyVault={get active(){return active},get loaded(){return loaded},get resetting(){return resetting},get cycle(){return cycle},measure};
+window.__storyVault={get active(){return active},get loaded(){return loaded},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
 if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();
 request();
 })();</script></body></html>`);
