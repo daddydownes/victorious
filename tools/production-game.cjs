@@ -64,7 +64,7 @@ function tuneGamePaint(js) {
   // stable per-gate art without reading a clock or advancing course randomness.
   js = replace(js,
     "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,(FG.bgT||0)*.08+g.serial*.13);",
-    "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0));");
+    "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),g.serial%5===4);");
   return replace(js, `        for(var row=0;row<5;row++){
           var yy=h*(.78+.22*Math.pow(row/4,1.7));
           g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();

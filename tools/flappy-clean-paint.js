@@ -318,7 +318,7 @@
     ctx.restore();
   }
 
-  function flapDrawMetal(ctx, polygon, s, kind, side, variantSeed) {
+  function flapDrawMetal(ctx, polygon, s, kind, side, variantSeed, decorate) {
     if (!ctx || !polygon || polygon.length < 3) return;
     kind = kind || 'pillar'; side = side ? 1 : 0;
     var b = bounds(polygon), d = Math.max(1, (s && s.d) || 1);
@@ -329,7 +329,7 @@
     ctx.clip();
     var segs = passageSegments(polygon, side);
     ctx.drawImage(sprite, 0, 0, sprite.width, sprite.height, b.x, b.y, b.w, b.h);
-    drawGraffiti(ctx, polygon, b, side, kind, s, variantSeed);
+    if (decorate === true) drawGraffiti(ctx, polygon, b, side, kind, s, variantSeed);
 
     // The uninterrupted passage lip remains the brightest collision boundary.
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
