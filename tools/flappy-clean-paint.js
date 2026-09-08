@@ -10,7 +10,20 @@
   var CACHE_BYTE_LIMIT = 16 * 1024 * 1024, metalCacheBytes = 0;
   var graffitiCache = new Map(), graffitiCacheBytes = 0, graffitiPaths = Object.create(null);
   var GRAFFITI_CACHE_LIMIT = 4, GRAFFITI_BYTE_LIMIT = 4 * 1024 * 1024;
-  var PILLAR_TOP_MOTIFS = [0, 1, 2], PILLAR_BOTTOM_MOTIFS = [3, 4];
+  var PILLAR_TOP_MOTIFS = [
+    { index: 0, angle: -.314, x: .34, offset: 48, cover: .56 },
+    { index: 1, angle: .419, x: .64, offset: 140, cover: .95 },
+    { index: 2, angle: -.489, x: .42, offset: 230, cover: .76 }
+  ];
+  var PILLAR_BOTTOM_MOTIFS = [
+    { index: 3, angle: .593, x: .66, offset: 180, cover: .78 },
+    { index: 4, angle: 1.431, x: .38, offset: 48, cover: .64 }
+  ];
+  var FINITE_MOTIFS = {
+    arch: [{ index: 1, angle: -.244, x: .38, cover: .70 }, { index: 0, angle: .314, x: .64, cover: .54 }],
+    slant: [{ index: 0, angle: .209, x: .36, cover: .54 }, { index: 1, angle: -.384, x: .62, cover: .72 }],
+    iris: [{ index: 1, angle: .279, x: .40, cover: .68 }, { index: 0, angle: -.349, x: .60, cover: .52 }]
+  };
   var PAINT = '#f0d492';
 
   function q(n, step) { return Math.round(n / step) * step; }
@@ -79,6 +92,7 @@
     var cellH = 36, gap = 4, width = gap, i;
     for (i = 0; i < art.motifs.length; i++) width += cellH * art.motifs[i].aspect + gap;
     var canvas = makeCanvas(Math.ceil(width * rasterD), Math.ceil(cellH * rasterD));
+    canvas.__flappyGraffitiAtlas = true;
     var ctx = canvas.getContext('2d'), rects = [], at = gap;
     ctx.scale(rasterD, rasterD);
     for (i = 0; i < art.motifs.length; i++) {
@@ -178,68 +192,9 @@
     ctx.fill();
     return true;
   }
-  function passageY(segments, x, fallback) {
-    var nearest = Infinity, result = fallback;
-    for (var i = 0; i < segments.length; i++) {
-      var a = segments[i][0], z = segments[i][1], lo = Math.min(a[0], z[0]), hi = Math.max(a[0], z[0]);
-      var at = Math.max(lo, Math.min(hi, x)), distance = Math.abs(at - x);
-      if (distance > nearest) continue;
-      var t = Math.abs(z[0] - a[0]) < .01 ? 0 : (at - a[0]) / (z[0] - a[0]);
-      nearest = distance; result = a[1] + (z[1] - a[1]) * t;
-    }
-    return result;
-  }
-  function drawFacePaint(ctx, polygon, b, side, segments) {
-    var cx = b.x + b.w * .5, range = verticalRange(polygon, cx, b), depth = range.max - range.min;
-    if (depth < 18 || !segments.length) return;
-    var span = Math.min(112, b.w * .58), x0 = cx - span / 2, x1 = cx + span / 2;
-    var lineW = Math.min(7, Math.max(4, depth * .15));
-    var drip = Math.min(12, Math.max(5, depth * .23)), clear = 5;
-    // The upper swash starts high enough for natural downward drips to end before
-    // the passage; the lower swash starts below the same clear strip.
-    var offset = side ? clear + lineW : -(clear + drip + lineW);
-    function paintY(x) { return passageY(segments, x, side ? range.min : range.max) + offset; }
-
-    ctx.strokeStyle = PAINT; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ctx.lineWidth = lineW;
-    ctx.beginPath();
-    ctx.moveTo(x0, paintY(x0));
-    ctx.lineTo(cx, paintY(cx) + lineW * .55);
-    ctx.lineTo(x1, paintY(x1));
-    ctx.stroke();
-
-    // Two deliberate gravity drips use a soft shoulder, narrow neck and round
-    // terminal bulb. The upper bulbs retain the same five-unit gap clearance.
-    function roundedDrip(x, start, targetLength, available) {
-      var bulbW = Math.max(3.4, lineW * .72), bulbR = bulbW / 2;
-      var length = Math.min(targetLength, available) - bulbR;
-      if (length <= 1.5) return;
-      ctx.lineWidth = Math.max(1.6, lineW * .28);
-      ctx.beginPath(); ctx.moveTo(x, start); ctx.lineTo(x, start + length); ctx.stroke();
-      ctx.lineWidth = Math.max(2.2, lineW * .43);
-      ctx.beginPath(); ctx.moveTo(x, start); ctx.lineTo(x, start + Math.min(2.2, length * .28)); ctx.stroke();
-      ctx.lineWidth = bulbW;
-      ctx.beginPath(); ctx.moveTo(x, start + length); ctx.lineTo(x + .01, start + length); ctx.stroke();
-    }
-    [-.22, .18].forEach(function (position, index) {
-      var x = cx + span * position, start = paintY(x) + lineW * .25;
-      var length = drip * (index ? .68 : 1);
-      var available = side ? length : Math.max(0, passageY(segments, x, range.max) - clear - start);
-      roundedDrip(x, start, length, available);
-    });
-
-    // Three quiet flecks soften only the swash edge; no haze expands the hazard.
-    var dot = Math.max(1, lineW * .18), y = paintY(cx) - lineW * .8;
-    ctx.fillStyle = PAINT;
-    ctx.fillRect(cx - span * .39, y, dot, dot);
-    ctx.fillRect(cx + span * .31, y + lineW * .45, dot, dot);
-    ctx.fillRect(cx + span * .39, y - lineW * .25, dot * .7, dot * .7);
-  }
-
-  function graffitiStamp(ctx, art, atlas, index, cx, cy, height, turn) {
+  function graffitiStamp(ctx, art, atlas, index, cx, cy, height, angle) {
     var motif = art.motifs[index], rect = atlas.rects[index], width = height * motif.aspect;
-    ctx.save(); ctx.globalAlpha = .64; ctx.translate(cx, cy);
-    if (turn) ctx.rotate(-Math.PI / 2);
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
     ctx.drawImage(atlas.canvas,
       Math.round(rect.x * atlas.d), 0, Math.max(1, Math.round(rect.w * atlas.d)), atlas.canvas.height,
       -width / 2, -height / 2, width, height);
@@ -252,48 +207,42 @@
     var cssScale = s && s.cssH ? s.cssH / s.h : 1;
 
     if (kind === 'pillar') {
-      // These screen-stable slots do not redistribute while a pole deploys;
-      // incomplete slots stay withheld. Wide word marks turn down the body;
-      // their source cell is 36 units high, so every destination is a downscale.
+      // Screen-stable angled slots do not redistribute while a pole deploys.
+      // Every destination stays at or below the atlas's 36-unit source height.
       var indices = side ? PILLAR_BOTTOM_MOTIFS : PILLAR_TOP_MOTIFS;
-      var slot = Math.min(88, Math.max(72, s.h * .115)), edgePad = 14;
       for (var i = 0; i < indices.length; i++) {
-        var motifIndex = indices[i], motif = art.motifs[motifIndex], turn = motifIndex !== 0;
-        var crossLimit = b.w - 8;
-        if (!turn) crossLimit /= motif.aspect;
-        var height = Math.min(16, crossLimit, (slot - 10) / (turn ? motif.aspect : 1),
-          Math.max(9 / Math.max(.1, cssScale), turn ? 11 : 13));
+        var placement = indices[i], motifIndex = placement.index, motif = art.motifs[motifIndex];
+        var cosine = Math.abs(Math.cos(placement.angle)), sine = Math.abs(Math.sin(placement.angle));
+        var widthFactor = motif.aspect * cosine + sine, heightFactor = motif.aspect * sine + cosine;
+        var targetWidth = (b.w - 10) * placement.cover;
+        var height = Math.min(36, targetWidth / widthFactor, 72 / heightFactor);
         if (height <= 3) continue;
-        var longSide = height * motif.aspect;
-        var cy = side ? b.y + b.h - edgePad - (i + .5) * slot : b.y + edgePad + (i + .5) * slot;
-        var cx = b.x + b.w * (i % 2 ? .57 : .43);
-        var halfY = (turn ? longSide : height) / 2;
-        // Keep the complete tag away from the painted passage lip. During the
+        var boxW = height * widthFactor, boxH = height * heightFactor;
+        if (height * cssScale < 7 && motifIndex !== 0) continue;
+        var cy = side ? b.y + b.h - placement.offset : b.y + placement.offset;
+        var cx = b.x + b.w * placement.x;
+        cx = Math.max(b.x + 5 + boxW / 2, Math.min(b.x + b.w - 5 - boxW / 2, cx));
+        // Keep the complete tag away from the structural passage lip. During the
         // reveal it appears only after its fixed slot is fully inside the slab.
-        if (side ? (cy - halfY < b.y + 16 || cy + halfY > b.y + b.h - 5) :
-            (cy - halfY < b.y + 5 || cy + halfY > b.y + b.h - 16)) continue;
-        graffitiStamp(ctx, art, atlas, motifIndex, cx, cy, height, turn);
+        if (side ? (cy - boxH / 2 < b.y + 16 || cy + boxH / 2 > b.y + b.h - 5) :
+            (cy - boxH / 2 < b.y + 5 || cy + boxH / 2 > b.y + b.h - 16)) continue;
+        graffitiStamp(ctx, art, atlas, motifIndex, cx, cy, height, placement.angle);
       }
       return;
     }
 
-    // Finite arches, slants and iris jaws carry one fitted horizontal tag. If a
-    // word would be illegible, the compact canonical symbol takes its place.
-    var motifIndex = ((kind === 'arch' ? 1 : kind === 'slant' ? 3 : 2) + side) % art.motifs.length;
-    var motif = art.motifs[motifIndex], rangeX = b.x + b.w * (side ? .68 : .32);
+    // Finite arches, slants and iris jaws carry one fitted compact mark.
+    var placement = (FINITE_MOTIFS[kind] || FINITE_MOTIFS.arch)[side];
+    var motifIndex = placement.index, motif = art.motifs[motifIndex], rangeX = b.x + b.w * placement.x;
     var localRange = verticalRange(polygon, rangeX, b), depth = localRange.max - localRange.min;
-    var height = Math.min(13, (b.w - 8) / motif.aspect, depth - 21,
-      Math.max(8 / Math.max(.1, cssScale), 9));
-    if (height * cssScale < 7 && motifIndex !== 0) {
-      motifIndex = 0; motif = art.motifs[0];
-      height = Math.min(13, (b.w - 8) / motif.aspect, depth - 21,
-        Math.max(8 / Math.max(.1, cssScale), 9));
-    }
-    if (height <= 3) return;
-    var width = height * motif.aspect;
-    rangeX = Math.max(b.x + 4 + width / 2, Math.min(b.x + b.w - 4 - width / 2, rangeX));
-    var cy = side ? localRange.max - 5 - height / 2 : localRange.min + 5 + height / 2;
-    graffitiStamp(ctx, art, atlas, motifIndex, rangeX, cy, height, false);
+    var cosine = Math.abs(Math.cos(placement.angle)), sine = Math.abs(Math.sin(placement.angle));
+    var widthFactor = motif.aspect * cosine + sine, heightFactor = motif.aspect * sine + cosine;
+    var height = Math.min(36, (b.w - 10) * placement.cover / widthFactor, (depth - 21) / heightFactor);
+    if (height <= 3 || height * cssScale < 7) return;
+    var boxW = height * widthFactor, boxH = height * heightFactor;
+    rangeX = Math.max(b.x + 5 + boxW / 2, Math.min(b.x + b.w - 5 - boxW / 2, rangeX));
+    var cy = side ? localRange.max - 5 - boxH / 2 : localRange.min + 5 + boxH / 2;
+    graffitiStamp(ctx, art, atlas, motifIndex, rangeX, cy, height, placement.angle);
   }
 
   function flapDrawPaintBackdrop(ctx, w, h) {
@@ -323,7 +272,6 @@
     ctx.clip();
     var segs = passageSegments(polygon, side);
     ctx.drawImage(sprite, 0, 0, sprite.width, sprite.height, b.x, b.y, b.w, b.h);
-    drawFacePaint(ctx, polygon, b, side, segs);
     drawGraffiti(ctx, polygon, b, side, kind, s);
 
     // The uninterrupted passage lip remains the brightest collision boundary.
