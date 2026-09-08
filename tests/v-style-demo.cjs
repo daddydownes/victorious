@@ -44,7 +44,7 @@ assert(story.includes(arrowAsset.replace('experience/','')),'play arrow is not w
 assert(story.includes('<span class="paint-title-text">Play the game.</span>'),'readable play-title fallback changed');
 assert(story.includes('id="play-title" class="paint-pending"'),'pending play-title layout contract changed');
 assert(!/<section\b[^>]*\bid="vault-invite"/.test(story)&&!story.includes('id="vault-title"')&&!story.includes('class="action vault-return"'),'retired Back to the Vault invitation remains in the story');
-const vaultSection=story.match(/<section\b[^>]*\bid="story-vault"[^>]*>/)?.[0]||'',vaultFrame=story.match(/<iframe\b[^>]*\bid="story-vault-frame"[^>]*>/)?.[0]||'';
+const vaultSection=story.match(/<section\b[^>]*\bid="story-vault"[^>]*>/)?.[0]||'',vaultFrame=story.match(/<iframe id="story-vault-frame"[\s\S]*?<\/iframe>/)?.[0]||'';
 assert(/\bclass="[^"]*\bstory-vault\b/.test(vaultSection),'embedded Vault section is missing');
 for(const token of ['title="The VCTRS Vault"','data-src="../vault-embed.html?embed=vault&amp;cycle=1#vault"','loading="eager"','tabindex="-1"','inert','aria-hidden="true"'])assert(vaultFrame.includes(token),'embedded Vault frame is missing '+token);
 for(const token of ['vctrs-vault-ready','vctrs-vault-surface','vctrs-vault-visibility','vctrs-vault-reset','window.__storyVault'])assert(story.includes(token),'embedded Vault lifecycle is missing '+token);
