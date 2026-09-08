@@ -542,6 +542,7 @@ if(!motion.matches&&'IntersectionObserver' in window){const observer=new Interse
 })();</script></body></html>`);
 
 const productionGame = require('./production-game.cjs');
+const { buildVaultEmbed } = require('./vault-embed.cjs');
 // Public routes use the existing domain and approved share artwork. Local
 // previews still resolve navigation and media relative to their own origin.
 story = replace(story, '<html lang="en">', '<html lang="en-AU">');
@@ -634,7 +635,7 @@ story = replace(story, '</style>', `
 // native scrolling return to the original Vault. The former invitation,
 // photograph ending, signup and story-only archive are deliberately retired.
 const returnV = exactV.replace('aria-label="V" role="img"', 'aria-hidden="true" focusable="false"');
-const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="../#vault" aria-label="Return to the vault">${returnV}</a></div><span id="story-return-end" aria-hidden="true"></span></section>`;
+const storyReturn = `<section class="track ending-track story-return" id="story-return"><div class="stage story-return-stage"><a class="story-return-link" href="#story-vault" aria-label="Continue to the vault">${returnV}</a></div></section><section class="story-vault" id="story-vault" aria-label="The VCTRS Vault"><iframe id="story-vault-frame" title="The VCTRS Vault" data-src="../vault-embed.html?embed=vault&amp;cycle=1#vault" srcdoc="<style>html{background:#000}</style>" loading="eager" tabindex="-1" inert aria-hidden="true"></iframe></section>`;
 const oldStoryTail = /<section class="vault-invite\b[\s\S]*?<\/main><section class="signup-footer"[\s\S]*?<\/footer>/;
 if (!oldStoryTail.test(story)) throw new Error('Missing story invitation/photo/signup tail');
 story = story.replace(oldStoryTail, storyReturn + '</main>');
@@ -663,42 +664,61 @@ story = replace(story, '</style></head>', `</style><style>
 .story-return-link{display:block;width:min(42vw,380px,48svh);aspect-ratio:295.5/357.7;color:#f0d492}
 .story-return-link:focus-visible{outline:2px solid #f0d492;outline-offset:12px}
 .story-return-link svg{display:block;width:100%;height:100%;color:inherit;filter:none}
-#story-return-end{position:absolute;left:50%;bottom:0;width:1px;height:1px;pointer-events:none}
+.story-vault{position:relative;width:100%;height:100vh;height:100dvh;background:#000;overflow:hidden}
+.story-vault iframe{display:block;width:100%;height:100%;border:0;background:#000;pointer-events:none}
+.story-vault.is-active iframe{pointer-events:auto}
 @media(max-width:700px){.story-return{height:120svh!important;min-height:620px}.story-return-link{width:min(52vw,270px,44svh)}}
 </style></head>`);
 
-// Position alone never redirects. A trusted forward gesture must first reach
-// the closing section; another forward gesture at the settled page end returns.
+// The page owns scrolling until the terminal Vault fills the viewport. Only
+// then can the preloaded same-origin document receive pointer or focus input.
 story = replace(story, '</body></html>', `<script>(()=>{
-const section=document.getElementById('story-return'),end=document.getElementById('story-return-end'),link=section.querySelector('.story-return-link'),overlay=document.getElementById('flapOverlay');
-let closingVisited=false,returning=false,touchY=0,touchReady=false;
-const closed=()=>!document.hidden&&!document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed');
-const visible=()=>{const r=section.getBoundingClientRect();return r.top<=innerHeight*.82&&r.bottom>0};
-const atEnd=()=>document.documentElement.scrollHeight-(scrollY+innerHeight)<=2&&end.getBoundingClientRect().top<=innerHeight+2;
-function returnToVault(){
-  if(returning||!closed())return;returning=true;closingVisited=false;
-  location.replace(new URL('../#vault',location.href).href);
+const section=document.getElementById('story-vault'),frame=document.getElementById('story-vault-frame'),overlay=document.getElementById('flapOverlay'),startCue=document.querySelector('.story-cue');
+let active=false,loaded=false,queued=false,resetting=false,cycle=1;
+function post(type,detail,token){if(frame.contentWindow)frame.contentWindow.postMessage(Object.assign({type,cycle:token===undefined?cycle:token},detail||{}),location.origin)}
+function ensureLoaded(){if(frame.getAttribute('src'))return;frame.removeAttribute('srcdoc');frame.src=frame.dataset.src}
+function setActive(next){
+  next=!!next;if(active===next)return;active=next;section.classList.toggle('is-active',next);
+  if(!next&&document.activeElement===frame)frame.blur();
+  frame.toggleAttribute('inert',!next);frame.setAttribute('aria-hidden',String(!next));
+  if(next)frame.removeAttribute('tabindex');else frame.tabIndex=-1;
+  post('vctrs-vault-visibility',{active:next});
 }
-function forwardIntent(){
-  if(returning||!closed()||!visible())return;
-  if(atEnd()){returnToVault();return}
-  closingVisited=true;
+function measure(){
+  queued=false;const r=section.getBoundingClientRect();
+  const gameClosed=!document.body.classList.contains('flap-game-locked')&&!overlay.classList.contains('on')&&(!window.__flapMotion||window.__flapMotion.state()==='closed');
+  setActive(loaded&&!document.hidden&&gameClosed&&r.top>=-2&&r.top<=2&&r.bottom>=innerHeight-2&&r.bottom<=innerHeight+2);
 }
-addEventListener('wheel',event=>{if(event.isTrusted&&event.deltaY>0)forwardIntent()},{passive:true});
-addEventListener('keydown',event=>{if(!event.isTrusted||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||(event.target.closest&&event.target.closest('input,textarea,select,button,a,[contenteditable]')))return;if(['ArrowDown','PageDown','End',' ','Spacebar'].includes(event.key))forwardIntent()});
-addEventListener('touchstart',event=>{if(!event.isTrusted||event.touches.length!==1)return;touchY=event.touches[0].clientY;touchReady=visible()&&atEnd()&&closed()},{passive:true});
-addEventListener('touchmove',event=>{if(!event.isTrusted||event.touches.length!==1||touchY-event.touches[0].clientY<12)return;if(touchReady)returnToVault();else if(!returning&&closed()&&visible())closingVisited=true},{passive:true});
-link.addEventListener('click',event=>{if(event.button!==0||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;event.preventDefault();returnToVault()});
-addEventListener('pageshow',event=>{if(event.persisted){returning=false;closingVisited=false;touchReady=false}});
-window.__storyReturn={get visited(){return closingVisited},get returning(){return returning},atEnd};
+function request(){if(!queued){queued=true;requestAnimationFrame(measure)}}
+function restartStory(){
+  if(resetting||!active)return;resetting=true;const previousCycle=cycle;setActive(false);loaded=false;cycle++;
+  const url=new URL(location.href);url.hash='';history.replaceState(history.state,'',url.href);
+  try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
+  requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:cycle},previousCycle)});
+}
+frame.addEventListener('load',()=>{if(!frame.getAttribute('src'))return;loaded=true;post('vctrs-vault-visibility',{active});request()});
+addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==frame.contentWindow||!event.data)return;
+  if(String(event.data.cycle)!==String(cycle))return;
+  if(event.data.type==='vctrs-vault-ready'){loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request()}
+  else if(event.data.type==='vctrs-vault-surface'&&active&&!resetting)restartStory();
+});
+addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
+document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{resetting=false;setActive(false);request()});
+new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
+window.__storyVault={get active(){return active},get loaded(){return loaded},get resetting(){return resetting},get cycle(){return cycle},measure};
+if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();
+request();
 })();</script></body></html>`);
 vault = productionGame.tunePage(vault);
+const vaultEmbed = buildVaultEmbed(vault);
 story = productionGame.integrate(story);
 const preview = productionGame.preview();
 // Content-derived versions make identical builds byte-for-byte reproducible.
-const version = parseInt(crypto.createHash('sha256').update(story).update(preview).digest('hex').slice(0,12),16);
+const version = parseInt(crypto.createHash('sha256').update(story).update(preview).update(vaultEmbed).digest('hex').slice(0,12),16);
 story = story.replace(/let version=\d+,pending=false,busy=false/, 'let version='+version+',pending=false,busy=false');
 fs.writeFileSync(path.join(root, 'index.html'), vault);
+fs.writeFileSync(path.join(root, 'vault-embed.html'), vaultEmbed);
 fs.writeFileSync(path.join(root, 'experience/index.html'), story);
 fs.writeFileSync(path.join(root, 'experience/game-preview.html'), preview);
 fs.writeFileSync(path.join(root, 'experience/state.json'), JSON.stringify({version,stage:'Complete VCTRS experience'}));
