@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-08T22:51:45.813Z",
+  "release": "dec0e33bc60cc94fae6dfe4ee38144bcdf565d23",
+  "status": "PASS",
+  "resources": [
+    {
+      "route": "/",
+      "sha256": "2a02da84aee85305474b55daf4eaae927cdf11405def1b52a7d9cf341ec7edb4",
+      "bytes": 649875,
+      "status": 200
+    },
+    {
+      "route": "/assets/cinzel.woff2",
+      "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370",
+      "bytes": 25904,
+      "status": 200
+    },
+    {
+      "route": "/assets/game-poster.jpg",
+      "sha256": "d684ec8337d68a289b215633c8572be176b54019cdd559174cdb95e2a051999c",
+      "bytes": 6270,
+      "status": 200
+    },
+    {
+      "route": "/assets/intro-mobile.mp4",
+      "sha256": "b6685fae37cc37c121e5e15181a2c9186fddcf9f0709cf9931b8450795e8c26d",
+      "bytes": 316527,
+      "status": 200
+    },
+    {
+      "route": "/assets/play-arrow-vstyle-v1.svg",
+      "sha256": "ce3cb0e3ef2b9933b28c3a5fc216dd1a4da92f82a373d2de18be78957ded85eb",
+      "bytes": 950,
+      "status": 200
+    },
+    {
+      "route": "/assets/play-the-game-vstyle-v1.svg",
+      "sha256": "6f2f4ffc370dbd4d0a02b49277c268d2735925163e16c9a5ce07280c1181d9af",
+      "bytes": 12365,
+      "status": 200
+    },
+    {
+      "route": "/assets/story-film-light.mp4",
+      "sha256": "eb02e217933b0f340cbd5d9f88e3d3431a8818ce737b12f2c546ffda89b9d363",
+      "bytes": 3761254,
+      "status": 200
+    },
+    {
+      "route": "/assets/story-film-poster.jpg",
+      "sha256": "4bde849c8f709d03a1c7bc3149c0f1dfbbae1c6824fa60ff16d0c9b0f891acf4",
+      "bytes": 11214,
+      "status": 200
+    },
+    {
+      "route": "/assets/story-film.mp4",
+      "sha256": "8c9b73413a4d12ebd89d4524de9913a80b760634df1d462eadcf195bd9fc3e05",
+      "bytes": 9496322,
+      "status": 200
+    },
+    {
+      "route": "/assets/story-poster.jpg",
+      "sha256": "07def6946d4c8d475c4f92271fe48a3df7d03619f1b7d164fa3165b1ca714208",
+      "bytes": 39300,
+      "status": 200
+    },
+    {
+      "route": "/assets/v-mark.woff2",
+      "sha256": "a14b3dd7a99aa4ca3ddbafb78ddaf5b6cc21b81f740b7655439384507d893d29",
+      "bytes": 1820,
+      "status": 200
+    }
+  ],
+  "runs": [
+    {
+      "name": "Chromium desktop",
+      "width": 1280,
+      "height": 900,
+      "status": "PASS",
+      "documents": 2,
+      "signupRequests": 1,
+      "errors": [],
+      "missing": []
+    },
+    {
+      "name": "WebKit phone",
+      "width": 390,
+      "height": 844,
+      "status": "PASS",
+      "documents": 2,
+      "signupRequests": 1,
+      "errors": [],
+      "missing": []
+    }
+  ],
+  "limits": [
+    "Windows browser engines, not physical devices",
+    "FormSubmit intercepted; inbox delivery not tested"
+  ]
+}

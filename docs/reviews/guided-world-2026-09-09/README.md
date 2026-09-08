@@ -24,3 +24,5 @@ Test harness changes strip embedded preview JSON before extracting the actual ga
 Windows Chromium/WebKit and emulated viewports were exercised; no physical iPhone or macOS Safari was available. Inbox delivery and third-party service availability were not independently tested. Cold-cache media loading can still take time on poor connections; the approved opening timing remains unchanged. No universal frame-rate, human-difficulty or exhaustive bug-free claim is made.
 
 Independent review and production verification are recorded with the release evidence. Normal non-force main publication is authorized. Retain the baseline for recovery; use a reviewed git revert of the release if needed, never force-reset main.
+
+Published application commit: `dec0e33bc60cc94fae6dfe4ee38144bcdf565d23`. GitHub Pages reported built. Eleven canonical resources matched committed bytes, and fresh Chromium desktop/WebKit phone live journeys passed. See [live results](live.json). This record-only follow-up does not change application bytes.
