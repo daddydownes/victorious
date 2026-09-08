@@ -39,16 +39,19 @@ const arrowColours=[...arrow.matchAll(/#[0-9a-f]{6}/gi)].map(m=>m[0].toLowerCase
 assert(arrowColours.length&&arrowColours.every(value=>value==='#f0d492'),'play arrow uses a colour other than canonical #f0d492');
 assert(!/\bstyle\s*=|\bon\w+\s*=|\bhref\s*=/i.test(arrow),'play arrow contains embedded styling, behavior or references');
 const story=read('experience/index.html');
-for(const relative of titleAssets.map(file=>file.replace('experience/','')))assert(story.includes('src="'+relative+'"'),relative+' is not wired into the story');
+assert(story.includes('src="assets/play-the-game-vstyle-v1.svg"'),'play title is not wired into the story');
 assert(story.includes(arrowAsset.replace('experience/','')),'play arrow is not wired into the story');
-assert(story.includes('<span class="paint-title-text">Play the game.</span>')&&story.includes('<span class="paint-title-text">Back to the vault</span>'),'readable title fallbacks changed');
-assert(story.includes('id="play-title" class="paint-pending"')&&story.includes('id="vault-title" class="paint-pending"'),'pending title layout contract changed');
+assert(story.includes('<span class="paint-title-text">Play the game.</span>'),'readable play-title fallback changed');
+assert(story.includes('id="play-title" class="paint-pending"'),'pending play-title layout contract changed');
+assert(!/<section\b[^>]*\bid="vault-invite"/.test(story)&&!story.includes('id="vault-title"')&&!story.includes('class="action vault-return"'),'retired Back to the Vault invitation remains in the story');
+assert(!/<section\b[^>]*\bid="ending"/.test(story)&&!story.includes('class="signup-footer"')&&!story.includes('class="closing-footer"'),'retired post-game gallery or signup remains in the story');
 const paint=read('tools/flappy-clean-paint.js'),graffiti=require(path.join(root,'tools/flappy-graffiti-art.js')),atlas=paint.slice(paint.indexOf('  function graffitiAtlas('),paint.indexOf('\n  function textureSprite('));
 assert(paint.includes("var PAINT = '#f0d492';"),'canvas paint token must exactly match the canonical V');
 assert.equal(graffiti.gold,'#f0d492','graffiti module must declare canonical gold');assert.equal(graffiti.motifs.length,5);assert(graffiti.motifs.every(motif=>motif.paths.length&&motif.paths.every(layer=>layer.fill==='#f0d492')),'graffiti motif uses a noncanonical fill');
 assert(atlas.includes('ctx.fillStyle = PAINT; ctx.fill(graffitiPath(motif, p));'),'graffiti atlas does not render from the canonical paint token');assert(!paint.includes('function drawFacePaint('),'retired line swash remains in the renderer');
 assert(paint.includes('pathPolygon(ctx, polygon, 0, 0);\n    ctx.clip();'),'all face decoration must remain inside the collision polygon');
-for(const file of ['index.html','experience/index.html','experience/game-preview.html']){const generated=read(file);assert(generated.includes("side,g.serial*16+(g.phase||0),g.serial%5===4);"),file+' does not gate both obstacle halves from the immutable gate serial');assert(!generated.includes("side,g.serial*16+(g.phase||0));"),file+' still decorates every obstacle pair');assert(!generated.includes("side,(FG.bgT||0)*.08+g.serial*.13);"),file+' still animates the graffiti seed')}
+for(const file of ['index.html','experience/index.html']){const generated=read(file);assert(generated.includes("side,g.serial*16+(g.phase||0),g.serial%5===4);"),file+' does not gate both obstacle halves from the immutable gate serial');assert(!generated.includes("side,g.serial*16+(g.phase||0));"),file+' still decorates every obstacle pair');assert(!generated.includes("side,(FG.bgT||0)*.08+g.serial*.13);"),file+' still animates the graffiti seed')}
+{const preview=read('experience/game-preview.html');assert(preview.includes("side,g.serial*16+(g.phase||0),true);"),'preview no longer decorates every obstacle pair');assert(!preview.includes("side,g.serial*16+(g.phase||0),g.serial%5===4);"),'preview incorrectly uses sparse playable-game graffiti')}
 assert(read('index.html').includes('function flapLevel(score){return Math.min(3,Math.floor(Math.max(0,score)/25));}'));
 assert(read('experience/game-preview.html').includes('function flapLevel(score){return Math.floor(Math.max(0,score)/10)%4;}'));
 console.log(JSON.stringify({pass:true,baseline,protectedFunctions:protectedFunctions.length,routes:3,titleAssets,arrowAsset,canonicalGold:'#f0d492',checks:['canonical V path','physics and collision source identity','actual 25 / preview 10 progression','flat self-contained title and arrow SVGs','readable pending fallbacks']}));
