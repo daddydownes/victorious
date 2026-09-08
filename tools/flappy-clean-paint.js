@@ -8,6 +8,9 @@
   var metalCache = new Map();
   var CACHE_LIMIT = 64;
   var CACHE_BYTE_LIMIT = 16 * 1024 * 1024, metalCacheBytes = 0;
+  var graffitiCache = new Map(), graffitiCacheBytes = 0, graffitiPaths = Object.create(null);
+  var GRAFFITI_CACHE_LIMIT = 4, GRAFFITI_BYTE_LIMIT = 4 * 1024 * 1024;
+  var PILLAR_TOP_MOTIFS = [0, 1, 2], PILLAR_BOTTOM_MOTIFS = [3, 4];
   var PAINT = '#f0d492';
 
   function q(n, step) { return Math.round(n / step) * step; }
@@ -46,6 +49,51 @@
     var gr = g.createLinearGradient(x0, y0, x1, y1);
     for (var i = 0; i < stops.length; i++) gr.addColorStop(stops[i][0], stops[i][1]);
     return gr;
+  }
+
+  function graffitiArt() {
+    return typeof FLAPPY_GRAFFITI_ART !== 'undefined' && FLAPPY_GRAFFITI_ART &&
+      FLAPPY_GRAFFITI_ART.motifs && FLAPPY_GRAFFITI_ART.motifs.length ? FLAPPY_GRAFFITI_ART : null;
+  }
+  function graffitiPath(motif, index) {
+    var key = motif.id + '|' + index;
+    if (!graffitiPaths[key]) graffitiPaths[key] = new Path2D(motif.paths[index].d);
+    return graffitiPaths[key];
+  }
+  function cacheGraffiti(key, atlas) {
+    var bytes = atlas.canvas.width * atlas.canvas.height * 4;
+    if (bytes > GRAFFITI_BYTE_LIMIT) return atlas;
+    while (graffitiCache.size >= GRAFFITI_CACHE_LIMIT || graffitiCacheBytes + bytes > GRAFFITI_BYTE_LIMIT) {
+      var oldest = graffitiCache.keys().next().value, prior = graffitiCache.get(oldest);
+      graffitiCacheBytes -= prior.canvas.width * prior.canvas.height * 4;
+      graffitiCache.delete(oldest);
+    }
+    graffitiCache.set(key, atlas); graffitiCacheBytes += bytes;
+    return atlas;
+  }
+  function graffitiAtlas(d) {
+    var art = graffitiArt();
+    if (!art || typeof Path2D === 'undefined') return null;
+    var rasterD = Math.max(1, Math.ceil(d * 4) / 4), key = String(rasterD);
+    if (graffitiCache.has(key)) return graffitiCache.get(key);
+    var cellH = 36, gap = 4, width = gap, i;
+    for (i = 0; i < art.motifs.length; i++) width += cellH * art.motifs[i].aspect + gap;
+    var canvas = makeCanvas(Math.ceil(width * rasterD), Math.ceil(cellH * rasterD));
+    var ctx = canvas.getContext('2d'), rects = [], at = gap;
+    ctx.scale(rasterD, rasterD);
+    for (i = 0; i < art.motifs.length; i++) {
+      var motif = art.motifs[i], motifW = cellH * motif.aspect;
+      ctx.save(); ctx.translate(at, 0);
+      ctx.scale(motifW / art.viewBox[2], cellH / art.viewBox[3]);
+      ctx.translate(-art.viewBox[0], -art.viewBox[1]);
+      for (var p = 0; p < motif.paths.length; p++) {
+        ctx.globalAlpha = motif.paths[p].opacity === undefined ? 1 : motif.paths[p].opacity;
+        ctx.fillStyle = PAINT; ctx.fill(graffitiPath(motif, p));
+      }
+      ctx.restore();
+      rects.push({ x: at, w: motifW }); at += motifW + gap;
+    }
+    return cacheGraffiti(key, { canvas: canvas, rects: rects, d: rasterD, h: cellH });
   }
 
   function textureSprite(w, d, kind, side) {
@@ -188,6 +236,66 @@
     ctx.fillRect(cx + span * .39, y - lineW * .25, dot * .7, dot * .7);
   }
 
+  function graffitiStamp(ctx, art, atlas, index, cx, cy, height, turn) {
+    var motif = art.motifs[index], rect = atlas.rects[index], width = height * motif.aspect;
+    ctx.save(); ctx.globalAlpha = .64; ctx.translate(cx, cy);
+    if (turn) ctx.rotate(-Math.PI / 2);
+    ctx.drawImage(atlas.canvas,
+      Math.round(rect.x * atlas.d), 0, Math.max(1, Math.round(rect.w * atlas.d)), atlas.canvas.height,
+      -width / 2, -height / 2, width, height);
+    ctx.restore();
+  }
+
+  function drawGraffiti(ctx, polygon, b, side, kind, s) {
+    var art = graffitiArt(), atlas = graffitiAtlas(Math.max(1, (s && s.d) || 1));
+    if (!art || !atlas) return;
+    var cssScale = s && s.cssH ? s.cssH / s.h : 1;
+
+    if (kind === 'pillar') {
+      // These screen-stable slots do not redistribute while a pole deploys;
+      // incomplete slots stay withheld. Wide word marks turn down the body;
+      // their source cell is 36 units high, so every destination is a downscale.
+      var indices = side ? PILLAR_BOTTOM_MOTIFS : PILLAR_TOP_MOTIFS;
+      var slot = Math.min(88, Math.max(72, s.h * .115)), edgePad = 14;
+      for (var i = 0; i < indices.length; i++) {
+        var motifIndex = indices[i], motif = art.motifs[motifIndex], turn = motifIndex !== 0;
+        var crossLimit = b.w - 8;
+        if (!turn) crossLimit /= motif.aspect;
+        var height = Math.min(16, crossLimit, (slot - 10) / (turn ? motif.aspect : 1),
+          Math.max(9 / Math.max(.1, cssScale), turn ? 11 : 13));
+        if (height <= 3) continue;
+        var longSide = height * motif.aspect;
+        var cy = side ? b.y + b.h - edgePad - (i + .5) * slot : b.y + edgePad + (i + .5) * slot;
+        var cx = b.x + b.w * (i % 2 ? .57 : .43);
+        var halfY = (turn ? longSide : height) / 2;
+        // Keep the complete tag away from the painted passage lip. During the
+        // reveal it appears only after its fixed slot is fully inside the slab.
+        if (side ? (cy - halfY < b.y + 16 || cy + halfY > b.y + b.h - 5) :
+            (cy - halfY < b.y + 5 || cy + halfY > b.y + b.h - 16)) continue;
+        graffitiStamp(ctx, art, atlas, motifIndex, cx, cy, height, turn);
+      }
+      return;
+    }
+
+    // Finite arches, slants and iris jaws carry one fitted horizontal tag. If a
+    // word would be illegible, the compact canonical symbol takes its place.
+    var motifIndex = ((kind === 'arch' ? 1 : kind === 'slant' ? 3 : 2) + side) % art.motifs.length;
+    var motif = art.motifs[motifIndex], rangeX = b.x + b.w * (side ? .68 : .32);
+    var localRange = verticalRange(polygon, rangeX, b), depth = localRange.max - localRange.min;
+    var height = Math.min(13, (b.w - 8) / motif.aspect, depth - 21,
+      Math.max(8 / Math.max(.1, cssScale), 9));
+    if (height * cssScale < 7 && motifIndex !== 0) {
+      motifIndex = 0; motif = art.motifs[0];
+      height = Math.min(13, (b.w - 8) / motif.aspect, depth - 21,
+        Math.max(8 / Math.max(.1, cssScale), 9));
+    }
+    if (height <= 3) return;
+    var width = height * motif.aspect;
+    rangeX = Math.max(b.x + 4 + width / 2, Math.min(b.x + b.w - 4 - width / 2, rangeX));
+    var cy = side ? localRange.max - 5 - height / 2 : localRange.min + 5 + height / 2;
+    graffitiStamp(ctx, art, atlas, motifIndex, rangeX, cy, height, false);
+  }
+
   function flapDrawPaintBackdrop(ctx, w, h) {
     if (!ctx || !w || !h) return;
     ctx.save();
@@ -216,6 +324,7 @@
     var segs = passageSegments(polygon, side);
     ctx.drawImage(sprite, 0, 0, sprite.width, sprite.height, b.x, b.y, b.w, b.h);
     drawFacePaint(ctx, polygon, b, side, segs);
+    drawGraffiti(ctx, polygon, b, side, kind, s);
 
     // The uninterrupted passage lip remains the brightest collision boundary.
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
@@ -232,9 +341,14 @@
     ctx.restore();
   }
 
-  flapDrawMetal.clearCache = function () { metalCache.clear(); metalCacheBytes = 0; };
+  flapDrawMetal.clearCache = function () {
+    metalCache.clear(); metalCacheBytes = 0;
+    graffitiCache.clear(); graffitiCacheBytes = 0; graffitiPaths = Object.create(null);
+  };
   flapDrawMetal.cacheSize = function () { return metalCache.size; };
   flapDrawMetal.cacheBytes = function () { return metalCacheBytes; };
+  flapDrawMetal.graffitiCacheSize = function () { return graffitiCache.size; };
+  flapDrawMetal.graffitiCacheBytes = function () { return graffitiCacheBytes; };
   flapDrawMetal.passageSegmentCount = function (polygon, side) {
     return passageSegments(polygon, side ? 1 : 0).length;
   };

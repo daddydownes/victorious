@@ -4,6 +4,21 @@ const fs = require('node:fs');
 const path = require('node:path');
 const snapshot = fs.readFileSync(path.join(__dirname, 'vault-source.html'), 'utf8').replace(/\r\n/g, '\n');
 const cleanPaint = fs.readFileSync(path.join(__dirname, 'flappy-clean-paint.js'), 'utf8').replace(/\r\n/g, '\n').trim();
+const graffitiArt = require('./flappy-graffiti-art.js');
+const graffitiIds = ['v-star', 'vctrs', 'the-vault', 'fly-the-v', 'surface'];
+if (!graffitiArt || JSON.stringify(graffitiArt.viewBox) !== '[0,0,100,36]' || graffitiArt.gold !== '#f0d492' ||
+    !Array.isArray(graffitiArt.motifs) || graffitiArt.motifs.length !== graffitiIds.length)
+  throw Error('Flappy graffiti schema must define five #f0d492 motifs in viewBox 0 0 100 36');
+graffitiArt.motifs.forEach((motif, index) => {
+  if (!motif || motif.id !== graffitiIds[index] || typeof motif.label !== 'string' ||
+      !Number.isFinite(motif.aspect) || motif.aspect <= 0 || motif.aspect > 10 ||
+      !Array.isArray(motif.paths) || !motif.paths.length || motif.paths.some(layer =>
+        !layer || typeof layer.d !== 'string' || !layer.d.trim() || /[<>]/.test(layer.d) ||
+        layer.fill !== '#f0d492' || (layer.opacity !== undefined &&
+          (!Number.isFinite(layer.opacity) || layer.opacity < 0 || layer.opacity > 1))))
+    throw Error('Invalid Flappy graffiti motif: ' + graffitiIds[index]);
+});
+const graffitiSource = 'var FLAPPY_GRAFFITI_ART=' + JSON.stringify(graffitiArt) + ';';
 function between(text, start, end) {
   const a = text.indexOf(start), b = text.indexOf(end, a + start.length);
   if (a < 0 || b < 0) throw Error('Production game source anchor missing: ' + start);
@@ -44,7 +59,7 @@ function tuneGamePaint(js) {
   const a = js.indexOf(start), b = js.indexOf(end, a + start.length);
   if (a < 0 || b < 0 || js.indexOf(start, a + start.length) >= 0 || js.indexOf(end, b + end.length) >= 0)
     throw Error('Production game clean-paint markers missing or ambiguous');
-  js = js.slice(0, a + start.length) + '\n' + cleanPaint + '\n    ' + js.slice(b);
+  js = js.slice(0, a + start.length) + '\n' + graffitiSource + '\n' + cleanPaint + '\n    ' + js.slice(b);
   return replace(js, `        for(var row=0;row<5;row++){
           var yy=h*(.78+.22*Math.pow(row/4,1.7));
           g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
