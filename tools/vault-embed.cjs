@@ -84,6 +84,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
     notifyVisibility();
   }
   function post(type){ parent.postMessage({type:type,cycle:cycle},parentOrigin); }
+  function postSync(){ parent.postMessage({type:'vctrs-vault-sync',cycle:cycle,active:active},parentOrigin); }
 
   syncInert(true);
   window.__vctrsVaultEmbedSurface=function(){
@@ -92,7 +93,11 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
   };
   addEventListener('message',function(event){
     var data=event.data;
-    if(event.origin!==parentOrigin || event.source!==parent || !data || typeof data!=='object' || !sameCycle(data.cycle))return;
+    if(event.origin!==parentOrigin || event.source!==parent || !data || typeof data!=='object')return;
+    // The parent may be reconciling a pending cycle, so a sync request cannot
+    // require the very token it is asking the child to report.
+    if(data.type==='vctrs-vault-sync'){ postSync(); return; }
+    if(!sameCycle(data.cycle))return;
     if(data.type==='vctrs-vault-visibility' && typeof data.active==='boolean'){
       if(data.active && surfaceSent)return;
       setActive(data.active);
@@ -110,6 +115,12 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
   });
   function ready(){ syncInert(!active); notifyVisibility(); post('vctrs-vault-ready'); }
   if(document.readyState==='loading')addEventListener('DOMContentLoaded',ready,{once:true}); else ready();
+  addEventListener('pageshow',function(event){
+    if(!event.persisted)return;
+    // BFCache can restore the child before the parent controller. Fail closed,
+    // report the actual cycle, then let the parent choose reset or visibility.
+    setActive(false); postSync(); post('vctrs-vault-ready');
+  });
 })();
 </script>`;
 
