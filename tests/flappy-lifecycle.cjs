@@ -32,9 +32,12 @@ for(const tier of [0,1,2,3])for(const locked of [false,true]){
  c.setInterval=()=>{const id=next++;iv.add(id);return id;};c.clearInterval=id=>iv.delete(id);
  for(let i=0;i<40;i++){
   c.flapOpenFn();c.flapOpenFn();c.startFlapLoop();assert.equal(raf.size,1);assert.equal(iv.size,1);
-  c.flapStart();c.flapCloseFn();c.flapCloseFn();assert.equal(raf.size,0);assert.equal(iv.size,0);assert.equal(c.document.activeElement,elements.flapPlay);cases++;
+  c.flapStart();c.flapCloseFn();c.flapCloseFn();assert.equal(raf.size,0);assert.equal(iv.size,0);assert.equal(c.document.activeElement,elements.worldPlay||elements.flapPlay);cases++;
  }
- c.reduced=true;c.flapOpenFn();assert.equal(raf.size,0);assert.equal(iv.size,0);c.flapCloseFn();
+ c.reduced=true;c.flapOpenFn();assert.equal(raf.size,0);assert.equal(iv.size,0);
+ c.reduced=false;c.refreshGameMotion();assert.equal(raf.size,1);assert.equal(iv.size,1);
+ c.reduced=true;c.refreshGameMotion();assert.equal(raf.size,0);assert.equal(iv.size,0);
+ c.flapCloseFn();
 }
 // A bounded 20-second synthetic run in each tier checks pruning and frame-ring limits.
 // Invulnerability isolates allocation/lifecycle rather than claiming a human-valid flight.

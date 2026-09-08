@@ -5,7 +5,7 @@ for(const reduced of [false,true])for(let run=0;run<4;run++){
  const classes=new Set(),listeners=new Map(),tasks=[];
  const button={addEventListener:(n,f)=>listeners.set(n,f),removeEventListener:(n,f)=>{if(listeners.get(n)===f)listeners.delete(n)}};
  const destination={setAttribute(){}};
- const context={reduced,scrollTo(){},lock(){},setNextDropInert(){},stage:destination,getComputedStyle:()=>({backgroundImage:'none'}),motionQuery:{matches:reduced,addEventListener(){},removeEventListener(){}},filmLogo:{getBoundingClientRect:()=>({width:0,height:0})},afterMotion:(ms,f)=>tasks.push([ms,f]),document:{body:{classList:{contains:n=>classes.has(n),add:n=>classes.add(n)}},documentElement:{classList:{add(){}}},getElementById:id=>id==='nextVaultHold'?button:destination,querySelector:()=>destination}};
+ const context={warmVaultImages(){},reduced,scrollTo(){},lock(){},setNextDropInert(){},stage:destination,getComputedStyle:()=>({backgroundImage:'none'}),motionQuery:{matches:reduced,addEventListener(){},removeEventListener(){}},filmLogo:{getBoundingClientRect:()=>({width:0,height:0})},afterMotion:(ms,f)=>tasks.push([ms,f]),document:{body:{classList:{contains:n=>classes.has(n),add:n=>classes.add(n)}},documentElement:{classList:{add(){}}},getElementById:id=>id==='nextVaultHold'?button:destination,querySelector:()=>destination}};
  vm.runInNewContext(source+';startNextDrop()',context);
  assert(!classes.has('next-drop-landed'));
  if(reduced){assert.equal(tasks[0][0],50);tasks[0][1]();assert(!listeners.size)}else{
@@ -17,6 +17,6 @@ for(const reduced of [false,true])for(let run=0;run<4;run++){
  }
  assert(classes.has('next-drop-landed'));
 }
-const scripts=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)];
+const scripts=[...html.replace(/<!--[\s\S]*?-->/g,'').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)];
 for(const [,script]of scripts)new vm.Script(script);
 console.log('PASS: normal/reduced motion x4, unrelated animation events ignored, listener cleaned up, embedded JS syntax valid');

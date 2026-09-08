@@ -4,7 +4,7 @@ const defaultPage=process.env.VCTRS_GAME_PAGE||'index.html';
 const games=new Map();
 function loadGame(page=defaultPage){
  if(games.has(page))return games.get(page);
- const html=fs.readFileSync(path.join(__dirname,'..',page),'utf8');
+ const html=fs.readFileSync(path.join(__dirname,'..',page),'utf8').replace(/<script type="application\/json"[^>]*>[\s\S]*?<\/script>/g,'');
  const logoPath=html.match(/class="vmark"[^>]*>[\s\S]*?<path d="([^"]+)"/)[1];
  const previewEnd=html.includes('// PRODUCTION_GAMEPLAY_END'),end=html.includes('// PRODUCTION_GAME_CORE_END')?'\n// PRODUCTION_GAME_CORE_END':previewEnd?'\n// PRODUCTION_GAMEPLAY_END':'\n  measure(); updateScroll();';
  let source=html.slice(html.indexOf('  var COUPON_THRESHOLD=100;'),html.indexOf(end,html.indexOf('  var COUPON_THRESHOLD=100;')));
@@ -21,7 +21,7 @@ function setup(w=375,h=667,seed=1,dpr=1,inject='',page=defaultPage){
  const math=Object.create(Math); math.random=()=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296);
  const ctx={textAlign:'center'};
  const el=id=>elements[id]??=( {id,clientWidth:w,clientHeight:h,style:{setProperty(k,v){this[k]=v}},classList:{add(){},remove(){}},events:{},addEventListener(n,f){this.events[n]=f},focus(){c.document.activeElement=this},getClientRects(){return[{}]},getContext(){return ctx},tagName:id==='flap'?'CANVAS':'BUTTON'} );
- const c={Path2D:class{constructor(d){this.d=d}},Math:math,devicePixelRatio:dpr,reduced:false,motionQuery:{matches:false},performance:{now:()=>now},localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},document:{getElementById:el,querySelector:selector=>selector==='.vmark path'?{getAttribute:()=>logoPath}:null,body:el('body'),hidden:false,addEventListener(n,f){events[n]=f}},window:{scrollY:0,scrollTo(){}},addEventListener(n,f){events[n]=f},requestAnimationFrame:()=>1,cancelAnimationFrame(){},setInterval:()=>1,clearInterval(){},refreshMotionPreference(){}};
+ const c={Event:class{constructor(type){this.type=type}},Path2D:class{constructor(d){this.d=d}},Math:math,devicePixelRatio:dpr,reduced:false,motionQuery:{matches:false},performance:{now:()=>now},localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},document:{getElementById:el,querySelector:selector=>selector==='.vmark path'?{getAttribute:()=>logoPath}:null,body:el('body'),hidden:false,addEventListener(n,f){events[n]=f}},window:{scrollY:0,scrollTo(){},dispatchEvent(){}},addEventListener(n,f){events[n]=f},requestAnimationFrame:()=>1,cancelAnimationFrame(){},setInterval:()=>1,clearInterval(){},refreshMotionPreference(){}};
  c.storyGameLock=function(){}; // Host inert/focus integration is exercised in real browsers.
  vm.createContext(c);vm.runInContext(source.replace(/\n  }\s*$/, '\n    flapDraw=function(){}; flapBurst=function(){};'+inject+'\n  }'),c);
  c.FG=c.flapNewState();c.flapOpen=true;

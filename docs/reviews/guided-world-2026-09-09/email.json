@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-08T22:41:53.266Z",
+  "status": "PASS",
+  "cases": [
+    "six invalid inputs: no requests",
+    "http: retry restored",
+    "network: retry restored",
+    "json: retry restored",
+    "rejected: retry restored",
+    "timeout: retry restored",
+    "stale response preserves edited address",
+    "ten rapid submits: one request",
+    "stalled signup does not block vault or Surface"
+  ],
+  "requests": 8,
+  "errors": [],
+  "limit": "All FormSubmit requests intercepted; real inbox delivery not exercised."
+}

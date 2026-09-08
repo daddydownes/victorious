@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-08T22:49:40.930Z",
+  "baseline": "973cb2f3faeb4ef09907ff6c33a0631a40b6fdff",
+  "files": [
+    {
+      "file": "index.html",
+      "bytes": 649882,
+      "sha256": "2a02da84aee85305474b55daf4eaae927cdf11405def1b52a7d9cf341ec7edb4",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "assets/cinzel.woff2",
+      "bytes": 25904,
+      "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/game-poster.jpg",
+      "bytes": 6270,
+      "sha256": "d684ec8337d68a289b215633c8572be176b54019cdd559174cdb95e2a051999c",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/intro-mobile.mp4",
+      "bytes": 316527,
+      "sha256": "b6685fae37cc37c121e5e15181a2c9186fddcf9f0709cf9931b8450795e8c26d",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/play-arrow-vstyle-v1.svg",
+      "bytes": 950,
+      "sha256": "ce3cb0e3ef2b9933b28c3a5fc216dd1a4da92f82a373d2de18be78957ded85eb",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/play-the-game-vstyle-v1.svg",
+      "bytes": 12365,
+      "sha256": "6f2f4ffc370dbd4d0a02b49277c268d2735925163e16c9a5ce07280c1181d9af",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/story-film-light.mp4",
+      "bytes": 3761254,
+      "sha256": "eb02e217933b0f340cbd5d9f88e3d3431a8818ce737b12f2c546ffda89b9d363",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/story-film-poster.jpg",
+      "bytes": 11214,
+      "sha256": "4bde849c8f709d03a1c7bc3149c0f1dfbbae1c6824fa60ff16d0c9b0f891acf4",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/story-film.mp4",
+      "bytes": 9496322,
+      "sha256": "8c9b73413a4d12ebd89d4524de9913a80b760634df1d462eadcf195bd9fc3e05",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/story-poster.jpg",
+      "bytes": 39300,
+      "sha256": "07def6946d4c8d475c4f92271fe48a3df7d03619f1b7d164fa3165b1ca714208",
+      "normalization": "none"
+    },
+    {
+      "file": "assets/v-mark.woff2",
+      "bytes": 1820,
+      "sha256": "a14b3dd7a99aa4ca3ddbafb78ddaf5b6cc21b81f740b7655439384507d893d29",
+      "normalization": "none"
+    }
+  ]
+}

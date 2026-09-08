@@ -1,5 +1,12 @@
 # Current status
 
+## September 9 approved guided homepage release
+
+The approved homepage now contains the complete opening → email → Vault → Surface → film/story → interactive game preview → full game → Refresh website journey in one document and URL. The original V/star opening and live signup transport remain. The story V stays inside the story; the game has no decorative background V. This supersedes the earlier homepage redirect into /experience/; historical routes remain available.
+
+Release candidate based on production `973cb2f3faeb4ef09907ff6c33a0631a40b6fdff`. Forty fresh complete browser journeys pass (four per environment across Chromium/WebKit desktop, phone, narrow, landscape and reduced motion), all ten core suites pass, and signup failures, rapid inputs, blocked media, lifecycle and cold slow-network checks pass. Fixed short-landscape preview activation and game scheduling during reduced motion/hidden state. Windows WebKit is not physical iPhone or macOS Safari certification; email transport was intercepted, not delivered to a real inbox. See [release evidence](reviews/guided-world-2026-09-09/README.md). Production publication must be verified against the resulting commit and live bytes.
+
+
 ## September 8 rapid-scroll Vault entrance correction
 
 A single large wheel step could skip the entrance and activate the Vault while a scroll burst was still arriving. The controller now caps crossing wheel input at24% and commits the existing animation immediately; a direct native full-view jump with recent forward intent also waits for readiness and input quiet. The matched Chrome/WebKit burst now has zero active frames until scrolling finishes. Fourteen desktop stress scenarios, ten rapid phone-emulation loops, six cold-load/End cases and eleven refresh/history cases pass. Navigation16/16, integration15/15, game source and media37/37 pass. See [evidence](reviews/rapid-vault-loop-2026-09-08/README.md). No HD media or game changes. Release `f55a2da` is live and built by GitHub Pages. Seven canonical resources match local bytes; fingerprinted live Chromium/WebKit bursts pass with zero early activation. All ten root suites also pass.

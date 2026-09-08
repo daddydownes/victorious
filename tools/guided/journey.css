@@ -1,0 +1,170 @@
+/* Guided demo: the production identity, with one active chapter. */
+[hidden]{display:none!important}
+html{background:#000}
+button,input{box-sizing:border-box}
+button:focus-visible,input:focus-visible{outline:2px solid #f0d492;outline-offset:5px}
+button{touch-action:manipulation}
+.opening-continue{position:fixed;bottom:max(24px,env(safe-area-inset-bottom));right:6vw;z-index:1400;min-height:48px;padding:10px 18px;border:1px solid #b9b0a055;background:#080808;color:#efe9dc;font:14px Georgia,serif;cursor:pointer}
+.opening-continue span{margin-left:28px;color:#f0d492}
+.next-drop-entering .opening-continue,.next-vault-open .opening-continue,.surfaced .opening-continue{display:none}
+.next-drop{background-color:#090908;overflow-y:auto;overscroll-behavior:contain;height:100%;height:100dvh}
+.next-drop-card{padding-bottom:max(20px,env(safe-area-inset-bottom))}
+.next-drop-mark::before,.next-drop-mark::after,.next-drop::after{animation:none!important}
+.next-drop-email-row input{font-size:16px;min-height:50px;width:100%}
+.next-drop-email-row button[hidden]{display:none!important}
+.next-drop-result{min-height:22px}
+#demoEmailNote{font:12px/1.5 Consolas,monospace;color:#b9b0a0;margin:0 0 6px}
+.next-vault-hold{min-height:68px;touch-action:manipulation}
+.vault-plane img{background:#15130e;color:#b9b0a0;font:12px/1.5 Consolas,monospace;object-fit:cover;transition:opacity .2s}
+.vault-plane img.asset-failed{opacity:.75;border:1px solid #d4af5f33}
+.surfaced #beyond{display:none!important}
+.vault-entry-mark{filter:none!important;will-change:transform,opacity}
+.surface-story-invitation{display:none!important}
+body.world-active{position:fixed;inset:0;overflow:hidden;height:100dvh!important;touch-action:pan-y pinch-zoom}
+body.world-active #stage,body.world-active #beyond,body.world-active .surface-story,body.world-active .seamsec,body.world-active .descent{visibility:hidden!important;pointer-events:none!important}
+#world{position:fixed;inset:0;z-index:1350;background:#000;color:#d4af5f;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scrollbar-width:thin;scrollbar-color:#d4af5f55 #000;touch-action:pan-y pinch-zoom;font-family:Cinzel,Georgia,serif}
+#world *,#world *:before,#world *:after{box-sizing:border-box}
+#world .world-scene,#world .play-section{position:relative;isolation:isolate;min-height:100svh;min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#000}
+#world .portrait-photo{position:absolute;left:54%;top:10%;width:38%;height:76%;background:#16130e;overflow:hidden;isolation:isolate}
+#worldFilmPoster,#worldVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#worldFilmPoster{object-position:center;opacity:.94}
+#worldVideo{opacity:0;transition:opacity .6s}
+#worldPortrait.media-ready #worldVideo{opacity:1}
+#world .portrait-copy{position:relative;z-index:2;width:70%;margin:0;padding:40svh 0 100px 6%;pointer-events:none}
+#world .portrait-copy h2{font-size:clamp(34px,4.8vw,74px);font-weight:700;line-height:1.06;letter-spacing:-.05em;text-shadow:0 2px 24px #0008;margin:0 0 32px}
+#world .portrait-copy h2 span{display:block}
+#world button{font-family:inherit;cursor:pointer;touch-action:manipulation;color:#d4af5f}
+#world .world-button{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:38px;min-height:56px;min-width:288px;max-width:100%;padding:16px 22px;border:1px solid #d4af5f88;background:#000e;font-size:14px;font-weight:600;letter-spacing:.04em;transition:background .18s,transform .18s}
+#world .world-button span{font:22px Georgia,serif}
+#world .world-button:hover{background:#d4af5f;color:#000}
+#world button:active{transform:translateY(2px)}
+#world button:focus-visible{outline:2px solid #f0d492;outline-offset:5px}
+#world .story-controls{position:absolute;right:8%;bottom:5%;display:flex;align-items:center;justify-content:flex-end;gap:12px;max-width:50%}
+#world .story-controls button,#world .world-back{background:none;border:0;border-bottom:1px solid #d4af5f55;min-height:44px;padding:10px 0;font-size:12px}
+#worldMediaStatus{max-width:210px;font:12px/1.5 Arial,sans-serif;color:#b9ae97}
+#world .play-section{display:grid;grid-template-columns:.8fr 1.2fr;grid-template-rows:1fr auto auto;align-items:center;gap:16px 5vw;padding:8vh 7vw max(32px,env(safe-area-inset-bottom))}
+#world .play-copy{align-self:center;position:relative;text-align:center}
+#world #play-title{position:relative;margin:0;color:#d4af5f;aspect-ratio:1.5;font:700 clamp(40px,6vw,80px)/1.1 Cinzel,serif}
+#world .paint-title-text{position:absolute;inset:20% 0 auto;z-index:-1}
+#world .spray-headline{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+#world .art-failed .paint-title-text{z-index:auto}
+#world .art-failed .spray-headline{visibility:hidden}
+#world .play-cue{display:block;background:none;border:0;padding:0;width:44%;min-height:80px;aspect-ratio:1;margin:-5% 0 0 52%}
+#world .spray-arrow-art{width:100%;height:100%;display:block;transform:rotate(-32deg)}
+#world .spray-arrow-shaft,#world .spray-arrow-head{fill:none;stroke:white;stroke-width:220;stroke-linecap:round;stroke-linejoin:round}
+#world .live-game-shell{position:relative;aspect-ratio:1.06;min-width:0;overflow:hidden;background:#090906;outline:1px solid #d4af5f30;box-shadow:0 0 100px #d4af5f0b}
+#world .live-game-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+#world .preview-play{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding:0 20px 6%}
+#world .preview-play span{display:flex;align-items:center;justify-content:space-between;gap:35px;background:#000e;color:#f0d492;border:1px solid #d4af5faa;padding:16px 24px;min-height:56px;font:600 14px/1.4 Cinzel,serif;transition:background .2s,color .2s}
+#world .preview-play:hover span{background:#d4af5f;color:#000}
+#world .preview-play:focus-visible{outline-offset:-6px}
+#world .game-instruction{grid-column:2;text-align:center;font:14px/1.5 Arial,sans-serif;color:#b9ae97}
+#world .world-back{grid-column:1/-1;justify-self:start}
+#flapOverlay{z-index:1500}
+.world-game #world{visibility:hidden}
+.no-script{position:fixed;inset:0;z-index:9999;background:#000;color:#efe9dc;display:grid;place-content:center;text-align:center;padding:30px}
+@media(max-width:700px){
+ #world .world-scene{min-height:max(680px,100svh);min-height:max(680px,100dvh)}
+ #world .portrait-photo{left:26%;top:8%;width:68%;height:58%}
+ #world .portrait-copy{width:100%;padding:47svh 6% 110px}
+ #world .portrait-copy h2{font-size:clamp(29px,8.1vw,54px);line-height:1.1;margin-bottom:24px}
+ #world .world-button{width:100%;min-width:0;background:#000}
+ #world .story-controls{left:6%;right:6%;bottom:26px;max-width:none;justify-content:space-between}
+ #world .story-controls button{font-size:12px}
+ #world .play-section{min-height:max(680px,100svh);min-height:max(680px,100dvh);grid-template-columns:1fr;grid-template-rows:auto 1fr auto auto;gap:16px;padding:32px 6% max(24px,env(safe-area-inset-bottom))}
+ #world .play-copy{height:140px;display:flex;align-items:center;justify-content:center}
+ #world #play-title{width:75%;height:165px;flex:none;font-size:36px}
+ #world .play-cue{width:90px;height:110px;min-height:0;margin:0 -12px 0 -15px;flex:none;align-self:end}
+ #world .spray-arrow-art{transform:rotate(0)}
+ #world .live-game-shell{width:100%;max-width:480px;justify-self:center;aspect-ratio:1.05;align-self:center}
+ #world .game-instruction{grid-column:1;font-size:13px}
+ #world .world-back{justify-self:center;font-size:12px}
+}
+@media(max-height:520px) and (min-width:701px){#world .world-scene,#world .play-section{min-height:500px}#world .portrait-copy{padding-top:180px}#world .portrait-copy h2{font-size:36px}#world .live-game-shell{width:min(100%,390px);justify-self:center}#world .play-section{padding-top:20px}}
+@media(prefers-reduced-motion:reduce){#world{scroll-behavior:auto}#world *,#world *:before,#world *:after{animation:none!important;transition:none!important}.vault-plane img{transition:none!important}}
+#world .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%);white-space:nowrap;border:0!important}
+@media(max-width:700px){#world .play-section{grid-template-rows:150px auto auto 1fr;gap:22px}#world .live-game-shell{aspect-ratio:.95;align-self:start}#world .world-back{align-self:end}}
+#world .story-controls{position:relative;inset:auto;max-width:288px;pointer-events:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 16px;margin-top:12px}
+#world .story-controls button{font-size:14px;min-height:44px}
+#world .scroll-hint{font:12px/1.5 Arial,sans-serif;color:#b9ae97}
+#worldMediaStatus{flex-basis:100%;max-width:none}
+#world .preview-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#world .live-game-shell iframe{opacity:0}
+#world .live-game-shell iframe.preview-ready{opacity:1}
+#worldGameStatus{display:block;max-width:320px;margin:6px auto 0;font-size:12px}
+@media(max-width:700px){#world .story-controls{max-width:none}}
+#world .world-return{grid-column:1/-1;align-self:end;display:flex;justify-content:space-between;align-items:center;gap:24px;width:100%}
+#world .world-return .world-back{font-size:12px;text-align:left}
+/* Touch-driven archive browsing; vertical movement remains native scrolling. */
+#world .portrait-photo{touch-action:pan-y pinch-zoom}
+@media(max-width:700px){#world .world-scene,#world .play-section{min-height:max(680px,100svh)}}
+#world .story-controls{max-width:360px}
+#world .story-controls .scroll-cue{display:flex;align-items:center;gap:12px;color:#f0d492;text-align:left;border:0;padding:7px 10px 7px 0;font-size:13px;min-height:48px}
+#world .scroll-cue-mark{display:inline-grid;place-items:center;width:24px;font:32px/1 Georgia,serif}
+.world-active #world .scroll-cue-mark{animation:scroll-invitation 2.4s ease-in-out 3}
+#world .scroll-cue:hover .scroll-cue-mark{color:#fff}
+@keyframes scroll-invitation{0%,65%,100%{transform:translateY(0);opacity:.8}35%{transform:translateY(7px);opacity:1}}
+@media(max-width:700px){#world .story-controls{max-width:none}#world .story-controls .scroll-cue{font-size:12px;gap:8px}}
+@media(prefers-reduced-motion:reduce){.world-active #world .scroll-cue-mark{animation:none}}
+/* The arrival inherits the original vault's gold seam. Motion is always optional. */
+
+/* A hands-on rehearsal sits above the explicit full-game action. */
+#world .preview-rehearse{position:absolute;inset:0 0 100px;width:100%;border:0;background:transparent;color:#f0d492;touch-action:pan-y pinch-zoom;display:flex;justify-content:center;align-items:flex-start;padding:20px;font:12px/1.4 Arial,sans-serif;cursor:pointer}
+#world .preview-rehearse>span{padding:7px 12px;background:#000c;border:1px solid #d4af5f40;pointer-events:none}
+#world .preview-rehearse>span span{margin-left:9px}
+#world .preview-rehearse:disabled{visibility:hidden}
+#world .preview-rehearse:focus-visible{outline-offset:-5px}
+#world .preview-rehearse[hidden]{display:none}
+#world .preview-play{inset:auto 0 0;height:100px;padding-bottom:20px}
+
+/* One shared gold backdrop connects the two landings without a black cut. */
+#world{isolation:isolate}
+#world .world-scene,#world .play-section{background:transparent;z-index:1}
+#world .portrait-photo{touch-action:pan-y pinch-zoom}
+#worldFilmPoster{opacity:1}
+#worldVideo{transition:opacity .7s;pointer-events:none}
+#world .story-controls{align-items:center}
+#world .story-controls button{font-size:14px}
+
+/* The arriving V belongs to the film section and scrolls away with it. */
+#world .persistent-v{position:absolute;left:4vw;top:7svh;width:clamp(68px,20vw,180px);aspect-ratio:295.5/357.7;z-index:2;color:#f0d492;opacity:1;transform-origin:top left;pointer-events:none}
+#world .persistent-v svg{display:block;width:100%;height:100%;fill:currentColor}
+#world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
+#world .world-scroll .scroll-cue-mark{font-size:36px}
+#world .world-scroll:hover{color:#fff}
+@media(max-width:700px){#world .persistent-v{width:20vw}#world .world-scroll{margin:22px auto 0}}
+@media(prefers-reduced-motion:reduce){#world .world-scroll .scroll-cue-mark{animation:none!important}}
+
+/* Give the film the space previously occupied by oversized lettering. */
+#world .portrait-photo{left:44%;top:6%;width:52%;height:84%}
+#world .portrait-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0007,transparent 28%),linear-gradient(0deg,#0009,transparent 35%)}
+@media(max-width:700px){#world .portrait-photo{left:20%;top:5%;width:78%;height:65%}}
+
+/* One full-width restart action fills the space beneath the preview. */
+#world .world-return{align-self:stretch;align-items:stretch;justify-content:center}
+#world .world-refresh{width:100%;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;border:0;background:#000;color:#f0d492;font-size:14px;letter-spacing:.12em;box-shadow:none;text-shadow:none;filter:none}
+#world .world-refresh:hover{background:#000;color:#fff1cc}
+#world .world-refresh:disabled{cursor:wait}
+#world .refresh-mark{display:block;width:42px;height:42px}
+#world .refresh-mark svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+#world .world-return{background:#000;box-shadow:none}
+#world .live-game-shell{box-shadow:none}
+#world .game-instruction:has(#worldGameStatus:empty){display:none}
+@media(max-width:700px){#world .play-section{grid-template-rows:150px auto minmax(88px,1fr)}#world .world-return{min-height:88px}}
+
+/* A single drawn return gesture; no looping light, blur or delayed click. */
+#world .world-refresh .refresh-mark{transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+#world .world-refresh.refresh-revealed .refresh-arc{stroke-dasharray:100;animation:refresh-draw 1.3s cubic-bezier(.25,.7,.2,1) both}
+#world .world-refresh.refresh-revealed .refresh-mark svg{animation:refresh-settle 1.4s cubic-bezier(.2,.7,.2,1) both}
+#world .world-refresh.refresh-revealed .refresh-tip{animation:refresh-tip .5s .7s ease both}
+#world .world-refresh.refresh-revealed>span:last-child{animation:refresh-label .9s .35s ease both}
+@media(hover:hover){#world .world-refresh:hover .refresh-mark{transform:rotate(-24deg)}}
+#world .world-refresh:active{transform:none}
+#world .world-refresh:active .refresh-mark{transform:rotate(-24deg) scale(.94)}
+@keyframes refresh-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes refresh-settle{from{transform:rotate(-45deg)}to{transform:rotate(0)}}
+@keyframes refresh-tip{from{opacity:0}to{opacity:1}}
+@keyframes refresh-label{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Let narrow phones shrink the grid below the artwork intrinsic width. */
+@media(max-width:700px){#world .play-section{grid-template-columns:minmax(0,1fr)}#world .play-copy{min-width:0}}

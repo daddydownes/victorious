@@ -28,7 +28,7 @@ class TestPath2D { constructor(d){this.d=d} }
 const motifAspects=[.83,2.7,6.8,6.3,5.45];
 const sandbox = { document, Math:safeMath, Path2D:TestPath2D, VB:{x:0,y:0,w:100,h:100}, FLAP_LOGO_CONTOURS:[[[45,0],[55,0],[55,10],[45,10]],[[10,20],[35,20],[50,80],[65,20],[90,20],[62,100],[38,100]]], FLAPPY_GRAFFITI_ART:{viewBox:[0,0,100,36],gold:'#f0d492',motifs:motifAspects.map((aspect,i)=>({id:'motif-'+i,aspect,paths:[{d:'M0 0H100V36H0Z',fill:'#f0d492',opacity:i?0.8:1}]}))} };
 vm.createContext(sandbox);
-const html = fs.readFileSync(require('node:path').join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(require('node:path').join(__dirname, '..', 'index.html'), 'utf8').replace(/<script type="application\/json"[^>]*>[\s\S]*?<\/script>/g,'');
 const begin = html.indexOf('/* FLAPPY METAL BEGIN */');
 const end = html.indexOf('/* FLAPPY METAL END */');
 assert.ok(begin >= 0 && end > begin, 'embedded Flappy metal renderer markers missing');
@@ -97,6 +97,5 @@ assert.equal(draw.cacheSize(), 0);
 assert.equal(draw.cacheBytes(), 0);
 assert.equal(draw.graffitiCacheSize(),0);assert.equal(draw.graffitiCacheBytes(),0);
 assert.equal(draw.graffitiLayoutCacheSize(),0);
-const backdrop=[];sandbox.flapDrawPaintBackdrop(spyContext(backdrop),420,720);
-const backdropAlpha=Number(backdrop.find(value=>value.startsWith('alpha:')).slice(6));assert(backdropAlpha>.02&&backdropAlpha<.08,'backdrop remains a quiet accent');assert.ok(backdrop.includes('fill:#f0d492'));assert.ok(backdrop.includes('stroke:#f0d492'));
-console.log('flappy material: clipped deterministic graffiti, backdrop, passage lips and bounded caches passed');
+assert.equal(sandbox.flapDrawPaintBackdrop,undefined,'The removed background V must not be drawn');
+console.log('flappy material: clipped deterministic graffiti, no backdrop, passage lips and bounded caches passed');

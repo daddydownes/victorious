@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-08T22:46:17.292Z",
+  "status": "PASS",
+  "profile": "1 Mbps down / 200ms latency / 4x CPU / cold cache",
+  "emailMs": 20842,
+  "journeyMs": 27275,
+  "paints": [
+    {
+      "name": "first-paint",
+      "ms": 928
+    },
+    {
+      "name": "first-contentful-paint",
+      "ms": 2808
+    }
+  ],
+  "offlineLoadedGame": true,
+  "errors": [],
+  "limit": "Throttled Chromium emulation, not a physical network or phone."
+}

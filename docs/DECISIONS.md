@@ -1,5 +1,12 @@
 # Decisions and recent changes
 
+## September 9, 2026 — approved single-document guided homepage
+
+Keep the original opening and email composition. Surface into one focused film/story moment, then guide visitors into an interactive preview and the playable game. Keep the V anchored to the story, remove the game backdrop V, and use one Scroll down action. Finish with an unboxed Refresh website control on pure black; refresh starts the opening again. Section changes do not change the URL. Preserve existing legacy routes and hosting ownership files.
+
+Production restores the existing FormSubmit transport and search indexing omitted from the private demo. Preview eligibility uses viewport overlap instead of whole-section ratio. Game clocks stop when reduced motion or hidden state makes them unnecessary. Existing physics, collision, progression and vault artwork are retained.
+
+
 ## September 8, 2026 — one entrance while scrolling continues
 
 Continued forward input must not restart the committed Vault entrance or pull its movement backward. Absorb additional forward wheel/key/touch input, distinguish tiny reverse jitter from deliberate reversal during the commitment, and keep the child inactive until the gesture has been quiet for 140ms with touch released. Preserve the 24% threshold, 900ms motion, native input elsewhere, pinch zoom and deliberate reverse escape. This corrects the earlier rule that a new touch immediately cancelled an in-progress entrance.

@@ -1,6 +1,7 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),cp=require('child_process');
 const repo=require('path').join(__dirname,'..');
 const after=fs.readFileSync(repo+'/index.html','utf8'),before=cp.execFileSync('git',['show','f5b625e:index.html'],{cwd:repo,encoding:'utf8'});
+if(after.includes('id="worldGame"')){require('./guided-scroll.cjs');return;} // Current root uses native chapter scrolling.
 function setup(html){
  const source=html.slice(html.indexOf('  var postScrollTask='),html.indexOf('  /* ===== ▲ SURFACE'));
  let now=1000,tasks=[],listeners={},selection=false;

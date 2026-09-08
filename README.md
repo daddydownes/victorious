@@ -1,8 +1,8 @@
 # VCTRS — Victorious
 
-The source for **https://vctrsclo.com**, a Canberra clothing brand’s interactive website. The published journey follows the original V and film → drop invitation → draggable vault → Surface → V-and-star story opening → event film → painted game invitation → painted vault return → six-photo ending and signup.
+The source for **https://vctrsclo.com**, a Canberra clothing brand's interactive website. The current journey keeps the original V opening and email capture, enters the Vault, then surfaces into a focused film/story, interactive game preview, full game and Refresh website. It stays in one document and URL.
 
-This is a static website. Prepared pages are in `index.html` and `experience/`; viewing needs no package installation or build. Edit `tools/build-experience.cjs` and the relevant extractor, then regenerate with Node when changing the integrated experience. GitHub Pages serves `main` from the repository root. The September 8 production release is documented in the [current status](docs/STATUS.md) and [release review](docs/reviews/production-release-2026-09-08.md); its verified pre-release baseline is preserved in the [September 7 audit](docs/reviews/session-audit-2026-09-07.md).
+This is a static website served by GitHub Pages from main at the repository root. Edit the guided source in `tools/guided/` and run `node tools/build-guided.cjs`; the prepared `index.html` needs no runtime build or installation. Existing `experience/` and demo routes are retained. Their older generator can overwrite the current root, so follow the [working guide](docs/WORKFLOW.md). See [current status](docs/STATUS.md) and [September 9 release evidence](docs/reviews/guided-world-2026-09-09/README.md).
 
 ## Start here
 
@@ -39,7 +39,8 @@ These checks do not submit email or replace browser/device testing.
 ## Repository layout
 
 - `index.html`: live application, including embedded CSS and JavaScript.
-- `experience/`: integrated story, film, spray artwork, playable game and ending; deliver this entire directory with the root page.
+- `tools/guided/`: editable source for the current post-Surface homepage journey.
+- `experience/`: preserved historical story/game route and assets.
 - `assets/`, `film.mp4`, `vctrs-wordmark.svg`, `og.jpg`: production media and artwork.
 - `CNAME`, `.nojekyll`, `google303d59fed389923f.html`: hosting and search ownership files; preserve them.
 - `docs/`: portable project knowledge and handoff.

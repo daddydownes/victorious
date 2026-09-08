@@ -1,0 +1,52 @@
+[
+  {
+    "test": "reveal",
+    "status": 0,
+    "output": "PASS: normal/reduced motion x4, unrelated animation events ignored, listener cleaned up, embedded JS syntax valid\n\n"
+  },
+  {
+    "test": "post-surface-scroll",
+    "status": 0,
+    "output": "guided native scroll: 120 viewport, oversized-section, reverse and game-isolation checks passed\n\n"
+  },
+  {
+    "test": "press-feedback",
+    "status": 0,
+    "output": "PASS x4: press location, clamping, keyboard centering, tap entry, swipe/cancel/multiple-contact rejection\n\n"
+  },
+  {
+    "test": "surface-input",
+    "status": 0,
+    "output": "PASS x50: Surface tap, cancel, drag, outside release, Space native activation, closing lock, Tab cycle and Escape\n\n"
+  },
+  {
+    "test": "flappy-difficulty",
+    "status": 0,
+    "output": "{\n  \"pass\": true,\n  \"seededCourses\": 100,\n  \"uniqueSeeds\": 20,\n  \"gates\": 12500,\n  \"sizes\": [\n    [\n      320,\n      507\n    ],\n    [\n      375,\n      667\n    ],\n    [\n      667,\n      375\n    ],\n    [\n      1440,\n      594\n    ],\n    [\n      390,\n      844\n    ]\n  ],\n  \"traversals\": 76,\n  \"minLockedWarningSeconds\": 0.6917205328618214,\n  \"minGapHitboxClearancePx\": 66.27603634799726,\n  \"minAdjacentHitboxSpacePx\": 120.69208238726605,\n  \"checks\": [\n    \"25-clear active-play topology boundaries\",\n    \"10/20 remain inside the first active section\",\n    \"finite passage clear and fatal bypass\",\n    \"collision before scoring\",\n    \"skips do not advance stage\",\n    \"settled warning\",\n    \"reward persistence\",\n    \"fullscreen responsive timing\",\n    \"resize pause\",\n    \"30–144Hz cadence\",\n    \"suspend/reduced motion\"\n  ],\n  \"limitation\": \"Aperture-following samples verify geometry/scoring, not human playability.\"\n}\n\n"
+  },
+  {
+    "test": "flappy-collision",
+    "status": 0,
+    "output": "{\"checks\":254,\"finitePoses\":64,\"apertureSamples\":16016,\"contours\":[33,79],\"flatteningBoundLogicalPixels\":0.047525859658932065,\"result\":\"pass\"}\n\n"
+  },
+  {
+    "test": "flappy-material",
+    "status": 0,
+    "output": "flappy material: clipped deterministic graffiti, no backdrop, passage lips and bounded caches passed\n\n"
+  },
+  {
+    "test": "flappy-lifecycle",
+    "status": 0,
+    "output": "{\n  \"pass\": true,\n  \"cases\": 106,\n  \"checks\": [\n    \"pause/foreground/resume at all tiers\",\n    \"eight resize gate states across four sizes\",\n    \"40 scheduler/focus cycles\",\n    \"reduced-motion open without scheduler\",\n    \"bounded frame and gate storage\",\n    \"primary and repeated input\",\n    \"eight live narrow-gap input/resize/resume survival cases\",\n    \"four input-discovered resize pauses preserve impulse\"\n  ],\n  \"limits\": \"Extracted handlers and stubbed drawing; not browser performance or physical-device testing.\"\n}\n\n"
+  },
+  {
+    "test": "flappy-death",
+    "status": 0,
+    "output": "PASS: death recoil, bounded duration, input lock and retry across 12 height/cadence cases\n\n"
+  },
+  {
+    "test": "flappy-reachability",
+    "status": 0,
+    "output": "25,\"SLANT\":25,\"IRIS\":25},\"minActualHitboxSpacePx\":574.2486174609595,\"imperfect\":[{\"mode\":\"one-frame-delay\",\"score\":100,\"state\":\"play\"},{\"mode\":\"50ms-delay\",\"score\":29,\"state\":\"dying\"},{\"mode\":\"miss-every-25th\",\"score\":6,\"state\":\"dying\"}],\"seconds\":121.62,\"tapCount\":355,\"peakSearchStates\":500}\n{\"w\":1280.64,\"h\":720,\"seed\":2,\"found\":true,\"score\":100,\"kindClears\":{\"PILLAR\":25,\"ARCH\":25,\"SLANT\":25,\"IRIS\":25},\"minActualHitboxSpacePx\":574.2486174609595,\"imperfect\":[{\"mode\":\"one-frame-delay\",\"score\":100,\"state\":\"play\"},{\"mode\":\"50ms-delay\",\"score\":52,\"state\":\"dying\"},{\"mode\":\"miss-every-25th\",\"score\":11,\"state\":\"dying\"}],\"seconds\":121.62,\"tapCount\":352,\"peakSearchStates\":500}\n{\"w\":1280.64,\"h\":720,\"seed\":3,\"found\":true,\"score\":100,\"kindClears\":{\"PILLAR\":25,\"ARCH\":25,\"SLANT\":25,\"IRIS\":25},\"minActualHitboxSpacePx\":574.2486174609595,\"imperfect\":[{\"mode\":\"one-frame-delay\",\"score\":100,\"state\":\"play\"},{\"mode\":\"50ms-delay\",\"score\":26,\"state\":\"dying\"},{\"mode\":\"miss-every-25th\",\"score\":16,\"state\":\"dying\"}],\"seconds\":121.62,\"tapCount\":374,\"peakSearchStates\":500}\n{\"w\":1280.64,\"h\":720,\"seed\":4,\"found\":true,\"score\":100,\"kindClears\":{\"PILLAR\":25,\"ARCH\":25,\"SLANT\":25,\"IRIS\":25},\"minActualHitboxSpacePx\":574.2486174609595,\"imperfect\":[{\"mode\":\"one-frame-delay\",\"score\":100,\"state\":\"play\"},{\"mode\":\"50ms-delay\",\"score\":37,\"state\":\"dying\"},{\"mode\":\"miss-every-25th\",\"score\":6,\"state\":\"dying\"}],\"seconds\":121.62,\"tapCount\":348,\"peakSearchStates\":500}\n{\"pass\":true,\"sensitivity\":[{\"mode\":\"one-frame-delay\",\"min\":100,\"median\":100,\"max\":100},{\"mode\":\"50ms-delay\",\"min\":25,\"median\":35,\"max\":55},{\"mode\":\"miss-every-25th\",\"min\":4,\"median\":6,\"max\":16}],\"courses\":12,\"clears\":1200,\"limits\":\"Seeded executable physics witnesses, not human difficulty, exhaustive reachability, rendering or physical-device testing.\"}\n\n"
+  }
+]

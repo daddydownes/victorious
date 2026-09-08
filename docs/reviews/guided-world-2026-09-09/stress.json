@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-08T22:44:38.582Z",
+  "results": [
+    {
+      "name": "chromium",
+      "status": "PASS",
+      "gameCycles": 13,
+      "reducedFrameCallbacks": 0,
+      "syntheticHiddenFrameCallbacks": 0,
+      "resizes": 4,
+      "failedMedia": true,
+      "nativeTouch": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "status": "PASS",
+      "gameCycles": 13,
+      "reducedFrameCallbacks": 0,
+      "syntheticHiddenFrameCallbacks": 0,
+      "resizes": 4,
+      "failedMedia": true,
+      "nativeTouch": false,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Visibility event is synthetic; Chromium touch dispatched through browser input stack; physical iPhone unverified"
+  ]
+}

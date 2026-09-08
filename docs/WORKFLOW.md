@@ -17,13 +17,18 @@ Run a local server:
 python3 -m http.server 8921 --bind 127.0.0.1
 ```
 
-On Windows the equivalent may be `py -m http.server 8921 --bind 127.0.0.1`. Open http://127.0.0.1:8921/ and use a fresh query string for repeated-load checks.
+On Windows use the full path to an installed Python executable, or `node tools/serve-demo.cjs` on port 59408. Open http://127.0.0.1:8921/ and use a fresh query string for repeated-load checks.
+
+## Rebuild the current homepage
+
+Edit `tools/guided/` and run `node tools/build-guided.cjs`. The generated `index.html` is committed and serves directly without an install. The old `tools/build-experience.cjs` can overwrite the root; use it only for deliberate historical-route work in an isolated checkout.
 
 ## Validation
 
 With Node.js installed:
 
 ```sh
+node tests/guided-source.cjs
 node tests/reveal.cjs
 node tests/post-surface-scroll.cjs
 node tests/press-feedback.cjs
@@ -37,7 +42,7 @@ node tests/flappy-reachability.cjs
 git diff --check
 ```
 
-The tests extract the actual relevant handlers from `index.html`, use a mocked browser environment, and never contact FormSubmit. The scroll comparison reads the pre-retune `f5b625e` source from Git history; use a full clone (or fetch full history) if the test cannot find it. They do not prove rendered smoothness or physical touch behavior.
+The tests extract the actual relevant handlers from `index.html`, use a mocked browser environment, and never contact FormSubmit. The guided root runs `tests/guided-scroll.cjs` through the scroll entry point. The historical scroll comparison reads the pre-retune `f5b625e` source from Git history; use a full clone (or fetch full history) if the test cannot find it. They do not prove rendered smoothness or physical touch behavior.
 
 Use `TESTING.md` for visual/interaction changes and its four-pass journeys. Record exactly which desktop, phone emulation, physical devices and motion settings were used. If a required environment is unavailable, state the gap; do not call it tested. Check the changed path plus related entry/exit/focus paths. Mock email success/failure/timeout instead of submitting real addresses during routine QA.
 

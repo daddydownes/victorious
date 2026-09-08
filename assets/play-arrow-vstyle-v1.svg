@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1280" viewBox="0 0 1280 1280" role="img" aria-labelledby="title desc">
+  <title id="title">Play arrow</title>
+  <desc id="desc">A clean pale-gold painted arrow with rounded drips.</desc>
+  <g fill="#f0d492">
+    <path d="M278 180h278c258 0 467 209 467 467v138H881V647c0-180-145-325-325-325H278c-40 0-72-32-72-71s32-71 72-71Z"/>
+    <path d="M718 760h121V651h168v109h121c24 0 38 29 20 47L948 1047c-16 17-42 17-58 0L690 807c-18-18-5-47 28-47Z"/>
+    <path d="M338 316 H377 V382 C377 390 373 398 368 404 C372 410 374 417 374 424 C374 438 366 448 356 448 C346 448 338 438 338 424 C338 417 340 410 344 404 C340 398 338 390 338 382 Z M635 336 H671 V373 C671 381 668 388 664 394 C668 399 670 405 670 412 C670 424 663 433 653 433 C643 433 636 424 636 412 C636 405 638 399 642 394 C638 388 635 381 635 373 Z"/>
+    <circle cx="175" cy="236" r="10"/><circle cx="1080" cy="700" r="8"/>
+  </g>
+</svg>

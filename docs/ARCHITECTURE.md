@@ -1,5 +1,14 @@
 # How the site works
 
+## Current root: guided world (September 9)
+
+The live root is self-contained `index.html`. Its original opening, email, vault and game core remain in that file. `tools/guided/journey.js`, `journey.css`, `chapters.html` and `game-preview.html` own the approved post-Surface flow. Run `node tools/build-guided.cjs` after editing those sources; it embeds the preview and chapters into the root and validates inline syntax, signup and domain guards.
+
+Surface emits `vctrs:surface` into the same document. Chapter visibility uses visible pixels relative to the smaller of viewport/section height, so oversized landscape sections activate. Scroll work uses the existing requestAnimationFrame render; game clocks stop on reduced motion, hidden state and exit. Media posters remain available while video cannot play. Refresh intentionally reloads the opening without clearing saved game progress.
+
+The sections below describe preserved historical /experience/ implementations. **Do not run tools/build-experience.cjs to rebuild the current root:** that legacy generator can overwrite it. Historical routes and their assets are retained, but are not the current homepage journey.
+
+
 ## Refresh and browser-history restoration
 
 Early builder-owned root/story scripts classify top-level navigation. Explicit reload restarts the root opening; ordinary navigation and Back/Forward keep their route semantics. Child iframe reloads are excluded, and no saved game storage is cleared.
