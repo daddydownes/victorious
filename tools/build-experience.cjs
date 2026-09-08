@@ -701,6 +701,8 @@ story = replace(story, '</style></head>', `</style><style>
 .story-return-link svg{display:block;width:100%;height:100%;color:inherit;filter:none}
 .story-vault{position:relative;width:100%;height:100vh;height:100dvh;background:#000;overflow:hidden}
 .story-vault iframe{display:block;width:100%;height:100%;border:0;background:#000;pointer-events:none}
+.story-vault::after{content:'';position:absolute;inset:0;z-index:2;background:transparent;pointer-events:auto;touch-action:pan-y}
+.story-vault.is-active::after{pointer-events:none}
 .story-vault.is-active iframe{pointer-events:auto}
 @media(max-width:700px){.story-return{height:120svh!important;min-height:620px}.story-return-link{width:min(52vw,270px,44svh)}}
 </style></head>`);
