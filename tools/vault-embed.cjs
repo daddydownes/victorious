@@ -82,7 +82,7 @@ html[data-vctrs-vault-embed-paused] *::after{animation-play-state:paused!importa
 
   syncInert(true);
   window.__vctrsVaultEmbedSurface=function(){
-    if(surfaceSent||resetting)return true;
+    if(!active||surfaceSent||resetting)return true;
     surfaceSent=true; setActive(false); post('vctrs-vault-surface'); return true;
   };
   addEventListener('message',function(event){
