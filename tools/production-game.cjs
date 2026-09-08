@@ -53,7 +53,7 @@ function tunePreviewMarkup(html) {
   return html.replaceAll('A new challenge every 25.', 'A new style every 10.');
 }
 const rawCore = between(snapshot, '  var COUPON_THRESHOLD=100;', '\n  measure(); updateScroll();');
-function tuneGamePaint(js) {
+function tuneGamePaint(js, previewAll) {
   const start = '/* FLAPPY METAL BEGIN */';
   const end = '/* FLAPPY METAL END */';
   const a = js.indexOf(start), b = js.indexOf(end, a + start.length);
@@ -62,9 +62,10 @@ function tuneGamePaint(js) {
   js = js.slice(0, a + start.length) + '\n' + graffitiSource + '\n' + cleanPaint + '\n    ' + js.slice(b);
   // g.phase is sampled once when the gate spawns. Pair it with the serial for
   // stable per-gate art without reading a clock or advancing course randomness.
+  const decorate = previewAll ? 'true' : 'g.serial%5===4';
   js = replace(js,
     "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,(FG.bgT||0)*.08+g.serial*.13);",
-    "window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),g.serial%5===4);");
+    `window.flapDrawMetal(fctx,shapes[side],s,(g.kind||'PILLAR').toLowerCase(),side,g.serial*16+(g.phase||0),${decorate});`);
   return replace(js, `        for(var row=0;row<5;row++){
           var yy=h*(.78+.22*Math.pow(row/4,1.7));
           g.beginPath();g.moveTo(0,yy);g.lineTo(w,yy);g.stroke();
@@ -84,7 +85,7 @@ function removeTrail(js) {
 }
 const core = removeTrail(tuneGameStages(tuneGamePaint(rawCore)));
 const gameplay = core.slice(0, core.indexOf('    /* ---- overlay open/close:'));
-const previewCore = removeTrail(tunePreviewStages(tuneGamePaint(rawCore)));
+const previewCore = removeTrail(tunePreviewStages(tuneGamePaint(rawCore, true)));
 const previewGameplay = previewCore.slice(0, previewCore.indexOf('    /* ---- overlay open/close:'));
 const css = between(snapshot, '  /* ---- FLAPPY-V:', '  /* ---- closed + email ---- */');
 const markup = between(snapshot, '<div class="flap-overlay"', '<div class="guide-cue');
