@@ -2,7 +2,7 @@
 
 ## September 8 rapid-scroll Vault entrance correction
 
-A single large wheel step could skip the entrance and activate the Vault while a scroll burst was still arriving. The controller now caps crossing wheel input at24% and commits the existing animation immediately; a direct native full-view jump with recent forward intent also waits for readiness and input quiet. The matched Chrome/WebKit burst now has zero active frames until scrolling finishes. Fourteen desktop stress scenarios, ten rapid phone-emulation loops, six cold-load/End cases and eleven refresh/history cases pass. Navigation16/16, integration15/15, game source and media37/37 pass. See [evidence](reviews/rapid-vault-loop-2026-09-08/README.md). No HD media or game changes. Publication verification follows.
+A single large wheel step could skip the entrance and activate the Vault while a scroll burst was still arriving. The controller now caps crossing wheel input at24% and commits the existing animation immediately; a direct native full-view jump with recent forward intent also waits for readiness and input quiet. The matched Chrome/WebKit burst now has zero active frames until scrolling finishes. Fourteen desktop stress scenarios, ten rapid phone-emulation loops, six cold-load/End cases and eleven refresh/history cases pass. Navigation16/16, integration15/15, game source and media37/37 pass. See [evidence](reviews/rapid-vault-loop-2026-09-08/README.md). No HD media or game changes. Release `f55a2da` is live and built by GitHub Pages. Seven canonical resources match local bytes; fingerprinted live Chromium/WebKit bursts pass with zero early activation. All ten root suites also pass.
 
 ## September 8 approved video loading circle
 

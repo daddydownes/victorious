@@ -11,3 +11,5 @@ All [eleven refresh/history cases](history.json) pass, including actual Chromium
 Five Sol-low delegates were assigned independent QA/audits/tests; root drove browsers and completed the phone harness. Harness corrections: do not wait for the intentionally lazy child at the untouched story top; sample completed activation after the corresponding rAF; explicitly place the pointer in page content before wheel input. Those were test setup/timing fixes, not product changes.
 
 Images: [before Vault](before-vault.png), [after Vault](after-vault.png), [phone return](phone-return.png), [landscape return](landscape-return.png). The visual composition is unchanged; timing traces demonstrate the correction.
+
+Release `f55a2daa6f7b5f5271438d6e168609031129578a` is published and built by GitHub Pages. [Seven canonical resources](live-resources.json) match local bytes. [The original burst repeated live](live-burst.json) passes in Chromium and WebKit with the final response fingerprint and zero active frames during input; activation follows the last input by140ms and139ms respectively. All ten root repository suites also pass.

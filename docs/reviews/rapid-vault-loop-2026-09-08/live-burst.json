@@ -1,0 +1,3071 @@
+[
+  {
+    "engine": "chromium",
+    "sourceSha256": "e655688960902f70357612f1fa3bc080a8f6c19fabd7498b2329a7b4f564a0bb",
+    "lastInput": 1506.5,
+    "firstActive": {
+      "t": 1646.8999999985099,
+      "y": 4140,
+      "top": 0,
+      "loaded": true,
+      "active": true,
+      "settling": false,
+      "landing": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "activeDuringBurst": 0,
+    "panTravel": 0,
+    "trace": [
+      {
+        "t": 0,
+        "y": 0,
+        "top": 4140,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 13.299999997019768,
+        "y": 0,
+        "top": 4140,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 30.799999997019768,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 46.70000000298023,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 63.29999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 80,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 97,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 112.20000000298023,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 128.5,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 147,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 163.5,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 180.39999999850988,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 196.70000000298023,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 213.29999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 234.20000000298023,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 245.70000000298023,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 262.79999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 280.79999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 318.6000000014901,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 319.3999999985099,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 329.79999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 346.79999999701977,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 363.5,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 380.20000000298023,
+        "y": 3595,
+        "top": 545,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 397,
+        "y": 3596,
+        "top": 544,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 413.5,
+        "y": 3599,
+        "top": 541,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 430.29999999701977,
+        "y": 3602,
+        "top": 538,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 447,
+        "y": 3607,
+        "top": 533,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 463.5,
+        "y": 3611,
+        "top": 529,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 480.20000000298023,
+        "y": 3617,
+        "top": 523,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 496.79999999701977,
+        "y": 3623,
+        "top": 517,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 513.3999999985099,
+        "y": 3631,
+        "top": 509,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 530.2000000029802,
+        "y": 3639,
+        "top": 501,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 547.2000000029802,
+        "y": 3647,
+        "top": 493,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 563.7999999970198,
+        "y": 3657,
+        "top": 483,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 578.3999999985099,
+        "y": 3667,
+        "top": 473,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 597,
+        "y": 3676,
+        "top": 464,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 613.3999999985099,
+        "y": 3689,
+        "top": 451,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 630.3999999985099,
+        "y": 3701,
+        "top": 439,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 646.8999999985099,
+        "y": 3715,
+        "top": 425,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 663.5,
+        "y": 3729,
+        "top": 411,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 680.2000000029802,
+        "y": 3743,
+        "top": 397,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 695,
+        "y": 3759,
+        "top": 381,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 711.6000000014901,
+        "y": 3773,
+        "top": 367,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 730.2000000029802,
+        "y": 3790,
+        "top": 350,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 746.8999999985099,
+        "y": 3809,
+        "top": 331,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 762.2000000029802,
+        "y": 3828,
+        "top": 312,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 780.2000000029802,
+        "y": 3845,
+        "top": 295,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 796.8999999985099,
+        "y": 3867,
+        "top": 273,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 813.6000000014901,
+        "y": 3887,
+        "top": 253,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 830.2999999970198,
+        "y": 3906,
+        "top": 234,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 847,
+        "y": 3924,
+        "top": 216,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 863.6000000014901,
+        "y": 3942,
+        "top": 198,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 878.8999999985099,
+        "y": 3959,
+        "top": 181,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 895.3999999985099,
+        "y": 3974,
+        "top": 166,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 913.7000000029802,
+        "y": 3989,
+        "top": 151,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 930.7000000029802,
+        "y": 4005,
+        "top": 135,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 946.8999999985099,
+        "y": 4019,
+        "top": 121,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 963.6000000014901,
+        "y": 4032,
+        "top": 108,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 980.2000000029802,
+        "y": 4044,
+        "top": 96,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 996.7999999970198,
+        "y": 4056,
+        "top": 84,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1013.6000000014901,
+        "y": 4067,
+        "top": 73,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1030.2999999970198,
+        "y": 4077,
+        "top": 63,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1045.1000000014901,
+        "y": 4086,
+        "top": 54,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1063.7000000029802,
+        "y": 4094,
+        "top": 46,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1080.2000000029802,
+        "y": 4103,
+        "top": 37,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1097,
+        "y": 4110,
+        "top": 30,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1113.6000000014901,
+        "y": 4116,
+        "top": 24,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1130.2999999970198,
+        "y": 4122,
+        "top": 18,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1147,
+        "y": 4127,
+        "top": 13,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1163.7000000029802,
+        "y": 4131,
+        "top": 9,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1180.3999999985099,
+        "y": 4134,
+        "top": 6,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1197,
+        "y": 4137,
+        "top": 3,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1213.7000000029802,
+        "y": 4139,
+        "top": 1,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1230.3999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1247,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1264.1000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1280.7999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1297.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1313.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1328.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1347.3999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1362,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1379.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1397.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1413.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1431,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1447.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1463.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1480.7999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1497.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1514,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1530.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1547.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1564,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1580.7000000029802,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1597.3999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1614.1000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1630.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1646.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1664.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1680.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1697.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1713.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1730.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1747.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1763,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1780.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1797.2000000029802,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1814,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1830.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1847.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1863.8999999985099,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1880.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1897.2000000029802,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1914,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1930.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1947.2999999970198,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1964,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1980.6000000014901,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1997.2000000029802,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "sourceSha256": "e655688960902f70357612f1fa3bc080a8f6c19fabd7498b2329a7b4f564a0bb",
+    "lastInput": 1037,
+    "firstActive": {
+      "t": 1176,
+      "y": 4140,
+      "top": 0,
+      "loaded": true,
+      "active": true,
+      "settling": false,
+      "landing": false,
+      "pan": {
+        "x": -1250.5,
+        "y": -1418.5,
+        "left": 0,
+        "top": 0
+      }
+    },
+    "activeDuringBurst": 0,
+    "panTravel": 0,
+    "trace": [
+      {
+        "t": 0,
+        "y": 0,
+        "top": 4140,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 8,
+        "y": 0,
+        "top": 4140,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 23,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 50,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 58,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 75,
+        "y": 3593,
+        "top": 547,
+        "loaded": false,
+        "active": false,
+        "settling": false,
+        "landing": false
+      },
+      {
+        "t": 93,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 118,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 123,
+        "y": 3593,
+        "top": 547,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 140,
+        "y": 3594,
+        "top": 546,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 157,
+        "y": 3595,
+        "top": 545,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 175,
+        "y": 3598,
+        "top": 542,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 190,
+        "y": 3601,
+        "top": 539,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 207,
+        "y": 3605,
+        "top": 535,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 223,
+        "y": 3610,
+        "top": 530,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 242,
+        "y": 3615,
+        "top": 525,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 258,
+        "y": 3622,
+        "top": 518,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 273,
+        "y": 3629,
+        "top": 511,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 291,
+        "y": 3636,
+        "top": 504,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 308,
+        "y": 3645,
+        "top": 495,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 325,
+        "y": 3655,
+        "top": 485,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 340,
+        "y": 3665,
+        "top": 475,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 359,
+        "y": 3675,
+        "top": 465,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 373,
+        "y": 3687,
+        "top": 453,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 390,
+        "y": 3698,
+        "top": 442,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 410,
+        "y": 3712,
+        "top": 428,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 426,
+        "y": 3727,
+        "top": 413,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 478,
+        "y": 3741,
+        "top": 399,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 492,
+        "y": 3793,
+        "top": 347,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 509,
+        "y": 3808,
+        "top": 332,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 525,
+        "y": 3826,
+        "top": 314,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 542,
+        "y": 3845,
+        "top": 295,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 558,
+        "y": 3865,
+        "top": 275,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 576,
+        "y": 3884,
+        "top": 256,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 593,
+        "y": 3905,
+        "top": 235,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 607,
+        "y": 3923,
+        "top": 217,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 624,
+        "y": 3938,
+        "top": 202,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 642,
+        "y": 3956,
+        "top": 184,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 659,
+        "y": 3973,
+        "top": 167,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 676,
+        "y": 3989,
+        "top": 151,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 692,
+        "y": 4004,
+        "top": 136,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 708,
+        "y": 4017,
+        "top": 123,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 725,
+        "y": 4030,
+        "top": 110,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 742,
+        "y": 4042,
+        "top": 98,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 757,
+        "y": 4054,
+        "top": 86,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 773,
+        "y": 4064,
+        "top": 76,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 792,
+        "y": 4074,
+        "top": 66,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 809,
+        "y": 4085,
+        "top": 55,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 827,
+        "y": 4094,
+        "top": 46,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 840,
+        "y": 4102,
+        "top": 38,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 857,
+        "y": 4108,
+        "top": 32,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 874,
+        "y": 4115,
+        "top": 25,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 892,
+        "y": 4120,
+        "top": 20,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 909,
+        "y": 4125,
+        "top": 15,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 925,
+        "y": 4130,
+        "top": 10,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 940,
+        "y": 4133,
+        "top": 7,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 957,
+        "y": 4136,
+        "top": 4,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 975,
+        "y": 4138,
+        "top": 2,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 993,
+        "y": 4139,
+        "top": 1,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1009,
+        "y": 4139,
+        "top": 1,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1023,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1042,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1057,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1073,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1092,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1108,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1124,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1142,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": true,
+        "landing": true,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1159,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": false,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1176,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1229,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1240,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1257,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1276,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1292,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1309,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1326,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1342,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1360,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1374,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1393,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1409,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1426,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1443,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1460,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1476,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1494,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1511,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1524,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      },
+      {
+        "t": 1542,
+        "y": 4140,
+        "top": 0,
+        "loaded": true,
+        "active": true,
+        "settling": false,
+        "landing": false,
+        "pan": {
+          "x": -1250.5,
+          "y": -1418.5,
+          "left": 0,
+          "top": 0
+        }
+      }
+    ]
+  }
+]

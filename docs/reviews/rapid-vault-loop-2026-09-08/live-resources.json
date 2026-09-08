@@ -1,0 +1,44 @@
+[
+  {
+    "route": "/",
+    "matches": true,
+    "sha256": "329c2cbfc38e00b6726f19a7dbb1b1c271c6fa5100e2d04d9f1a9686c1c97e17",
+    "bytes": 443267
+  },
+  {
+    "route": "/experience/",
+    "matches": true,
+    "sha256": "e655688960902f70357612f1fa3bc080a8f6c19fabd7498b2329a7b4f564a0bb",
+    "bytes": 293732
+  },
+  {
+    "route": "/experience/game-preview.html",
+    "matches": true,
+    "sha256": "95a95e0579823b1d4ec9a27b1289c47fc03f21bcb7d46e9d110eae58b7637417",
+    "bytes": 185452
+  },
+  {
+    "route": "/vault-embed.html",
+    "matches": true,
+    "sha256": "49ec8cd001ce27ef047fecb599b0f9720a5cbbe8a027909ec21f1213b45b51d4",
+    "bytes": 448598
+  },
+  {
+    "route": "/experience/state.json",
+    "matches": true,
+    "sha256": "2b059d394c20433f5fc7718fc161c6d44e354f40851778f695a59014e73c4819",
+    "bytes": 61
+  },
+  {
+    "route": "/experience/assets/play-the-game-vstyle-v1.svg",
+    "matches": true,
+    "sha256": "6f2f4ffc370dbd4d0a02b49277c268d2735925163e16c9a5ce07280c1181d9af",
+    "bytes": 12365
+  },
+  {
+    "route": "/experience/assets/play-arrow-vstyle-v1.svg",
+    "matches": true,
+    "sha256": "ce3cb0e3ef2b9933b28c3a5fc216dd1a4da92f82a373d2de18be78957ded85eb",
+    "bytes": 950
+  }
+]
