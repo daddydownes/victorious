@@ -10,6 +10,21 @@ function replace(source, from, to) {
 }
 
 let vault = read('vault-source.html');
+// A deliberate top-level browser reload always restarts the public journey at
+// the root opening. Embedded utility documents and Back/Forward restoration
+// are separate lifecycles and must not be rewritten by this guard.
+const rootReloadGuard = `<script>(function(){
+  if(window!==top)return;
+  var entry=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+  var reloading=entry?entry.type==='reload':!!(performance.navigation&&performance.navigation.type===1);
+  if(!reloading)return;
+  var clean=new URL('./',location.href);clean.search='';clean.hash='';
+  if(clean.pathname!==location.pathname){location.replace(clean.href);return;}
+  if('scrollRestoration' in history)history.scrollRestoration='manual';
+  history.replaceState(history.state,'',clean.pathname);scrollTo(0,0);
+  window.__vctrsReloadOpening=true;
+})();</script>`;
+vault = replace(vault, '<meta charset="utf-8">', '<meta charset="utf-8">'+rootReloadGuard);
 vault = replace(vault, '<meta property="og:type"', '<link rel="canonical" href="https://vctrsclo.com/">\n<meta property="og:type"');
 const exactLogo = read('experience-source.html').match(/class="brand-logo[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
 const exactV = vault.match(/class="film-logo"[\s\S]*?(<svg[\s\S]*?<\/svg>)/)[1];
@@ -197,12 +212,20 @@ let surface = vault.slice(surfaceStart, surfaceEnd);
 surface = replace(surface, "    showCue('Scroll <span class=\"g-chev\">▼</span>');", "    try{history.replaceState(history.state,'',location.pathname+location.search+'#vault');}catch(_history){}\n    location.assign(new URL('experience/', location.href).href);");
 vault = vault.slice(0, surfaceStart) + surface + vault.slice(surfaceEnd);
 vault = replace(vault, '  measure(); updateScroll();\n})();', `  measure(); updateScroll();
-  if(directVault){
+  function restoreReturnedVault(){
     // Reuse the original entry's complete landing/focus/pan lifecycle.
+    motionSurfaceStep=null;entryGen++;vaultArming=false;vaultClosing=false;surfacing=false;flyRan=false;
+    if(entryMotion){cancelMotionTask(entryMotion);entryMotion=null;}tapEntryFinish=null;
+    document.body.classList.remove('surfaced','next-vault-opening');
+    vault.classList.remove('surface-rising');vault.style.removeProperty('--surface-atmosphere');vault.style.willChange='';
+    dive.style.transform='';dive.style.opacity='';dive.style.willChange='auto';dive.style.removeProperty('--vault-brightness');
+    dust.style.opacity='';dust.style.willChange='';
+    var returnedHud=vault.querySelector('.vault-hud');returnedHud.style.opacity='';returnedHud.style.transform='';returnedHud.style.willChange='';
+    filmLogo.style.opacity='1';filmLogo.style.transform='';filmLogo.style.willChange='';
+    setHot(null);flybloom.style.opacity='0';guidePhase='film';
     phase='done'; playWanted=false; resumeFilm=false; film.pause();
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
-    // Retain #vault so reload and browser Forward reconstruct the same destination.
     var enterReturnedVault=function(){
       if(document.hidden)return;
       document.removeEventListener('visibilitychange',enterReturnedVault);
@@ -211,11 +234,23 @@ vault = replace(vault, '  measure(); updateScroll();\n})();', `  measure(); upda
     document.addEventListener('visibilitychange',enterReturnedVault);
     enterReturnedVault();
   }
-  // A cached document may contain the completed Surface frame; rebuild the vault on return.
-  addEventListener('pageshow',function(e){if(e.persisted&&location.hash==='#vault')location.reload();});
+  if(directVault)restoreReturnedVault();
+  // Rebuild the returned Vault in place. A network reload would be mistaken
+  // for the visitor's explicit refresh and would correctly restart the site.
+  addEventListener('pageshow',function(e){
+    if(e.persisted&&(location.hash==='#vault'||vaultClosing||guidePhase==='closing'||guidePhase==='surfaced'))restoreReturnedVault();
+  });
 })();`);
 
 let story = read('experience-source.html');
+const storyReloadGuard = `<script>(function(){
+  if(window!==top)return;
+  var entry=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+  var reloading=entry?entry.type==='reload':!!(performance.navigation&&performance.navigation.type===1);
+  if(!reloading)return;
+  var root=new URL('../',location.href);root.search='';root.hash='';location.replace(root.href);
+})();</script>`;
+story = replace(story, '<head>', '<head>'+storyReloadGuard);
 story = replace(story, exactLogo, exactV);
 story = replace(story, 'The original VCTRS brand logo in gold', 'The original V and star brand mark in gold');
 story = story.replaceAll('../assets/', 'assets/');
@@ -696,18 +731,35 @@ function restartStory(){
   try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}
   requestAnimationFrame(()=>{try{scrollTo({top:0,left:0,behavior:'instant'})}catch(_error){scrollTo(0,0)}if(startCue)startCue.focus({preventScroll:true});post('vctrs-vault-reset',{nextCycle:pendingCycle},previousCycle)});
 }
+function acceptPendingCycle(){
+  cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active:false});request();
+}
+function resendPendingReset(){
+  loaded=false;post('vctrs-vault-reset',{nextCycle:pendingCycle},cycle);
+}
 frame.addEventListener('load',request);
 addEventListener('message',event=>{
   if(event.origin!==location.origin||event.source!==frame.contentWindow||!event.data)return;
-  if(event.data.type==='vctrs-vault-ready'&&resetting&&String(event.data.cycle)===String(pendingCycle)){
-    cycle=pendingCycle;pendingCycle=null;loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request();return;
+  const childCycle=String(event.data.cycle);
+  if(event.data.type==='vctrs-vault-sync'){
+    setActive(false);
+    if(resetting&&childCycle===String(pendingCycle))acceptPendingCycle();
+    else if(resetting&&childCycle===String(cycle))resendPendingReset();
+    else if(!resetting&&childCycle===String(cycle)){loaded=true;post('vctrs-vault-visibility',{active:false});request()}
+    else loaded=false;
+    return;
   }
-  if(String(event.data.cycle)!==String(cycle))return;
-  if(event.data.type==='vctrs-vault-ready'){loaded=true;resetting=false;post('vctrs-vault-visibility',{active});request()}
+  if(event.data.type==='vctrs-vault-ready'&&resetting){
+    if(childCycle===String(pendingCycle))acceptPendingCycle();
+    else if(childCycle===String(cycle))resendPendingReset();
+    return;
+  }
+  if(childCycle!==String(cycle))return;
+  if(event.data.type==='vctrs-vault-ready'){loaded=true;post('vctrs-vault-visibility',{active});request()}
   else if(event.data.type==='vctrs-vault-surface'&&active&&!resetting)restartStory();
 });
 addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
-document.addEventListener('visibilitychange',request);addEventListener('pageshow',()=>{setActive(false);request()});
+document.addEventListener('visibilitychange',request);addEventListener('pageshow',event=>{setActive(false);if(event.persisted&&requested){loaded=false;post('vctrs-vault-sync')}request()});
 new MutationObserver(request).observe(overlay,{attributes:true,attributeFilter:['class']});new MutationObserver(request).observe(document.body,{attributes:true,attributeFilter:['class']});
 window.__storyVault={get active(){return active},get loaded(){return loaded},get requested(){return requested},get resetting(){return resetting},get cycle(){return cycle},get pendingCycle(){return pendingCycle},measure};
 if('IntersectionObserver' in window){const preloadObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){ensureLoaded();preloadObserver.disconnect()}},{rootMargin:'150% 0px'});preloadObserver.observe(document.getElementById('story-return'))}else ensureLoaded();
