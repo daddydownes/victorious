@@ -1,5 +1,12 @@
 # Current status
 
+## September 9 — return to vault from the ending
+
+The ending now has matching Back to the vault and Refresh website controls. Back to the vault restores the archive directly within the same document; Refresh restarts the full journey. No extra email form. Repeated Surface trips reset the guided film/arrival gate correctly, preserving the current media and game.
+
+Sixteen repeated return loops across desktop, phone,320px narrow and reduced motion, four full refresh checks and relevant core suites pass. See [evidence](reviews/vault-return-2026-09-09/README.md). Physical Safari remains untested. Based ona97b3b6.
+
+
 ## September 9 — quicker vault entry and usable fade
 
 The travelling identity now takes1250ms, holds420ms after landing and exits in220ms. Interaction unlocks at fade start once image readiness passes, so visitors can pan while the identity disappears. The completed-title promise still tracks the full cosmetic exit; native pan, media and other chapters are unchanged.

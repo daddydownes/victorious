@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 9 — two clear ending destinations
+
+The user approved matching Back to the vault and Refresh website choices under the game, and declined another email option. Vault return reuses the current archive lifecycle in the same document without replaying the opening. Refresh intentionally reloads the entire site. Clear guided media/arrival state before returning so subsequent Surface visits repeat the approved reveal and readiness gate.
+
+
 ## September 9 — unlock vault as its identity fades
 
 The user wants the entrance smooth but its hold and exit faster, with the archive usable as the identity disappears. Keep the original flight path, shorten its duration to1250ms, hold420ms and fade220ms. Separate readiness to interact from completion of cosmetic animation; keep the image readiness guard and native mobile panning. Do not blame platform or browser systems without a reproduction.

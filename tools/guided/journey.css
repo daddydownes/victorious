@@ -150,9 +150,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world .portrait-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0007,transparent 28%),linear-gradient(0deg,#0009,transparent 35%)}
 @media(max-width:700px){#world .portrait-photo{left:20%;top:5%;width:78%;height:65%}}
 
-/* One full-width restart action fills the space beneath the preview. */
-#world .world-return{align-self:stretch;align-items:stretch;justify-content:center}
-#world .world-refresh{width:100%;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;border:0;background:#000;color:#f0d492;font-size:14px;letter-spacing:.12em;box-shadow:none;text-shadow:none;filter:none}
+/* Two matching return choices fill the ending without boxed controls. */
+#world .world-return{align-self:stretch;align-items:stretch;justify-content:center;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#world .world-refresh{width:100%;min-width:0;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 10px;border:0;background:#000;color:#f0d492;font-size:13px;letter-spacing:.12em;box-shadow:none;text-shadow:none;filter:none}
 #world .world-refresh:hover{background:#000;color:#fff1cc}
 #world .world-refresh:disabled{cursor:wait}
 #world .refresh-mark{display:block;width:42px;height:42px}

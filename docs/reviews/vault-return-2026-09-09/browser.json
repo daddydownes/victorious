@@ -1,0 +1,589 @@
+{
+  "at": "2026-09-09T07:28:02.047Z",
+  "results": [
+    {
+      "name": "reduced",
+      "run": 1,
+      "reduce": true,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "run": 2,
+      "reduce": true,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "run": 3,
+      "reduce": true,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "run": 4,
+      "reduce": true,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "run": 1,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 19.1875,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 154,
+            "bottom": 568.4375,
+            "left": 19.1875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 166,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 300.8125,
+            "bottom": 568.4375,
+            "left": 166
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "run": 1,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 100.796875,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 706.5,
+            "bottom": 859.734375,
+            "left": 100.796875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 718.5,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 1324.203125,
+            "bottom": 859.734375,
+            "left": 718.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "case": "whole website refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "phone",
+      "run": 1,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "run": 2,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 19.1875,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 154,
+            "bottom": 568.4375,
+            "left": 19.1875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 166,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 300.8125,
+            "bottom": 568.4375,
+            "left": 166
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "run": 2,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 100.796875,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 706.5,
+            "bottom": 859.734375,
+            "left": 100.796875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 718.5,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 1324.203125,
+            "bottom": 859.734375,
+            "left": 718.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "run": 2,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "run": 3,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 19.1875,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 154,
+            "bottom": 568.4375,
+            "left": 19.1875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 166,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 300.8125,
+            "bottom": 568.4375,
+            "left": 166
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "run": 3,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 100.796875,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 706.5,
+            "bottom": 859.734375,
+            "left": 100.796875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 718.5,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 1324.203125,
+            "bottom": 859.734375,
+            "left": 718.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "run": 3,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "run": 4,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 19.1875,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 154,
+            "bottom": 568.4375,
+            "left": 19.1875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 166,
+            "y": 430.4375,
+            "width": 134.8125,
+            "height": 138,
+            "top": 430.4375,
+            "right": 300.8125,
+            "bottom": 568.4375,
+            "left": 166
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "run": 4,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 100.796875,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 706.5,
+            "bottom": 859.734375,
+            "left": 100.796875
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 718.5,
+            "y": 739.734375,
+            "width": 605.703125,
+            "height": 120,
+            "top": 739.734375,
+            "right": 1324.203125,
+            "bottom": 859.734375,
+            "left": 718.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "run": 4,
+      "reduce": false,
+      "status": "PASS",
+      "reloadOnVaultReturn": false,
+      "rects": [
+        {
+          "text": "Back to the vault",
+          "rect": {
+            "x": 23.390625,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 189,
+            "bottom": 819.96875,
+            "left": 23.390625
+          }
+        },
+        {
+          "text": "Refresh website",
+          "rect": {
+            "x": 201,
+            "y": 587.265625,
+            "width": 165.609375,
+            "height": 232.703125,
+            "top": 587.265625,
+            "right": 366.609375,
+            "bottom": 819.96875,
+            "left": 201
+          }
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "case": "whole website refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop",
+      "case": "whole website refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "phone",
+      "case": "whole website refresh",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Windows engines/emulated phones; no physical Safari",
+    "Signup transport intercepted"
+  ]
+}

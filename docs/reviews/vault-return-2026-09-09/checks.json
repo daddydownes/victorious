@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T07:28:08.604Z",
+  "results": [
+    {
+      "command": "node tests/guided-source.cjs",
+      "result": "guided source PASS: original opening, signup, physics, 17 vault entries, metadata, hosting files, embedded source and 4 asset references."
+    },
+    {
+      "command": "node tests/reveal.cjs",
+      "result": "PASS: normal/reduced motion x4, unrelated animation events ignored, listener cleaned up, embedded JS syntax valid"
+    },
+    {
+      "command": "node tests/surface-input.cjs",
+      "result": "PASS x50: Surface tap, cancel, drag, outside release, Space native activation, closing lock, Tab cycle and Escape"
+    },
+    {
+      "command": "node tests/flappy-lifecycle.cjs",
+      "result": "{\n  \"pass\": true,\n  \"cases\": 106,\n  \"checks\": [\n    \"pause/foreground/resume at all tiers\",\n    \"eight resize gate states across four sizes\",\n    \"40 scheduler/focus cycles\",\n    \"reduced-motion open without scheduler\",\n    \"bounded frame and gate storage\",\n    \"primary and repeated input\",\n    \"eight live narrow-gap input/resize/resume survival cases\",\n    \"four input-discovered resize pauses preserve impulse\"\n  ],\n  \"limits\": \"Extracted handlers and stubbed drawing; not browser performance or physical-device testing.\"\n}"
+    }
+  ]
+}

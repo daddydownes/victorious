@@ -98,6 +98,20 @@ function revealGame(){
 }
 
 function startGame(){if(state==='entry'||state==='game')return;if(!window.__flap){$('worldGameStatus').textContent='The game could not start. Reload this demo to try again.';return;}window.__flap.open()}
+function returnToVault(){
+ if(state==='entry'||state==='game')return;
+ state='entry';interrupt();gameVisible=false;navTarget=null;endTouchY=null;
+ filmUserPaused=false;filmFailed=false;filmRevealed=false;filmRetry.hidden=true;status('');
+ story.classList.remove('film-ready');portrait.classList.remove('media-ready');portrait.style.transform='';copy.style.transform='';
+ try{video.currentTime=0}catch{};
+ if(arrivalMark){arrivalMark.remove();arrivalMark=null}
+ world.classList.remove('film-waiting');world.hidden=true;world.inert=false;world.removeAttribute('aria-hidden');next.hidden=true;
+ document.body.classList.remove('world-active','world-game');
+ for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=false;el.removeAttribute('aria-hidden')}}
+ vaultGateSeen=false;vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');
+ syncPreview();window.dispatchEvent(new Event('vctrs:return-vault'));gateVault();
+}
+$('worldReturnVault').addEventListener('click',returnToVault);
 $('worldRefresh').addEventListener('click',()=>{if(state==='entry'||state==='game')return;$('worldRefresh').disabled=true;location.reload()});
 next.addEventListener('click',()=>{if(world.classList.contains('film-waiting'))return;navigate(game)});play.addEventListener('click',startGame);$('worldArrow').addEventListener('click',startGame);
 tryFlight.addEventListener('click',()=>{if(!tryFlight.disabled)startGame()});
