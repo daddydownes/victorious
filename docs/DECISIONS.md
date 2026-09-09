@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 9 — unlock vault as its identity fades
+
+The user wants the entrance smooth but its hold and exit faster, with the archive usable as the identity disappears. Keep the original flight path, shorten its duration to1250ms, hold420ms and fade220ms. Separate readiness to interact from completion of cosmetic animation; keep the image readiness guard and native mobile panning. Do not blame platform or browser systems without a reproduction.
+
+
 ## September 9 — preview activation and soft page ending
 
 Clicking or tapping the preview should enter the actual game rather than flap the teaser. Use its native button for keyboard access and preserve pan gestures. Do not depend on iframe readiness or motion preference to permit entry. The end of the page should yield slightly and settle: one16px,520ms content animation only at the final boundary, with no stacking or reduced-motion animation. Keep the snap section stationary to avoid browser scroll-position adjustment.

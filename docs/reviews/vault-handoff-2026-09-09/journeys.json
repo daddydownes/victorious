@@ -1,0 +1,209 @@
+{
+  "at": "2026-09-09T01:06:18.876Z",
+  "results": [
+    {
+      "name": "chromium",
+      "run": 1,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1920,
+          "height": 1080,
+          "time": 0.000599
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 1280,
+        "height": 720,
+        "duration": 24.833333
+      },
+      "landedMs": 1438,
+      "interactiveMs": 1794,
+      "fadeOpacity": 0.725911,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 1,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1501,
+          "height": 844,
+          "time": 0.02
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 976,
+        "height": 549,
+        "duration": 24.867
+      },
+      "landedMs": 1484,
+      "interactiveMs": 1870,
+      "fadeOpacity": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 2,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1920,
+          "height": 1080,
+          "time": 0.000561
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 1280,
+        "height": 720,
+        "duration": 24.833333
+      },
+      "landedMs": 1425,
+      "interactiveMs": 1794,
+      "fadeOpacity": 0.724275,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 2,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1501,
+          "height": 844,
+          "time": 0.0213333
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 976,
+        "height": 549,
+        "duration": 24.867
+      },
+      "landedMs": 1483,
+      "interactiveMs": 1909,
+      "fadeOpacity": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 3,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1920,
+          "height": 1080,
+          "time": 0.00066
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 1280,
+        "height": 720,
+        "duration": 24.833333
+      },
+      "landedMs": 1419,
+      "interactiveMs": 1798,
+      "fadeOpacity": 0.727549,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 3,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1501,
+          "height": 844,
+          "time": 0.0213333
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 976,
+        "height": 549,
+        "duration": 24.867
+      },
+      "landedMs": 1521,
+      "interactiveMs": 1937,
+      "fadeOpacity": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 4,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1920,
+          "height": 1080,
+          "time": 0.000895
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 1280,
+        "height": 720,
+        "duration": 24.833333
+      },
+      "landedMs": 1449,
+      "interactiveMs": 1805,
+      "fadeOpacity": 0.727549,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 4,
+      "opening": [
+        {
+          "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+          "width": 1501,
+          "height": 844,
+          "time": 0.0213333
+        }
+      ],
+      "surface": {
+        "src": "http://127.0.0.1:4173/assets/story-party-cut.mp4",
+        "width": 976,
+        "height": 549,
+        "duration": 24.867
+      },
+      "landedMs": 1485,
+      "interactiveMs": 1884,
+      "fadeOpacity": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines and emulated touch phones",
+    "No physical iPhone; no signup requests sent"
+  ]
+}

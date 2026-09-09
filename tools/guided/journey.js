@@ -11,8 +11,7 @@ const animations=new Set();
 const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false;
 function vaultInputLocked(){return vaultGatePending||document.body.classList.contains('next-vault-opening')}
 function gateVault(){if(vaultGateSeen||!document.body.classList.contains('next-vault-open'))return;vaultGateSeen=true;vaultGatePending=true;vault.inert=true;vault.classList.add('vault-settling');vault.setAttribute('aria-busy','true');
- const title=vault.querySelector('.vault-title'),arrival=title?.getAnimations?.({subtree:true})||[];
- Promise.allSettled([window.__vaultImagesReady,window.__vaultTitleReady,...arrival.filter(a=>Number.isFinite(a.effect?.getComputedTiming().endTime)).map(a=>a.finished)]).then(()=>Promise.allSettled([...vault.querySelectorAll('img')].map(img=>img.decode?img.decode():Promise.resolve()))).then(()=>{vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
+ Promise.allSettled([window.__vaultImagesReady,window.__vaultInteractiveReady||window.__vaultTitleReady]).then(()=>Promise.allSettled([...vault.querySelectorAll('img')].map(img=>img.decode?img.decode():Promise.resolve()))).then(()=>{vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
 }
 addEventListener('keydown',e=>{if(vaultInputLocked()&&['Tab','Enter',' ','ArrowDown','ArrowUp','ArrowLeft','ArrowRight','PageDown','PageUp','Home','End'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation()}},{capture:true});
 addEventListener('wheel',e=>{if(vaultInputLocked()&&!e.ctrlKey){e.preventDefault();e.stopImmediatePropagation()}},{capture:true,passive:false});

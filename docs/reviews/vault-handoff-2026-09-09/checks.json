@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T01:06:24.523Z",
+  "results": [
+    {
+      "command": "node tests/guided-source.cjs",
+      "result": "guided source PASS: original opening, signup, physics, 17 vault entries, metadata, hosting files, embedded source and 4 asset references."
+    },
+    {
+      "command": "node tests/reveal.cjs",
+      "result": "PASS: normal/reduced motion x4, unrelated animation events ignored, listener cleaned up, embedded JS syntax valid"
+    },
+    {
+      "command": "node tests/press-feedback.cjs",
+      "result": "PASS x4: press location, clamping, keyboard centering, tap entry, swipe/cancel/multiple-contact rejection"
+    },
+    {
+      "command": "node tests/surface-input.cjs",
+      "result": "PASS x50: Surface tap, cancel, drag, outside release, Space native activation, closing lock, Tab cycle and Escape"
+    }
+  ]
+}

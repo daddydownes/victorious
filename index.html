@@ -600,7 +600,7 @@
      the vault identity itself, with THE VAULT as its quiet descriptor below. */
   .vault-title{position:absolute;left:50%;top:50%;width:clamp(148px,18vw,176px);text-align:center;
     opacity:1;transform:translate(-50%,-50%);pointer-events:none}
-  .vault-title.gone{opacity:0!important;transition:opacity .5s ease;pointer-events:none}
+  .vault-title.gone{opacity:0!important;transition:opacity .22s cubic-bezier(.2,.7,.2,1);pointer-events:none}
   .vault-brand-slot{width:100%;aspect-ratio:766/285}
   .vault-brand-logo,.vault-brand-live{display:block;width:100%;height:100%;background:#f0d492;
     -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
@@ -2543,7 +2543,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       var tr=vaultBrandSlot.getBoundingClientRect(),
           dx=(tr.left+tr.width/2)-(sourceRect.left+sourceRect.width/2),
           dy=(tr.top+tr.height/2)-(sourceRect.top+sourceRect.height/2),
-          s=tr.width/sourceRect.width, arc=Math.min(13,innerWidth*.025), D=1650,
+          s=tr.width/sourceRect.width, arc=Math.min(13,innerWidth*.025), D=1250,
           finalFilter='drop-shadow(0 0 7px rgba(240,212,146,.22))',
           tx=function(n){return (dx*n).toFixed(2)+'px'}, ty=function(n,extra){return (dy*n+(extra||0)).toFixed(2)+'px'},
           tf=function(x,y,z,r){return 'translate('+x+','+y+') scale('+z.toFixed(4)+') rotate('+r+'deg)'};
@@ -2783,13 +2783,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     // only manages visibility.
   }
   var vaultRevealed=false, vaultTitle=document.querySelector('.vault-title'), vaultTitleGen=0;
-  /* the title says its hello, then gets out of the photos' way — 5s after the
-     reveal it fades for good (nothing re-enters the vault, so it never needs
-     to come back). Both entry paths (dive + quiet re-entry) go through here. */
+  /* The identity settles briefly, then clears the photos. Interaction may begin
+     during its cosmetic fade; image readiness still owns the input gate. */
   function revealVaultTitle(){
     vaultRevealed=true; var myTitleGen=++vaultTitleGen;
-    var finishTitleReady=null;
+    var finishTitleReady=null, finishInteractiveReady=null;
     window.__vaultTitleReady=reduced?Promise.resolve():new Promise(function(resolve){finishTitleReady=resolve;});
+    window.__vaultInteractiveReady=reduced?Promise.resolve():new Promise(function(resolve){finishInteractiveReady=resolve;});
     /* Legacy/reduced-motion entries have no travelling mark, so they receive a
        quiet fallback. The normal email-page path leaves the slot empty until
        the original VCTRS element physically arrives and is reparented here. */
@@ -2799,12 +2799,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       vaultBrandSlot.removeAttribute('aria-hidden');
     }
     vaultTitle.classList.remove('gone','revealed'); void vaultTitle.offsetWidth; vaultTitle.classList.add('revealed');
-    afterMotion(1800,function(){
-      if(myTitleGen!==vaultTitleGen){if(finishTitleReady)finishTitleReady();return;}
+    afterMotion(reduced?0:420,function(){
+      if(myTitleGen!==vaultTitleGen){if(finishTitleReady)finishTitleReady();if(finishInteractiveReady)finishInteractiveReady();return;}
       vaultTitle.classList.add('gone');void vaultTitle.offsetWidth;
+      if(finishInteractiveReady)finishInteractiveReady();
       if(finishTitleReady){
         if(vaultTitle.getAnimations)Promise.allSettled(vaultTitle.getAnimations({subtree:true}).filter(function(a){return Number.isFinite(a.effect.getComputedTiming().endTime);}).map(function(a){return a.finished;})).then(finishTitleReady);
-        else afterMotion(550,finishTitleReady);
+        else afterMotion(260,finishTitleReady);
       }
     });
   }
@@ -4967,8 +4968,7 @@ const animations=new Set();
 const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false;
 function vaultInputLocked(){return vaultGatePending||document.body.classList.contains('next-vault-opening')}
 function gateVault(){if(vaultGateSeen||!document.body.classList.contains('next-vault-open'))return;vaultGateSeen=true;vaultGatePending=true;vault.inert=true;vault.classList.add('vault-settling');vault.setAttribute('aria-busy','true');
- const title=vault.querySelector('.vault-title'),arrival=title?.getAnimations?.({subtree:true})||[];
- Promise.allSettled([window.__vaultImagesReady,window.__vaultTitleReady,...arrival.filter(a=>Number.isFinite(a.effect?.getComputedTiming().endTime)).map(a=>a.finished)]).then(()=>Promise.allSettled([...vault.querySelectorAll('img')].map(img=>img.decode?img.decode():Promise.resolve()))).then(()=>{vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
+ Promise.allSettled([window.__vaultImagesReady,window.__vaultInteractiveReady||window.__vaultTitleReady]).then(()=>Promise.allSettled([...vault.querySelectorAll('img')].map(img=>img.decode?img.decode():Promise.resolve()))).then(()=>{vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
 }
 addEventListener('keydown',e=>{if(vaultInputLocked()&&['Tab','Enter',' ','ArrowDown','ArrowUp','ArrowLeft','ArrowRight','PageDown','PageUp','Home','End'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation()}},{capture:true});
 addEventListener('wheel',e=>{if(vaultInputLocked()&&!e.ctrlKey){e.preventDefault();e.stopImmediatePropagation()}},{capture:true,passive:false});

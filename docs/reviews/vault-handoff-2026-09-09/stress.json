@@ -1,0 +1,78 @@
+{
+  "at": "2026-09-09T01:06:10.677Z",
+  "results": [
+    {
+      "case": "chromium slow archive fallback",
+      "status": "PASS",
+      "elapsedMs": 8110
+    },
+    {
+      "case": "webkit slow archive fallback",
+      "status": "PASS",
+      "elapsedMs": 8160
+    },
+    {
+      "case": "chromium reduced-motion",
+      "run": 1,
+      "status": "PASS"
+    },
+    {
+      "case": "chromium reduced-motion",
+      "run": 2,
+      "status": "PASS"
+    },
+    {
+      "case": "chromium reduced-motion",
+      "run": 3,
+      "status": "PASS"
+    },
+    {
+      "case": "chromium reduced-motion",
+      "run": 4,
+      "status": "PASS"
+    },
+    {
+      "case": "webkit reduced-motion",
+      "run": 1,
+      "status": "PASS"
+    },
+    {
+      "case": "webkit reduced-motion",
+      "run": 2,
+      "status": "PASS"
+    },
+    {
+      "case": "webkit reduced-motion",
+      "run": 3,
+      "status": "PASS"
+    },
+    {
+      "case": "webkit reduced-motion",
+      "run": 4,
+      "status": "PASS"
+    },
+    {
+      "case": "native touch before landing and during fade",
+      "status": "PASS",
+      "opacity": 1,
+      "start": {
+        "x": -655.725,
+        "y": -378.32500000000005,
+        "left": 656,
+        "top": 378
+      },
+      "finish": {
+        "x": -707.725,
+        "y": -575.325,
+        "left": 708,
+        "top": 575
+      },
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines and emulated phones",
+    "Native touch via Chromium CDP; no physical iPhone",
+    "Archive image requests intercepted; media delivery untouched"
+  ]
+}

@@ -1,5 +1,12 @@
 # Current status
 
+## September 9 — quicker vault entry and usable fade
+
+The travelling identity now takes1250ms, holds420ms after landing and exits in220ms. Interaction unlocks at fade start once image readiness passes, so visitors can pan while the identity disappears. The completed-title promise still tracks the full cosmetic exit; native pan, media and other chapters are unchanged.
+
+Eight full Chromium/WebKit journeys measured1.79–1.94seconds from click to interaction, versus4.08seconds in the local baseline. Native rapid-entry/fade pan, two slow-archive fallback cases, eight reduced-motion cases and relevant source/interaction suites pass. See [evidence](reviews/vault-handoff-2026-09-09/README.md). Physical Safari remains untested. Based on09349a6.
+
+
 ## September 9 — tap preview to play and gentle end feedback
 
 The whole game preview now opens the full game on tap/click/keyboard, including reduced motion or a stalled preview iframe. Swipes continue scrolling. At the actual bottom, a restrained16px,520ms cue moves only visual content and returns without changing the scroll position; it does not stack and is disabled for reduced motion. Current party film, opening, layout and gameplay remain.
