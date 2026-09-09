@@ -1,0 +1,30 @@
+{
+  "time": "2026-09-09T14:01:26.641Z",
+  "result": [
+    {
+      "mode": "success",
+      "requests": 1,
+      "response": "YOU'RE ON THE LIST",
+      "vaultUsable": true
+    },
+    {
+      "mode": "failure",
+      "requests": 1,
+      "response": "NOT SENT — PLEASE TRY AGAIN",
+      "vaultUsable": true
+    },
+    {
+      "mode": "timeout",
+      "requests": 1,
+      "response": "NOT SENT — PLEASE TRY AGAIN",
+      "vaultUsable": true
+    },
+    {
+      "mode": "slow-photos",
+      "requests": 1,
+      "response": "YOU'RE ON THE LIST",
+      "vaultUsable": true
+    }
+  ],
+  "transport": "mocked; no real submissions"
+}

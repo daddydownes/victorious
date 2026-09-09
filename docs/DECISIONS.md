@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 10 — selected photographs around the current archive
+
+The owner approved all 32 selected photographs while retaining the current 17 tile positions, dimensions, rotations, original opening centre and media. The additional 15 photographs surround all four sides as one connected collection. Do not restore the rejected separate block to the right or shrink the original collection. Keep the inward presentation crops for DSCF4467 and DSCF4425 non-destructive.
+
+Surface must clear the previous story scroll offset before applying the loading gate's `overflow:clip`; otherwise returning from the game restores the stale preview position after loading. The approved fix preserves the existing film and arrival choreography.
+
 ## September 9 — two clear ending destinations
 
 The user approved matching Back to the vault and Refresh website choices under the game, and declined another email option. Vault return reuses the current archive lifecycle in the same document without replaying the opening. Refresh intentionally reloads the entire site. Clear guided media/arrival state before returning so subsequent Surface visits repeat the approved reveal and readiness gate.

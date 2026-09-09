@@ -1,0 +1,20 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+const start=html.indexOf('  var vaultDecodeActive='),end=html.indexOf('  var vaultImageJobs=',start);
+assert(start>0&&end>start);
+const context={Promise,setTimeout,clearTimeout};vm.createContext(context);
+vm.runInContext(html.slice(start,end)+';globalThis.load=decodeVaultImage;',context);
+(async()=>{
+ let calls=0;
+ await context.load({decode(){calls++;return calls===1?Promise.reject(new Error('transient decode cancellation')):Promise.resolve();}});
+ assert.equal(calls,2,'A transient decode failure retries once');
+ const stalled=Array.from({length:4},()=>context.load({decode:()=>new Promise(()=>{})}).catch(e=>e.message));
+ let fifthStarted=false;
+ const fifth=context.load({decode(){fifthStarted=true;return Promise.resolve();}});
+ await new Promise(r=>setTimeout(r,20));assert.equal(fifthStarted,false,'Concurrency remains bounded');
+ await Promise.race([fifth,new Promise((_,reject)=>setTimeout(()=>reject(new Error('Stalled decodes starved later valid image')),2600))]);
+ assert.equal(fifthStarted,true);
+ assert((await Promise.all(stalled)).every(m=>m==='Vault image decode timeout'));
+ await new Promise(r=>setTimeout(r,0));assert.equal(context.vaultDecodeActive,0,'Every slot is released exactly once');
+ console.log('PASS: transient decode retry; four stalled decodes cannot starve a later valid image; queue slots released.');
+})().catch(e=>{console.error(e);process.exit(1)});

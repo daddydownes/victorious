@@ -1,0 +1,10 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),before=fs.readFileSync(path.join(root,'index.html'),'utf8'),writes=new Map();
+const fake=Object.assign({},fs,{writeFileSync:(p,t)=>writes.set(p,t)});
+vm.runInNewContext(fs.readFileSync(path.join(root,'tools/build-guided.cjs'),'utf8'),{require:n=>n==='node:fs'?fake:require(n),__dirname:path.join(root,'tools'),console});
+const after=writes.get(path.join(root,'index.html'));
+for(const re of [/var PHOTOS=\[.*?\];/s,/var PHOTO_NH=\[.*?\];/s,/var PLANE=\{.*?\};/s])assert.equal(after.match(re)[0],before.match(re)[0]);
+const reset="world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');";
+assert(before.includes(reset));assert(after.includes(reset));
+assert.equal(JSON.parse(after.match(/var PHOTOS=(\[.*?\]);/s)[1]).length,32);
+console.log('PASS: normal guided rebuild preserves all32 photos, display heights, plane and scroll reset before film gate.');

@@ -1,0 +1,4 @@
+{
+  "before": "document.body.classList.add('world-active');world.classList.add('film-waiting');",
+  "after": "document.body.classList.add('world-active');\n // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.\n world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');"
+}

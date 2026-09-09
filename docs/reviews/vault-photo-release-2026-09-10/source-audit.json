@@ -1,0 +1,113 @@
+{
+  "time": "2026-09-09T14:01:53.250Z",
+  "commit": "7d1ee6ea276215e4020b0b069c136264e5e08f60",
+  "demoSha256": "2e3d81b816f58ab7dcb322d045a0746819b98e3fd8909e4018fb062f53090017",
+  "githubSourceMatchesLive": true,
+  "allSourceOutsidePhotosAndExactNavigationFixUnchanged": true,
+  "navigationFix": {
+    "before": "document.body.classList.add('world-active');world.classList.add('film-waiting');",
+    "after": "document.body.classList.add('world-active');\n // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.\n world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');"
+  },
+  "assets": [
+    {
+      "path": "assets/share-v-20260906.png",
+      "match": true
+    },
+    {
+      "path": "assets/cinzel.woff2",
+      "match": true
+    },
+    {
+      "path": "assets/play-the-game-vstyle-v1.svg",
+      "match": true
+    },
+    {
+      "path": "assets/play-arrow-vstyle-v1.svg",
+      "match": true
+    },
+    {
+      "path": "assets/hero-film-51129a88918e.mp4",
+      "match": true
+    },
+    {
+      "path": "assets/hero-poster-311ec34583b0.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/drop-backdrop-663166a67586.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-01-58e7ac2e3a3b.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-02-b82ff6db2eaa.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-03-31ae90ed73de.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-04-a08c0140b9fc.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-05-278b09ff2a2e.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-06-104a3b59a0c2.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-07-eb013a1343bd.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-08-c42f310c66f0.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-09-daa954e36e89.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-10-526631f878ed.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-11-361fca363d89.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-12-89f848d6f748.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-13-5a61f77a845b.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-14-dbbe9db163c1.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-15-2b8a7b549286.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/archive-16-472aec1ad84e.jpg",
+      "match": true
+    },
+    {
+      "path": "assets/story-party-cut.mp4",
+      "match": true
+    },
+    {
+      "path": "vctrs-wordmark.svg",
+      "match": true
+    }
+  ]
+}

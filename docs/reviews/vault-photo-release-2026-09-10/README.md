@@ -1,0 +1,12 @@
+# Selected-photo release verification
+Baseline:7d1ee6ea276215e4020b0b069c136264e5e08f60, verified against canonical live HTML and25 referenced assets.
+OBSERVED:40 fresh full journeys passed, four per configuration, using Chromium desktop1440x900/1280x720, phone320x568/430x932, reduced-motion390x844/1440x900, WebKit390x844/844x390/1440x900 and Firefox1280x900.
+Every pass loads32 full-resolution images, enters the vault, opens Surface, preview and real game, accepts game input, exits, returns to the vault, resurfaces without stale scroll, and refreshes to the entry. Second passes use keyboard entry; third passes resize/rotate. No page errors or failing HTTP responses in successful runs.
+OBSERVED: separate64 screenshots and desktop drag/native phone-touch traversal verified every photograph. Layout preserves original17 positions and initial view;15 extras surround all sides.
+OBSERVED: invalid signup input, mocked success/failure/timeout, ignored late success and delayed-photo loading pass. No actual signup requests submitted.
+Commands: node tests/guided-source.cjs; node tests/reveal.cjs; node tests/post-surface-scroll.cjs; node tests/press-feedback.cjs; node tests/surface-input.cjs; node tests/flappy-difficulty.cjs; node tests/flappy-collision.cjs; node tests/flappy-material.cjs; node tests/flappy-lifecycle.cjs; node tests/flappy-death.cjs; node tests/flappy-reachability.cjs; node tests/navigation-reset.cjs; node tests/vault-photo-loading.cjs; node tests/vault-spatial-layout.cjs; node tests/vault-build-preservation.cjs; git diff --check. All passed.
+Browser replay: install Playwright browser engines, serve repository, set DEMO_URL and optionally WEBKIT_EXECUTABLE/FIREFOX_EXECUTABLE, then node tests/vault-release-browser.cjs.
+Cold source review and correction evidence: cold-review.md. Raw matrix and mocked failure summaries accompany this report.
+Test harness corrections: canvas selector corrected; keyboard waits until the entry becomes interactive. Local preview server gained directory-index handling for Refresh. No corresponding production application changes were needed.
+LIMITS: Windows headless engine testing and emulated viewports, not physical iPhone/macOS Safari certification. Initial testing found WebKit/Firefox default paths missing; available installed engines were explicitly launched and exercised. No claim of exhaustive absence of bugs.
+Publication is owner-authorized; the canonical live bytes and journeys must be verified after the Pages build completes.

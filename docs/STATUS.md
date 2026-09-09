@@ -1,5 +1,21 @@
 # Current status
 
+## September 10 — approved selected-photo release candidate
+
+Expanded release validation passed: 40 fresh journeys across Chromium, WebKit and Firefox, four consecutive passes per configuration, including desktop, portrait, landscape, narrow screens and reduced motion. All 32 images load; game/return/Surface loops, keyboard entry, rotation and Refresh pass. Mocked signup success/failure/timeout and delayed photos pass. All required core suites and cold source review pass. See [release evidence](reviews/vault-photo-release-2026-09-10/README.md). WebKit was subsequently exercised using an available installed executable, superseding the earlier missing-default-path limitation below. Physical Apple devices remain untested.
+
+The selected-photo update starts from deployed GitHub Pages revision `7d1ee6ea276215e4020b0b069c136264e5e08f60`. GitHub Pages confirmed `main` at the root; that revision's HTML and all 25 referenced assets matched the live site byte for byte. The owner approved publication after expanded release checks.
+
+The archive now contains all 32 selected photos, each exactly once. It preserves all 17 current live positions and places 15 additional tiles around all four sides, using the original tile dimensions and rotations. The expanded 4100×4200 plane keeps the original opening centre and native/desktop pan behavior. Added tiles sit 75–200 pixels from an original tile, forming one connected collection. All originals are preserved. `DSCF4467` and `DSCF4425` use non-destructive centre presentation crops. Photo decoding is limited to four simultaneous requests, with one transient retry and a two-second slot deadline so a stalled group cannot starve later photos.
+
+Validation: Chromium source/demo comparisons at 1440×1000 and 393×852 against the verified live baseline; all 32 full-resolution images navigated into view with desktop drag and simulated phone touch, with 64 individual screenshots; original video, tile geometry and starting view preserved; Surface, return to vault, rotation, reduced motion, and failed-image preview fallback passed. Spatial tests and independent review verify original positions, surrounding placement and connected spacing. Guided-source, reveal, Surface-input and stalled-decode regression tests pass. Physical touch devices and Safari were not tested; the configured WebKit executable is absent.
+
+The existing live navigation bug was also reproduced: after Play the game → Back to the vault → Surface, the film gate briefly showed the story before restoring the preview's saved scroll position. Surface now resets scroll instantly while the world container is scrollable, before applying the gate's `overflow:clip`. The exact change is retained in both the journey source and preview builder. Source audit allows this explicit navigation change and photo changes only; all 25 live assets remain identical.
+
+The Astra agent tested the integrated photo demo through nine cycles across desktop, phone viewport and reduced motion: Surface stays at story/scroll zero after film unlock, then preview → full game → Exit → Back to vault repeats correctly. This is desktop Chromium emulation, not physical-phone certification.
+
+Use the normal `node tools/build-guided.cjs` for ongoing journey edits: it preserves the 32-photo archive and navigation fix, verified by `tests/vault-build-preservation.cjs`. The historical `tools/build-vault-photo-preview.py SELECTED_PHOTO_DIRECTORY --recreate-pinned-baseline` explicitly recreates this archive from its pinned baseline, replacing later root changes; use it only for deliberate recreation in an isolated checkout. It requires all 32 selected originals and reapplies `tools/vault-navigation-fix.json`. Its untracked `baseline.html` comparison fixture is excluded from release staging.
+
 ## September 9 — return to vault from the ending
 
 The ending now has matching Back to the vault and Refresh website controls. Back to the vault restores the archive directly within the same document; Refresh restarts the full journey. No extra email form. Repeated Surface trips reset the guided film/arrival gate correctly, preserving the current media and game.
