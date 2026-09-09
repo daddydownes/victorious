@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 9 — distinct opening and Surface films
+
+The user wants the earlier film after Surface with the current visual treatment. The user then requested a shorter party edit without the pop-up announcement. Use assets/story-party-cut.mp4 (1280×720, 24.833 seconds), derived from source seconds 3.25–28.10 with a matching first-frame poster. Remove the opening title and closing announcement/outro, and retain the original full-length asset. Keep assets/hero-film-51129a88918e.mp4 for the opening before email. Preserve the V loading animation, automatic playback and input gate; do not restore the timed skip button.
+
+
 ## September9 — original opening and automatic Surface loading
 
 Restore the opening video resource to the original1080p asset as well as the post-Surface film. Preserve its original timing. The user now wants Surface to show its loading animation and start automatically when ready, removing the former12-second Continue without film action. Keep scroll locked until media presentation and arrival finish. Recovery buttons remain only for actual media failure or browser autoplay refusal; reduced motion retains the matching still.

@@ -1,5 +1,12 @@
 # Current status
 
+## September 9 — earlier Surface film restored
+
+The post-Surface section again uses the earlier performance footage, shortened to 24.833 seconds at native 1280×720. The opening title, closing POP UP SHOP announcement and logo outro are removed by retaining source seconds 3.25–28.10. A matching first-frame poster is embedded. The original full-length asset is retained. The opening remains the original 1920×1080 clip. The current V loading animation, automatic reveal, scroll readiness gates, layout and gameplay are unchanged. This supersedes the decision to use the opening montage after Surface.
+
+Based on 4ac2c1370a6d4db9e9076ab68101528651e119e1. Validation is recorded in [the release evidence](reviews/surface-film-restore-2026-09-09/README.md).
+
+
 ## September9 opening quality correction and automatic Surface hold
 
 The opening before email now uses the original1920×1080 clip, replacing the720×406 demo encode accidentally retained by the guided release. The post-Surface film already used this original asset. Opening choreography is unchanged. Surface now keeps its V loading animation until the film is ready, with no timed skip button; scrolling remains locked through arrival. Actual media errors/autoplay restrictions keep recovery controls. This supersedes the12-second skip described below.

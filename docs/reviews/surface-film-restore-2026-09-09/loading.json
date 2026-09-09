@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T00:40:04.536Z",
+  "results": [
+    {
+      "name": "chromium",
+      "case": "13-second hold then automatic video reveal",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "case": "13-second hold then automatic video reveal",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "case": "reduced-motion",
+      "run": 1,
+      "status": "PASS"
+    },
+    {
+      "name": "chromium",
+      "case": "reduced-motion",
+      "run": 2,
+      "status": "PASS"
+    },
+    {
+      "name": "chromium",
+      "case": "reduced-motion",
+      "run": 3,
+      "status": "PASS"
+    },
+    {
+      "name": "chromium",
+      "case": "reduced-motion",
+      "run": 4,
+      "status": "PASS"
+    },
+    {
+      "name": "webkit",
+      "case": "reduced-motion",
+      "run": 1,
+      "status": "PASS"
+    },
+    {
+      "name": "webkit",
+      "case": "reduced-motion",
+      "run": 2,
+      "status": "PASS"
+    },
+    {
+      "name": "webkit",
+      "case": "reduced-motion",
+      "run": 3,
+      "status": "PASS"
+    },
+    {
+      "name": "webkit",
+      "case": "reduced-motion",
+      "run": 4,
+      "status": "PASS"
+    }
+  ]
+}

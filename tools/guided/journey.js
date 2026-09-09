@@ -41,7 +41,7 @@ addEventListener('keydown',e=>{if(!world.classList.contains('film-waiting'))retu
 function paintGameArrow(){if(arrowPainted)return;arrowPainted=true;animateMoment(game.querySelector('.spray-arrow-shaft'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:900,easing:'ease-out'});animateMoment(game.querySelector('.spray-arrow-head'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:400,delay:550,fill:'backwards',easing:'ease-out'})}
 function status(text){$('worldMediaStatus').textContent=text}
 function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches&&!filmUserPaused&&!filmFailed}
-function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/hero-film-51129a88918e.mp4'}}
+function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/story-party-cut.mp4'}}
 function pauseFilm(){++filmToken;clearTimeout(filmTimer);filmStarting=false;video.pause()}
 function failFilm(message){filmFailed=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
 function bufferLimit(){clearTimeout(filmTimer);filmTimer=setTimeout(()=>{if(filmAllowed())status('Film is loading. Holding your place.')},6500)}
