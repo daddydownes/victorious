@@ -1,6 +1,6 @@
 {
   "at": "2026-09-09T00:51:44.372Z",
-  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(cue.animations>0)\n\n    at lane (C:\\Users\\jacob\\Documents\\Codex\\2026-09-08\\x20\\work\\preview-play\\browser.cjs:7:504)\n    at async Promise.all (index 0)\n    at async C:\\Users\\jacob\\Documents\\Codex\\2026-09-08\\x20\\work\\preview-play\\browser.cjs:9:12",
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(cue.animations>0)\n\n    at lane (preview-play-browser.cjs:7:504)\n    at async Promise.all (index 0)\n    at async preview-play-browser.cjs:9:12",
   "results": [
     {
       "name": "reduced",
