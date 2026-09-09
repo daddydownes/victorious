@@ -6,7 +6,7 @@ const next=$('worldNext'),play=$('worldPlay'),video=$('worldVideo'),portrait=$('
 const copy=story.querySelector('.portrait-copy'),motion=matchMedia('(prefers-reduced-motion: reduce)'),overlay=$('flapOverlay');
 let state='entry',previewReady=false,previewLoaded=false,gameVisible=false,navigating=false,navTarget=null,navTimer=0;
 let gameReveal=null,gameRevealFrame=0,gameRevealToken=0,flowFrame=0,flowDistance=1,flowHeight=1,gameHeight=1,arrivalMark=null,arrowPainted=false;
-let filmToken=0,filmTimer=0,filmGateTimer=0,filmStarting=false,filmUserPaused=false,filmFailed=false,filmRevealed=false;
+let filmToken=0,filmTimer=0,filmStarting=false,filmUserPaused=false,filmFailed=false,filmRevealed=false;
 const animations=new Set();
 const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false;
 function vaultInputLocked(){return vaultGatePending||document.body.classList.contains('next-vault-opening')}
@@ -25,8 +25,8 @@ function storyArrival(source,rect){
  const destination=arrivalMark.getBoundingClientRect(),dx=rect.x-destination.x,dy=rect.y-destination.y,scale=rect.width/destination.width;
  animateMoment(arrivalMark,[{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:0},{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:.12},{transform:'translate(0,0) scale(1)',opacity:1,offset:1}],{duration:1850,easing:'cubic-bezier(.25,.7,.2,1)'});
 }
-function unlockFilmGate(skipped=false){clearTimeout(filmGateTimer);world.classList.remove('film-waiting');game.inert=false;next.hidden=false;next.querySelector('span').textContent=skipped?'Continue without film':'Scroll down'}
-function revealFilm(){clearTimeout(filmGateTimer);if(story.classList.contains('film-ready')){if(motion.matches)unlockFilmGate();return}story.classList.add('film-ready');animateMoment(portrait,[{opacity:0,clipPath:'inset(0 48% 0 48%)'},{opacity:1,clipPath:'inset(0 0% 0 0%)'}],{duration:1200,easing:'cubic-bezier(.25,.7,.2,1)'});animateMoment($('portrait-title'),[{opacity:0},{opacity:1}],{duration:900,delay:250,fill:'backwards',easing:'ease-out'});Promise.allSettled([...animations].map(a=>a.finished)).then(()=>{if(state!=='entry')unlockFilmGate()})}
+function unlockFilmGate(){world.classList.remove('film-waiting');game.inert=false;next.hidden=false}
+function revealFilm(){if(story.classList.contains('film-ready')){if(motion.matches)unlockFilmGate();return}story.classList.add('film-ready');animateMoment(portrait,[{opacity:0,clipPath:'inset(0 48% 0 48%)'},{opacity:1,clipPath:'inset(0 0% 0 0%)'}],{duration:1200,easing:'cubic-bezier(.25,.7,.2,1)'});animateMoment($('portrait-title'),[{opacity:0},{opacity:1}],{duration:900,delay:250,fill:'backwards',easing:'ease-out'});Promise.allSettled([...animations].map(a=>a.finished)).then(()=>{if(state!=='entry')unlockFilmGate()})}
 function measureFlow(){flowDistance=Math.max(1,game.offsetTop);flowHeight=world.clientHeight;gameHeight=game.offsetHeight;queueFlow()}
 function renderFlow(){flowFrame=0;if(state==='entry')return;syncChapter();const p=Math.max(0,Math.min(1,world.scrollTop/flowDistance));
  if(motion.matches){portrait.style.transform='';copy.style.transform='';return;}
@@ -65,7 +65,7 @@ function syncPreview(){
 }
 function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);if(!motion.matches&&!navigator.connection?.saveData)prepareFilm();setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
 function surface(){
- if(state!=='entry')return;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');world.classList.add('film-waiting');game.inert=true;next.hidden=true;filmGateTimer=setTimeout(()=>{if(!filmRevealed){next.hidden=false;next.querySelector('span').textContent='Continue without film';status('Film is still loading. Choose Continue without film to go ahead.')}},12000);
+ if(state!=='entry')return;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');world.classList.add('film-waiting');game.inert=true;next.hidden=true;
  for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=true;el.setAttribute('aria-hidden','true')}}
  world.scrollTop=0;story.focus({preventScroll:true});measureFlow();renderFlow();storyArrival(source,rect);syncFilm();
 }
@@ -87,7 +87,7 @@ function revealGame(){
 
 function startGame(){if(state==='entry'||state==='game')return;if(!window.__flap){$('worldGameStatus').textContent='The game could not start. Reload this demo to try again.';return;}window.__flap.open()}
 $('worldRefresh').addEventListener('click',()=>{if(state==='entry'||state==='game')return;$('worldRefresh').disabled=true;location.reload()});
-next.addEventListener('click',()=>{if(world.classList.contains('film-waiting'))unlockFilmGate(true);navigate(game)});play.addEventListener('click',startGame);$('worldArrow').addEventListener('click',startGame);
+next.addEventListener('click',()=>{if(world.classList.contains('film-waiting'))return;navigate(game)});play.addEventListener('click',startGame);$('worldArrow').addEventListener('click',startGame);
 tryFlight.addEventListener('click',()=>{if(!tryFlight.disabled)preview.contentWindow?.postMessage({type:'vctrs-preview-flap'},location.origin)});
 addEventListener('vctrs:surface',surface);
 addEventListener('vctrs:game-open',()=>{settleArrival();revealGame();state='game';pauseFilm();clearTimeout(navTimer);navigating=false;world.inert=true;world.setAttribute('aria-hidden','true');document.body.classList.add('world-game');syncPreview()});

@@ -1,5 +1,12 @@
 # Current status
 
+## September9 opening quality correction and automatic Surface hold
+
+The opening before email now uses the original1920×1080 clip, replacing the720×406 demo encode accidentally retained by the guided release. The post-Surface film already used this original asset. Opening choreography is unchanged. Surface now keeps its V loading animation until the film is ready, with no timed skip button; scrolling remains locked through arrival. Actual media errors/autoplay restrictions keep recovery controls. This supersedes the12-second skip described below.
+
+Eight full opening/Vault/Surface/preview journeys, two13.2-second delayed automatic-reveal cases, eight reduced-motion cases and relevant core suites pass; independent review passed. See [evidence](reviews/opening-1080-2026-09-09/README.md). Physical Safari and real inbox delivery remain untested. Based on903188d.
+
+
 ## September 9 original 1080p film and deliberate loading hold
 
 The owner selected the original 3.733-second 1920×1080 clip for the post-Surface hero, replacing the 33-second performance film. The existing `assets/hero-film-51129a88918e.mp4` contains exactly the original encoded video stream; no recompression or upscaling. The V holds alone until a presented video frame reveals the film and heading. After12seconds without a frame, Continue without film becomes available; it does not unlock scrolling until deliberately pressed. Wheel, one-finger pan and navigation keys remain locked during the hold; the game is inert. Controls stay within short landscape viewports. Reduced motion uses a matching still, and blocked autoplay provides Play film.

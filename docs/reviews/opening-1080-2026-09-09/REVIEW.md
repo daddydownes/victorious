@@ -1,0 +1,3 @@
+# Independent review — PASS
+Runtime report received 2026-09-09T00:29:26.476Z.
+Read-only production_review: decoded opening1920x1080 and full3.733-second end; held13.2second Surface loading retains animated V/no timed button/locked input; media error Retry and autoplay denial Play recover; unlock waits for presented frame and entrance; reduced motion and preview pass; source guard and diff check pass. Reviewed root raw SHA256 fcfecda5dcb10c133898404856cdc4240f2e813c0c332c21ea36f9f02a281b7c. Limits: local Chromium/emulated devices, not physical Safari or deployed behavior. No files changed or signup sent.

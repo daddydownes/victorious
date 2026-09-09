@@ -2,6 +2,8 @@ const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_pro
 const root=path.resolve(__dirname,'..'),norm=s=>s.replace(/\r\n/g,'\n'),read=p=>norm(fs.readFileSync(path.join(root,p),'utf8'));
 const html=read('index.html'),script=html.replace(/<script type="application\/json"[^>]*>[\s\S]*?<\/script>/g,'');
 const before=norm(cp.execFileSync('git',['show','973cb2f3faeb4ef09907ff6c33a0631a40b6fdff:index.html'],{cwd:root,encoding:'utf8',maxBuffer:5e6}));
+const openingVideo=s=>s.match(/<video id="film"[^>]*\bsrc="([^"]+)"/)[1];
+assert.equal(openingVideo(html),openingVideo(before),'Original opening video source preserved');
 function section(s,a,b){const start=s.indexOf(a),end=s.indexOf(b,start);assert.ok(start>=0&&end>start);return s.slice(start,end)}
 assert.equal(section(script,'  var VWHITE=','  function lock()'),section(before,'  var VWHITE=','  function lock()'),'Opening timeline preserved');
 assert.equal(section(script,'  var LIST_URL=','  function captureReceipt'),section(before,'  var LIST_URL=','  function captureReceipt'),'Live signup transport preserved');

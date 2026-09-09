@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September9 — original opening and automatic Surface loading
+
+Restore the opening video resource to the original1080p asset as well as the post-Surface film. Preserve its original timing. The user now wants Surface to show its loading animation and start automatically when ready, removing the former12-second Continue without film action. Keep scroll locked until media presentation and arrival finish. Recovery buttons remain only for actual media failure or browser autoplay refusal; reduced motion retains the matching still.
+
+
 ## September 9, 2026 — original quality and intentional loading escape
 
 Use the owner's original1080p clip rather than the different performance film. Preserve its encoded video stream. Hold the V until the first presented frame; after roughly12seconds offer Continue without film while retaining the input lock. Normal navigation unlocks only after all V, film and title entrance animations finish; a deliberate skip can bypass unavailable media. The vault stays inert through entry, its title's completed fade and image decoding. Eight-second bounded image jobs retain existing previews for stalled/failed full-size images. Keep pinch zoom and Space/Enter button activation available. Reduced motion shows a matching still immediately. A timeout must not permanently stop a slow video download or automatically skip ahead.

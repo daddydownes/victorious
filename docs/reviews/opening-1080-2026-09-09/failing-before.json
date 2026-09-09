@@ -1,0 +1,7 @@
+{
+  "at": "2026-09-09T00:27:36.172Z",
+  "action": "node tests/guided-source.cjs",
+  "result": "FAIL expected",
+  "actual": "assets/intro-mobile.mp4",
+  "expected": "assets/hero-film-51129a88918e.mp4"
+}
