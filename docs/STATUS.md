@@ -7,6 +7,8 @@ The owner selected the original 3.733-second 1920×1080 clip for the post-Surfac
 Based on `3a9cf394c14e964453a557c82a5087d4f4ff6b40`. Sixteen repeated browser journeys, three delayed/blocked-media gate cases and eight complete opening/transition journeys pass, plus cold1Mbps/200ms media and game validation. Original opening/source, 120scroll and 50Surface checks pass. Normal scrolling waits for all V/film/title entrance animations; vault interaction waits for its title transition and decoded images, with bounded preview fallback. Independent review passed. See [evidence](reviews/original-1080-2026-09-09/README.md). Physical iPhone/macOS Safari and real inbox delivery remain untested. WebKit may report scaled playback frames despite the native1080p source.
 
 
+Published application release `9a17de4a2e4a1921285926647fd0e18352b7b9f2`; GitHub Pages reported built, and canonical root/original1080 media matched committed bytes. Fresh live Chromium desktop and WebKit phone journeys passed through vault readiness, full film arrival, game/Exit and Refresh. See [live evidence](reviews/original-1080-2026-09-09/live.json).
+
 ## September 9 approved guided homepage release
 
 The approved homepage now contains the complete opening → email → Vault → Surface → film/story → interactive game preview → full game → Refresh website journey in one document and URL. The original V/star opening and live signup transport remain. The story V stays inside the story; the game has no decorative background V. This supersedes the earlier homepage redirect into /experience/; historical routes remain available.

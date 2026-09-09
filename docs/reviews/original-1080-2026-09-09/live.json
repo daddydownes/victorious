@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-09T00:21:33.746Z",
+  "base": "https://vctrsclo.com",
+  "results": [
+    {
+      "name": "desktop",
+      "run": 1,
+      "status": "PASS",
+      "width": 1440,
+      "height": 900,
+      "reduce": false,
+      "media": {
+        "src": "https://vctrsclo.com/assets/hero-film-51129a88918e.mp4",
+        "width": 1920,
+        "height": 1080,
+        "time": 0.214396,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "phone",
+      "run": 1,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": false,
+      "media": {
+        "src": "https://vctrsclo.com/assets/hero-film-51129a88918e.mp4",
+        "width": 976,
+        "height": 549,
+        "time": 0.2464372,
+        "ready": 4
+      },
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines/emulated phones, not physical Safari",
+    "Mobile WebKit does not support wheel dispatch: keyboard and native tap checked there; Chromium checks wheel and touch",
+    "WebKit may downscale its reported playback frame size; original source verified separately",
+    "All signup traffic intercepted"
+  ]
+}

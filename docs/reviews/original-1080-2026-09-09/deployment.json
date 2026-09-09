@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T00:21:09.168Z",
+  "commit": "9a17de4a2e4a1921285926647fd0e18352b7b9f2",
+  "build": {
+    "status": "built",
+    "commit": "9a17de4a2e4a1921285926647fd0e18352b7b9f2"
+  },
+  "resources": [
+    {
+      "file": "index.html",
+      "sha256": "d26d385a8d02b04893798736742b8bb4cdc02925c4f092cb7b09075be827d667",
+      "bytes": 679849
+    },
+    {
+      "file": "assets/hero-film-51129a88918e.mp4",
+      "sha256": "51129a88918e140ff09fd9c18703360fdd6052b803de93e48dce0bcef790809b",
+      "bytes": 5815149
+    }
+  ],
+  "status": "PASS"
+}
