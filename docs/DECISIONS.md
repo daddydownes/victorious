@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 9 — preview activation and soft page ending
+
+Clicking or tapping the preview should enter the actual game rather than flap the teaser. Use its native button for keyboard access and preserve pan gestures. Do not depend on iframe readiness or motion preference to permit entry. The end of the page should yield slightly and settle: one16px,520ms content animation only at the final boundary, with no stacking or reduced-motion animation. Keep the snap section stationary to avoid browser scroll-position adjustment.
+
+
 ## September 9 — distinct opening and Surface films
 
 The user wants the earlier film after Surface with the current visual treatment. The user then requested a shorter party edit without the pop-up announcement. Use assets/story-party-cut.mp4 (1280×720, 24.833 seconds), derived from source seconds 3.25–28.10 with a matching first-frame poster. Remove the opening title and closing announcement/outro, and retain the original full-length asset. Keep assets/hero-film-51129a88918e.mp4 for the opening before email. Preserve the V loading animation, automatic playback and input gate; do not restore the timed skip button.

@@ -118,8 +118,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(prefers-reduced-motion:reduce){.world-active #world .scroll-cue-mark{animation:none}}
 /* The arrival inherits the original vault's gold seam. Motion is always optional. */
 
-/* A hands-on rehearsal sits above the explicit full-game action. */
-#world .preview-rehearse{position:absolute;inset:0 0 100px;width:100%;border:0;background:transparent;color:#f0d492;touch-action:pan-y pinch-zoom;display:flex;justify-content:center;align-items:flex-start;padding:20px;font:12px/1.4 Arial,sans-serif;cursor:pointer}
+/* The entire preview opens the full game; native vertical swipes still scroll. */
+#world .preview-rehearse{position:absolute;inset:0;width:100%;border:0;background:transparent;color:#f0d492;touch-action:pan-y pinch-zoom;display:flex;justify-content:center;align-items:flex-start;padding:20px;font:12px/1.4 Arial,sans-serif;cursor:pointer}
 #world .preview-rehearse>span{padding:7px 12px;background:#000c;border:1px solid #d4af5f40;pointer-events:none}
 #world .preview-rehearse>span span{margin-left:9px}
 #world .preview-rehearse:disabled{visibility:hidden}

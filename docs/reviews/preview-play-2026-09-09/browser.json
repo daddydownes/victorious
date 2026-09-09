@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-09T00:54:03.348Z",
+  "results": [
+    {
+      "name": "reduced",
+      "run": 1,
+      "reduce": true,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 2,
+      "reduce": true,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 3,
+      "reduce": true,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 1,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 1,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 4,
+      "reduce": true,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 2,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 2,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 3,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 3,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 4,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 4,
+      "reduce": false,
+      "status": "PASS",
+      "previewOpensFullGame": true,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines/emulated phones, not physical Safari",
+    "Signup traffic intercepted"
+  ]
+}

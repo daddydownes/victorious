@@ -38,6 +38,19 @@ world.addEventListener('scroll',()=>{if(world.classList.contains('film-waiting')
 world.addEventListener('wheel',e=>{if(world.classList.contains('film-waiting')&&!e.ctrlKey)e.preventDefault()},{passive:false});
 world.addEventListener('touchmove',e=>{if(world.classList.contains('film-waiting')&&e.touches.length===1)e.preventDefault()},{passive:false});
 addEventListener('keydown',e=>{if(!world.classList.contains('film-waiting'))return;if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key)&&!(e.key===' '&&e.target.closest?.('button')))e.preventDefault()},{capture:true});
+
+// A single restrained end-stop cue; scrolling itself remains native.
+let endBounce=null,endTouchY=null;
+function stopEndBounce(){if(endBounce){endBounce.forEach(a=>a.cancel());endBounce=null}}
+function atWorldEnd(){return state==='preview'&&!navigating&&!world.classList.contains('film-waiting')&&world.scrollTop+world.clientHeight>=world.scrollHeight-2}
+function bounceAtEnd(){if(motion.matches||document.hidden||endBounce||!game.animate)return;const group=[...game.children].map(el=>el.animate([{transform:'translateY(0)'},{transform:'translateY(-16px)',offset:.32},{transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,.65,.3,1)'}));endBounce=group;Promise.allSettled(group.map(a=>a.finished)).then(()=>{if(endBounce===group)endBounce=null})}
+world.addEventListener('wheel',e=>{if(e.ctrlKey||e.deltaY<=0){stopEndBounce();return}if(atWorldEnd()){e.preventDefault();bounceAtEnd()}},{passive:false});
+world.addEventListener('touchstart',e=>{endTouchY=e.touches.length===1?e.touches[0].clientY:null;if(e.touches.length!==1)stopEndBounce()},{passive:true});
+world.addEventListener('touchmove',e=>{if(e.touches.length!==1||endTouchY===null)return;const y=e.touches[0].clientY,delta=endTouchY-y;endTouchY=y;if(delta<0){stopEndBounce();return}if(delta>0&&atWorldEnd()&&e.cancelable){e.preventDefault();bounceAtEnd()}},{passive:false});
+world.addEventListener('touchend',()=>{endTouchY=null},{passive:true});
+world.addEventListener('touchcancel',()=>{endTouchY=null;stopEndBounce()},{passive:true});
+world.addEventListener('scroll',()=>{if(!atWorldEnd())stopEndBounce()},{passive:true});
+
 function paintGameArrow(){if(arrowPainted)return;arrowPainted=true;animateMoment(game.querySelector('.spray-arrow-shaft'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:900,easing:'ease-out'});animateMoment(game.querySelector('.spray-arrow-head'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:400,delay:550,fill:'backwards',easing:'ease-out'})}
 function status(text){$('worldMediaStatus').textContent=text}
 function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches&&!filmUserPaused&&!filmFailed}
@@ -60,7 +73,7 @@ video.addEventListener('waiting',()=>{if(filmAllowed()){status('Film is loading.
 video.addEventListener('error',()=>{if(state==='story')failFilm('Film unavailable. Retry while we hold your place.')});
 filmRetry.addEventListener('click',()=>{filmFailed=false;filmUserPaused=false;filmRetry.hidden=true;status('Film is loading.');if(video.error)video.load();syncFilm()});
 function syncPreview(){
- tryFlight.disabled=!previewReady||state!=='preview'||!gameVisible||document.hidden||motion.matches;tryFlight.hidden=motion.matches;
+ tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
  preview.contentWindow?.postMessage({type:'vctrs-preview',active:state!=='entry'&&state!=='game'&&gameVisible&&!document.hidden&&!motion.matches},location.origin);
 }
 function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);if(!motion.matches&&!navigator.connection?.saveData)prepareFilm();setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
@@ -88,9 +101,9 @@ function revealGame(){
 function startGame(){if(state==='entry'||state==='game')return;if(!window.__flap){$('worldGameStatus').textContent='The game could not start. Reload this demo to try again.';return;}window.__flap.open()}
 $('worldRefresh').addEventListener('click',()=>{if(state==='entry'||state==='game')return;$('worldRefresh').disabled=true;location.reload()});
 next.addEventListener('click',()=>{if(world.classList.contains('film-waiting'))return;navigate(game)});play.addEventListener('click',startGame);$('worldArrow').addEventListener('click',startGame);
-tryFlight.addEventListener('click',()=>{if(!tryFlight.disabled)preview.contentWindow?.postMessage({type:'vctrs-preview-flap'},location.origin)});
+tryFlight.addEventListener('click',()=>{if(!tryFlight.disabled)startGame()});
 addEventListener('vctrs:surface',surface);
-addEventListener('vctrs:game-open',()=>{settleArrival();revealGame();state='game';pauseFilm();clearTimeout(navTimer);navigating=false;world.inert=true;world.setAttribute('aria-hidden','true');document.body.classList.add('world-game');syncPreview()});
+addEventListener('vctrs:game-open',()=>{stopEndBounce();settleArrival();revealGame();state='game';pauseFilm();clearTimeout(navTimer);navigating=false;world.inert=true;world.setAttribute('aria-hidden','true');document.body.classList.add('world-game');syncPreview()});
 addEventListener('vctrs:game-close',()=>{settleGameReveal();state=gameVisible?'preview':'story';world.inert=false;world.removeAttribute('aria-hidden');document.body.classList.remove('world-game');syncPreview();syncFilm();play.focus({preventScroll:true})});
 function syncChapter(){
  const top=world.scrollTop,overlap=Math.max(0,Math.min(top+flowHeight,flowDistance+gameHeight)-Math.max(top,flowDistance));
@@ -107,10 +120,10 @@ addEventListener('message',e=>{if(e.source!==preview.contentWindow||e.origin!==l
 preview.addEventListener('load',syncPreview);
 const refreshObserver=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting&&e.intersectionRatio>=.35){e.target.classList.add('refresh-revealed');refreshObserver.unobserve(e.target)}}},{root:world,threshold:.35});
 refreshObserver.observe($('worldRefresh'));
-function interrupt(){settleArrival();settleGameReveal();pauseFilm();clearTimeout(navTimer);navigating=false;if(flowFrame)cancelAnimationFrame(flowFrame);flowFrame=0}
-addEventListener('resize',()=>{settleArrival();settleGameReveal();measureFlow()});
+function interrupt(){stopEndBounce();settleArrival();settleGameReveal();pauseFilm();clearTimeout(navTimer);navigating=false;if(flowFrame)cancelAnimationFrame(flowFrame);flowFrame=0}
+addEventListener('resize',()=>{stopEndBounce();settleArrival();settleGameReveal();measureFlow()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)interrupt();else{measureFlow();syncFilm()}syncPreview()});
-motion.addEventListener('change',()=>{settleArrival();settleGameReveal();measureFlow();syncFilm();syncPreview()});
+motion.addEventListener('change',()=>{stopEndBounce();settleArrival();settleGameReveal();measureFlow();syncFilm();syncPreview()});
 addEventListener('pagehide',()=>{interrupt();preview.contentWindow?.postMessage({type:'vctrs-preview',active:false},location.origin)});
 addEventListener('pageshow',()=>{measureFlow();syncFilm();syncPreview()});
 addEventListener('online',()=>{if(filmFailed){filmFailed=false;status('');video.load();syncFilm()}});

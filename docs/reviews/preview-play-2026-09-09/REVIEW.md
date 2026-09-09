@@ -1,0 +1,3 @@
+# Independent review — PASS
+
+Received 2026-09-09T00:54:51.910Z. Native vertical/horizontal/diagonal swipes did not open game. Tap opens full game with unavailable iframe and reduced motion. Initial bounce cancellation reproduced and corrected: content-only animation completes without changing bottom scrollTop, repeated wheel does not stack, reverse scroll works, reduced motion has no bounce. Source/diff checks pass. Root SHA256 2aa9eba881e6648616a5d357d5fb38bf857011953f08c5d36b5fde52c81bed7c. Limits: local Chromium/emulated touch, no physical or deployed checks from reviewer. No writes/signup sends.

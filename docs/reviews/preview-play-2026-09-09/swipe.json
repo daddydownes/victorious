@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-09T00:54:20.510Z",
+  "status": "PASS",
+  "before": 844,
+  "scrollSamples": [
+    794,
+    729,
+    664,
+    599,
+    534,
+    469
+  ],
+  "nativeChromiumSwipeScrolls": true,
+  "swipeDidNotOpenGame": true,
+  "stalledPreviewDoesNotBlockGame": true
+}

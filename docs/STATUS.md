@@ -1,5 +1,12 @@
 # Current status
 
+## September 9 — tap preview to play and gentle end feedback
+
+The whole game preview now opens the full game on tap/click/keyboard, including reduced motion or a stalled preview iframe. Swipes continue scrolling. At the actual bottom, a restrained16px,520ms cue moves only visual content and returns without changing the scroll position; it does not stack and is disabled for reduced motion. Current party film, opening, layout and gameplay remain.
+
+Twelve repeated browser journeys, native swipe/stalled-preview checks, relevant source/game-lifecycle suites and independent review pass. See [evidence](reviews/preview-play-2026-09-09/README.md). Physical Safari remains untested. Based on7df8f28.
+
+
 ## September 9 — earlier Surface film restored
 
 The post-Surface section again uses the earlier performance footage, shortened to 24.833 seconds at native 1280×720. The opening title, closing POP UP SHOP announcement and logo outro are removed by retaining source seconds 3.25–28.10. A matching first-frame poster is embedded. The original full-length asset is retained. The opening remains the original 1920×1080 clip. The current V loading animation, automatic reveal, scroll readiness gates, layout and gameplay are unchanged. This supersedes the decision to use the opening montage after Surface.
