@@ -30,6 +30,15 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #worldFilmPoster{object-position:center;opacity:.94}
 #worldVideo{opacity:0;transition:opacity .6s}
 #worldPortrait.media-ready #worldVideo{opacity:1}
+#worldStory:not(.film-ready) .portrait-photo,#worldStory:not(.film-ready) #portrait-title{visibility:hidden}
+#worldFilmRetry{pointer-events:auto;background:none;border:0;padding:12px 0;font-size:13px;text-decoration:underline;text-underline-offset:5px}
+#worldFilmRetry[hidden]{display:none}
+#world.film-waiting{overflow:hidden;overflow:clip;scroll-snap-type:none;touch-action:pinch-zoom}
+#world.film-waiting .portrait-copy{transform:none!important}
+#world.film-waiting #worldNext{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);margin:0;width:max-content;max-width:90vw}
+#world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px));transform:translateX(-50%);margin:0}
+#worldNext[hidden]{display:none!important}
+#vault.vault-settling{pointer-events:none!important;touch-action:pinch-zoom}
 #world .portrait-copy{position:relative;z-index:2;width:70%;margin:0;padding:40svh 0 100px 6%;pointer-events:none}
 #world .portrait-copy h2{font-size:clamp(34px,4.8vw,74px);font-weight:700;line-height:1.06;letter-spacing:-.05em;text-shadow:0 2px 24px #0008;margin:0 0 32px}
 #world .portrait-copy h2 span{display:block}

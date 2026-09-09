@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-09T00:19:24.945Z",
+  "status": "PASS",
+  "profile": "Cold cache,1Mbps,200ms latency,Chromium phone emulation",
+  "state": {
+    "held": false,
+    "frame": true,
+    "label": "Scroll down↓",
+    "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4"
+  },
+  "gameWorks": true,
+  "errors": []
+}

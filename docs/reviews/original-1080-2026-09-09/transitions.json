@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-09T00:18:37.849Z",
+  "results": [
+    {
+      "name": "chromium",
+      "run": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 1,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 2,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 2,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 3,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 3,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "chromium",
+      "run": 4,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "run": 4,
+      "status": "PASS",
+      "vaultInputBeforeReady": false,
+      "resurfaceInputBeforeAnimationEnd": false,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines and emulated touch phones",
+    "No physical iPhone; no signup requests sent"
+  ]
+}

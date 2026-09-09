@@ -1,0 +1,261 @@
+{
+  "at": "2026-09-09T00:16:56.287Z",
+  "base": "http://127.0.0.1:4173",
+  "results": [
+    {
+      "name": "desktop",
+      "run": 1,
+      "status": "PASS",
+      "width": 1440,
+      "height": 900,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 1920,
+        "height": 1080,
+        "time": 0.206054,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "desktop",
+      "run": 2,
+      "status": "PASS",
+      "width": 1440,
+      "height": 900,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 1920,
+        "height": 1080,
+        "time": 0.228165,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "desktop",
+      "run": 3,
+      "status": "PASS",
+      "width": 1440,
+      "height": 900,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 1920,
+        "height": 1080,
+        "time": 0.227316,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "desktop",
+      "run": 4,
+      "status": "PASS",
+      "width": 1440,
+      "height": 900,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 1920,
+        "height": 1080,
+        "time": 0.237133,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "phone",
+      "run": 1,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 976,
+        "height": 549,
+        "time": 0.3334371,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "phone",
+      "run": 2,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 976,
+        "height": 549,
+        "time": 0.3052705,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "phone",
+      "run": 3,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 976,
+        "height": 549,
+        "time": 0.2397289,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "phone",
+      "run": 4,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 976,
+        "height": 549,
+        "time": 0.3156038,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "landscape",
+      "run": 1,
+      "status": "PASS",
+      "width": 667,
+      "height": 375,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 786,
+        "height": 442,
+        "time": 0.3299996,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "landscape",
+      "run": 2,
+      "status": "PASS",
+      "width": 667,
+      "height": 375,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 786,
+        "height": 442,
+        "time": 0.3163121,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "landscape",
+      "run": 3,
+      "status": "PASS",
+      "width": 667,
+      "height": 375,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 786,
+        "height": 442,
+        "time": 0.2980413,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "landscape",
+      "run": 4,
+      "status": "PASS",
+      "width": 667,
+      "height": 375,
+      "reduce": false,
+      "media": {
+        "src": "http://127.0.0.1:4173/assets/hero-film-51129a88918e.mp4",
+        "width": 786,
+        "height": 442,
+        "time": 0.3141663,
+        "ready": 4
+      },
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 1,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 2,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 3,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": true,
+      "errors": []
+    },
+    {
+      "name": "reduced",
+      "run": 4,
+      "status": "PASS",
+      "width": 390,
+      "height": 844,
+      "reduce": true,
+      "errors": []
+    },
+    {
+      "name": "chrome",
+      "mode": "delayed",
+      "status": "PASS",
+      "lockPassed": true,
+      "errors": []
+    },
+    {
+      "name": "chrome",
+      "mode": "blocked",
+      "status": "PASS",
+      "lockPassed": true,
+      "errors": []
+    },
+    {
+      "name": "webkit",
+      "mode": "blocked",
+      "status": "PASS",
+      "lockPassed": true,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Windows engines/emulated phones, not physical Safari",
+    "Mobile WebKit does not support wheel dispatch: keyboard and native tap checked there; Chromium checks wheel and touch",
+    "WebKit may downscale its reported playback frame size; original source verified separately",
+    "All signup traffic intercepted"
+  ]
+}

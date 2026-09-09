@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 9, 2026 — original quality and intentional loading escape
+
+Use the owner's original1080p clip rather than the different performance film. Preserve its encoded video stream. Hold the V until the first presented frame; after roughly12seconds offer Continue without film while retaining the input lock. Normal navigation unlocks only after all V, film and title entrance animations finish; a deliberate skip can bypass unavailable media. The vault stays inert through entry, its title's completed fade and image decoding. Eight-second bounded image jobs retain existing previews for stalled/failed full-size images. Keep pinch zoom and Space/Enter button activation available. Reduced motion shows a matching still immediately. A timeout must not permanently stop a slow video download or automatically skip ahead.
+
+
 ## September 9, 2026 — approved single-document guided homepage
 
 Keep the original opening and email composition. Surface into one focused film/story moment, then guide visitors into an interactive preview and the playable game. Keep the V anchored to the story, remove the game backdrop V, and use one Scroll down action. Finish with an unboxed Refresh website control on pure black; refresh starts the opening again. Section changes do not change the URL. Preserve existing legacy routes and hosting ownership files.

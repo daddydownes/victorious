@@ -1,0 +1,17 @@
+# Original 1080p hero and loading hold
+
+The owner-approved original is H.2641920×1080,3.733seconds, approximately5.8MB. The deployed media asset already exists; its encoded video stream SHA256 equals the supplied original: `ee82671b69bc4d2988224e44cb4a152b6be709cc59970dcd2cb0d7840ecf840a`. FFmpeg stream-copy hashing performed the comparison; no recompression/upscale was used. The supplied clip contains different footage from the superseded33-second performance film.
+
+Surface initially displays the V. Film/title remain hidden until a video-frame callback; the loading timer only exposes Continue without film after12seconds. Input stays locked through completion of all finite V/film/title entrance animations, or until a deliberate skip. The gate protects wheel, one-finger pan, navigation keys and programmatic/focus scroll, and keeps the game inert. Gate controls are fixed within the visible viewport. Retry/Play film handle media/autoplay errors. Reduced-motion users receive a matching still immediately.
+
+Vault input stays inert through its entrance, title transition completion and image decoding. Shared image jobs avoid duplicate loads; an eight-second deadline retains already-decoded previews when full-size images stall. Eight additional complete original-opening journeys (four Chromium, four WebKit) verify vault input before/after readiness and no resurfacing navigation before V/film/title animations finish. See [transition results](transitions.json). Readiness follows actual transition promises rather than assuming a nominal duration means a frame has settled.
+
+## Evidence
+
+Four consecutive affected journeys passed in Chromium1440×900, WebKit390×844, WebKit667×375 and WebKit reduced-motion390×844 (16total). They cover decoded playback or static fallback, preview/game/Exit/focus and Refresh. Chromium reported1920×1080 playing frames. WebKit can report a smaller decoded/rendered size even when requesting the same native1080p resource; source resolution is verified separately.
+
+Three additional cases cover delayed first-frame arrival and blocked media in Chromium/WebKit. They check visible V, hidden film, input lock, inert game, twelve-second button timing, continued lock after the button appears, on-screen button geometry and a native tap before entering the game. Chromium also exercises browser-dispatched touch input. WebKit media requests can bypass request interception, so its blocked case uses an actual local HTTP503 proxy. Mobile WebKit cannot dispatch wheel input; keyboard/native tap are used there. Original source/reveal/scroll/Surface checks passed. FormSubmit was intercepted throughout.
+
+The initial candidate used overflow:hidden alone, which allowed PageDown movement; its waiting controls also fell below a short landscape viewport. The corrected input gate and fixed controls address the reproduced failures. See [browser results](browser.json), [source metadata](source1080.json) and [independent review](independent-review.md). A cold-cache Chromium phone run at1Mbps and200ms latency also loaded the1080p film, unlocked after its arrival and reached the playable game without page errors; see [slow-network results](slow1080.json).
+
+To reproduce, serve the repository on4173 and run this directory's browser.cjs from the root with Playwright Chromium/WebKit installed. PLAYWRIGHT_MODULE may locate an external installation; BASE_URL switches to two focused live journeys. No physical iPhone or macOS Safari was available. This is scoped browser evidence, not universal performance certification.

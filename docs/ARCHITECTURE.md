@@ -4,7 +4,9 @@
 
 The live root is self-contained `index.html`. Its original opening, email, vault and game core remain in that file. `tools/guided/journey.js`, `journey.css`, `chapters.html` and `game-preview.html` own the approved post-Surface flow. Run `node tools/build-guided.cjs` after editing those sources; it embeds the preview and chapters into the root and validates inline syntax, signup and domain guards.
 
-Surface emits `vctrs:surface` into the same document. Chapter visibility uses visible pixels relative to the smaller of viewport/section height, so oversized landscape sections activate. Scroll work uses the existing requestAnimationFrame render; game clocks stop on reduced motion, hidden state and exit. Media posters remain available while video cannot play. Refresh intentionally reloads the opening without clearing saved game progress.
+Surface emits `vctrs:surface` into the same document. Chapter visibility uses visible pixels relative to the smaller of viewport/section height, so oversized landscape sections activate. Scroll work uses the existing requestAnimationFrame render; game clocks stop on reduced motion, hidden state and exit. The original1080p hero holds the V until its first frame and keeps input locked until the V/film/title entrance animations finish. A twelve-second unavailable-film button provides deliberate escape; reduced motion uses the matching poster. Refresh intentionally reloads the opening without clearing saved game progress.
+
+Vault entry uses shared image-decode jobs with an eight-second preview fallback. The guided controller keeps the vault inert/busy through image readiness and actual title-fade completion. Global capture guards reject navigation input during opening/settling; native pan activates for use only once the inert gate clears. See the [1080p and readiness review](reviews/original-1080-2026-09-09/README.md).
 
 The sections below describe preserved historical /experience/ implementations. **Do not run tools/build-experience.cjs to rebuild the current root:** that legacy generator can overwrite it. Historical routes and their assets are retained, but are not the current homepage journey.
 
