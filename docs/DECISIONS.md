@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 12 - preserve OG and build a consistent custom display family
+
+The owner asked for a more uniform, thoroughly developed version of the supplied original VCTRS artwork and explicitly requested publication. Keep the original artwork as the brand reference and retain previous font iterations. VCTRS Signature uses common curved stem/foot construction, related B/P/R bowls, widened round counters and V-derived W valleys. It is an all-caps display family with ASCII punctuation; lowercase input intentionally maps to capitals. Use it on the existing requested headings at normal weight, retaining the original logo artwork and the existing body/control fonts.
+
+
 ## September 12 - use the custom VCTRS face for brand and drop copy
 
 The owner requested the newly refined custom font on the real .com site's Canberra clothing-brand introduction and Details Dropping Soon text. Keep the existing words and composition, including the introduction's music and good-food line. Use the refined font only on those headings; retain the original logo artwork, navigation, form typography and media. Serve a versioned local WOFF2 with swap fallback and no synthetic weight. Adjust headline spacing and phone sizes to suit the actual letter widths.

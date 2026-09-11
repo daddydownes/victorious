@@ -1,5 +1,12 @@
 # Current status
 
+## September 12 - VCTRS Signature heading refinement
+
+Replaces VCTRS Refined with the new OG-inspired VCTRS Signature all-caps display family on the Canberra introduction and both Details Dropping Soon headings. The new face unifies curved stems, bowls, feet and V/W shapes, opens counters and uses optical spacing. The original logo artwork and all wording remain unchanged. The prior WOFF2 stays available; the new 6,716-byte file is assets/fonts/vctrs-signature-v3.woff2. Based on published revision 3ac21985e872b1a0f50f82fb662592a2fe97fac5.
+
+Validation: all 12 relevant source/behavior suites and the guided rebuild pass. Thirty-two fresh Chromium journeys pass: four each at 1440x900, 1280x720, 390x844, 844x390, 320x568, 430x932, plus phone and desktop reduced motion. Actual font loading, heading bounds, keyboard entry, Vault, Surface, game/Exit and return to Vault pass without page errors. FormSubmit is mocked. Phone and drop-card screenshots were inspected. Original HTML is identical after reversing only font-family and versioned URL substitutions and normalizing line endings. FontTools independently parses all three font formats; complete printable ASCII is present and lowercase input displays capitals. Physical Apple devices remain untested. Next: owner visual feedback on the published typography.
+
+
 ## September 12 - custom VCTRS heading font
 
 Applied the approved VCTRS Refined display face to the existing Canberra clothing-brand introduction and both Details Dropping Soon headings. All wording is preserved. Small-screen type sizes and tracking keep the existing lines readable; other typography, media, signup, game and navigation remain unchanged. The 6,552-byte versioned WOFF2 is self-hosted at `assets/fonts/vctrs-refined-v2.woff2`, preloaded by the root, and declared in `tools/guided/journey.css` so normal homepage rebuilds retain the change.
