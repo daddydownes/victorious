@@ -1,5 +1,13 @@
 # Current status
 
+## September 12 - custom VCTRS heading font
+
+Applied the approved VCTRS Refined display face to the existing Canberra clothing-brand introduction and both Details Dropping Soon headings. All wording is preserved. Small-screen type sizes and tracking keep the existing lines readable; other typography, media, signup, game and navigation remain unchanged. The 6,552-byte versioned WOFF2 is self-hosted at `assets/fonts/vctrs-refined-v2.woff2`, preloaded by the root, and declared in `tools/guided/journey.css` so normal homepage rebuilds retain the change.
+
+Based on published revision `59b602b9ac24b1abb801eea125043eec437ec246`. That baseline was matched byte for byte to the canonical live homepage before editing. Independent source review verifies that everything outside the scoped CSS and font preload remains identical after newline normalization, and the font matches the reviewed artifact SHA-256 `54b3977f99fa4a481dda3e2509ebafbdecf3f2d3e3bc9a2d2aa2e595f76d6e85`.
+
+Validation: guided build and all 12 relevant source/behavior suites pass, including vault-build-preservation. Thirty-two fresh Chromium journeys pass (four per configuration: 1440x900, 1280x720, 390x844, 844x390, 320x568, 430x932, plus phone and desktop reduced motion). Tests verify actual font loading, headline bounds, keyboard entry, Vault, Surface, game/Exit and return to Vault, with no page errors. Form transport was mocked. Phone and drop-card screenshots were inspected. These are desktop-browser emulation checks; physical iPhone/macOS Safari were not tested. Next: owner visual feedback on the typography.
+
 ## September 10 — approved selected-photo release candidate
 
 Expanded release validation passed: 40 fresh journeys across Chromium, WebKit and Firefox, four consecutive passes per configuration, including desktop, portrait, landscape, narrow screens and reduced motion. All 32 images load; game/return/Surface loops, keyboard entry, rotation and Refresh pass. Mocked signup success/failure/timeout and delayed photos pass. All required core suites and cold source review pass. See [release evidence](reviews/vault-photo-release-2026-09-10/README.md). WebKit was subsequently exercised using an available installed executable, superseding the earlier missing-default-path limitation below. Physical Apple devices remain untested.

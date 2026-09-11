@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 12 - use the custom VCTRS face for brand and drop copy
+
+The owner requested the newly refined custom font on the real .com site's Canberra clothing-brand introduction and Details Dropping Soon text. Keep the existing words and composition, including the introduction's music and good-food line. Use the refined font only on those headings; retain the original logo artwork, navigation, form typography and media. Serve a versioned local WOFF2 with swap fallback and no synthetic weight. Adjust headline spacing and phone sizes to suit the actual letter widths.
+
 ## September 10 — selected photographs around the current archive
 
 The owner approved all 32 selected photographs while retaining the current 17 tile positions, dimensions, rotations, original opening centre and media. The additional 15 photographs surround all four sides as one connected collection. Do not restore the rejected separate block to the right or shrink the original collection. Keep the inward presentation crops for DSCF4467 and DSCF4425 non-destructive.
