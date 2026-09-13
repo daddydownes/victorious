@@ -902,9 +902,9 @@
     <div class="next-drop-mark"><span class="vctrs-glyph" role="img" aria-label="VCTRS"></span></div>
     <div class="next-drop-kicker">POP-UP STORE</div>
     <div class="next-drop-rule" aria-hidden="true"></div>
-    <h2 class="next-drop-title">DETAILS<br>DROPPING SOON</h2>
+    <h2 class="next-drop-title">JOIN THE TEAM</h2>
     <form class="next-drop-email" id="nextDropEmail" novalidate>
-      <label for="nextDropEmailInput">BE FIRST TO KNOW</label>
+      <label for="nextDropEmailInput" class="sr">Email address</label>
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
       <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
     </form>
@@ -922,13 +922,13 @@
           <div class="signal-brand" role="img" aria-label="VCTRS"></div>
           <div class="sg1">POP-UP STORE</div>
           <div class="sgr" aria-hidden="true"></div>
-          <div class="sg2">DETAILS DROPPING SOON</div>
+          <div class="sg2">JOIN THE TEAM</div>
           <div class="sgc" id="popCount"></div>
           <div class="signup" id="signup">
             <form id="signupForm" novalidate>
               <input type="email" id="signupEmail" name="email" placeholder="your@email" autocomplete="email"
                 aria-label="Email address" required>
-              <button type="submit">Add email</button>
+              <button type="submit">JOIN</button>
               <div class="err mono" aria-live="polite"></div>
             </form>
             <div class="signed" aria-live="polite">
@@ -1766,7 +1766,7 @@
       button.disabled=false; nextDropEmail.removeAttribute('aria-busy');
       // Leave a newly edited address alone when an older request completes.
       if(input.value.trim()!==v) return;
-      result.textContent=ok?'YOU\'RE ON THE LIST':'NOT SENT — PLEASE TRY AGAIN';
+      result.textContent=ok?'YOU\'RE IN':'NOT SENT — PLEASE TRY AGAIN';
       if(ok) input.value='';
     });
   });

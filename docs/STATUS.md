@@ -1,5 +1,11 @@
 # Current status
 
+## September 13 - minimal team invitation and rounded headings
+
+Replaces both legacy Details Dropping Soon headings with JOIN THE TEAM. Removes the visible BE FIRST TO KNOW line while retaining the accessible email label; successful signup now reads YOU'RE IN. The invitation and Canberra introduction use self-hosted Fredoka, a restrained rounded display face (OFL license included). Original logo artwork, media and form transport remain intact.
+
+Validation is recorded in the release task: guided build and 12 source/behavior suites; 32 fresh Chromium journeys (four per desktop, portrait, landscape, narrow and reduced-motion configuration), plus mocked signup success/failure. Physical Apple devices are unavailable. Next: owner feedback on the live font and wording.
+
 ## September 12 - VCTRS Signature heading refinement
 
 Replaces VCTRS Refined with the new OG-inspired VCTRS Signature all-caps display family on the Canberra introduction and both Details Dropping Soon headings. The new face unifies curved stems, bowls, feet and V/W shapes, opens counters and uses optical spacing. The original logo artwork and all wording remain unchanged. The prior WOFF2 stays available; the new 6,716-byte file is assets/fonts/vctrs-signature-v3.woff2. Based on published revision 3ac21985e872b1a0f50f82fb662592a2fe97fac5.

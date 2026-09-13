@@ -863,14 +863,18 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
   .intro-v-halo svg{display:block;width:100%;height:100%;overflow:visible}
   @media(prefers-reduced-motion:reduce){.stage #film{transition:none}.vault{touch-action:pinch-zoom}}
 </style>
-<style data-demo="guided-chapters">/* Custom brand display face, scoped to the requested brand/drop headings. */
+<style data-demo="guided-chapters">/* Rounded display face for the brand introduction and team invitation. */
+@font-face{
+ font-family:'VCTRS Rounded';src:url('assets/fonts/fredoka-variable.ttf') format('truetype');
+ font-style:normal;font-weight:300 700;font-display:swap;
+}
 @font-face{
  font-family:'VCTRS Signature';
  src:url('assets/fonts/vctrs-signature-v3.woff2') format('woff2');
  font-style:normal;font-weight:400;font-display:swap;
 }
 .next-drop-title,.sg2{
- font-family:'VCTRS Signature',Cinzel,Georgia,serif;font-weight:400;
+ font-family:'VCTRS Rounded',Arial,sans-serif;font-weight:500;
  font-synthesis:none;font-kerning:normal;letter-spacing:.01em;line-height:1.12;
 }
 .sg2{font-size:20px;letter-spacing:.025em;white-space:normal}
@@ -920,7 +924,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #worldNext[hidden]{display:none!important}
 #vault.vault-settling{pointer-events:none!important;touch-action:pinch-zoom}
 #world .portrait-copy{position:relative;z-index:2;width:70%;margin:0;padding:40svh 0 100px 6%;pointer-events:none}
-#world .portrait-copy h2{font-family:'VCTRS Signature',Cinzel,Georgia,serif;font-size:clamp(34px,4.8vw,74px);font-weight:400;font-synthesis:none;font-kerning:normal;line-height:1.12;letter-spacing:.005em;text-shadow:0 2px 24px #0008;margin:0 0 32px}
+#world .portrait-copy h2{font-family:'VCTRS Rounded',Arial,sans-serif;font-size:clamp(34px,4.8vw,74px);font-weight:400;font-synthesis:none;font-kerning:normal;line-height:1.12;letter-spacing:.005em;text-shadow:0 2px 24px #0008;margin:0 0 32px}
 #world .portrait-copy h2 span{display:block}
 #world button{font-family:inherit;cursor:pointer;touch-action:manipulation;color:#d4af5f}
 #world .world-button{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:38px;min-height:56px;min-width:288px;max-width:100%;padding:16px 22px;border:1px solid #d4af5f88;background:#000e;font-size:14px;font-weight:600;letter-spacing:.04em;transition:background .18s,transform .18s}
@@ -1057,6 +1061,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 
 /* Let narrow phones shrink the grid below the artwork intrinsic width. */
 @media(max-width:700px){#world .play-section{grid-template-columns:minmax(0,1fr)}#world .play-copy{min-width:0}}
+
+.next-drop-email .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -1146,9 +1152,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     <div class="next-drop-mark"><span class="vctrs-glyph" role="img" aria-label="VCTRS"></span></div>
     <div class="next-drop-kicker">POP-UP STORE</div>
     <div class="next-drop-rule" aria-hidden="true"></div>
-    <h2 class="next-drop-title">DETAILS<br>DROPPING SOON</h2>
+    <h2 class="next-drop-title">JOIN THE TEAM</h2>
     <form class="next-drop-email" id="nextDropEmail" novalidate>
-      <label for="nextDropEmailInput">BE FIRST TO KNOW</label>
+      <label for="nextDropEmailInput" class="sr">Email address</label>
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
       <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
     </form>
@@ -1166,13 +1172,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
           <div class="signal-brand" role="img" aria-label="VCTRS"></div>
           <div class="sg1">POP-UP STORE</div>
           <div class="sgr" aria-hidden="true"></div>
-          <div class="sg2">DETAILS DROPPING SOON</div>
+          <div class="sg2">JOIN THE TEAM</div>
           <div class="sgc" id="popCount"></div>
           <div class="signup" id="signup">
             <form id="signupForm" novalidate>
               <input type="email" id="signupEmail" name="email" placeholder="your@email" autocomplete="email"
                 aria-label="Email address" required>
-              <button type="submit">Add email</button>
+              <button type="submit">JOIN</button>
               <div class="err mono" aria-live="polite"></div>
             </form>
             <div class="signed" aria-live="polite">
@@ -2030,7 +2036,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       button.removeAttribute('aria-disabled'); nextDropEmail.removeAttribute('aria-busy');
       // Leave a newly edited address alone when an older request completes.
       if(input.value.trim()!==v) return;
-      result.textContent=ok?'YOU\'RE ON THE LIST':'NOT SENT — PLEASE TRY AGAIN';
+      result.textContent=ok?'YOU\'RE IN':'NOT SENT — PLEASE TRY AGAIN';
       if(ok) input.value='';
     });
   });
