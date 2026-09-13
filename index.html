@@ -877,10 +877,11 @@ body.surfaced .surface-story{display:grid}.surface-story-logo{width:min(72vw,102
  font-family:'VCTRS Rounded',Arial,sans-serif;font-weight:500;
  font-synthesis:none;font-kerning:normal;letter-spacing:.01em;line-height:1.12;
 }
-.sg2{font-size:20px;letter-spacing:.025em;white-space:normal}
-@media(max-width:700px){.next-drop-title{font-size:clamp(26px,8vw,42px)}}
-@media(max-width:560px){.sg2{font-size:clamp(14px,4.5vw,18px)}}
-@media(max-height:520px){.next-drop-title{font-size:clamp(24px,7.5vh,30px)}}
+.next-drop-title{font-size:clamp(22px,3vw,32px)}
+.sg2{font-size:16px;letter-spacing:.025em;white-space:normal}
+@media(max-width:700px){.next-drop-title{font-size:clamp(20px,6vw,26px)}}
+@media(max-width:560px){.sg2{font-size:clamp(13px,4vw,16px)}}
+@media(max-height:520px){.next-drop-title{font-size:clamp(18px,5vh,22px)}}
 /* Guided demo: the production identity, with one active chapter. */
 [hidden]{display:none!important}
 html{background:#000}
@@ -1152,7 +1153,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     <div class="next-drop-mark"><span class="vctrs-glyph" role="img" aria-label="VCTRS"></span></div>
     <div class="next-drop-kicker">POP-UP STORE</div>
     <div class="next-drop-rule" aria-hidden="true"></div>
-    <h2 class="next-drop-title">JOIN THE TEAM</h2>
+    <h2 class="next-drop-title">ADD YOUR EMAIL</h2>
     <form class="next-drop-email" id="nextDropEmail" novalidate>
       <label for="nextDropEmailInput" class="sr">Email address</label>
       <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
@@ -1172,7 +1173,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
           <div class="signal-brand" role="img" aria-label="VCTRS"></div>
           <div class="sg1">POP-UP STORE</div>
           <div class="sgr" aria-hidden="true"></div>
-          <div class="sg2">JOIN THE TEAM</div>
+          <div class="sg2">ADD YOUR EMAIL</div>
           <div class="sgc" id="popCount"></div>
           <div class="signup" id="signup">
             <form id="signupForm" novalidate>
