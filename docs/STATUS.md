@@ -351,3 +351,6 @@ September7 launcher validation: real root and directory redirect, three MP4 byte
 
 ## September 13 - custom game lettering release
 Approved custom comic heading and signup-style gold glow. Validation: 76 full journeys across 19 Chromium/WebKit/Firefox configurations, four passes each, 12 source suites, eight mocked signup cases and four motion/fallback cases. Latest signup changes preserved. See docs/reviews/play-lettering-2026-09-13. Physical Apple/Android devices remain untested. Publication authorized; live verification recorded with release result.
+
+## September 13 - seamless Surface chapter boundary
+Reproduced a full-width line as the browser's native focus outline on worldGame after keyboard navigation. Suppress outlines only on focused journey sections; retain destination focus and visible button outlines. Guided build/source checks pass. Targeted browser checks cover normal-motion desktop and reduced-motion phone navigation, Tab focus, game entry and Exit. Physical devices remain untested.

@@ -908,6 +908,8 @@ body.world-active{position:fixed;inset:0;overflow:hidden;height:100dvh!important
 body.world-active #stage,body.world-active #beyond,body.world-active .surface-story,body.world-active .seamsec,body.world-active .descent{visibility:hidden!important;pointer-events:none!important}
 #world{position:fixed;inset:0;z-index:1350;background:#000;color:#d4af5f;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scrollbar-width:thin;scrollbar-color:#d4af5f55 #000;touch-action:pan-y pinch-zoom;font-family:Cinzel,Georgia,serif}
 #world *,#world *:before,#world *:after{box-sizing:border-box}
+/* Navigation focuses the chapter, but must not draw a frame across the black seam. */
+#world .journey-section:focus{outline:none}
 #world .world-scene,#world .play-section{position:relative;isolation:isolate;min-height:100svh;min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#000}
 #world .portrait-photo{position:absolute;left:54%;top:10%;width:38%;height:76%;background:#16130e;overflow:hidden;isolation:isolate}
 #worldFilmPoster,#worldVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
