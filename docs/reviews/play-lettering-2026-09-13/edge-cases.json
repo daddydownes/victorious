@@ -1,0 +1,22 @@
+[
+  {
+    "engine": "chromium",
+    "case": "runtime-motion-toggle",
+    "status": "PASS"
+  },
+  {
+    "engine": "chromium",
+    "case": "missing-art-fallback",
+    "status": "PASS"
+  },
+  {
+    "engine": "webkit",
+    "case": "runtime-motion-toggle",
+    "status": "PASS"
+  },
+  {
+    "engine": "webkit",
+    "case": "missing-art-fallback",
+    "status": "PASS"
+  }
+]

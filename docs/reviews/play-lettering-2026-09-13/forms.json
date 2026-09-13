@@ -1,0 +1,50 @@
+[
+  {
+    "engine": "chromium",
+    "mode": "invalid",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "chromium",
+    "mode": "success",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "chromium",
+    "mode": "failure",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "chromium",
+    "mode": "timeout",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "webkit",
+    "mode": "invalid",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "webkit",
+    "mode": "success",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "webkit",
+    "mode": "failure",
+    "status": "PASS",
+    "mocked": true
+  },
+  {
+    "engine": "webkit",
+    "mode": "timeout",
+    "status": "PASS",
+    "mocked": true
+  }
+]

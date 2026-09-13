@@ -348,3 +348,6 @@ These findings were recorded in earlier QA and have not been fixed by the metada
 Owner for triage: next maintainer working with the site owner. These are recorded as deferred follow-ups, not as fixed or release-approved. The stale share-image issue is fixed and must not be reopened from old reports.
 
 September7 launcher validation: real root and directory redirect, three MP4 byte-range forms, range rejection, HEAD, missing path, dotfile blocking, method restriction and repeat launch pass. In-app browser completed original entrance → PRESS HERE → vault → Surface → event video playing → game open/exit with restored focus → real vault return → full restart. Root/story styles, scripts, videos, images and fonts retain their reviewed hashes. This is a desktop/panel browser check, not a new phone/Safari release audit.
+
+## September 13 - custom game lettering release
+Approved custom comic heading and signup-style gold glow. Validation: 76 full journeys across 19 Chromium/WebKit/Firefox configurations, four passes each, 12 source suites, eight mocked signup cases and four motion/fallback cases. Latest signup changes preserved. See docs/reviews/play-lettering-2026-09-13. Physical Apple/Android devices remain untested. Publication authorized; live verification recorded with release result.

@@ -240,3 +240,6 @@ A cancelable onward wheel step that would cross the24% entry threshold is capped
 ## September 13 - joining the team
 
 The owner requested the real .com signup feel like joining the team with fewer words, removing Details Dropping Soon, followed by a more formal bubble-style font. Use JOIN THE TEAM with one email field and JOIN; choose a restrained rounded display face for the invitation and introduction. Preserve the original logo artwork.
+
+## September 13 - approved custom comic game heading
+Publish the owner-selected original vector lettering: thick rounded strokes, solid gold and no dots or drips. Preserve preview layout and gameplay. Glow follows preview visibility, document visibility, game state and reduced motion. Keep original assets available.

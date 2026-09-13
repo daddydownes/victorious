@@ -1,0 +1,50 @@
+[
+  {
+    "test": "guided-source",
+    "exit": 0
+  },
+  {
+    "test": "reveal",
+    "exit": 0
+  },
+  {
+    "test": "post-surface-scroll",
+    "exit": 0
+  },
+  {
+    "test": "press-feedback",
+    "exit": 0
+  },
+  {
+    "test": "surface-input",
+    "exit": 0
+  },
+  {
+    "test": "flappy-difficulty",
+    "exit": 0
+  },
+  {
+    "test": "flappy-collision",
+    "exit": 0
+  },
+  {
+    "test": "flappy-material",
+    "exit": 0
+  },
+  {
+    "test": "flappy-lifecycle",
+    "exit": 0
+  },
+  {
+    "test": "flappy-death",
+    "exit": 0
+  },
+  {
+    "test": "flappy-reachability",
+    "exit": 0
+  },
+  {
+    "test": "vault-build-preservation",
+    "exit": 0
+  }
+]

@@ -72,6 +72,7 @@ video.addEventListener('waiting',()=>{if(filmAllowed()){status('Film is loading.
 video.addEventListener('error',()=>{if(state==='story')failFilm('Film unavailable. Retry while we hold your place.')});
 filmRetry.addEventListener('click',()=>{filmFailed=false;filmUserPaused=false;filmRetry.hidden=true;status('Film is loading.');if(video.error)video.load();syncFilm()});
 function syncPreview(){
+ game.classList.toggle('play-light-active',state==='preview'&&gameVisible&&!document.hidden&&!motion.matches);
  tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
  preview.contentWindow?.postMessage({type:'vctrs-preview',active:state!=='entry'&&state!=='game'&&gameVisible&&!document.hidden&&!motion.matches},location.origin);
 }

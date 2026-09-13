@@ -74,9 +74,17 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world .play-section{display:grid;grid-template-columns:.8fr 1.2fr;grid-template-rows:1fr auto auto;align-items:center;gap:16px 5vw;padding:8vh 7vw max(32px,env(safe-area-inset-bottom))}
 #world .play-copy{align-self:center;position:relative;text-align:center}
 #world #play-title{position:relative;margin:0;color:#d4af5f;aspect-ratio:1.5;font:700 clamp(40px,6vw,80px)/1.1 Cinzel,serif}
-#world .paint-title-text{position:absolute;inset:20% 0 auto;z-index:-1}
-#world .spray-headline{width:100%;height:100%;object-fit:contain;background:#000;display:block}
-#world .art-failed .paint-title-text{z-index:auto}
+#world .paint-title-text{position:absolute;inset:20% 0 auto;z-index:-1;opacity:0}
+#world .spray-headline{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 0 7px rgba(240,212,146,.18))}
+#world #play-title::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(105deg,transparent 38%,rgba(255,246,215,.62) 50%,transparent 62%);background-size:250% 100%;-webkit-mask:url('assets/play-the-game-custom-v1.svg') center/contain no-repeat;mask:url('assets/play-the-game-custom-v1.svg') center/contain no-repeat}
+#world .art-failed#play-title::after{display:none}
+@media(prefers-reduced-motion:no-preference){
+ #world .play-light-active .spray-headline{animation:playMarkGlow 5.4s ease-in-out infinite}
+ #world .play-light-active #play-title::after{animation:playMarkShine 5.4s cubic-bezier(.4,0,.2,1) infinite}
+}
+@keyframes playMarkGlow{0%,58%,100%{filter:drop-shadow(0 0 7px rgba(240,212,146,.18))}22%,30%{filter:drop-shadow(0 0 10px rgba(240,212,146,.34)) drop-shadow(0 0 23px rgba(212,175,95,.12))}}
+@keyframes playMarkShine{0%,10%{background-position:130% 0;opacity:0}22%{opacity:.46}42%{background-position:-130% 0;opacity:.46}54%,100%{background-position:-130% 0;opacity:0}}
+#world .art-failed .paint-title-text{z-index:auto;opacity:1}
 #world .art-failed .spray-headline{visibility:hidden}
 #world .play-cue{display:block;background:none;border:0;padding:0;width:44%;min-height:80px;aspect-ratio:1;margin:-5% 0 0 52%}
 #world .spray-arrow-art{width:100%;height:100%;display:block;transform:rotate(-32deg)}
