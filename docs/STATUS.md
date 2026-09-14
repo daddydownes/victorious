@@ -1,5 +1,12 @@
 # Current status
 
+## September 14 - top-right portrait addition
+
+Based on GitHub main 1f1affe. Added the supplied black-tee portrait as photo 33, 500 pixels wide at the upper right of the vault. All existing 32 photo records, including the central DJ image, remain unchanged. The original JPEG is preserved byte for byte. Normal guided builds retain the addition.
+
+Validation: guided build, source and behavior suites, spatial bounds/no-overlap and byte-fidelity checks pass. Chromium desktop and phone-emulation entry, portrait viewing and Surface-return journeys are recorded in the release task. Physical Safari devices were not tested.
+
+
 ## September 13 - minimal team invitation and rounded headings
 
 Replaces both legacy Details Dropping Soon headings with JOIN THE TEAM. Removes the visible BE FIRST TO KNOW line while retaining the accessible email label; successful signup now reads YOU'RE IN. The invitation and Canberra introduction use self-hosted Fredoka, a restrained rounded display face (OFL license included). Original logo artwork, media and form transport remain intact.

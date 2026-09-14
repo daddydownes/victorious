@@ -17,7 +17,7 @@ try{for(let pass=1;pass<=4;pass++){
  if(pass===2){await p.locator('#nextVaultHold').focus();await p.keyboard.press('Enter')}else await p.locator('#nextVaultHold').click();
  await p.waitForFunction(()=>window.__guide.phase()==='vault'&&!document.getElementById('vault').inert);
  await p.waitForFunction(()=>[...document.querySelectorAll('#plane img')].every(i=>i.complete&&i.naturalWidth>0&&!i.dataset.src));
- assert.equal(await p.locator('#plane img').count(),32);
+ assert.equal(await p.locator('#plane img').count(),33);
  const before=await p.evaluate(()=>__vaultPan.position());
  await p.mouse.move(width*.65,height*.65);await p.mouse.down();await p.mouse.move(width*.35,height*.40,{steps:12});await p.mouse.up();
  if(pass===3){await p.setViewportSize({width:height,height:width});await p.waitForTimeout(300);await p.setViewportSize({width,height});}
@@ -36,7 +36,7 @@ try{for(let pass=1;pass<=4;pass++){
  await Promise.all([p.waitForEvent('domcontentloaded'),p.locator('#worldRefresh').click()]);
  await p.locator('#nextVaultHold').waitFor({state:'visible'});
  assert.deepEqual(errors,[]);assert.deepEqual(bad,[]);
- results.push({engine,width,height,motion,pass,status:'PASS',fullPhotos:32,returnLoops:2,refresh:true,errors,bad});
+ results.push({engine,width,height,motion,pass,status:'PASS',fullPhotos:33,returnLoops:2,refresh:true,errors,bad});
  console.log('PASS',engine,width,height,motion,pass);
  }catch(e){await p.screenshot({path:path.join(out,'FAIL-'+engine+'-'+width+'-'+pass+'.png')}).catch(()=>{});results.push({engine,width,height,motion,pass,status:'FAIL',error:e.message,errors,bad});throw e;}finally{fs.writeFileSync(path.join(out,'matrix.json'),JSON.stringify({base,time:new Date().toISOString(),results},null,2));await c.close();}
  }}finally{await b.close()}}

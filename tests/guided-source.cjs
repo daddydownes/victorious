@@ -9,10 +9,11 @@ assert.equal(section(script,'  var VWHITE=','  function lock()'),section(before,
 assert.equal(section(script,'  var LIST_URL=','  function captureReceipt'),section(before,'  var LIST_URL=','  function captureReceipt'),'Live signup transport preserved');
 const photos=s=>JSON.parse(s.match(/var PHOTOS=(\[[^\r\n]*\]);/)[1]).map(({preview,...p})=>p);
 const selected=photos(script),liveSlots=photos(before);
-assert.equal(selected.length,32,'All selected photographs included');
-assert.equal(new Set(selected.map(p=>p.src)).size,32,'No duplicate replacement paths');
-assert.equal(new Set(selected.map(p=>p.name)).size,32,'No duplicate source photographs');
+assert.equal(selected.length,33,'All selected photographs included');
+assert.equal(new Set(selected.map(p=>p.src)).size,33,'No duplicate replacement paths');
+assert.equal(new Set(selected.map(p=>p.name)).size,33,'No duplicate source photographs');
 selected.forEach(p=>{
+ if(p.featured){assert.equal(p.slot,32);assert.ok(fs.existsSync(path.join(root,p.src)));return;}
  assert.ok(Number.isInteger(p.slot)&&p.slot>=0&&p.slot<17);
  assert.equal(typeof p.added,'boolean');
  const b=liveSlots[p.slot];
@@ -32,4 +33,4 @@ for(const doc of [html,preview])for(const m of doc.matchAll(/<(?:img|video|sourc
  const ref=m[1];if(/^(?:https?:|data:|#|about:)/.test(ref))continue;const relative=decodeURIComponent(ref.split(/[?#]/)[0]);let current=root;
  for(const bit of relative.split('/').filter(Boolean)){assert.ok(fs.readdirSync(current).includes(bit),'Case-sensitive asset missing: '+ref);current=path.join(current,bit)}assert.ok(fs.statSync(current).isFile());assets++;
 }
-console.log('guided source PASS: original opening, signup, physics, 32 selected photos in preserved live slots, metadata, hosting files, embedded source and '+assets+' asset references.');
+console.log('guided source PASS: original opening, signup, physics, 33 selected photos with original live slots preserved, metadata, hosting files, embedded source and '+assets+' asset references.');

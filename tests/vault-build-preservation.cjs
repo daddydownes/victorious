@@ -6,5 +6,5 @@ const after=writes.get(path.join(root,'index.html'));
 for(const re of [/var PHOTOS=\[.*?\];/s,/var PHOTO_NH=\[.*?\];/s,/var PLANE=\{.*?\};/s])assert.equal(after.match(re)[0],before.match(re)[0]);
 const reset="world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');";
 assert(before.includes(reset));assert(after.includes(reset));
-assert.equal(JSON.parse(after.match(/var PHOTOS=(\[.*?\]);/s)[1]).length,32);
-console.log('PASS: normal guided rebuild preserves all32 photos, display heights, plane and scroll reset before film gate.');
+assert.equal(JSON.parse(after.match(/var PHOTOS=(\[.*?\]);/s)[1]).length,33);
+console.log('PASS: normal guided rebuild preserves all33 photos, display heights, plane and scroll reset before film gate.');
