@@ -12,7 +12,7 @@ const nearest=[];
 for(let i=17;i<33;i++){
  const b=boxes[i];assert(b.left>=0&&b.top>=0&&b.right<=plane.w&&b.bottom<=plane.h,'Rotated added photo stays inside pan bounds');
  for(let j=0;j<i;j++)assert(gap(b,boxes[j])>=40,`Unwanted overlap/tight gap ${i}/${j}: ${gap(b,boxes[j])}`);
- const d=Math.min(...boxes.slice(0,i===32?32:17).map(a=>gap(a,b)));assert(d<=300,`Photo ${i} is too far from existing collection: ${d}`);nearest.push(Math.round(d));
+ const d=Math.min(...(i===17||i===32?boxes.filter((_,j)=>j!==i):boxes.slice(0,17)).map(a=>gap(a,b)));assert(d<=300,`Photo ${i} is too far from existing collection: ${d}`);nearest.push(Math.round(d));
 }
 const visited=new Set([0]);let more=true;while(more){more=false;for(let i=0;i<33;i++)if(!visited.has(i)&&[...visited].some(j=>gap(boxes[i],boxes[j])<=300)){visited.add(i);more=true;}}
 assert.equal(visited.size,33,'Every tile belongs to one connected collection');

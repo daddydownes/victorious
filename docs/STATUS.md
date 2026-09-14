@@ -2,7 +2,7 @@
 
 ## September 14 - top-right portrait addition
 
-Based on GitHub main 1f1affe. Added the supplied black-tee portrait as photo 33, 500 pixels wide at the upper right of the vault. All existing 32 photo records, including the central DJ image, remain unchanged. The original JPEG is preserved byte for byte. Normal guided builds retain the addition.
+Based on GitHub main 1f1affe. Added the supplied black-tee portrait as photo 33, 500 pixels wide at the upper right of the vault. Follow-up: moved one photo inward to (2830, 480), swapping positions with the neighboring cap photograph; the central DJ photo remains unchanged. All 32 existing photos are retained; only the neighboring cap photograph changes position. The original JPEG is preserved byte for byte. Normal guided builds retain the addition.
 
 Validation: guided build, source and behavior suites, spatial bounds/no-overlap and byte-fidelity checks pass. Chromium desktop and phone-emulation entry, portrait viewing and Surface-return journeys are recorded in the release task. Physical Safari devices were not tested.
 
