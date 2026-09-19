@@ -1,5 +1,13 @@
 # Current status
 
+## September 19 — optimized loading with approved centred 03 fade
+
+Release based on freshly verified GitHub/live `9be6e84b2704fed85266a5df8ed38c7ec2c89db7`. Combines the network fixes documented in [slow-network audit](slow-network-audit.md) with refined Through the Mark (03): centred 1550ms arrival, no sideways arc/rotation, then immediate 1250ms forward expansion and transparent fade. The owner explicitly authorized this combination and publication to the real domain. The original opening film and signup transport remain; no demo shortcut or mocked form handler is shipped.
+
+Validation: 40 fresh complete journeys passed, four each across Chromium desktop/narrow/large phone and desktop/phone reduced motion, WebKit desktop/portrait/landscape, and Firefox desktop. Includes all 33 original photos, keyboard entry, Surface, repeated game/return loops, rotation, and Refresh, with no page errors or failed responses. Eight additional Chromium cases passed delayed hero, 1Mbps/200ms latency, explicit stalled-hero escape, four pending original downloads with unlocked vault controls, stalled second-film retry, and complete journeys. Four sampled-animation checks confirm centred forward expansion/transparency at 1440x900, 390x844, 844x390 and 320x568. Thirteen mechanical suites, guided build, diff check and independent cold review passed. All 166 binary media/font assets are unchanged from the base.
+
+Reproduction: workflow tests plus `node tests/network-loading.cjs`; with Playwright installed and `DEMO_URL` pointing to the candidate, run `node tests/vault-release-browser.cjs` and `node tests/vault-through-browser.cjs`. `EVIDENCE_DIR` selects a local report directory. Production deployment and canonical live equality are verified by the publishing task after push. Physical Apple/Android devices and Instagram's embedded browser remain untested; browser-engine automation and throttling are not physical-device certification.
+
 ## September 19 - approved email styling release
 
 Based on verified live/GitHub commit edb1008850a5d7beb4351e58c5cb808ddfd488c8. The divider is hidden, the existing logo aura and shine are restored with a slightly stronger glow, both vault labels use VCTRS Rounded, and email/button corners are 10px. Source is tools/guided/journey.css; root index.html is rebuilt with the normal guided builder. Owner approved publication to the real .com.

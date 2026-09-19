@@ -601,7 +601,7 @@
      the vault identity itself, with THE VAULT as its quiet descriptor below. */
   .vault-title{position:absolute;left:50%;top:50%;width:clamp(148px,18vw,176px);text-align:center;
     opacity:1;transform:translate(-50%,-50%);pointer-events:none}
-  .vault-title.gone{opacity:0!important;transition:opacity .22s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+  .vault-title.gone{pointer-events:none}
   .vault-brand-slot{width:100%;aspect-ratio:766/285}
   .vault-brand-logo,.vault-brand-live{display:block;width:100%;height:100%;background:#f0d492;
     -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
@@ -1087,6 +1087,11 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-width:700px){#world .play-section{grid-template-columns:minmax(0,1fr)}#world .play-copy{min-width:0}}
 
 .next-drop-email .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* Approved study 03: centred arrival, then forward expansion into the viewer. */
+.vault-title{will-change:transform,opacity,filter}
+.vault-title{width:clamp(230px,30vw,420px)}.vault-brand-name,.vault-title .rule{display:none}.vault-title.gone{animation:vaultThrough 1250ms cubic-bezier(.3,0,.55,1) both}@keyframes vaultThrough{0%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}28%{opacity:.9}65%{opacity:.3}100%{opacity:0;transform:translate(-50%,-50%) scale(5.5);filter:blur(9px)}}
+@media(prefers-reduced-motion:reduce){.vault-title{will-change:auto}.vault-title.gone{animation:none!important;opacity:0;filter:none}}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -1592,7 +1597,11 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   function unlock(){ document.documentElement.classList.add('gutter'); document.body.classList.remove('locked'); }
   function blockScroll(e){ if(phase!=='done'){ e.preventDefault(); } }
 
-  var timer=null, started=0, resumeFilm=false;
+  var timer=null, started=0, resumeFilm=false, lastFilmTime=0;
+  var openingContinue=document.createElement('button');
+  openingContinue.type='button'; openingContinue.className='opening-continue';
+  openingContinue.textContent='Continue to email'; openingContinue.hidden=true;
+  openingContinue.addEventListener('click',failOpen);document.body.appendChild(openingContinue);
   addEventListener('visibilitychange',function(){
     if(document.hidden){
       resumeFilm=phase==='playing' && !film.paused;
@@ -1604,9 +1613,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       }
     }
   });
-  /* THE one graceful-failure exit. Both the play() rejection and the stall
-     watchdog land here so they can never diverge into "film chapter over, but
-     no mark ever painted" — which left the user on a raw video frame. */
+  // Unsupported playback and the visitor's explicit Continue share one exit.
   function failOpen(){ film.pause(); if(!logoShown) showFilmLogo(true); finish(); }
   function play(){
     if(phase!=='ready') return;
@@ -1618,19 +1625,19 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     startCam();
     var p=film.play();
     if(p&&p.catch){ p.catch(failOpen); } // refused (in-app browser / low power): still paint the mark
-    started=motionNow();                  // hidden time is excluded from the stall budget
+    started=motionNow(); lastFilmTime=film.currentTime;
     timer=setInterval(function(){
       if(document.hidden) return; // throttled to ~1Hz while hidden, but Date.now keeps running
-      var d=film.duration||3.734;
-      // watchdog: if the video stalls (power saving, hidden tab, decode failure),
-      // never leave the page locked — fail open once the clip should long be over
-      if(film.ended){ showFilmLogo(false); }                        // full cut, then the original fade into email
-      else if((film.readyState<2 && motionNow()-started>1600) || (motionNow()-started)/1000 > Math.min(d+2,8)){ failOpen(); }        // stalled: paint it ourselves
+      // Buffering is not the end of the film. Preserve the complete HD cut,
+      // with an explicit escape only if playback makes no progress for 15s.
+      if(film.currentTime>lastFilmTime){lastFilmTime=film.currentTime;started=motionNow();openingContinue.hidden=true;}
+      if(film.ended){ showFilmLogo(false); }
+      else if(motionNow()-started>15000){openingContinue.hidden=false;}
     },100);
   }
   function finish(){
     if(phase==='done') return;
-    phase='done'; if(timer){clearInterval(timer); timer=null;}
+    phase='done'; openingContinue.hidden=true; if(timer){clearInterval(timer); timer=null;}
     if(logoTintTask){cancelMotionTask(logoTintTask); logoTintTask=null;} // Cancel an interrupted fade before completing the handoff.
     // Keep the opening title hidden while the email chapter takes over.
     stage.classList.remove('playing'); stage.classList.add('done','cardend');
@@ -1821,6 +1828,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   addEventListener('wheel',blockScroll,{passive:false});
   addEventListener('touchmove',blockScroll,{passive:false});
   addEventListener('keydown',function(e){
+    if(e.key===' ' && e.target===openingContinue) return; // preserve native button activation
     var scrollKeys=[' ','ArrowDown','ArrowUp','PageDown','PageUp','Home','End'];
     if(scrollKeys.indexOf(e.key)>=0){ if(phase!=='done') e.preventDefault(); arm(); }
   });
@@ -2536,16 +2544,16 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       var tr=vaultBrandSlot.getBoundingClientRect(),
           dx=(tr.left+tr.width/2)-(sourceRect.left+sourceRect.width/2),
           dy=(tr.top+tr.height/2)-(sourceRect.top+sourceRect.height/2),
-          s=tr.width/sourceRect.width, arc=Math.min(13,innerWidth*.025), D=1250,
+          s=tr.width/sourceRect.width, arc=0, D=1550,
           finalFilter='drop-shadow(0 0 7px rgba(240,212,146,.22))',
           tx=function(n){return (dx*n).toFixed(2)+'px'}, ty=function(n,extra){return (dy*n+(extra||0)).toFixed(2)+'px'},
           tf=function(x,y,z,r){return 'translate('+x+','+y+') scale('+z.toFixed(4)+') rotate('+r+'deg)'};
       var markAnim=movingImg.animate([
         {offset:0,transform:tf('0px','0px',1,0),backgroundColor:'#f7f5ef',filter:sourceFilter,easing:'cubic-bezier(.42,0,.7,1)'},
-        {offset:.11,transform:tf('0px','4px',.978,-.25),backgroundColor:'#f7f5ef',filter:sourceFilter,easing:'cubic-bezier(.18,.82,.22,1)'},
-        {offset:.23,transform:tf(tx(.06),ty(.04,-8),1.018,.35),backgroundColor:'#f2e5c7',filter:sourceFilter,easing:'cubic-bezier(.16,.84,.22,1)'},
-        {offset:.72,transform:tf((dx*.94+arc).toFixed(2)+'px',ty(.9),s*.87,-.28),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
-        {offset:.86,transform:tf(dx.toFixed(2)+'px',dy.toFixed(2)+'px',s*1.06,.12),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
+        {offset:.11,transform:tf('0px','4px',.978,0),backgroundColor:'#f7f5ef',filter:sourceFilter,easing:'cubic-bezier(.18,.82,.22,1)'},
+        {offset:.23,transform:tf(tx(.06),ty(.04,-8),1.018,0),backgroundColor:'#f2e5c7',filter:sourceFilter,easing:'cubic-bezier(.16,.84,.22,1)'},
+        {offset:.72,transform:tf((dx*.94+arc).toFixed(2)+'px',ty(.9),s*.96,0),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
+        {offset:.86,transform:tf(dx.toFixed(2)+'px',dy.toFixed(2)+'px',s*.99,0),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
         {offset:1,transform:tf(dx.toFixed(2)+'px',dy.toFixed(2)+'px',s,0),backgroundColor:'#f0d492',filter:finalFilter}
       ],{duration:D,easing:'linear',fill:'forwards'});
       motion.push(markAnim);
@@ -2561,8 +2569,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
         {offset:0,opacity:0},{offset:.36,opacity:0},{offset:.48,opacity:.08},{offset:.72,opacity:1},{offset:1,opacity:1}
       ],{duration:D,easing:'linear',fill:'forwards'}));
       motion.push(dive.animate([
-        {offset:0,transform:'scale(.78)'},{offset:.68,transform:'scale(1.022)'},
-        {offset:.86,transform:'scale(.992)'},{offset:1,transform:'scale(1)'}
+        {offset:0,transform:'scale(.78)'},{offset:.68,transform:'scale(.98)'},
+        {offset:.86,transform:'scale(.997)'},{offset:1,transform:'scale(1)'}
       ],{duration:D,easing:'linear',fill:'forwards'}));
       var deadline=motionNow()+D, lastTarget=tr;
       function watchLanding(animation){
@@ -2792,7 +2800,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       vaultBrandSlot.removeAttribute('aria-hidden');
     }
     vaultTitle.classList.remove('gone','revealed'); void vaultTitle.offsetWidth; vaultTitle.classList.add('revealed');
-    afterMotion(reduced?0:420,function(){
+    afterMotion(0,function(){
       if(myTitleGen!==vaultTitleGen){if(finishTitleReady)finishTitleReady();if(finishInteractiveReady)finishInteractiveReady();return;}
       vaultTitle.classList.add('gone');void vaultTitle.offsetWidth;
       if(finishInteractiveReady)finishInteractiveReady();
@@ -2853,7 +2861,10 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       var p=PHOTOS[i];
       var img=document.createElement('img');
       img.width=620; img.height=PHOTO_NH[i]; img.decoding='async'; img.loading='eager';
-      img.src=p.preview; img.dataset.src=p.src; img.alt='VCTRS archive piece '+(i+1); img.draggable=false;
+      // Embedded previews cost no network. The full-size feature joins the
+      // original-image queue instead of competing with the opening film.
+      if(p.preview!==p.src) img.src=p.preview; else img.style.visibility='hidden';
+      img.dataset.src=p.src; img.alt='VCTRS archive piece '+(i+1); img.draggable=false;
       if(i===16){ img.id='vaultDJ'; img.alt='DJ behind the decks at a VCTRS event'; }
       if(p.featured){ img.id='vaultFeature'; img.alt='VCTRS black tee portrait'; }
       img.style.width=p.w+'px';
@@ -2895,24 +2906,37 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       if(vaultDecodeActive<4) run(); else vaultDecodeQueue.push(run);
     });
   }
-  var vaultImageJobs=new WeakMap();
+  var vaultImageJobs=new WeakMap(), vaultNetworkActive=0, vaultNetworkQueue=[];
+  function pumpVaultImages(){
+    while(vaultNetworkActive<4 && vaultNetworkQueue.length){
+      vaultNetworkActive++;vaultNetworkQueue.shift()();
+    }
+  }
   function warmVaultImages(){
-    var jobs=[].map.call(plane.querySelectorAll('img[data-src]'),function(img){
+    var images=[].slice.call(plane.querySelectorAll('img[data-src]'));
+    // Fetch the photographs nearest the visitor first; keep every original.
+    function distance(img){var r=img.getBoundingClientRect();return Math.pow(r.left+r.width/2-innerWidth/2,2)+Math.pow(r.top+r.height/2-innerHeight/2,2);}
+    images.sort(function(a,b){return distance(a)-distance(b);});
+    var jobs=images.map(function(img){
       if(vaultImageJobs.has(img)) return vaultImageJobs.get(img);
       var job=new Promise(function(resolve){
-      var full=new Image(); full.decoding='async';
-      // Existing decoded previews keep failed/very slow downloads usable.
       var limit=setTimeout(resolve,8000);
-      function settled(){clearTimeout(limit);resolve();}
+      vaultNetworkQueue.push(function(){
+      var full=new Image(); full.decoding='async';
+      var complete=false,deadline=setTimeout(function(){full.removeAttribute('src');failed();},120000);
+      function settled(){if(complete)return;complete=true;clearTimeout(limit);clearTimeout(deadline);full.onload=full.onerror=null;resolve();vaultNetworkActive--;pumpVaultImages();}
+      function failed(){if(complete)return;img.classList.add('asset-failed');vaultImageJobs.delete(img);settled();}
       full.onload=function(){
         var ready=decodeVaultImage(full);
-        ready.then(function(){img.src=full.src;img.classList.add('asset-ready');img.classList.remove('asset-failed');delete img.dataset.src;settled();}).catch(function(){img.classList.add('asset-failed');vaultImageJobs.delete(img);settled();});
+        ready.then(function(){if(complete)return;img.src=full.src;img.style.visibility='';img.classList.add('asset-ready');img.classList.remove('asset-failed');delete img.dataset.src;settled();}).catch(failed);
       };
-      full.onerror=function(){img.classList.add('asset-failed');vaultImageJobs.delete(img);settled();};
+      full.onerror=failed;
       full.src=img.dataset.src;
+      });
       });
       vaultImageJobs.set(img,job);return job;
     });
+    pumpVaultImages();
     vaultImagesReady=Promise.allSettled(jobs);window.__vaultImagesReady=vaultImagesReady;return vaultImagesReady;
   }
   var vaultImagesReady=Promise.resolve();
@@ -2921,7 +2945,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   /* gold dust (idea 18) — motes drifting up through the vault, under the photos.
      Interval-driven (rAF can be throttled) and only ticking while the vault shows. */
   var dust=document.getElementById('dust'), dustCtx=null;
-  if(!reduced){
+  {
     var motes=[], DM=24;
     for(var mi=0;mi<DM;mi++){
       motes.push({x:Math.random(), y:Math.random(),
@@ -4643,6 +4667,7 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
       if(motionQuery.matches!==reduced) refreshMotionPreference();
       if(!flapOpen || document.hidden){ flapLast=performance.now(); return; }
       var now=performance.now(), elapsed=Math.max(0,(now-flapLast)/1000); flapLast=now;
+      if(fPaused || reduced) return; // no layout reads while the world is paused
       var s=flapSize();
       // A suspended frame must never throw the player into an obstacle.
       if(elapsed>0.2 && FG.state==='play' && !fPaused){fPaused=true;flapDraw(s);}
@@ -4989,10 +5014,12 @@ let state='entry',previewReady=false,previewLoaded=false,gameVisible=false,navig
 let gameReveal=null,gameRevealFrame=0,gameRevealToken=0,flowFrame=0,flowDistance=1,flowHeight=1,gameHeight=1,arrivalMark=null,arrowPainted=false;
 let filmToken=0,filmTimer=0,filmStarting=false,filmUserPaused=false,filmFailed=false,filmRevealed=false;
 const animations=new Set();
-const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false;
+const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false,vaultGateGeneration=0;
 function vaultInputLocked(){return vaultGatePending||document.body.classList.contains('next-vault-opening')}
-function gateVault(){if(vaultGateSeen||!document.body.classList.contains('next-vault-open'))return;vaultGateSeen=true;vaultGatePending=true;vault.inert=true;vault.classList.add('vault-settling');vault.setAttribute('aria-busy','true');
- Promise.allSettled([window.__vaultImagesReady,window.__vaultInteractiveReady||window.__vaultTitleReady]).then(()=>Promise.allSettled([...vault.querySelectorAll('img')].map(img=>img.decode?img.decode():Promise.resolve()))).then(()=>{vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
+function gateVault(){if(vaultGateSeen||!document.body.classList.contains('next-vault-open'))return;const generation=++vaultGateGeneration;vaultGateSeen=true;vaultGatePending=true;vault.inert=true;vault.classList.add('vault-settling');vault.setAttribute('aria-busy','true');
+ // Originals are decoded before promotion. A second DOM decode can hang on a
+ // pending download and must never hold the navigation lock indefinitely.
+ Promise.allSettled([window.__vaultImagesReady,window.__vaultInteractiveReady||window.__vaultTitleReady]).then(()=>{if(generation!==vaultGateGeneration)return;vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');if(state==='entry'){vault.inert=false;vault.focus({preventScroll:true})}});
 }
 addEventListener('keydown',e=>{if(vaultInputLocked()&&['Tab','Enter',' ','ArrowDown','ArrowUp','ArrowLeft','ArrowRight','PageDown','PageUp','Home','End'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation()}},{capture:true});
 addEventListener('wheel',e=>{if(vaultInputLocked()&&!e.ctrlKey){e.preventDefault();e.stopImmediatePropagation()}},{capture:true,passive:false});
@@ -5037,7 +5064,7 @@ function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches
 function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/story-party-cut.mp4'}}
 function pauseFilm(){++filmToken;clearTimeout(filmTimer);filmStarting=false;video.pause()}
 function failFilm(message){filmFailed=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
-function bufferLimit(){clearTimeout(filmTimer);filmTimer=setTimeout(()=>{if(filmAllowed())status('Film is loading. Holding your place.')},6500)}
+function bufferLimit(){clearTimeout(filmTimer);filmTimer=setTimeout(()=>{if(filmAllowed()){filmRetry.hidden=false;filmRetry.textContent='Retry film';status('Film is loading. You can retry while we hold your place.')}},6500)}
 async function startFilm(){
  if(!filmAllowed()||filmStarting||(!video.paused&&!video.ended))return;
  prepareFilm();const token=++filmToken;filmStarting=true;bufferLimit();
@@ -5051,13 +5078,13 @@ video.addEventListener('playing',()=>{if(!filmAllowed()){video.pause();return;}f
 });
 video.addEventListener('waiting',()=>{if(filmAllowed()){status('Film is loading. Holding your place.');bufferLimit()}});
 video.addEventListener('error',()=>{if(state==='story')failFilm('Film unavailable. Retry while we hold your place.')});
-filmRetry.addEventListener('click',()=>{filmFailed=false;filmUserPaused=false;filmRetry.hidden=true;status('Film is loading.');if(video.error)video.load();syncFilm()});
+filmRetry.addEventListener('click',()=>{pauseFilm();filmFailed=false;filmUserPaused=false;filmRetry.hidden=true;status('Film is loading.');video.load();syncFilm()});
 function syncPreview(){
  game.classList.toggle('play-light-active',state==='preview'&&gameVisible&&!document.hidden&&!motion.matches);
  tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
  preview.contentWindow?.postMessage({type:'vctrs-preview',active:state!=='entry'&&state!=='game'&&gameVisible&&!document.hidden&&!motion.matches},location.origin);
 }
-function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);if(!motion.matches&&!navigator.connection?.saveData)prepareFilm();setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
+function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
 function surface(){
  if(state!=='entry')return;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');
  // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.

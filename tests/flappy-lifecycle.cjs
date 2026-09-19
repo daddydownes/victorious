@@ -3,6 +3,12 @@
 const assert=require('assert');
 const {setup}=require('./flappy-difficulty.cjs');
 let cases=0;
+{
+ const {c,time}=setup();c.flapStart();c.flapPauseFn();let reads=0;
+ const measure=c.flapSize;c.flapSize=()=>{reads++;return measure()};
+ for(let frame=0;frame<120;frame++){time(frame*16);c.flapTick()}
+ assert.equal(reads,0,'A paused game must not repeatedly measure layout');cases++;
+}
 function snapshot(c){return JSON.stringify({y:c.FG.y,vy:c.FG.vy,score:c.FG.score,gates:c.FG.gates,sim:c.fSimTime});}
 for(const tier of [0,1,2,3])for(const mode of ['button','hidden','blur','stall']){
  const {c,s,events,time}=setup();c.flapStart();c.FG.gateSerial=tier*25;c.FG.score=tier*25;c.FG.gates=[];c.flapSpawn(s);c.flapGateUpdate(c.FG.gates[0],s,0);

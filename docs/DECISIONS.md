@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 19 — optimized loading and approved motion 03
+
+Combine the network-audit fixes with the owner's approved refined Through the Mark study (03). The VCTRS arrival stays centred with no sideways arc or rotation, takes 1550ms, then immediately expands toward the viewer over 1250ms while fading to transparent. Keep the study's scale-5.5/blur-9px ending and responsive wordmark width; hide the descriptor/rule. Reduced motion clears the mark without the expansion. Preserve the original full-quality media, full opening film and real signup transport. Bound original-photo downloads and loading gates rather than reduce resolution. The owner explicitly authorized publication of this combined version after checks.
+
 ## September 19 - email screen styling
 
 Remove the divider above ADD YOUR EMAIL; keep POP-UP STORE. Restore the existing VCTRS aura and shine that a later style disabled, with a modestly stronger gold glow on the existing shared 5.4-second cycle. Keep button highlights synchronized and reduced motion static. Match both vault-button labels to the heading's VCTRS Rounded font, and soften the email row and vault button with 10px corners. Preserve artwork, film, direct email transition, signup and vault behavior.
