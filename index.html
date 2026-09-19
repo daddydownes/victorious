@@ -885,7 +885,28 @@ button{touch-action:manipulation}
 .next-drop-entering .opening-continue,.next-vault-open .opening-continue,.surfaced .opening-continue{display:none}
 .next-drop{background-color:#090908;overflow-y:auto;overscroll-behavior:contain;height:100%;height:100dvh}
 .next-drop-card{padding-bottom:max(20px,env(safe-area-inset-bottom))}
-.next-drop-mark::before,.next-drop-mark::after,.next-drop::after{animation:none!important}
+.next-drop::after{animation:none!important}
+/* Restore the logo's shared glow/shine clock; keep the artwork itself still. */
+@keyframes nextMarkGlow{
+ 0%,49%,100%{filter:drop-shadow(0 0 8px rgba(240,212,146,.24))}
+ 18%,32%{filter:drop-shadow(0 0 12px rgba(240,212,146,.62)) drop-shadow(0 0 26px rgba(240,212,146,.28))}
+}
+@keyframes nextMarkAura{
+ 0%,49%,100%{opacity:.16;transform:scale(.99)}
+ 18%,32%{opacity:.55;transform:scale(1.025)}
+}
+.next-drop-rule{display:none}
+.next-drop-title{margin-top:clamp(18px,3vh,28px)}
+.next-drop-email-row{border-radius:10px}
+.next-drop-email input{border-radius:9px 0 0 9px}
+.next-drop-email button{border-radius:0 9px 9px 0}
+.next-vault-hold{border-radius:10px}
+.next-vault-hold .vh-base,.next-vault-hold small{
+ font-family:'VCTRS Rounded',Arial,sans-serif;font-weight:500;
+ font-synthesis:none;font-kerning:normal;letter-spacing:.01em;text-indent:0;
+}
+.next-vault-hold small{font-size:11px;letter-spacing:.06em}
+@media(max-height:520px){.next-drop-title{margin-top:12px}}
 .next-drop-email-row input{font-size:16px;min-height:50px;width:100%}
 .next-drop-email-row button[hidden]{display:none!important}
 .next-drop-result{min-height:22px}

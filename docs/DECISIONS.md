@@ -1,5 +1,10 @@
 # Decisions and recent changes
 
+## September 19 - email screen styling
+
+Remove the divider above ADD YOUR EMAIL; keep POP-UP STORE. Restore the existing VCTRS aura and shine that a later style disabled, with a modestly stronger gold glow on the existing shared 5.4-second cycle. Keep button highlights synchronized and reduced motion static. Match both vault-button labels to the heading's VCTRS Rounded font, and soften the email row and vault button with 10px corners. Preserve artwork, film, direct email transition, signup and vault behavior.
+
+
 ## September 19 — direct opening film to email
 
 The owner requested the same film-end fade directly into the current email screen, removing the post-film V reveal, gold pour and flight. Preserve the full current hero clip and its original 200ms smootherstep fade to black; reveal the email chapter in place. Keep the opening V and subsequent user-activated vault entry. Base: GitHub main `20c43fa3c23d8a97154680bb7f2631a8923298ee`, matched against the live homepage before editing.

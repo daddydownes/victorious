@@ -1,5 +1,12 @@
 # Current status
 
+## September 19 - approved email styling release
+
+Based on verified live/GitHub commit edb1008850a5d7beb4351e58c5cb808ddfd488c8. The divider is hidden, the existing logo aura and shine are restored with a slightly stronger glow, both vault labels use VCTRS Rounded, and email/button corners are 10px. Source is tools/guided/journey.css; root index.html is rebuilt with the normal guided builder. Owner approved publication to the real .com.
+
+Guided build and all 11 workflow source/behavior suites pass. Browser verification covers desktop, phone sizes, landscape and reduced motion; evidence is recorded in the task. Physical Safari is untested. Deployment and canonical live verification are recorded in the publishing task.
+
+
 ## September 19 - approved direct film-to-email release
 
 Owner-approved release based on GitHub main `20c43fa3c23d8a97154680bb7f2631a8923298ee`, verified against the live .com homepage before editing. The complete current hero clip keeps its original 200ms smootherstep fade to black, followed directly by the current ADD YOUR EMAIL screen. Removed the closing V reveal, gold pour and upward flight; preserved the opening V, current artwork, form transport and user-activated vault entry.
