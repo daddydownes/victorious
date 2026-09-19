@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 19 — direct opening film to email
+
+The owner requested the same film-end fade directly into the current email screen, removing the post-film V reveal, gold pour and flight. Preserve the full current hero clip and its original 200ms smootherstep fade to black; reveal the email chapter in place. Keep the opening V and subsequent user-activated vault entry. Base: GitHub main `20c43fa3c23d8a97154680bb7f2631a8923298ee`, matched against the live homepage before editing.
+
 ## September 12 - preserve OG and build a consistent custom display family
 
 The owner asked for a more uniform, thoroughly developed version of the supplied original VCTRS artwork and explicitly requested publication. Keep the original artwork as the brand reference and retain previous font iterations. VCTRS Signature uses common curved stem/foot construction, related B/P/R bowls, widened round counters and V-derived W valleys. It is an all-caps display family with ASCII punctuation; lowercase input intentionally maps to capitals. Use it on the existing requested headings at normal weight, retaining the original logo artwork and the existing body/control fonts.

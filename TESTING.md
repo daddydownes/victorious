@@ -80,13 +80,11 @@ Record for each pass:
 
 ## Critical journey B — film to next drop
 
-- [ ] The closing film V hands off to one gold DOM V.
-- [ ] The gold V rises cleanly with no laser lines, starburst, vertical sweep, or unwanted glow explosion.
-- [ ] The V never flashes white or black during the rise.
-- [ ] The outgoing V is offscreen before the incoming VCTRS wordmark becomes visible; they must not read as a duplicate.
-- [ ] The next-drop page enters smoothly and settles once.
-- [ ] The real VCTRS wordmark is used.
-- [ ] `POP-UP STORE` and `DETAILS DROPPING SOON` remain readable.
+- [ ] The complete current hero film plays before the existing 200ms fade to black.
+- [ ] No closing V reveal, gold pour or flying V appears after the film.
+- [ ] The email chapter fades into place without an upward page slide.
+- [ ] The real VCTRS wordmark and ADD YOUR EMAIL heading remain readable.
+- [ ] Reduced motion reaches the email screen without a closing V flash.
 - [ ] Email and vault controls are visible and not clipped.
 
 ## Critical journey C — email

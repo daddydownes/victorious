@@ -639,13 +639,13 @@
     .vhold,.vh-base,.signup button:active,.flap-play:active,.surface-btn:active{transition:none}
   }
 
-  /* NEXT DROP — the completed film V lifts the next chapter into view. */
+  /* NEXT DROP — the full film fades directly into the email chapter. */
   .surface-bar{display:none!important}
   .next-drop{--next-light-cycle:5.4s;position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;
     background:radial-gradient(circle at 50% 44%,rgba(212,175,95,.055),transparent 40%),#070706;
     background-position:center 38%;background-size:cover;background-repeat:no-repeat;
-    color:var(--bone);visibility:hidden;transform:translateY(100%) translateZ(0);
-    transition:transform 1.25s cubic-bezier(.72,0,.16,1),visibility 0s linear 1.25s}
+    color:var(--bone);visibility:hidden;opacity:0;
+    transition:opacity .3s ease}
   .next-drop::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
     background:linear-gradient(180deg,rgba(2,4,5,.72),rgba(2,4,5,.5) 42%,rgba(2,4,5,.76)),
       radial-gradient(circle at 50% 42%,transparent 0,rgba(0,0,0,.12) 45%,rgba(0,0,0,.48) 100%)}
@@ -760,18 +760,14 @@
     -webkit-mask:url('vctrs-wordmark.svg') center/contain no-repeat;mask:url('vctrs-wordmark.svg') center/contain no-repeat;
     pointer-events:none;will-change:transform,background-color;
     filter:drop-shadow(0 0 8px rgba(255,255,255,.18))}
-  .next-transfer-v{position:fixed;z-index:1200;isolation:isolate;pointer-events:none;transform-origin:center;
-    animation:nextVRise 1.45s cubic-bezier(.64,0,.2,1) forwards}
-  .next-transfer-v .mk{position:absolute;inset:0;z-index:1}.next-transfer-v .mk-white{display:none}
-  .next-transfer-v .mk-gold{color:var(--gold-hot)!important}.next-transfer-v .vmark{width:100%;height:100%;color:inherit}
   body.next-drop-entering .film-logo{opacity:0!important}
-  body.next-drop-entering .next-drop{visibility:visible;transform:translateY(0) translateZ(0);transition-delay:.12s,0s}
-  body.next-drop-entering .next-drop-mark{animation:nextDropSettle .75s .86s ease-out both}
-  body.next-drop-entering .next-drop-kicker{animation:nextDropSettle .65s .98s ease-out both}
-  body.next-drop-entering .next-drop-rule{animation:nextDropRule .65s 1.08s ease-out both}
-  body.next-drop-entering .next-drop-title{animation:nextDropSettle .65s 1.14s ease-out both}
-  body.next-drop-entering .next-drop-email{animation:nextDropSettle .65s 1.28s ease-out both}
-  body.next-drop-entering .next-vault-hold{animation:nextDropSettle .65s 1.42s ease-out both}
+  body.next-drop-entering .next-drop{visibility:visible;opacity:1}
+  body.next-drop-entering .next-drop-mark{animation:nextDropSettle .3s 0s ease-out both}
+  body.next-drop-entering .next-drop-kicker{animation:nextDropSettle .3s .08s ease-out both}
+  body.next-drop-entering .next-drop-rule{animation:nextDropRule .3s .12s ease-out both}
+  body.next-drop-entering .next-drop-title{animation:nextDropSettle .3s .16s ease-out both}
+  body.next-drop-entering .next-drop-email{animation:nextDropSettle .3s .22s ease-out both}
+  body.next-drop-entering .next-vault-hold{animation:nextDropSettle .3s .28s ease-out both}
   body.next-drop-landed .stage{visibility:hidden}
   body.next-drop-landed .next-drop{visibility:visible!important;transform:none;transition:none}
   body.next-drop-landed .next-drop-mark,body.next-drop-landed .next-drop-kicker,
@@ -779,10 +775,6 @@
   body.next-drop-landed .next-vault-hold{opacity:1!important;transform:none!important}
   body.next-drop-landed .next-vault-hold{pointer-events:auto}
   body.next-drop-landed .next-drop-rule{transform:scaleX(1)!important}
-  @keyframes nextVRise{0%{transform:translateY(0) scale(1);opacity:1}
-    18%{transform:translateY(-2vh) scale(1.08);opacity:1}
-    55%{transform:translateY(-32vh) scale(.82);opacity:1}
-    100%{transform:translateY(-70vh) scale(.35);opacity:0}}
   @keyframes nextDropSettle{to{opacity:1;transform:none}}
   @keyframes nextDropRule{to{transform:scaleX(1)}}
   @keyframes nextMarkGlow{0%,49%,100%{filter:drop-shadow(0 0 7px rgba(255,255,255,.18))}
@@ -814,7 +806,7 @@
     .next-drop-result{min-height:10px;padding-top:5px}
     .next-vault-hold{min-height:58px;margin-top:8px;padding:6px 12px;font-size:14px}
   }
-  @media(prefers-reduced-motion:reduce){.next-drop{transition:none}.next-transfer-v{display:none}
+  @media(prefers-reduced-motion:reduce){.next-drop{transition:none}
     .vault-entry-fx{display:none}
     .next-drop-mark::before{animation:none;opacity:.18}.next-drop-mark::after{display:none}.next-drop-mark .vctrs-glyph{animation:none}
     .next-drop-mark,.next-drop-kicker,.next-drop-title,.next-drop-email,.next-vault-hold{animation:none!important;opacity:1;transform:none}
@@ -1611,16 +1603,15 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       var d=film.duration||3.734;
       // watchdog: if the video stalls (power saving, hidden tab, decode failure),
       // never leave the page locked — fail open once the clip should long be over
-      if(film.ended){ showFilmLogo(false); }                        // full cut, then the existing V pour
+      if(film.ended){ showFilmLogo(false); }                        // full cut, then the original fade into email
       else if((film.readyState<2 && motionNow()-started>1600) || (motionNow()-started)/1000 > Math.min(d+2,8)){ failOpen(); }        // stalled: paint it ourselves
     },100);
   }
   function finish(){
     if(phase==='done') return;
     phase='done'; if(timer){clearInterval(timer); timer=null;}
-    if(logoTintTask){cancelMotionTask(logoTintTask); logoTintTask=null;} // watchdog/ended can land mid-pour — don't let it keep mutating under .done
-    // cardend: the film's own V+star card is the closing title — the wordmark
-    // stays away so the mark owns the frame into the black tide
+    if(logoTintTask){cancelMotionTask(logoTintTask); logoTintTask=null;} // Cancel an interrupted fade before completing the handoff.
+    // Keep the opening title hidden while the email chapter takes over.
     stage.classList.remove('playing'); stage.classList.add('done','cardend');
     stopCam();
     startNextDrop();
@@ -1658,17 +1649,6 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       var originalImage=getComputedStyle(originalBackdrop).backgroundImage;
       if(originalImage && originalImage!=='none') destination.style.backgroundImage=originalImage;
     }
-    var logoBox=filmLogo.getBoundingClientRect();
-    if(!reduced && logoBox.width && logoBox.height){
-      var transfer=document.createElement('div');
-      transfer.className='next-transfer-v';
-      transfer.setAttribute('aria-hidden','true');
-      transfer.innerHTML=filmLogo.innerHTML;
-      transfer.style.left=logoBox.left+'px'; transfer.style.top=logoBox.top+'px';
-      transfer.style.width=logoBox.width+'px'; transfer.style.height=logoBox.height+'px';
-      document.body.appendChild(transfer);
-      afterMotion(1600,function(){ transfer.remove(); });
-    }
     // The button is the last reveal. A fixed timer used to cut its animation
     // short, snapping its opacity and position to the landed styles.
     var lastReveal=document.getElementById('nextVaultHold'), nextDropFinished=false;
@@ -1704,10 +1684,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(phase==='playing') showFilmLogo(false);
   });
 
-  /* ===== film-end logo handoff =====
-     This edit has no baked logo card. Play it in full, then run the existing
-     cover, white V and gold pour. Its completion still starts the next drop.
-     Keep the original reference geometry so the V stays the same size. */
+  /* Full film, original 200ms black fade, then the email chapter. */
   var filmLogo=document.getElementById('filmLogo');
   var VNAT={w:1276,h:718};                    // original logo reference canvas
   var LOGOPX={cx:645.5,cy:349,w:107,h:130};   // white mark bbox in those pixels
@@ -1727,52 +1704,15 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   function showFilmLogo(instant){
     if(logoShown) return;
     logoShown=true;
-    placeFilmLogo();
     cardCover.style.display='block';
-    filmLogo.style.display='block';
-    var mkGold=filmLogo.querySelector('.mk-gold'), mkWhite=filmLogo.querySelector('.mk-white');
-    // OUR OWN V — after the video. The film cuts to black; we cover it to true #000 (its baked V is
-    // hidden, never handed off from) and reveal OUR OWN white V on the black, then pour it to gold
-    // SLOWLY. Colour warmed in LINEAR light; driven by the shared, visibility-aware display clock.
-    var OURW=[255,255,255], GOLDC=[240,212,146];
-    function _s2l(c){c/=255;return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}
-    function _l2s(l){l=l<0?0:l>1?1:l;var v=l<=0.0031308?l*12.92:1.055*Math.pow(l,1/2.4)-0.055;return (v*255).toFixed(2);}
-    function _lerp(a,b,t){return 'rgb('+_l2s(_s2l(a[0])+(_s2l(b[0])-_s2l(a[0]))*t)+','+_l2s(_s2l(a[1])+(_s2l(b[1])-_s2l(a[1]))*t)+','+_l2s(_s2l(a[2])+(_s2l(b[2])-_s2l(a[2]))*t)+')';}
-    function _oc(p){return 1-Math.pow(1-p,3);}
-    function _sm(p){return p*p*p*(p*(p*6-15)+10);}
-    function _cl(p){return p<0?0:p>1?1:p;}
-    var _rest='drop-shadow(0 0 2px rgba(240,212,146,0.46)) drop-shadow(0 0 9px rgba(240,212,146,0.24)) drop-shadow(0 0 22px rgba(212,175,95,0.12))';
-    mkWhite.style.color='#ffffff';                                // OUR white V (the layer poured away)
-    if(instant){ // reduced-motion: land straight on the poured gold mark
-      cardCover.style.opacity='1'; filmLogo.style.opacity='1';
-      mkGold.style.color='var(--gold-hot)'; mkWhite.style.opacity='0'; filmLogo.style.filter=_rest;
-      return;
-    }
-    var COVER=200, REVEAL=300, WHITEHOLD=650, POUR=1750, F=22, WARM=820, t0=motionNow();  // cover, our white V, HOLD it white, then SLOW pour
+    filmLogo.style.display='none';
+    if(instant){ cardCover.style.opacity='1'; return; }
+    // Keep the existing fade duration and smootherstep curve at the film end.
+    var COVER=200, t0=motionNow();
     logoTintTask=addMotionTask(function(_,frameNow){
-      var now=frameNow-t0;
-      // 1) cover the video to true #000 (we start BEFORE the card frame, so its baked V never shows)
-      cardCover.style.opacity=_sm(_cl(now/COVER)).toFixed(4);
-      // 2) reveal OUR white V only AFTER the black is down
-      filmLogo.style.opacity=_sm(_cl((now-COVER)/REVEAL)).toFixed(4);
-      // 3) SLOW pour: warm OUR V white→gold; erase top→tip; glow rises WITH the pour; seat
-      var f=_cl((now-COVER-REVEAL-WHITEHOLD)/POUR)*POUR, pv=_cl(f/POUR);
-      mkGold.style.color=_lerp(OURW,GOLDC,_oc(_cl(f/WARM)));
-      var pos=_oc(pv)*(100+2*F)-F;
-      var m='linear-gradient(to bottom, rgba(0,0,0,0) '+(pos-F).toFixed(2)+'%, #000 '+(pos+F).toFixed(2)+'%, #000 100%)';
-      mkWhite.style.opacity=(f>=POUR?'0':'1');
-      mkWhite.style.webkitMaskImage=m; mkWhite.style.maskImage=m;
-      var crest=Math.sin(pv*Math.PI), pool=(pv>0.72)?Math.sin((pv-0.72)/0.28*Math.PI):0, base=(now-COVER-REVEAL-WHITEHOLD<0?0:pv*pv*(3-2*pv));
-      var light=base+0.35*crest+0.18*pool;
-      filmLogo.style.filter='drop-shadow(0 0 '+(2+2*crest).toFixed(2)+'px rgba(240,212,146,'+(0.46*light).toFixed(3)+')) drop-shadow(0 0 '+(9+4*crest).toFixed(2)+'px rgba(240,212,146,'+(0.24*light).toFixed(3)+')) drop-shadow(0 0 '+(22+10*crest).toFixed(2)+'px rgba(212,175,95,'+(0.12*light).toFixed(3)+'))';
-      filmLogo.style.transform='scale('+(1+0.008*(1-_oc(_cl((f-(POUR-220))/220)))).toFixed(4)+')';
-      if(now-COVER-REVEAL-WHITEHOLD>=POUR){ // land clean on the resting gold mark + its soft glow
-        mkGold.style.color='var(--gold-hot)'; mkWhite.style.opacity='0';
-        filmLogo.style.filter=_rest; filmLogo.style.transform='';
-        logoTintTask=null;
-        finish(); // the original V is complete — hand straight to the existing guide
-        return false;
-      }
+      var t=Math.min(1,Math.max(0,(frameNow-t0)/COVER));
+      cardCover.style.opacity=(t*t*t*(t*(t*6-15)+10)).toFixed(4);
+      if(t>=1){ logoTintTask=null; finish(); return false; }
     });
   }
   /* ===== COVER+ — the virtual camera (Jacob's pick from the fit demo) =====

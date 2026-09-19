@@ -1,5 +1,12 @@
 # Current status
 
+## September 19 - approved direct film-to-email release
+
+Owner-approved release based on GitHub main `20c43fa3c23d8a97154680bb7f2631a8923298ee`, verified against the live .com homepage before editing. The complete current hero clip keeps its original 200ms smootherstep fade to black, followed directly by the current ADD YOUR EMAIL screen. Removed the closing V reveal, gold pour and upward flight; preserved the opening V, current artwork, form transport and user-activated vault entry.
+
+Validation: guided build and all 11 workflow source/behavior scripts pass. Thirty-two fresh Chromium journeys pass (four each at 1440x900, 1280x720, 390x844, 844x390, 320x568, 430x932, plus desktop/phone reduced motion). Normal-motion checks verify complete film playback, no closing V/flight, editable signup and vault entry; screenshots inspected. Form transport intercepted; no real signups sent. Physical Safari and touch devices remain untested. Owner authorized publication to the real .com. Deployment and canonical live verification are recorded in the publishing task.
+
+
 ## September 14 - top-right portrait addition
 
 Based on GitHub main 1f1affe. Added the supplied black-tee portrait as photo 33, 500 pixels wide at the upper right of the vault. Follow-up: moved one photo inward to (2830, 480), swapping positions with the neighboring cap photograph; the central DJ photo remains unchanged. All 32 existing photos are retained; only the neighboring cap photograph changes position. The original JPEG is preserved byte for byte. Normal guided builds retain the addition.
