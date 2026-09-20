@@ -4,7 +4,7 @@
 
 The first controller in `tools/guided/journey.js` owns only the current `#nextDrop` signup panel. Focus and visible-viewport resize/scroll events coalesce into one animation frame. A valid contraction at scale 1 fits the panel to the visible height/offset and uses start alignment with auto card margins so oversized content stays reachable from the scroll origin. Local scroll adjustments expose the email row and receipt without moving document scroll, focus, value or selection. The session survives focus moving to JOIN while the viewport is contracted; viewport recovery restores the saved panel scroll. Pinch zoom suspends geometry writes. The existing CSS handles browsers that resize the layout viewport or lack VisualViewport.
 
-Inert/aria-hidden observation retires the adjustment when entry begins. That asynchronous notification follows the existing entry handler's synchronous logo rectangle capture. No form transport or cinematic state controller is replaced. Receipt resizing can request another bounded adjustment; scrolling the panel itself does not start a corrective loop.
+Inert/aria-hidden observation retires the adjustment when entry begins. That asynchronous notification follows the existing entry handler's synchronous logo rectangle capture. No form transport or cinematic state controller is replaced. Receipt resizing can request another bounded adjustment; scrolling the panel itself does not start a corrective loop. A pointer gesture within the form temporarily defers geometry writes so keyboard recovery between pointerdown and pointerup cannot move JOIN out from under the tap. Pointer completion, cancellation or window blur releases the deferral.
 
 ## Current root: guided world (September 9)
 

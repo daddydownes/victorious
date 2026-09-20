@@ -6,14 +6,17 @@
 const panel=document.getElementById('nextDrop'),form=document.getElementById('nextDropEmail');
 if(!panel||!form)return;
 const row=form.querySelector('.next-drop-email-row'),result=document.getElementById('nextDropResult'),viewport=window.visualViewport;
-let frame=0,engaged=false,fitted=false,savedScroll=0;
+let frame=0,engaged=false,fitted=false,savedScroll=0,pointer=null;
 function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function restore(){
  if(fitted){panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');panel.scrollTop=savedScroll;fitted=false}
 }
 function update(){
  frame=0;
- if(!available()){engaged=false;restore();return}
+ if(!available()){engaged=false;pointer=null;restore();return}
+ // Keyboard recovery can precede pointerup/click. Keep JOIN under the finger
+ // for the whole gesture; its click runs before the queued layout update.
+ if(pointer!==null)return;
  const focused=form.contains(document.activeElement);
  if(focused)engaged=true;
  // Pinching is browser-owned. Hold the last layout rather than chase zoom.
@@ -35,6 +38,10 @@ function update(){
 }
 function queue(){if(!frame)frame=requestAnimationFrame(update)}
 panel.addEventListener('focusin',queue);panel.addEventListener('focusout',queue);
+form.addEventListener('pointerdown',e=>{pointer=e.pointerId},{passive:true});
+function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue()}
+addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
+addEventListener('blur',()=>releasePointer());
 addEventListener('resize',queue);
 if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener('scroll',queue)}
 // Attribute changes are delivered after entry samples the logo's source rect.
