@@ -33,6 +33,7 @@ node tests/reveal.cjs
 node tests/post-surface-scroll.cjs
 node tests/press-feedback.cjs
 node tests/surface-input.cjs
+node tests/surface-recovery.cjs
 node tests/flappy-difficulty.cjs
 node tests/flappy-collision.cjs
 node tests/flappy-material.cjs

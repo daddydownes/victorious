@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 20 — escape unavailable Surface media without skipping the film
+
+Keep the approved automatic first-frame reveal and its input gate. A viewport-reachable Back to the vault control remains available from loading through arrival, including failed or stalled requests. It uses the existing Vault return lifecycle; it does not skip ahead to the game. Returning retires the old media request and invalidates its asynchronous work. Hide the escape after successful arrival, moving focused recovery controls to Scroll down as needed. Preserve already-unlocked navigation and recovery for interruptions after playback starts.
+
+Suppress outlines only on the decorative story/game focus containers; interactive controls retain their indicators. Keep the game-card edge and spacing. Reduce the existing V only in short landscape so its painted footprint clears the heading without changing the artwork or copy.
+
 ## September 19 — optimized loading and approved motion 03
 
 Combine the network-audit fixes with the owner's approved refined Through the Mark study (03). The VCTRS arrival stays centred with no sideways arc or rotation, takes 1550ms, then immediately expands toward the viewer over 1250ms while fading to transparent. Keep the study's scale-5.5/blur-9px ending and responsive wordmark width; hide the descriptor/rule. Reduced motion clears the mark without the expansion. Preserve the original full-quality media, full opening film and real signup transport. Bound original-photo downloads and loading gates rather than reduce resolution. The owner explicitly authorized publication of this combined version after checks.

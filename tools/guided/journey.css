@@ -65,7 +65,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world{position:fixed;inset:0;z-index:1350;background:#000;color:#d4af5f;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scroll-snap-type:y mandatory;scrollbar-width:thin;scrollbar-color:#d4af5f55 #000;touch-action:pan-y pinch-zoom;font-family:Cinzel,Georgia,serif}
 #world *,#world *:before,#world *:after{box-sizing:border-box}
 /* Navigation focuses the chapter, but must not draw a frame across the black seam. */
-#world .journey-section:focus{outline:none}
+#worldStory:focus,#worldGame:focus{outline:none}
 #world .world-scene,#world .play-section{position:relative;isolation:isolate;min-height:100svh;min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#000}
 #world .portrait-photo{position:absolute;left:54%;top:10%;width:38%;height:76%;background:#16130e;overflow:hidden;isolation:isolate}
 #worldFilmPoster,#worldVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -80,6 +80,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @keyframes film-loading-breathe{0%,100%{opacity:1}50%{opacity:.55}}
 @media(prefers-reduced-motion:no-preference){#world.film-waiting #worldStory:not(.film-ready) .persistent-v svg{animation:film-loading-breathe 2.4s ease-in-out infinite}}
 #world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px));transform:translateX(-50%);margin:0}
+/* Outside the transformed story copy: reachable even while the film clips scroll. */
+#world #worldStoryReturnVault{position:fixed;z-index:5;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100% - 40px);min-height:48px;padding:12px 18px;border:0;border-bottom:1px solid #d4af5f88;background:#000e;font-size:13px;white-space:nowrap}
 #worldNext[hidden]{display:none!important}
 #vault.vault-settling{pointer-events:none!important;touch-action:pinch-zoom}
 #world .portrait-copy{position:relative;z-index:2;width:70%;margin:0;padding:40svh 0 100px 6%;pointer-events:none}
@@ -189,6 +191,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* The arriving V belongs to the film section and scrolls away with it. */
 #world .persistent-v{position:absolute;left:4vw;top:7svh;width:clamp(68px,20vw,180px);aspect-ratio:295.5/357.7;z-index:2;color:#f0d492;opacity:1;transform-origin:top left;pointer-events:none}
 #world .persistent-v svg{display:block;width:100%;height:100%;fill:currentColor}
+@media(max-height:520px) and (min-width:701px){#world .persistent-v{width:clamp(68px,13vw,108px)}}
 #world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
 #world .world-scroll .scroll-cue-mark{font-size:36px}
 #world .world-scroll:hover{color:#fff}

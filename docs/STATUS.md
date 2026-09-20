@@ -1,5 +1,13 @@
 # Current status
 
+## September 20 — Surface recovery and layout fixes
+
+Based on freshly verified GitHub/live `019339ba1fa09e615fb339dce33d406e21a0c547`. Surface now exposes Back to the vault throughout initial loading, failure and arrival. Returning retires pending media and invalidates old frame/reveal callbacks; Retry and the successful first-frame choreography remain. Keyboard chapter focus no longer draws a line between story and game, while real controls retain visible focus. A smaller V in short landscape clears the Canberra heading; artwork, chapter spacing and the game-card gold outline are preserved.
+
+Validation: 40 fresh complete journeys passed, four per Chromium desktop/narrow/large-phone/reduced-motion, WebKit portrait/landscape/desktop and Firefox desktop configuration. Actual HTTP503 and held responses exercise loading/Retry/Back, late responses, repeated visits and escape during reveal in all three engines. Controlled completion tests cover stale animation, video-frame and play promises. Chromium/WebKit keyboard and landscape checks cover both motion preferences, five short sizes and rotation; the V-to-heading gap at 844×390 is about 22px. Natural film looping, a genuinely partially buffered interruption/recovery, mocked signup success/failure/timeout, and photo/network/reload checks passed. The 16 existing mechanical suites and new cancellation regression passed. No real signup was sent. Physical Apple/Android devices and embedded browsers remain untested.
+
+Reproduce with `node tests/surface-recovery.cjs`. With Playwright installed, `node tests/surface-recovery-browser.cjs` starts an isolated HTTP fault server; `DEMO_URL` selects the explicit-root preview for `node tests/surface-layout-browser.cjs` and the existing `tests/vault-release-browser.cjs`. Set `EVIDENCE_DIR` outside the checkout to retain raw results. The owner authorized publication of these three fixes; the publishing task verifies Pages and canonical live equality after push. Next: physical-device feedback on the live release.
+
 ## September 19 — optimized loading with approved centred 03 fade
 
 Release based on freshly verified GitHub/live `9be6e84b2704fed85266a5df8ed38c7ec2c89db7`. Combines the network fixes documented in [slow-network audit](slow-network-audit.md) with refined Through the Mark (03): centred 1550ms arrival, no sideways arc/rotation, then immediate 1250ms forward expansion and transparent fade. The owner explicitly authorized this combination and publication to the real domain. The original opening film and signup transport remain; no demo shortcut or mocked form handler is shipped.

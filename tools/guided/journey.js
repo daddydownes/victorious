@@ -2,11 +2,11 @@
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id),world=$('world'),story=$('worldStory'),game=$('worldGame'),preview=$('game-preview');
-const next=$('worldNext'),play=$('worldPlay'),video=$('worldVideo'),portrait=$('worldPortrait'),tryFlight=$('worldTryFlight'),filmRetry=$('worldFilmRetry');
+const next=$('worldNext'),play=$('worldPlay'),video=$('worldVideo'),portrait=$('worldPortrait'),tryFlight=$('worldTryFlight'),filmRetry=$('worldFilmRetry'),storyBack=$('worldStoryReturnVault');
 const copy=story.querySelector('.portrait-copy'),motion=matchMedia('(prefers-reduced-motion: reduce)'),overlay=$('flapOverlay');
 let state='entry',previewReady=false,previewLoaded=false,gameVisible=false,navigating=false,navTarget=null,navTimer=0;
 let gameReveal=null,gameRevealFrame=0,gameRevealToken=0,flowFrame=0,flowDistance=1,flowHeight=1,gameHeight=1,arrivalMark=null,arrowPainted=false;
-let filmToken=0,filmTimer=0,filmStarting=false,filmUserPaused=false,filmFailed=false,filmRevealed=false;
+let storyVisit=0,filmToken=0,filmFrame=0,filmTimer=0,filmStarting=false,filmUserPaused=false,filmFailed=false,filmRevealed=false;
 const animations=new Set();
 const vault=$('vault');let vaultGatePending=false,vaultGateSeen=false,vaultGateGeneration=0;
 function vaultInputLocked(){return vaultGatePending||document.body.classList.contains('next-vault-opening')}
@@ -26,8 +26,8 @@ function storyArrival(source,rect){
  const destination=arrivalMark.getBoundingClientRect(),dx=rect.x-destination.x,dy=rect.y-destination.y,scale=rect.width/destination.width;
  animateMoment(arrivalMark,[{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:0},{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:.12},{transform:'translate(0,0) scale(1)',opacity:1,offset:1}],{duration:1850,easing:'cubic-bezier(.25,.7,.2,1)'});
 }
-function unlockFilmGate(){world.classList.remove('film-waiting');game.inert=false;next.hidden=false}
-function revealFilm(){if(story.classList.contains('film-ready')){if(motion.matches)unlockFilmGate();return}story.classList.add('film-ready');animateMoment(portrait,[{opacity:0,clipPath:'inset(0 48% 0 48%)'},{opacity:1,clipPath:'inset(0 0% 0 0%)'}],{duration:1200,easing:'cubic-bezier(.25,.7,.2,1)'});animateMoment($('portrait-title'),[{opacity:0},{opacity:1}],{duration:900,delay:250,fill:'backwards',easing:'ease-out'});Promise.allSettled([...animations].map(a=>a.finished)).then(()=>{if(state!=='entry')unlockFilmGate()})}
+function unlockFilmGate(){world.classList.remove('film-waiting');game.inert=false;next.hidden=false;if(document.activeElement===storyBack)next.focus({preventScroll:true});storyBack.hidden=true}
+function revealFilm(){if(story.classList.contains('film-ready')){if(motion.matches)unlockFilmGate();return}const visit=storyVisit;story.classList.add('film-ready');animateMoment(portrait,[{opacity:0,clipPath:'inset(0 48% 0 48%)'},{opacity:1,clipPath:'inset(0 0% 0 0%)'}],{duration:1200,easing:'cubic-bezier(.25,.7,.2,1)'});animateMoment($('portrait-title'),[{opacity:0},{opacity:1}],{duration:900,delay:250,fill:'backwards',easing:'ease-out'});Promise.allSettled([...animations].map(a=>a.finished)).then(()=>{if(visit===storyVisit&&state!=='entry')unlockFilmGate()})}
 function measureFlow(){flowDistance=Math.max(1,game.offsetTop);flowHeight=world.clientHeight;gameHeight=game.offsetHeight;queueFlow()}
 function renderFlow(){flowFrame=0;if(state==='entry')return;syncChapter();const p=Math.max(0,Math.min(1,world.scrollTop/flowDistance));
  if(motion.matches){portrait.style.transform='';copy.style.transform='';return;}
@@ -54,9 +54,11 @@ world.addEventListener('scroll',()=>{if(!atWorldEnd())stopEndBounce()},{passive:
 
 function paintGameArrow(){if(arrowPainted)return;arrowPainted=true;animateMoment(game.querySelector('.spray-arrow-shaft'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:900,easing:'ease-out'});animateMoment(game.querySelector('.spray-arrow-head'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:400,delay:550,fill:'backwards',easing:'ease-out'})}
 function status(text){$('worldMediaStatus').textContent=text}
+function hideFilmRetry(){if(state!=='entry'&&document.activeElement===filmRetry)(world.classList.contains('film-waiting')?storyBack:next).focus({preventScroll:true});filmRetry.hidden=true}
 function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches&&!filmUserPaused&&!filmFailed}
 function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/story-party-cut.mp4'}}
-function pauseFilm(){++filmToken;clearTimeout(filmTimer);filmStarting=false;video.pause()}
+function cancelFilmFrame(){if(filmFrame&&video.cancelVideoFrameCallback)video.cancelVideoFrameCallback(filmFrame);filmFrame=0}
+function pauseFilm(){++filmToken;clearTimeout(filmTimer);cancelFilmFrame();filmStarting=false;video.pause()}
 function failFilm(message){filmFailed=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
 function bufferLimit(){clearTimeout(filmTimer);filmTimer=setTimeout(()=>{if(filmAllowed()){filmRetry.hidden=false;filmRetry.textContent='Retry film';status('Film is loading. You can retry while we hold your place.')}},6500)}
 async function startFilm(){
@@ -65,14 +67,14 @@ async function startFilm(){
  try{await video.play();if(token!==filmToken||!filmAllowed()){if(!filmAllowed())video.pause();return;}filmStarting=false;
  }catch(error){if(token!==filmToken)return;filmStarting=false;if(error.name==='NotAllowedError'){filmUserPaused=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Play film';status('Tap Play film to start.')}else failFilm('Film unavailable. Retry while we hold your place.')}
 }
-function syncFilm(){if(motion.matches&&state!=='entry'){revealFilm();filmRetry.hidden=true}if(filmAllowed())startFilm();else pauseFilm()}
-video.addEventListener('playing',()=>{if(!filmAllowed()){video.pause();return;}filmStarting=false;const token=filmToken;
- const show=()=>{if(token!==filmToken||!filmAllowed())return;filmRevealed=true;portrait.classList.add('media-ready');revealFilm();filmRetry.hidden=true;clearTimeout(filmTimer);status('')};
- if(video.requestVideoFrameCallback)video.requestVideoFrameCallback(show);else show();
+function syncFilm(){if(motion.matches&&state!=='entry'){revealFilm();hideFilmRetry()}if(filmAllowed())startFilm();else pauseFilm()}
+video.addEventListener('playing',()=>{if(!filmAllowed()){video.pause();return;}filmStarting=false;cancelFilmFrame();const token=filmToken;
+ const show=()=>{if(token!==filmToken||!filmAllowed())return;filmFrame=0;filmRevealed=true;portrait.classList.add('media-ready');revealFilm();hideFilmRetry();clearTimeout(filmTimer);status('')};
+ if(video.requestVideoFrameCallback)filmFrame=video.requestVideoFrameCallback(show);else show();
 });
 video.addEventListener('waiting',()=>{if(filmAllowed()){status('Film is loading. Holding your place.');bufferLimit()}});
-video.addEventListener('error',()=>{if(state==='story')failFilm('Film unavailable. Retry while we hold your place.')});
-filmRetry.addEventListener('click',()=>{pauseFilm();filmFailed=false;filmUserPaused=false;filmRetry.hidden=true;status('Film is loading.');video.load();syncFilm()});
+video.addEventListener('error',()=>{if(state==='story'&&video.error)failFilm('Film unavailable. Retry while we hold your place.')});
+filmRetry.addEventListener('click',()=>{if(state!=='story')return;pauseFilm();filmFailed=false;filmUserPaused=false;hideFilmRetry();status('Film is loading.');video.load();syncFilm()});
 function syncPreview(){
  game.classList.toggle('play-light-active',state==='preview'&&gameVisible&&!document.hidden&&!motion.matches);
  tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
@@ -80,9 +82,9 @@ function syncPreview(){
 }
 function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
 function surface(){
- if(state!=='entry')return;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');
+ if(state!=='entry')return;++storyVisit;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');
  // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.
- world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');game.inert=true;next.hidden=true;
+ world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');game.inert=true;next.hidden=true;storyBack.hidden=false;
  for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=true;el.setAttribute('aria-hidden','true')}}
  world.scrollTop=0;story.focus({preventScroll:true});measureFlow();renderFlow();storyArrival(source,rect);syncFilm();
 }
@@ -105,18 +107,20 @@ function revealGame(){
 function startGame(){if(state==='entry'||state==='game')return;if(!window.__flap){$('worldGameStatus').textContent='The game could not start. Reload this demo to try again.';return;}window.__flap.open()}
 function returnToVault(){
  if(state==='entry'||state==='game')return;
- state='entry';interrupt();gameVisible=false;navTarget=null;endTouchY=null;
+ // Invalidate reveal completion before settling animations or resetting media.
+ ++storyVisit;state='entry';interrupt();gameVisible=false;navTarget=null;endTouchY=null;
  filmUserPaused=false;filmFailed=false;filmRevealed=false;filmRetry.hidden=true;status('');
  story.classList.remove('film-ready');portrait.classList.remove('media-ready');portrait.style.transform='';copy.style.transform='';
- try{video.currentTime=0}catch{};
+ video.removeAttribute('src');video.load();
  if(arrivalMark){arrivalMark.remove();arrivalMark=null}
- world.classList.remove('film-waiting');world.hidden=true;world.inert=false;world.removeAttribute('aria-hidden');next.hidden=true;
+ world.classList.remove('film-waiting');world.hidden=true;world.inert=false;world.removeAttribute('aria-hidden');next.hidden=true;storyBack.hidden=true;game.inert=false;
  document.body.classList.remove('world-active','world-game');
  for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=false;el.removeAttribute('aria-hidden')}}
  vaultGateSeen=false;vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');
  syncPreview();window.dispatchEvent(new Event('vctrs:return-vault'));gateVault();
 }
 $('worldReturnVault').addEventListener('click',returnToVault);
+storyBack.addEventListener('click',returnToVault);
 $('worldRefresh').addEventListener('click',()=>{if(state==='entry'||state==='game')return;$('worldRefresh').disabled=true;location.reload()});
 next.addEventListener('click',()=>{if(world.classList.contains('film-waiting'))return;navigate(game)});play.addEventListener('click',startGame);$('worldArrow').addEventListener('click',startGame);
 tryFlight.addEventListener('click',()=>{if(!tryFlight.disabled)startGame()});
