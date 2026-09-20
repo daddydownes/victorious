@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 20 — fit signup to reported keyboard geometry
+
+Respond to visible-viewport geometry rather than guessing Instagram, OS, keyboard size or version. The reported embedded-browser obstruction corresponds to a reproducible full-height fixed panel with no scroll range when only the visible viewport shrinks. Keep the existing artwork and form transport; locally resize/scroll the signup only during its active editing session, retire it at entry, and leave pinch zoom under browser control. Mocked geometry is evidence of this mechanism, not proof of physical Instagram behavior. Preserve that distinction in release claims and request device feedback after publication.
+
 ## September 20 — escape unavailable Surface media without skipping the film
 
 Keep the approved automatic first-frame reveal and its input gate. A viewport-reachable Back to the vault control remains available from loading through arrival, including failed or stalled requests. It uses the existing Vault return lifecycle; it does not skip ahead to the game. Returning retires the old media request and invalidates its asynchronous work. Hide the escape after successful arrival, moving focused recovery controls to Scroll down as needed. Preserve already-unlocked navigation and recovery for interruptions after playback starts.

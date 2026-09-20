@@ -1,4 +1,46 @@
 /* One continuous VCTRS journey; native scrolling owns the camera position. */
+// Keep the signup's own scroller inside a reported keyboard viewport. No UA
+// assumptions: ordinary layout resizing retains the existing CSS fallback.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop'),form=document.getElementById('nextDropEmail');
+if(!panel||!form)return;
+const row=form.querySelector('.next-drop-email-row'),result=document.getElementById('nextDropResult'),viewport=window.visualViewport;
+let frame=0,engaged=false,fitted=false,savedScroll=0;
+function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
+function restore(){
+ if(fitted){panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');panel.scrollTop=savedScroll;fitted=false}
+}
+function update(){
+ frame=0;
+ if(!available()){engaged=false;restore();return}
+ const focused=form.contains(document.activeElement);
+ if(focused)engaged=true;
+ // Pinching is browser-owned. Hold the last layout rather than chase zoom.
+ if(viewport&&Number.isFinite(viewport.scale)&&Math.abs(viewport.scale-1)>.01)return;
+ const height=viewport?viewport.height:innerHeight,top=viewport?viewport.offsetTop:0;
+ if(!Number.isFinite(height)||height<=0||!Number.isFinite(top)||top<0){restore();return}
+ const contracted=height<document.documentElement.clientHeight-1;
+ if(!focused&&!contracted)engaged=false;
+ if(engaged&&contracted){
+  if(!fitted){savedScroll=panel.scrollTop;fitted=true}
+  panel.style.setProperty('--email-top',top+'px');panel.style.setProperty('--email-height',height+'px');panel.classList.add('email-viewport');
+ }else restore();
+ if(!focused&&!fitted)return;
+ // Scroll only this panel, without moving focus, selection or the document.
+ const bounds=panel.getBoundingClientRect(),input=row.getBoundingClientRect(),receipt=result.getBoundingClientRect();
+ const start=input.top-12,end=receipt.bottom+12,room=bounds.height;
+ if(end-start>room||start<bounds.top)panel.scrollTop+=start-bounds.top;
+ else if(end>bounds.bottom)panel.scrollTop+=end-bounds.bottom;
+}
+function queue(){if(!frame)frame=requestAnimationFrame(update)}
+panel.addEventListener('focusin',queue);panel.addEventListener('focusout',queue);
+addEventListener('resize',queue);
+if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener('scroll',queue)}
+// Attribute changes are delivered after entry samples the logo's source rect.
+new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
+})();
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id),world=$('world'),story=$('worldStory'),game=$('worldGame'),preview=$('game-preview');

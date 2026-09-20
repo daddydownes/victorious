@@ -51,6 +51,8 @@ The historical Safari/WebKit report remains unchanged as evidence for its specif
 
 ## Publish an authorized change
 
+For signup keyboard layout, run `tests/signup-viewport-browser.cjs` with Playwright installed, `BASE_URL` set to the verified explicit-root preview, and `EVIDENCE_DIR` outside the checkout. The harness drives controlled VisualViewport signals and ordinary layout resizing; it mocks every FormSubmit request. Record physical-device and embedded-browser checks separately from these engine tests.
+
 GitHub Pages is configured for `main`, root. Publishing a commit to main is a production action; apply the user’s current authorization and check the diff first. Documentation-only commits also trigger Pages, although they do not change the homepage.
 
 ```sh

@@ -28,6 +28,9 @@ button{touch-action:manipulation}
 .next-drop-entering .opening-continue,.next-vault-open .opening-continue,.surfaced .opening-continue{display:none}
 .next-drop{background-color:#090908;overflow-y:auto;overscroll-behavior:contain;height:100%;height:100dvh}
 .next-drop-card{padding-bottom:max(20px,env(safe-area-inset-bottom))}
+/* Embedded browsers can resize only the visible viewport for their keyboard. */
+.next-drop.email-viewport{top:var(--email-top);bottom:auto;height:var(--email-height);place-items:start center;touch-action:pan-y pinch-zoom}
+.next-drop.email-viewport .next-drop-card{margin-block:auto}
 .next-drop::after{animation:none!important}
 /* Restore the logo's shared glow/shine clock; keep the artwork itself still. */
 @keyframes nextMarkGlow{

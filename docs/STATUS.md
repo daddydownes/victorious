@@ -1,5 +1,13 @@
 # Current status
 
+## September 20 — embedded-browser signup keyboard
+
+The owner reports the email area is covered by the keyboard inside Instagram, while the same device works in its ordinary browser. A controlled visual-viewport-only shrink reproduces an underlying layout problem: the fixed signup panel keeps the full layout height and has no scroll range. The signup now follows valid visible-viewport height/offset signals during editing, provides safe vertical scrolling, and keeps the email row and response in view. It restores its ordinary layout when the keyboard closes or Vault entry starts. Pinch zoom remains browser-owned; there is no user-agent sniffing, new form transport, or changed opening choreography.
+
+Source: `tools/guided/journey.js` and `journey.css`, embedded by the normal guided builder. Includes the three Surface fixes below. `tests/signup-viewport-browser.cjs` checks controlled geometry in Chromium, WebKit and Firefox, both motion preferences, keyboard dismissal without blur, repeated cycles, offsets, rotation, validation, mocked submit success/failure, pinch zoom, invalid metrics, missing-API layout resizing and pending-submit Vault entry. Run with `BASE_URL` and `EVIDENCE_DIR` pointing to the explicit preview and an external evidence directory. All form requests are mocked.
+
+Evidence limit: these are browser-engine tests of reported viewport geometry. The actual device/OS and Instagram version are not yet known; no physical Instagram session or real email delivery has been tested. A host that reports neither visible nor layout viewport changes cannot supply keyboard geometry to this enhancement. The publishing task independently reviews the exact combined candidate and verifies Pages, canonical response bytes and live journeys after the authorized push. Next: confirm the live signup from the affected device's Instagram browser.
+
 ## September 20 — Surface recovery and layout fixes
 
 Based on freshly verified GitHub/live `019339ba1fa09e615fb339dce33d406e21a0c547`. Surface now exposes Back to the vault throughout initial loading, failure and arrival. Returning retires pending media and invalidates old frame/reveal callbacks; Retry and the successful first-frame choreography remain. Keyboard chapter focus no longer draws a line between story and game, while real controls retain visible focus. A smaller V in short landscape clears the Canberra heading; artwork, chapter spacing and the game-card gold outline are preserved.
