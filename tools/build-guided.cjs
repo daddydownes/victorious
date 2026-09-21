@@ -3,6 +3,9 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),asse
 const root=path.resolve(__dirname,'..'),source=path.join(__dirname,'guided');
 let html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 let chapters=fs.readFileSync(path.join(source,'chapters.html'),'utf8');
+const collection=fs.readFileSync(path.join(source,'collection.html'),'utf8');
+assert.ok(/<section class="next-drop"/.test(html),'Expected current post-film panel');
+html=html.replace(/<section class="next-drop"[\s\S]*?(?=<section class="after seamsec">)/,()=>collection+'\n\n');
 const preview=fs.readFileSync(path.join(source,'game-preview.html'),'utf8');
 fs.mkdirSync(path.join(root,'assets','delivery'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets','delivery','game-preview.html'),preview);

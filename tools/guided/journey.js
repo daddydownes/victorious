@@ -13,11 +13,12 @@ function restore(){
 }
 function update(){
  frame=0;
- if(!available()){engaged=false;pointer=null;restore();return}
+ if(!available()){engaged=false;pointer=null;panel.classList.remove('email-editing');restore();return}
  // Keyboard recovery can precede pointerup/click. Keep JOIN under the finger
  // for the whole gesture; its click runs before the queued layout update.
  if(pointer!==null)return;
  const focused=form.contains(document.activeElement);
+ panel.classList.toggle('email-editing',focused);
  if(focused)engaged=true;
  // Pinching is browser-owned. Hold the last layout rather than chase zoom.
  if(viewport&&Number.isFinite(viewport.scale)&&Math.abs(viewport.scale-1)>.01)return;
@@ -38,7 +39,7 @@ function update(){
 }
 function queue(){if(!frame)frame=requestAnimationFrame(update)}
 panel.addEventListener('focusin',queue);panel.addEventListener('focusout',queue);
-form.addEventListener('pointerdown',e=>{pointer=e.pointerId},{passive:true});
+form.addEventListener('pointerdown',e=>{pointer=e.pointerId;panel.classList.add('email-editing')},{passive:true});
 function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue()}
 addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
 addEventListener('blur',()=>releasePointer());
@@ -47,6 +48,76 @@ if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener
 // Attribute changes are delivered after entry samples the logo's source rect.
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
+})();
+// Match the Surface chapter's native snap and restrained end-stop rebound.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup');
+if(!panel||!signup)return;
+const card=signup.querySelector('.next-drop-card'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+let bounce=null,touchY=null,heldPointer=null,frozenBounce=false;
+function stopBounce(force=false){if(heldPointer!==null&&!force)return;if(bounce){bounce.cancel();bounce=null}if(frozenBounce){card.style.removeProperty('transform');frozenBounce=false}}
+function atEnd(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&heldPointer===null&&panel.scrollTop>0&&panel.scrollTop+panel.clientHeight>=panel.scrollHeight-2}
+function rebound(){
+ if(motion.matches||document.hidden||bounce||frozenBounce||!card.animate)return;
+ const animation=card.animate([{transform:'translateY(0)'},{transform:'translateY(-16px)',offset:.32},{transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,.65,.3,1)'});
+ bounce=animation;animation.finished.catch(()=>{}).then(()=>{if(bounce===animation)bounce=null});
+}
+panel.addEventListener('wheel',e=>{if(e.ctrlKey||e.deltaY<=0){stopBounce();return}if(atEnd()){if(e.cancelable)e.preventDefault();rebound()}},{passive:false});
+panel.addEventListener('touchstart',e=>{touchY=e.touches.length===1?e.touches[0].clientY:null;if(e.touches.length!==1)stopBounce(true)},{passive:true});
+panel.addEventListener('touchmove',e=>{if(e.touches.length!==1||touchY===null)return;const y=e.touches[0].clientY,delta=touchY-y;touchY=y;if(delta<0){stopBounce();return}if(delta>0&&atEnd()&&e.cancelable){e.preventDefault();rebound()}},{passive:false});
+panel.addEventListener('touchend',()=>{touchY=null},{passive:true});
+panel.addEventListener('touchcancel',()=>{touchY=null;stopBounce()},{passive:true});
+panel.addEventListener('scroll',()=>{if(!atEnd())stopBounce()},{passive:true});
+// Freeze a rebound during a control press. Reset only after its click, so JOIN
+// and Vault cannot move away between pointerdown and pointerup.
+panel.addEventListener('pointerdown',e=>{if(form.contains(e.target)||button.contains(e.target)){heldPointer=e.pointerId;if(bounce){card.style.transform=getComputedStyle(card).transform;bounce.cancel();bounce=null;frozenBounce=true}}},{capture:true,passive:true});
+function release(e){if(e&&e.pointerId!==heldPointer)return;heldPointer=null;requestAnimationFrame(()=>stopBounce())}
+addEventListener('pointerup',release,{passive:true});addEventListener('pointercancel',release,{passive:true});
+panel.addEventListener('focusin',()=>stopBounce());panel.addEventListener('keydown',()=>stopBounce());
+addEventListener('blur',()=>{heldPointer=null;stopBounce(true)});
+addEventListener('resize',()=>stopBounce());document.addEventListener('visibilitychange',()=>{if(document.hidden){heldPointer=null;stopBounce(true)}});
+if(motion.addEventListener)motion.addEventListener('change',()=>stopBounce(true));
+new MutationObserver(()=>{if(panel.inert){heldPointer=null;stopBounce(true)}}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+})();
+// Product delivery starts only when the post-film collection is revealed.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop');
+if(!panel)return;
+const photos=[...panel.querySelectorAll('[data-product]')];
+const cue=document.getElementById('collectionScrollCue'),signup=document.getElementById('collectionSignup');
+if(cue&&signup)cue.addEventListener('click',()=>{
+ if(panel.inert||panel.getAttribute('aria-hidden')==='true')return;
+ const top=signup.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
+ // The same native chapter scroll used by Surface; form editing suspends snap.
+ panel.scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ const heading=signup.querySelector('h2');if(heading)heading.focus({preventScroll:true});
+});
+let started=false,observer=null;
+function size(img){const width=Math.ceil(img.getBoundingClientRect().width);if(width>0&&img.sizes!==width+'px')img.sizes=width+'px'}
+function load(img){
+ const name=img.dataset.product;
+ if(!name)return;
+ size(img);
+ const largeWidth=Math.min(1280,Number(img.getAttribute('width'))||1280);
+ img.srcset='assets/products/'+name+'-640.webp 640w, assets/products/'+name+'-1280.webp '+largeWidth+'w';
+ img.src='assets/products/'+name+'-1280.webp';
+ delete img.dataset.product;
+}
+function start(){
+ if(started||panel.getAttribute('aria-hidden')==='true')return;
+ started=true;
+ // Match delivery to the actual two-/four-column tiles, including rotation.
+ if(window.ResizeObserver){const sizing=new ResizeObserver(entries=>{for(const entry of entries)if(!entry.target.dataset.product)size(entry.target)});photos.forEach(img=>sizing.observe(img))}
+ if(window.IntersectionObserver){
+  observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){load(entry.target);observer.unobserve(entry.target)}},{root:panel,rootMargin:'320px 0px'});
+  photos.forEach(img=>observer.observe(img));
+ }else photos.forEach(load);
+}
+const visibility=new MutationObserver(()=>{start();if(started)visibility.disconnect()});
+visibility.observe(panel,{attributes:true,attributeFilter:['aria-hidden']});
+start();
 })();
 (()=>{
 'use strict';
@@ -202,4 +273,23 @@ const art=world.querySelector('.spray-headline');art.addEventListener('error',()
 window.__worldJourney={get state(){return state},get previewReady(){return previewReady},get navigating(){return navigating},get filmRevealed(){return filmRevealed}};
 const context=document.modelContext;
 if(context?.registerTool){try{Promise.resolve(context.registerTool({name:'start_vctrs_game',title:'Play Fly the V',description:'From the visible game preview, take control of Fly the V.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false},execute(input){if(!input||typeof input!=='object'||Object.keys(input).length)throw Error('Expected an empty object');if(state!=='preview')throw Error('Reach the game preview first');startGame();return{chapter:state}}})).catch(()=>{})}catch{}}
+})();
+
+// Use the listed Canberra event start, with an explicit timezone offset.
+(()=>{
+ const clock=document.getElementById('popupClock'),started=document.getElementById('popupStarted'),panel=document.getElementById('nextDrop');
+ if(!clock||!started||!panel)return;
+ const target=Date.parse(clock.dataset.start),end=Date.parse(clock.dataset.end),units=['days','hours','minutes','seconds'];let timer;
+ function render(){
+  const remaining=Math.max(0,Math.ceil((target-Date.now())/1000));
+  clock.hidden=remaining===0;started.hidden=remaining>0;
+  started.textContent=Date.now()<end?'On now · Until 10 PM':'This pop-up has finished.';
+  const values=[Math.floor(remaining/86400),Math.floor(remaining/3600)%24,Math.floor(remaining/60)%60,remaining%60];
+  units.forEach((unit,i)=>{clock.querySelector('[data-time="'+unit+'"]').textContent=String(values[i]).padStart(2,'0')});
+  if(Date.now()>=end)clearInterval(timer);
+ }
+ function sync(){clearInterval(timer);render();if(!document.hidden&&!panel.inert&&Date.now()<end)timer=setInterval(render,1000)}
+ document.addEventListener('visibilitychange',sync);
+ new MutationObserver(sync).observe(panel,{attributes:true,attributeFilter:['inert']});
+ sync();
 })();

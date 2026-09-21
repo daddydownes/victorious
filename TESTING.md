@@ -10,7 +10,7 @@ A release passes only when:
 
 - every critical journey passes four consecutive times;
 - there are no console errors, black flashes, duplicated logos, stuck screens, clipped controls, or unexpected scroll jumps;
-- the VCTRS vault mark finishes at `#f0d492` (`rgb(240, 212, 146)`);
+- the collection wordmark stays in its masthead and no travelling or expanding logo appears during Vault entry;
 - keyboard, touch, pointer, reduced-motion, and narrow-screen paths remain usable;
 - any known failure is recorded below with an owner and a decision to fix or explicitly defer it.
 
@@ -110,14 +110,12 @@ Do not repeatedly submit real addresses during routine QA. Use an approved test 
 - [ ] The light sweep stays behind readable text and repeats twice per synchronized logo cycle.
 - [ ] The reveal settles without a timer-induced opacity or position snap.
 - [ ] Entry fires only once.
-- [ ] Exactly one `.vault-entry-mark` exists during flight.
-- [ ] The old drop copy fades before the photograph grid becomes visually busy.
-- [ ] The background crossfade has no blank frame.
-- [ ] VCTRS moves continuously into the vault target.
-- [ ] There is no reparenting jump on the final frame.
-- [ ] Exactly one `.vault-brand-live` exists after landing.
-- [ ] Final wordmark colour is `rgb(240, 212, 146)`.
-- [ ] `THE VAULT` appears beneath the wordmark.
+- [ ] No .vault-entry-mark or .vault-brand-live is created during entry.
+- [ ] Collection and archive crossfade without a blank frame or moving logo.
+- [ ] The archive remains at its final scale throughout the fade.
+- [ ] The masthead wordmark remains in the collection after entry.
+- [ ] The former central Vault title stays hidden.
+- [ ] Reduced motion enters directly and focus reaches the interactive archive.
 
 ## Critical journey E — vault and Surface
 
@@ -148,8 +146,8 @@ At every required viewport:
 For `844×390` landscape specifically:
 
 - [ ] The compact short-height layout activates.
-- [ ] The wordmark, title, email, and hold control fit without scrolling the source logo offscreen.
-- [ ] The shared-element flight remains visible and continuous.
+- [ ] The responsive collection fits its own screen and signup follows in its own section.
+- [ ] Vault entry from the scrolled signup fades directly without transferring the offscreen masthead.
 
 ## Reduced-motion checks
 
@@ -158,7 +156,7 @@ Enable **Reduce Motion** at the operating-system level before opening the page.
 - [ ] The opening does not run the added V choreography.
 - [ ] The next-drop page does not slide or sweep.
 - [ ] The VCTRS glyph does not pulse or shine indefinitely.
-- [ ] The vault identity label and rule render immediately and remain visible.
+- [ ] The archive renders directly without a central identity overlay.
 - [ ] Essential content and controls are present without waiting for an animation event.
 - [ ] Tap/click/keyboard entry remains operable.
 - [ ] No state is left invisible because an animation was disabled.

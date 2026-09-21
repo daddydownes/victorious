@@ -49,6 +49,8 @@ Use `TESTING.md` for visual/interaction changes and its four-pass journeys. Reco
 
 The historical Safari/WebKit report remains unchanged as evidence for its specific commit. Its hold-based journey is historical; the current primary button is tap/click PRESS HERE.
 
+For the current collection and fade, run node tests/vault-fade.cjs. With Playwright installed, BASE_URL set to the verified preview, and EVIDENCE_DIR outside the checkout, tests/gallery-layout-browser.cjs covers responsive geometry and the scroll cue; tests/gallery-release-browser.cjs runs four complete journeys per browser/viewport configuration. The legacy vault-through-browser.cjs command forwards to this current suite. The former expanding logo is intentionally retired. tests/collection-rebound-browser.cjs checks both-direction wheel snapping, the matching end rebound, the pure-black backdrop and absence of decorative layers, pointer-hold stability with a mocked JOIN, and subsequent Vault entry in three engines.
+
 ## Publish an authorized change
 
 For signup keyboard layout, run `tests/signup-viewport-browser.cjs` and `tests/signup-pointer-browser.cjs` with Playwright installed, `BASE_URL` set to the verified explicit-root preview, and `EVIDENCE_DIR` outside the checkout. The harnesses drive controlled VisualViewport signals, ordinary layout resizing and viewport recovery between pointerdown and pointerup; they mock every FormSubmit request. Record physical-device and embedded-browser checks separately from these engine tests.

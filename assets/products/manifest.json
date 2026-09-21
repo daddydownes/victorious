@@ -1,0 +1,74 @@
+{
+  "source": "Owner-supplied original product photographs",
+  "transformation": "EXIF orientation, proportional downsize only; WebP quality 90. No crops or retouching.",
+  "images": [
+    {
+      "name": "zip-hoodie",
+      "source": "01.jpg",
+      "sourceSha256": "8767ca2dc031556f14eada9c7c46a1fdd5445db749c6e5a40689e3465d97acf1",
+      "width": 1080,
+      "height": 1432,
+      "variants": [
+        {
+          "file": "zip-hoodie-640.webp",
+          "bytes": 134260
+        },
+        {
+          "file": "zip-hoodie-1280.webp",
+          "bytes": 300104
+        }
+      ]
+    },
+    {
+      "name": "spray-tee",
+      "source": "02.jpg",
+      "sourceSha256": "4f1f83e6ccf78e462f4b6bf98dc59d6e38491945e1ed17443328e84ceccdbc2a",
+      "width": 1080,
+      "height": 1432,
+      "variants": [
+        {
+          "file": "spray-tee-640.webp",
+          "bytes": 152318
+        },
+        {
+          "file": "spray-tee-1280.webp",
+          "bytes": 312846
+        }
+      ]
+    },
+    {
+      "name": "canberra-tee",
+      "source": "23_DSKDqy4kzmy_1.jpg",
+      "sourceSha256": "e1f30f4792ea51d6c4bde2784463fa25cd38e64f60f063ee02dd454e67eacfe8",
+      "width": 1440,
+      "height": 1920,
+      "variants": [
+        {
+          "file": "canberra-tee-640.webp",
+          "bytes": 110360
+        },
+        {
+          "file": "canberra-tee-1280.webp",
+          "bytes": 361162
+        }
+      ]
+    },
+    {
+      "name": "black-tee",
+      "source": "30_DQYJneek1Vi_3.jpg",
+      "sourceSha256": "100ad276c0c9819a2c47d685b4cf7b704a5c3fb23c75c8fd0ad465ebb391f20e",
+      "width": 1440,
+      "height": 1920,
+      "variants": [
+        {
+          "file": "black-tee-640.webp",
+          "bytes": 213952
+        },
+        {
+          "file": "black-tee-1280.webp",
+          "bytes": 824528
+        }
+      ]
+    }
+  ]
+}

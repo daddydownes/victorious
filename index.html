@@ -883,11 +883,73 @@ button{touch-action:manipulation}
 .opening-continue{position:fixed;bottom:max(24px,env(safe-area-inset-bottom));right:6vw;z-index:1400;min-height:48px;padding:10px 18px;border:1px solid #b9b0a055;background:#080808;color:#efe9dc;font:14px Georgia,serif;cursor:pointer}
 .opening-continue span{margin-left:28px;color:#f0d492}
 .next-drop-entering .opening-continue,.next-vault-open .opening-continue,.surfaced .opening-continue{display:none}
-.next-drop{background-color:#090908;overflow-y:auto;overscroll-behavior:contain;height:100%;height:100dvh}
+.next-drop{background-color:#000;overflow-y:auto;overscroll-behavior:contain;height:100%;height:100dvh}
 .next-drop-card{padding-bottom:max(20px,env(safe-area-inset-bottom))}
 /* Embedded browsers can resize only the visible viewport for their keyboard. */
 .next-drop.email-viewport{top:var(--email-top);bottom:auto;height:var(--email-height);place-items:start center;touch-action:pan-y pinch-zoom}
 .next-drop.email-viewport .next-drop-card{margin-block:auto}
+/* The collection and invitation share one native scroller, including keyboard fit. */
+.next-drop{display:block;touch-action:pan-y pinch-zoom;background:#000;overflow-x:hidden;scroll-snap-type:y mandatory;scrollbar-width:thin;scrollbar-color:#625b4e #000}
+.next-drop.email-viewport,.next-drop.email-editing{scroll-snap-type:none}
+.collection-screen,.collection-signup{scroll-snap-align:start;scroll-snap-stop:always;z-index:1}
+.next-drop::after{content:none}
+.collection-screen{position:relative;box-sizing:border-box;width:100%;min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,3vh,32px);padding:clamp(22px,3.5vh,40px) 0 58px}
+.collection-intro{box-sizing:border-box;padding:0 24px;text-align:center}
+.collection-intro .next-drop-mark{width:min(360px,48vw)}
+.collection-intro .next-drop-kicker{margin-top:clamp(12px,2vh,20px)}
+.collection{position:relative;box-sizing:border-box;width:min(1440px,100%,calc((100svh - 300px)*3));margin:0 auto;padding:0 32px;color:#eeeae0}
+.collection-header{display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.collection-header h2{margin:0}
+.collection-intro .next-drop-kicker,.collection-header h2{font:600 clamp(12px,1.1vw,15px)/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.28em;text-indent:.28em;text-align:center;color:#efd69b;text-shadow:0 0 18px rgba(240,212,146,.24)}
+/* A brighter gold-to-ivory light pass connects both labels to the masthead. */
+@supports (background-clip:text){
+ @media(prefers-reduced-motion:no-preference){
+  body.next-drop-landed:not(.next-vault-opening) .next-drop-kicker,
+  body.next-drop-landed:not(.next-vault-opening) .collection-header h2{
+   background:linear-gradient(105deg,#dcb96f 28%,#fff7df 48%,#f6dfaa 54%,#dcb96f 72%);background-size:250% 100%;
+   -webkit-background-clip:text;background-clip:text;color:transparent;
+   animation:collectionLabelLight var(--next-light-cycle) ease-in-out infinite;
+  }
+ }
+}
+@keyframes collectionLabelLight{0%,10%{background-position:100% 0;filter:drop-shadow(0 0 4px #efd69b12)}25%{filter:drop-shadow(0 0 7px #efd69b70)}48%,100%{background-position:0% 0;filter:drop-shadow(0 0 4px #efd69b12)}}
+.collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.collection-piece{position:relative;min-width:0;margin:0;background:#171715;overflow:hidden}
+.collection-piece img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;color:#d5d0c4;font:12px/1.6 Arial,sans-serif}
+.collection-signup{position:relative;isolation:isolate;width:100%;display:grid;place-items:center;min-height:100svh;min-height:100dvh;background:transparent}
+.collection-signup .next-drop-card{margin:0 auto}
+.collection-signup .next-vault-hold{margin-top:clamp(72px,12vh,132px)}
+@media(max-width:900px) and (orientation:portrait){
+ .collection-screen{gap:22px;padding:22px 0 58px}
+ .collection-intro .next-drop-mark{width:min(260px,65vw)}
+ .collection{width:min(760px,100%,calc((100svh - 300px)*.75 + 28px));padding:0 14px}
+ .collection-header{margin-bottom:16px}
+ .collection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+}
+@media(max-width:600px){.collection-intro .next-drop-kicker,.collection-header h2{font-size:12px;letter-spacing:.25em;text-indent:.25em}}
+@media(max-height:640px) and (orientation:portrait){
+ .collection-screen{gap:18px;padding:16px 0 58px}
+ .collection-intro .next-drop-mark{width:min(190px,58vw)}
+ .collection-intro .next-drop-kicker{margin-top:12px}
+ .collection{width:min(100%,calc((100svh - 240px)*.75 + 28px))}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .collection-screen{gap:12px;padding:16px 0 54px}
+ .collection-intro .next-drop-mark{width:150px}
+ .collection-intro .next-drop-kicker{margin-top:8px}
+ .collection-intro .next-drop-kicker,.collection-header h2{font-size:11px}
+ .collection{width:min(100%,calc((100svh - 170px)*3));padding:0 14px}
+ .collection-header{margin-bottom:12px}
+ .collection-grid{gap:10px}
+}
+.collection-scroll-cue{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;width:48px;height:44px;padding:6px;border:0;background:transparent;color:#efd69b;cursor:pointer}
+.collection-scroll-cue span{display:block;width:10px;height:10px;margin-top:-2px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);opacity:.7}
+@media(prefers-reduced-motion:no-preference){
+ body.next-drop-landed:not(.next-vault-opening) .collection-scroll-cue span{animation:collectionScrollHint 1.9s ease-in-out infinite}
+ body.next-drop-landed .collection-scroll-cue span:nth-child(2){animation-delay:.16s}
+ body.next-drop-landed .collection-scroll-cue span:nth-child(3){animation-delay:.32s}
+}
+@keyframes collectionScrollHint{0%,70%,100%{opacity:.22;transform:translateY(-2px) rotate(45deg)}35%{opacity:1;transform:translateY(2px) rotate(45deg)}}
 .next-drop::after{animation:none!important}
 /* Restore the logo's shared glow/shine clock; keep the artwork itself still. */
 @keyframes nextMarkGlow{
@@ -900,6 +962,7 @@ button{touch-action:manipulation}
 }
 .next-drop-rule{display:none}
 .next-drop-title{margin-top:clamp(18px,3vh,28px)}
+.collection-signup .next-drop-title{margin:0 0 clamp(26px,4vh,40px)}
 .next-drop-email-row{border-radius:10px}
 .next-drop-email input{border-radius:9px 0 0 9px}
 .next-drop-email button{border-radius:0 9px 9px 0}
@@ -1096,10 +1159,55 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 
 .next-drop-email .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 
-/* Approved study 03: centred arrival, then forward expansion into the viewer. */
-.vault-title{will-change:transform,opacity,filter}
-.vault-title{width:clamp(230px,30vw,420px)}.vault-brand-name,.vault-title .rule{display:none}.vault-title.gone{animation:vaultThrough 1250ms cubic-bezier(.3,0,.55,1) both}@keyframes vaultThrough{0%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}28%{opacity:.9}65%{opacity:.3}100%{opacity:0;transform:translate(-50%,-50%) scale(5.5);filter:blur(9px)}}
-@media(prefers-reduced-motion:reduce){.vault-title{will-change:auto}.vault-title.gone{animation:none!important;opacity:0;filter:none}}
+/* The archive opens directly. Retire the former expanding title in all paths. */
+.vault-title{display:none}
+
+/* Borderless signup: one compact, aligned invitation on pure black. */
+.collection-signup .next-drop-card{width:min(400px,calc(100% - 48px));padding:0;text-align:left}
+.collection-signup .next-drop-title{font-size:clamp(26px,4vw,34px);letter-spacing:-.025em;line-height:1.15}
+.collection-signup .next-drop-email{width:100%;margin:24px 0 0}
+.collection-signup .next-drop-email-row{align-items:stretch;gap:10px;padding:0;border:0;border-radius:0;background:transparent}
+.collection-signup .next-drop-email input{width:0;min-width:0;min-height:56px;padding:16px;border:0;border-radius:8px;background:#151515;color:#f4efe5;font:400 16px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.01em}
+.collection-signup .next-drop-email input::placeholder{color:#aaa69e;opacity:1}
+.collection-signup .next-drop-email button{flex:none;min-width:84px;min-height:56px;padding:0 18px;border:0;border-radius:8px;background:#efd69b;color:#19150d;font:600 12px/1 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.12em}
+.collection-signup .next-drop-email button:hover{background:#fff0c9}
+.collection-signup .next-drop-email button:disabled{opacity:.65;cursor:wait}
+.collection-signup .next-drop-email input:focus-visible,.collection-signup .next-drop-email button:focus-visible{outline:2px solid #efd69b;outline-offset:3px}
+.collection-signup .next-drop-result{padding-top:12px;line-height:1.5}
+.collection-signup .next-vault-hold{width:100%;margin-top:44px;box-shadow:none}
+@media(max-width:360px){.collection-signup .next-drop-card{width:calc(100% - 36px)}.collection-signup .next-drop-email input{padding-inline:12px}.collection-signup .next-drop-email button{min-width:72px;padding-inline:12px}}
+@media(max-height:520px){.collection-signup .next-drop-email{margin-top:18px}.collection-signup .next-vault-hold{margin-top:24px}}
+
+/* Give the invitation a quieter introduction and room before the Vault. */
+.collection-signup .next-drop-card{padding-bottom:clamp(24px,7svh,72px)}
+.collection-signup .signup-caption{margin:14px 0 0;color:#a6a198;font:400 14px/1.6 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.015em}
+.collection-signup .next-drop-email{margin-top:32px}
+.collection-signup .next-vault-hold{margin-top:clamp(60px,10svh,100px)}
+@media(max-height:600px){.collection-signup .next-drop-card{padding-bottom:12px}.collection-signup .signup-caption{margin-top:10px}.collection-signup .next-drop-email{margin-top:20px}.collection-signup .next-vault-hold{margin-top:32px}}
+.next-drop.email-viewport .next-drop-card{padding-bottom:12px}
+.next-drop.email-viewport .next-vault-hold{margin-top:24px}
+
+/* Quiet event countdown separates signup from the archive invitation. */
+.collection-signup .next-drop-card{padding-block:32px}
+.popup-countdown{margin-top:36px}
+.popup-eyebrow{margin:0 0 10px;font:600 10px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.22em;color:#d8bd80}
+.popup-name{color:#eee9de;text-decoration:none;font:500 18px/1.3 'VCTRS Rounded',Arial,sans-serif}
+.popup-name span{font-size:14px;color:#d8bd80}
+.popup-name:hover{text-decoration:underline;text-underline-offset:4px}
+.popup-name:focus-visible{outline:2px solid #efd69b;outline-offset:5px}
+.popup-date{margin:8px 0 18px;color:#a6a198;font:400 12px/1.5 'VCTRS Rounded',Arial,sans-serif}
+.popup-clock{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:320px}
+.popup-clock b{display:block;color:#efd69b;font:400 clamp(28px,5vw,36px)/1.1 'VCTRS Rounded',Arial,sans-serif;font-variant-numeric:tabular-nums}
+.popup-clock small{display:block;margin-top:7px;color:#a6a198;font:500 9px/1.3 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.14em}
+.popup-started{color:#efd69b;font:400 14px/1.5 'VCTRS Rounded',Arial,sans-serif}
+.collection-signup .next-vault-hold{margin-top:36px}
+@media(max-height:650px){.collection-signup .next-drop-card{padding-block:22px}.popup-countdown{margin-top:22px}.collection-signup .next-vault-hold{margin-top:24px}}
+.next-drop.email-viewport .popup-countdown{display:none}
+
+/* Owner preference: a centred invitation and event composition. */
+.collection-signup .next-drop-card{text-align:center}
+.popup-clock{margin-inline:auto}
+.collection-signup .next-drop-email input{text-align:center}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -1185,20 +1293,46 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   </div>
 </section>
 
-<section class="next-drop" id="nextDrop" aria-label="Victorious next pop-up" aria-hidden="true" inert>
-  <div class="next-drop-card">
+<section class="next-drop" id="nextDrop" aria-label="Victorious clothing and signup" aria-hidden="true" inert>
+  <div class="collection-screen">
+  <header class="collection-intro">
     <div class="next-drop-mark"><span class="vctrs-glyph" role="img" aria-label="VCTRS"></span></div>
     <div class="next-drop-kicker">POP-UP STORE</div>
-    <div class="next-drop-rule" aria-hidden="true"></div>
-    <h2 class="next-drop-title">ADD YOUR EMAIL</h2>
-    <form class="next-drop-email" id="nextDropEmail" novalidate>
-      <label for="nextDropEmailInput" class="sr">Email address</label>
-      <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="YOUR EMAIL" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
-      <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
-    </form>
-    <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-press-light" aria-hidden="true"></span><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
+  </header>
+  <section class="collection" aria-labelledby="collectionTitle">
+    <header class="collection-header">
+      <h2 id="collectionTitle">PREVIOUS DROPS</h2>
+    </header>
+    <div class="collection-grid">
+      <figure class="collection-piece"><img data-product="zip-hoodie" width="1080" height="1432" decoding="async" alt="Black zip hoodie laid flat on pavement, with a white V and star on the chest."></figure>
+      <figure class="collection-piece"><img data-product="spray-tee" width="1080" height="1432" decoding="async" alt="White T-shirt laid flat on dark pavement, with the VCTRS spray-can graphic."></figure>
+      <figure class="collection-piece"><img data-product="canberra-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt on concrete, with the Victorious wordmark and Canberra tower graphic."></figure>
+      <figure class="collection-piece"><img data-product="black-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt laid flat on pavement, with a small pale V and star on the chest."></figure>
+    </div>
+  </section>
+  <button type="button" class="collection-scroll-cue" id="collectionScrollCue" aria-label="Scroll to add your email" aria-controls="collectionSignup"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+  </div>
+  <div class="collection-signup" id="collectionSignup">
+    <div class="next-drop-card">
+      <h2 class="next-drop-title" tabindex="-1">ADD YOUR EMAIL</h2>
+      <p class="signup-caption">Stay close to what comes next.</p>
+      <form class="next-drop-email" id="nextDropEmail" novalidate>
+        <label for="nextDropEmailInput" class="sr">Email address</label>
+        <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="Your email address" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
+        <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
+      </form>
+      <aside class="popup-countdown" aria-label="Next pop-up">
+        <p class="popup-eyebrow">NEXT POP-UP</p>
+        <a href="https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057" target="_blank" rel="noopener noreferrer" class="popup-name">Pass the Mic Canberra <span aria-hidden="true">↗</span></a>
+        <p class="popup-date">@ UC Hub · 26 September · 6–10 PM AEST</p>
+        <div class="popup-clock" id="popupClock" role="timer" aria-label="Countdown to the event start" data-start="2026-09-26T18:00:00+10:00" data-end="2026-09-26T22:00:00+10:00" hidden><span><b data-time="days">00</b><small>DAYS</small></span><span><b data-time="hours">00</b><small>HRS</small></span><span><b data-time="minutes">00</b><small>MIN</small></span><span><b data-time="seconds">00</b><small>SEC</small></span></div>
+        <p class="popup-started" id="popupStarted" hidden>On now · Until 10 PM</p>
+      </aside>
+      <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-press-light" aria-hidden="true"></span><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
+    </div>
   </div>
 </section>
+
 
 <section class="after seamsec">
   <div class="seam-track" id="seamTrack">
@@ -1609,7 +1743,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   var timer=null, started=0, resumeFilm=false, lastFilmTime=0;
   var openingContinue=document.createElement('button');
   openingContinue.type='button'; openingContinue.className='opening-continue';
-  openingContinue.textContent='Continue to email'; openingContinue.hidden=true;
+  openingContinue.textContent='Continue to collection'; openingContinue.hidden=true;
   openingContinue.addEventListener('click',failOpen);document.body.appendChild(openingContinue);
   addEventListener('visibilitychange',function(){
     if(document.hidden){
@@ -1682,10 +1816,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     var originalBackdrop=document.querySelector('.seam-gold');
     setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
     setNextDropInert(originalBackdrop,true); originalBackdrop.setAttribute('aria-hidden','true');
-    if(destination && originalBackdrop){
-      var originalImage=getComputedStyle(originalBackdrop).backgroundImage;
-      if(originalImage && originalImage!=='none') destination.style.backgroundImage=originalImage;
-    }
+    // The collection and signup use a plain backdrop; people remain in the Vault.
     // The button is the last reveal. A fixed timer used to cut its animation
     // short, snapping its opacity and position to the landed styles.
     var lastReveal=document.getElementById('nextVaultHold'), nextDropFinished=false;
@@ -2454,7 +2585,6 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
      ▲ Surface bumps the counter, so a run that is still ticking clears itself
      on its next frame instead of writing guidePhase='vault' over 'surfaced'. */
   var entryGen=0, entryMotion=null;
-  var vaultIdentityInFlight=false;
   var CREW_CRUISE=0.8, crewSpeed=CREW_CRUISE; // twice the former steady drift; arrival still eases from 1.6
   var crewArrived=false, soArrived=false, crewCanReveal=false;
   var seamTop=0, seamH=0, seamWords=[]; // cached: CLOSED's arrival is driven off the approach
@@ -2489,128 +2619,46 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
     warmVaultImages();
     guidePhase='toVault'; hideCue();
-    setNextDropInert(document.getElementById('nextDrop'),true);
+    var next=document.getElementById('nextDrop');
+    setNextDropInert(next,true);
     setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
     setNextDropInert(seamGold,true); seamGold.setAttribute('aria-hidden','true');
     setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');
-    /* This path owns a fresh identity handoff even if the browser restored an
-       old scroll position and briefly armed the vault title before the hold. */
-    vaultRevealed=false; vaultTitleGen++;
-    vaultTitle.classList.remove('gone','revealed');
     document.documentElement.classList.add('journey-held');
-    var next=document.getElementById('nextDrop'), nextCard=next?next.querySelector('.next-drop-card'):null;
-    var mark=document.querySelector('.next-drop-mark'), movingImg=mark?mark.querySelector('.vctrs-glyph'):null,
-        sourceRect=movingImg?movingImg.getBoundingClientRect():null,
-        sourceFilter=movingImg?getComputedStyle(movingImg).filter:'';
-    /* Keep the card's geometry frozen when its real image is portalled out. */
-    if(mark&&sourceRect){ mark.style.setProperty('--flight-h',sourceRect.height+'px'); mark.classList.add('mark-in-flight'); }
-    if(movingImg&&sourceRect){
-      movingImg.style.filter=sourceFilter;
-      movingImg.className='vault-entry-mark';
-      movingImg.style.left=sourceRect.left+'px'; movingImg.style.top=sourceRect.top+'px';
-      movingImg.style.width=sourceRect.width+'px'; movingImg.style.height=sourceRect.height+'px';
-      document.body.appendChild(movingImg); vaultIdentityInFlight=true;
-    }
     document.body.classList.add('next-vault-opening');
     vaultArming=true; surfacing=true; stopInertia();
-    var myGen=++entryGen;
+    var myGen=++entryGen, landed=false, fadeTask=null;
+    // Prepare the archive at its final size. Only the two chapter opacities
+    // change; the collection wordmark stays in its original masthead.
+    revealVaultTitle();
     vault.style.visibility='visible'; vault.style.opacity='0'; vault.style.pointerEvents='none';
-    dive.style.transform='scale(.78)'; dive.style.setProperty('--vault-brightness','1'); dive.style.willChange='transform';
-    var landed=false, motion=[], landingTask=null, retargetFlight=null;
+    dive.style.transform='scale(1)'; dive.style.setProperty('--vault-brightness','1');
+    activateNativePan();
     function land(){
-      if(landed||myGen!==entryGen||document.hidden) return; landed=true;
-      if(landingTask){ cancelMotionTask(landingTask); landingTask=null; }
-      if(retargetFlight){
-        removeEventListener('resize',retargetFlight);
-        removeEventListener('visibilitychange',retargetFlight);
-        if(window.visualViewport) visualViewport.removeEventListener('resize',retargetFlight);
-      }
-      for(var ai=0;ai<motion.length;ai++){ try{ motion[ai].cancel(); }catch(_a){} }
-      /* Reparent before changing page state. The destination is transform-static
-         and exactly the final animated rect, so this produces no painted jump. */
-      if(movingImg&&vaultBrandSlot){
-        movingImg.className='vault-brand-live'; movingImg.removeAttribute('style');
-        vaultBrandSlot.removeAttribute('aria-hidden'); vaultBrandSlot.appendChild(movingImg);
-      }
+      if(landed||myGen!==entryGen||document.hidden) return;
+      landed=true;
+      if(fadeTask){cancelMotionTask(fadeTask);fadeTask=null;}
       tapEntryFinish=null;
       setNextDropInert(vault,false); vault.removeAttribute('aria-hidden');
-      unlock(); scrollTo(0,vaultY());
-      surfacing=false;
+      unlock(); scrollTo(0,vaultY()); surfacing=false;
       vault.style.opacity='1'; vault.style.visibility='visible'; vault.style.pointerEvents='auto';
-      dive.style.transform='scale(1)'; dive.style.setProperty('--vault-brightness','1'); dive.style.willChange='transform';
-      activateNativePan();
+      if(next) next.style.opacity='0';
       vaultActive=true; guidePhase='vault';
-      if(!vaultRevealed) revealVaultTitle();
-      vaultIdentityInFlight=false;
       finishNextDropVaultHandoff();
     }
     tapEntryFinish=land;
-    if(immediate===true||reduced||!movingImg||!movingImg.animate){ land(); return; }
-    /* All visible layers share one compositor timeline. Two frames let the
-       scroll/vault preparation settle before the static target is measured. */
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){
-      if(myGen!==entryGen){ vaultIdentityInFlight=false; return; }
-      var tr=vaultBrandSlot.getBoundingClientRect(),
-          dx=(tr.left+tr.width/2)-(sourceRect.left+sourceRect.width/2),
-          dy=(tr.top+tr.height/2)-(sourceRect.top+sourceRect.height/2),
-          s=tr.width/sourceRect.width, arc=0, D=1550,
-          finalFilter='drop-shadow(0 0 7px rgba(240,212,146,.22))',
-          tx=function(n){return (dx*n).toFixed(2)+'px'}, ty=function(n,extra){return (dy*n+(extra||0)).toFixed(2)+'px'},
-          tf=function(x,y,z,r){return 'translate('+x+','+y+') scale('+z.toFixed(4)+') rotate('+r+'deg)'};
-      var markAnim=movingImg.animate([
-        {offset:0,transform:tf('0px','0px',1,0),backgroundColor:'#f7f5ef',filter:sourceFilter,easing:'cubic-bezier(.42,0,.7,1)'},
-        {offset:.11,transform:tf('0px','4px',.978,0),backgroundColor:'#f7f5ef',filter:sourceFilter,easing:'cubic-bezier(.18,.82,.22,1)'},
-        {offset:.23,transform:tf(tx(.06),ty(.04,-8),1.018,0),backgroundColor:'#f2e5c7',filter:sourceFilter,easing:'cubic-bezier(.16,.84,.22,1)'},
-        {offset:.72,transform:tf((dx*.94+arc).toFixed(2)+'px',ty(.9),s*.96,0),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
-        {offset:.86,transform:tf(dx.toFixed(2)+'px',dy.toFixed(2)+'px',s*.99,0),backgroundColor:'#f0d492',filter:finalFilter,easing:'cubic-bezier(.2,.9,.25,1)'},
-        {offset:1,transform:tf(dx.toFixed(2)+'px',dy.toFixed(2)+'px',s,0),backgroundColor:'#f0d492',filter:finalFilter}
-      ],{duration:D,easing:'linear',fill:'forwards'});
-      motion.push(markAnim);
-      if(next) motion.push(next.animate([
-        {offset:0,opacity:1,transform:'scale(1)'},{offset:.24,opacity:.98,transform:'scale(1.003)'},
-        {offset:.72,opacity:0,transform:'scale(1.028)'},{offset:1,opacity:0,transform:'scale(1.028)'}
-      ],{duration:D,easing:'linear',fill:'forwards'}));
-      if(nextCard) motion.push(nextCard.animate([
-        {offset:0,opacity:1,transform:'translateY(0)'},{offset:.18,opacity:1,transform:'translateY(0)'},
-        {offset:.44,opacity:0,transform:'translateY(-8px)'},{offset:1,opacity:0,transform:'translateY(-8px)'}
-      ],{duration:D,easing:'linear',fill:'forwards'}));
-      motion.push(vault.animate([
-        {offset:0,opacity:0},{offset:.36,opacity:0},{offset:.48,opacity:.08},{offset:.72,opacity:1},{offset:1,opacity:1}
-      ],{duration:D,easing:'linear',fill:'forwards'}));
-      motion.push(dive.animate([
-        {offset:0,transform:'scale(.78)'},{offset:.68,transform:'scale(.98)'},
-        {offset:.86,transform:'scale(.997)'},{offset:1,transform:'scale(1)'}
-      ],{duration:D,easing:'linear',fill:'forwards'}));
-      var deadline=motionNow()+D, lastTarget=tr;
-      function watchLanding(animation){
-        animation.finished.then(function(){ if(animation===markAnim) land(); }).catch(function(){});
-      }
-      watchLanding(markAnim);
-      retargetFlight=function(){
-        if(landed||myGen!==entryGen||document.hidden) return;
-        var target=vaultBrandSlot.getBoundingClientRect();
-        if(target.left===lastTarget.left && target.top===lastTarget.top && target.width===lastTarget.width) return;
-        lastTarget=target;
-        var current=getComputedStyle(movingImg);
-        var from={transform:current.transform,backgroundColor:current.backgroundColor,filter:current.filter};
-        var remaining=Math.max(120,deadline-motionNow()); deadline=motionNow()+remaining;
-        var x=(target.left+target.width/2)-(sourceRect.left+sourceRect.width/2),
-            y=(target.top+target.height/2)-(sourceRect.top+sourceRect.height/2);
-        markAnim.cancel();
-        markAnim=movingImg.animate([from,
-          {transform:tf(x.toFixed(2)+'px',y.toFixed(2)+'px',target.width/sourceRect.width,0),
-           backgroundColor:'#f0d492',filter:finalFilter}
-        ],{duration:remaining,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'});
-        motion.push(markAnim); watchLanding(markAnim);
-      };
-      addEventListener('resize',retargetFlight);
-      addEventListener('visibilitychange',retargetFlight);
-      if(window.visualViewport) visualViewport.addEventListener('resize',retargetFlight);
-      landingTask=addMotionTask(function(_,now){
-        if(landed||myGen!==entryGen) return false;
-        if(now>=deadline+120){ land(); return false; }
-      });
-    }); });
+    if(immediate===true||reduced){land();return;}
+    // The shared clock pauses with the page and completes without depending on
+    // an animation-finished event. Changing motion preference can finish early.
+    var started=motionNow(), duration=720;
+    fadeTask=addMotionTask(function(_,now){
+      if(landed||myGen!==entryGen) return false;
+      var t=Math.min(1,Math.max(0,(now-started)/duration));
+      var eased=t*t*(3-2*t);
+      if(next) next.style.opacity=(1-eased).toFixed(4);
+      vault.style.opacity=eased.toFixed(4);
+      if(t>=1){land();return false;}
+    });
   }
   function finishNextDropVaultHandoff(){
     if(!document.body.classList.contains('next-vault-opening')) return;
@@ -2793,31 +2841,14 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     // only manages visibility.
   }
   var vaultRevealed=false, vaultTitle=document.querySelector('.vault-title'), vaultTitleGen=0;
-  /* The identity settles briefly, then clears the photos. Interaction may begin
-     during its cosmetic fade; image readiness still owns the input gate. */
+  // Entry reveals the archive directly, with no travelling or expanding logo.
+  // Keep the existing readiness contract for every entry and return path.
   function revealVaultTitle(){
-    vaultRevealed=true; var myTitleGen=++vaultTitleGen;
-    var finishTitleReady=null, finishInteractiveReady=null;
-    window.__vaultTitleReady=reduced?Promise.resolve():new Promise(function(resolve){finishTitleReady=resolve;});
-    window.__vaultInteractiveReady=reduced?Promise.resolve():new Promise(function(resolve){finishInteractiveReady=resolve;});
-    /* Legacy/reduced-motion entries have no travelling mark, so they receive a
-       quiet fallback. The normal email-page path leaves the slot empty until
-       the original VCTRS element physically arrives and is reparented here. */
-    if(vaultBrandSlot&&!vaultBrandSlot.firstElementChild&&!vaultIdentityInFlight){
-      var fallbackLogo=document.createElement('span'); fallbackLogo.className='vault-brand-logo';
-      fallbackLogo.setAttribute('role','img'); fallbackLogo.setAttribute('aria-label','VCTRS'); vaultBrandSlot.appendChild(fallbackLogo);
-      vaultBrandSlot.removeAttribute('aria-hidden');
-    }
-    vaultTitle.classList.remove('gone','revealed'); void vaultTitle.offsetWidth; vaultTitle.classList.add('revealed');
-    afterMotion(0,function(){
-      if(myTitleGen!==vaultTitleGen){if(finishTitleReady)finishTitleReady();if(finishInteractiveReady)finishInteractiveReady();return;}
-      vaultTitle.classList.add('gone');void vaultTitle.offsetWidth;
-      if(finishInteractiveReady)finishInteractiveReady();
-      if(finishTitleReady){
-        if(vaultTitle.getAnimations)Promise.allSettled(vaultTitle.getAnimations({subtree:true}).filter(function(a){return Number.isFinite(a.effect.getComputedTiming().endTime);}).map(function(a){return a.finished;})).then(finishTitleReady);
-        else afterMotion(260,finishTitleReady);
-      }
-    });
+    vaultRevealed=true; vaultTitleGen++;
+    vaultTitle.classList.remove('revealed'); vaultTitle.classList.add('gone');
+    vaultTitle.setAttribute('aria-hidden','true');
+    window.__vaultTitleReady=Promise.resolve();
+    window.__vaultInteractiveReady=Promise.resolve();
   }
   window.__flyIn=flyIn; // test hook (replaces __armVaultOpen — the door is retired)
   // Coalesce scroll bursts into the shared display clock. The watchdog below
@@ -5056,11 +5087,12 @@ function restore(){
 }
 function update(){
  frame=0;
- if(!available()){engaged=false;pointer=null;restore();return}
+ if(!available()){engaged=false;pointer=null;panel.classList.remove('email-editing');restore();return}
  // Keyboard recovery can precede pointerup/click. Keep JOIN under the finger
  // for the whole gesture; its click runs before the queued layout update.
  if(pointer!==null)return;
  const focused=form.contains(document.activeElement);
+ panel.classList.toggle('email-editing',focused);
  if(focused)engaged=true;
  // Pinching is browser-owned. Hold the last layout rather than chase zoom.
  if(viewport&&Number.isFinite(viewport.scale)&&Math.abs(viewport.scale-1)>.01)return;
@@ -5081,7 +5113,7 @@ function update(){
 }
 function queue(){if(!frame)frame=requestAnimationFrame(update)}
 panel.addEventListener('focusin',queue);panel.addEventListener('focusout',queue);
-form.addEventListener('pointerdown',e=>{pointer=e.pointerId},{passive:true});
+form.addEventListener('pointerdown',e=>{pointer=e.pointerId;panel.classList.add('email-editing')},{passive:true});
 function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue()}
 addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
 addEventListener('blur',()=>releasePointer());
@@ -5090,6 +5122,76 @@ if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener
 // Attribute changes are delivered after entry samples the logo's source rect.
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
+})();
+// Match the Surface chapter's native snap and restrained end-stop rebound.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup');
+if(!panel||!signup)return;
+const card=signup.querySelector('.next-drop-card'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+let bounce=null,touchY=null,heldPointer=null,frozenBounce=false;
+function stopBounce(force=false){if(heldPointer!==null&&!force)return;if(bounce){bounce.cancel();bounce=null}if(frozenBounce){card.style.removeProperty('transform');frozenBounce=false}}
+function atEnd(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&heldPointer===null&&panel.scrollTop>0&&panel.scrollTop+panel.clientHeight>=panel.scrollHeight-2}
+function rebound(){
+ if(motion.matches||document.hidden||bounce||frozenBounce||!card.animate)return;
+ const animation=card.animate([{transform:'translateY(0)'},{transform:'translateY(-16px)',offset:.32},{transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,.65,.3,1)'});
+ bounce=animation;animation.finished.catch(()=>{}).then(()=>{if(bounce===animation)bounce=null});
+}
+panel.addEventListener('wheel',e=>{if(e.ctrlKey||e.deltaY<=0){stopBounce();return}if(atEnd()){if(e.cancelable)e.preventDefault();rebound()}},{passive:false});
+panel.addEventListener('touchstart',e=>{touchY=e.touches.length===1?e.touches[0].clientY:null;if(e.touches.length!==1)stopBounce(true)},{passive:true});
+panel.addEventListener('touchmove',e=>{if(e.touches.length!==1||touchY===null)return;const y=e.touches[0].clientY,delta=touchY-y;touchY=y;if(delta<0){stopBounce();return}if(delta>0&&atEnd()&&e.cancelable){e.preventDefault();rebound()}},{passive:false});
+panel.addEventListener('touchend',()=>{touchY=null},{passive:true});
+panel.addEventListener('touchcancel',()=>{touchY=null;stopBounce()},{passive:true});
+panel.addEventListener('scroll',()=>{if(!atEnd())stopBounce()},{passive:true});
+// Freeze a rebound during a control press. Reset only after its click, so JOIN
+// and Vault cannot move away between pointerdown and pointerup.
+panel.addEventListener('pointerdown',e=>{if(form.contains(e.target)||button.contains(e.target)){heldPointer=e.pointerId;if(bounce){card.style.transform=getComputedStyle(card).transform;bounce.cancel();bounce=null;frozenBounce=true}}},{capture:true,passive:true});
+function release(e){if(e&&e.pointerId!==heldPointer)return;heldPointer=null;requestAnimationFrame(()=>stopBounce())}
+addEventListener('pointerup',release,{passive:true});addEventListener('pointercancel',release,{passive:true});
+panel.addEventListener('focusin',()=>stopBounce());panel.addEventListener('keydown',()=>stopBounce());
+addEventListener('blur',()=>{heldPointer=null;stopBounce(true)});
+addEventListener('resize',()=>stopBounce());document.addEventListener('visibilitychange',()=>{if(document.hidden){heldPointer=null;stopBounce(true)}});
+if(motion.addEventListener)motion.addEventListener('change',()=>stopBounce(true));
+new MutationObserver(()=>{if(panel.inert){heldPointer=null;stopBounce(true)}}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+})();
+// Product delivery starts only when the post-film collection is revealed.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop');
+if(!panel)return;
+const photos=[...panel.querySelectorAll('[data-product]')];
+const cue=document.getElementById('collectionScrollCue'),signup=document.getElementById('collectionSignup');
+if(cue&&signup)cue.addEventListener('click',()=>{
+ if(panel.inert||panel.getAttribute('aria-hidden')==='true')return;
+ const top=signup.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
+ // The same native chapter scroll used by Surface; form editing suspends snap.
+ panel.scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ const heading=signup.querySelector('h2');if(heading)heading.focus({preventScroll:true});
+});
+let started=false,observer=null;
+function size(img){const width=Math.ceil(img.getBoundingClientRect().width);if(width>0&&img.sizes!==width+'px')img.sizes=width+'px'}
+function load(img){
+ const name=img.dataset.product;
+ if(!name)return;
+ size(img);
+ const largeWidth=Math.min(1280,Number(img.getAttribute('width'))||1280);
+ img.srcset='assets/products/'+name+'-640.webp 640w, assets/products/'+name+'-1280.webp '+largeWidth+'w';
+ img.src='assets/products/'+name+'-1280.webp';
+ delete img.dataset.product;
+}
+function start(){
+ if(started||panel.getAttribute('aria-hidden')==='true')return;
+ started=true;
+ // Match delivery to the actual two-/four-column tiles, including rotation.
+ if(window.ResizeObserver){const sizing=new ResizeObserver(entries=>{for(const entry of entries)if(!entry.target.dataset.product)size(entry.target)});photos.forEach(img=>sizing.observe(img))}
+ if(window.IntersectionObserver){
+  observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){load(entry.target);observer.unobserve(entry.target)}},{root:panel,rootMargin:'320px 0px'});
+  photos.forEach(img=>observer.observe(img));
+ }else photos.forEach(load);
+}
+const visibility=new MutationObserver(()=>{start();if(started)visibility.disconnect()});
+visibility.observe(panel,{attributes:true,attributeFilter:['aria-hidden']});
+start();
 })();
 (()=>{
 'use strict';
@@ -5245,5 +5347,24 @@ const art=world.querySelector('.spray-headline');art.addEventListener('error',()
 window.__worldJourney={get state(){return state},get previewReady(){return previewReady},get navigating(){return navigating},get filmRevealed(){return filmRevealed}};
 const context=document.modelContext;
 if(context?.registerTool){try{Promise.resolve(context.registerTool({name:'start_vctrs_game',title:'Play Fly the V',description:'From the visible game preview, take control of Fly the V.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false},execute(input){if(!input||typeof input!=='object'||Object.keys(input).length)throw Error('Expected an empty object');if(state!=='preview')throw Error('Reach the game preview first');startGame();return{chapter:state}}})).catch(()=>{})}catch{}}
+})();
+
+// Use the listed Canberra event start, with an explicit timezone offset.
+(()=>{
+ const clock=document.getElementById('popupClock'),started=document.getElementById('popupStarted'),panel=document.getElementById('nextDrop');
+ if(!clock||!started||!panel)return;
+ const target=Date.parse(clock.dataset.start),end=Date.parse(clock.dataset.end),units=['days','hours','minutes','seconds'];let timer;
+ function render(){
+  const remaining=Math.max(0,Math.ceil((target-Date.now())/1000));
+  clock.hidden=remaining===0;started.hidden=remaining>0;
+  started.textContent=Date.now()<end?'On now · Until 10 PM':'This pop-up has finished.';
+  const values=[Math.floor(remaining/86400),Math.floor(remaining/3600)%24,Math.floor(remaining/60)%60,remaining%60];
+  units.forEach((unit,i)=>{clock.querySelector('[data-time="'+unit+'"]').textContent=String(values[i]).padStart(2,'0')});
+  if(Date.now()>=end)clearInterval(timer);
+ }
+ function sync(){clearInterval(timer);render();if(!document.hidden&&!panel.inert&&Date.now()<end)timer=setInterval(render,1000)}
+ document.addEventListener('visibilitychange',sync);
+ new MutationObserver(sync).observe(panel,{attributes:true,attributeFilter:['inert']});
+ sync();
 })();
 </script>

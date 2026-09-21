@@ -1,5 +1,23 @@
 # Current status
 
+## September 21 — approved collection and pop-up release
+
+Owner authorized publication of the four-product collection, pure-black centered signup, Pass the Mic Canberra countdown, ticket link, and direct Vault fade. Event time is owner-confirmed: 26 September 2026, 18:00–22:00 AEST at UC Hub. The countdown uses the explicit Canberra offset, pauses while hidden, and changes to live/finished states. The ticket destination is https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057; its complete URL was loaded successfully in the native browser.
+
+Release validation is recorded in docs/reviews/collection-release-2026-09-21.md. Earlier local checkpoints below are historical.
+
+## September 21 — responsive collection and direct Vault fade (local candidate)
+
+Based on verified production commit 4aa974f44d544ddd3ef0541199b903dd7a5a7dd4. After the unchanged opening film, one full-screen collection contains the glowing VCTRS masthead, brighter centred animated POP-UP STORE and PREVIOUS DROPS labels, and four product-only photographs. Phones and portrait tablets use two columns; wider and landscape views use four. The collection scales with available viewport height while preserving uncropped photographs. A bottom button with three cascading chevrons smoothly scrolls to signup and focuses its heading; reduced motion uses an immediate jump. The owner then requested the Surface-style chapter snap and end rebound: the collection now uses matching native snap plus a 16px/520ms bottom rebound, disabled during form editing or reduced motion. A pointer hold freezes the rebound until after click. The owner subsequently removed the stars and ambient beam in favor of pure OLED black. Signup is the next full-height section, with a borderless dark email field, separate gold Join button and a lower Vault button. The DJ background and grey gallery footer labels are omitted. No portrait replacement or additional film is included.
+
+Vault entry is a 720ms opacity-only fade at the archive's final scale. The masthead logo stays in the collection; there is no travelling, reparented or expanding Vault logo. Reduced motion enters immediately. The shared clock, generation guard, readiness gate, focus handoff, Surface and game return paths are preserved. Product delivery uses measured tile widths and updates after rotation, without product downloads during the opening.
+
+This is a local design checkpoint, not a deployed release. Source and fade lifecycle checks pass. Thirty responsive layouts across Chromium, WebKit and Firefox verify full width after resizing, a one-screen collection, uncropped photos, and a clear scroll cue; three engine checks verify smooth pointer scrolling and immediate reduced-motion keyboard activation. The 87 controlled signup checks passed immediately before adding the cue, with the same signup geometry; those remain emulation evidence. Native browser inspection confirms the phone/desktop presentation. The preceding layout passed 25 full journeys and six pointer recovery cases before the owner requested this responsive refinement; those results do not certify the current candidate. The full release matrix must be completed on the final reviewed layout. Physical devices, Instagram and real signup delivery remain untested.
+
+Latest atmosphere/scroll checks: all three engines pass ordinary wheel snap in both directions, cue navigation, matching rebound timing, the previous button/light attachment (removed in the subsequent pure-black refinement), a stationary JOIN target through pointer hold, mocked signup success and subsequent Vault entry. Thirty layout cases, three cue cases, 87 keyboard-viewport cases and six pointer recovery cases pass around this refinement; final freeze behavior has targeted three-engine coverage. No production publishing or real signup occurred.
+
+Next: owner reviews this demo, then complete the full final release matrix before publication.
+
 ## September 21 — approved conservative performance delivery
 
 Candidate based on freshly verified production `b7380e2206632c4a5c223870321a8f0b13ad39e1`. The owner prioritizes keeping the same look and feel over maximum compression. Separate H.264 delivery files retain the complete 1080p opening and 720p Surface film at 30 fps; all 174 existing binary/vector media and font assets are unchanged. Vault photographs wait for entry intent and proximity to their final resting positions, use high-quality 640/1280px WebP copies for the actual display density, and retain original paths for larger demand. Resize can promote a loaded image. The eight-second readiness fallback and four-job limit remain. The Surface poster and automatic preview are deferred; Fredoka uses lossless WOFF2.
@@ -411,3 +429,13 @@ Approved custom comic heading and signup-style gold glow. Validation: 76 full jo
 
 ## September 13 - seamless Surface chapter boundary
 Reproduced a full-width line as the browser's native focus outline on worldGame after keyboard navigation. Suppress outlines only on focused journey sections; retain destination focus and visible button outlines. Guided build/source checks pass. Targeted browser checks cover normal-motion desktop and reduced-motion phone navigation, Tab focus, game entry and Exit. Physical devices remain untested.
+
+Pure-black/signup refinement: removed stars, ambient beam and its observer; background #000; unified rounded form with readable placeholder and inset gold Join button. Build/source and fade tests pass, 30 viewport layouts plus three scroll-cue cases pass, rebound/mocked signup/Vault checks pass in three engines, and all 87 controlled keyboard viewport checks pass. Initial keyboard invocation used an unavailable default port; rerun explicitly against verified preview passed. Native phone preview visually inspected. No production deployment or real signup.
+
+Latest local signup spacing revision: raise the invitation with responsive bottom padding, introduce “Stay close to what comes next.” beneath the heading, and restore breathing room before Vault. Short-screen and keyboard-fit spacing remains compact. Build/source and preview equality verified; this revision is not published.
+
+Local countdown: between signup and Vault, Pass the Mic Canberra at UC Hub, 26 September 2026. Moshtix ticket URL linked; countdown currently uses its listed 18:00 AEST start. Musick lists 19:00 instead; owner/organizer should confirm pop-up opening before release. Counter pauses when page hidden or collection inert, uses explicit +10:00, clamps at zero and shows event-started text. No new media or external requests.
+
+Owner confirms 26 September, 6–10 PM AEST at UC Hub; this resolves the third-party time conflict. Countdown ends at 18:00, displays On now until 22:00, then finished.
+
+Owner requests centered signup composition: heading, form text, event details, countdown and Vault now align centrally.

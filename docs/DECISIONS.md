@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## September 21 — products before the invitation, direct fade into the archive
+
+Use the owner's four final product-only photographs, excluding the cap and cream hoodie. Preserve the original glowing VCTRS masthead above POP-UP STORE, with centred PREVIOUS DROPS above the images. The latest refinement makes both small labels brighter with a matching gold-to-ivory light sweep. Keep the collection within its own screen: two columns on portrait phones/tablets, four on wide displays, followed by a separate full-height signup section. Keep scrolling consistent across phone sizes. Use three small animated downward chevrons at the bottom as an optional native smooth-scroll button to the email screen, with an immediate reduced-motion path. The latest owner request adds the existing Surface chapter snap/end rebound feel. Suspend snap/rebound while editing and freeze any rebound for a control press. Use pure black with no stars or background glow; preserve the simple opacity-only Vault entrance and avoid new media downloads. Preserve native scrolling, original image proportions, the existing email controls and the extra space before the Vault button. Omit the DJ background and grey footer labels. No additional video has been selected; the existing Vault portrait remains unchanged.
+
+The owner explicitly replaced the old travelling/forward-expanding wordmark with a simple fade into the Vault. Keep the archive at its final size throughout the fade and the logo in the masthead. Preserve keyboard/input recovery, bounded photo readiness and reduced motion. The responsive refinement is a local review checkpoint; complete release checks on the final version before launch.
+
 ## September 21 — preserve the feel while reducing avoidable downloads
 
 The owner clarified that maximum optimization is not the goal if the website looks different. Use conservative same-resolution H.264, preserve full film timing/frame rates/audio and all original files, and prioritize avoiding downloads before intent. Exclude stronger codec/quality experiments from the main candidate. Keep all 33 photos in the same layout with high-quality screen-appropriate derivatives and original paths for larger demand. Preserve existing entry, Surface, keyboard and gameplay behavior. After reviewing the local OLD/NEW comparison, the owner explicitly approved publishing this candidate to the existing domain; that approval supersedes the initial demo-only boundary.
@@ -270,3 +276,5 @@ The owner requested the real .com signup feel like joining the team with fewer w
 
 ## September 13 - approved custom comic game heading
 Publish the owner-selected original vector lettering: thick rounded strokes, solid gold and no dots or drips. Preserve preview layout and gameplay. Glow follows preview visibility, document visibility, game state and reduced motion. Keep original assets available.
+
+September 21 final owner choices: pure black without stars or ambient beam; centered borderless signup, event countdown between email and Vault; Pass the Mic Canberra 26 September 18:00–22:00 AEST at UC Hub, with the canonical Moshtix ticket link. Keep masthead/label shine, scroll cue/rebound and simple Vault fade.
