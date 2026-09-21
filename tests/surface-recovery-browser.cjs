@@ -11,7 +11,7 @@ async function run(engine){
  let mode='503',requests=[],pending=[];
  server.removeAllListeners('request');
  server.on('request',(req,res)=>{
-  if(req.url.split('?')[0]!=='/assets/story-party-cut.mp4'){normal(req,res);return}
+  if(req.url.split('?')[0]!=='/assets/delivery/surface-720.mp4'){normal(req,res);return}
   const row={at:new Date().toISOString(),mode,closed:false};requests.push(row);
   res.on('close',()=>{row.closed=true});
   if(mode==='503'){res.writeHead(503,{'Cache-Control':'no-store'}).end('Test-only media failure');return}

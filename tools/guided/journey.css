@@ -1,6 +1,6 @@
 /* Rounded display face for the brand introduction and team invitation. */
 @font-face{
- font-family:'VCTRS Rounded';src:url('assets/fonts/fredoka-variable.ttf') format('truetype');
+ font-family:'VCTRS Rounded';src:url('assets/delivery/fredoka-variable.woff2') format('woff2');
  font-style:normal;font-weight:300 700;font-display:swap;
 }
 @font-face{

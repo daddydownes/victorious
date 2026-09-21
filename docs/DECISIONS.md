@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 21 — preserve the feel while reducing avoidable downloads
+
+The owner clarified that maximum optimization is not the goal if the website looks different. Use conservative same-resolution H.264, preserve full film timing/frame rates/audio and all original files, and prioritize avoiding downloads before intent. Exclude stronger codec/quality experiments from the main candidate. Keep all 33 photos in the same layout with high-quality screen-appropriate derivatives and original paths for larger demand. Preserve existing entry, Surface, keyboard and gameplay behavior. After reviewing the local OLD/NEW comparison, the owner explicitly approved publishing this candidate to the existing domain; that approval supersedes the initial demo-only boundary.
+
 ## September 20 — fit signup to reported keyboard geometry
 
 Respond to visible-viewport geometry rather than guessing Instagram, OS, keyboard size or version. The reported embedded-browser obstruction corresponds to a reproducible full-height fixed panel with no scroll range when only the visible viewport shrinks. Keep the existing artwork and form transport; locally resize/scroll the signup only during its active editing session, retire it at entry, and leave pinch zoom under browser control. Mocked geometry is evidence of this mechanism, not proof of physical Instagram behavior. Preserve that distinction in release claims and request device feedback after publication.

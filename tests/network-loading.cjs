@@ -4,7 +4,7 @@ const html=fs.readFileSync(require('node:path').join(__dirname,'../index.html'),
 const start=html.indexOf('  var vaultImageJobs='),end=html.indexOf('  /* gold dust',start);
 assert(start>0&&end>start);
 const timers=new Map(),downloads=[],images=Array.from({length:9},(_,i)=>({
- dataset:{src:'original-'+i},style:{},classList:{add(){},remove(){}},
+ dataset:{src:'original-'+i,original:'original-'+i,tileWidth:3000},style:{left:i*100+'px',top:'0px',width:'100px',height:'100px'},classList:{add(){},remove(){}},
  getBoundingClientRect:()=>({left:i*100,top:0,width:100,height:100})
 }));
 let timerId=0,active=0,peak=0;
@@ -15,11 +15,15 @@ class Image {
  removeAttribute(){active--}
  finish(fail=false){active--;const callback=fail?this.onerror:this.onload;callback()}
 }
-const c={Promise,Image,WeakMap,Math,innerWidth:100,innerHeight:100,
+const c={Promise,Image,WeakMap,Math,innerWidth:100,innerHeight:100,devicePixelRatio:1,S:1,px:0,py:0,
  setTimeout(fn,ms){const id=++timerId;timers.set(id,{fn,ms});return id},clearTimeout(id){timers.delete(id)},
  plane:{querySelectorAll:()=>images.filter(i=>i.dataset.src)},decodeVaultImage:()=>Promise.resolve(),
  window:{addEventListener(){}}
 };vm.createContext(c);vm.runInContext(html.slice(start,end),c);
+assert.equal(c.vaultDelivery({dataset:{tileWidth:400,delivery:'copy',original:'master'}}),'copy-640.webp');
+assert.equal(c.vaultDelivery({dataset:{tileWidth:2000,delivery:'copy',original:'master'}}),'copy-1280.webp');
+assert.equal(c.vaultDelivery({dataset:{tileWidth:3000,delivery:'copy',original:'master'}}),'master');
+assert.equal(c.nearVaultView({style:{left:'2000px',top:'2000px',width:'200px',height:'200px'}}),false,'Tiny entrance transforms cannot turn a distant tile into near content');
 const flush=async()=>{for(let i=0;i<5;i++)await Promise.resolve()};
 (async()=>{
  const ready=c.warmVaultImages();assert.equal(downloads.length,4);assert.equal(peak,4);

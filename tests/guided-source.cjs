@@ -3,7 +3,8 @@ const root=path.resolve(__dirname,'..'),norm=s=>s.replace(/\r\n/g,'\n'),read=p=>
 const html=read('index.html'),script=html.replace(/<script type="application\/json"[^>]*>[\s\S]*?<\/script>/g,'');
 const before=norm(cp.execFileSync('git',['show','973cb2f3faeb4ef09907ff6c33a0631a40b6fdff:index.html'],{cwd:root,encoding:'utf8',maxBuffer:5e6}));
 const openingVideo=s=>s.match(/<video id="film"[^>]*\bsrc="([^"]+)"/)[1];
-assert.equal(openingVideo(html),openingVideo(before),'Original opening video source preserved');
+assert.equal(openingVideo(html),'assets/delivery/opening-1080.mp4','Reviewed 1080p delivery copy');
+assert.ok(fs.existsSync(path.join(root,openingVideo(before))),'Original opening remains available');
 function section(s,a,b){const start=s.indexOf(a),end=s.indexOf(b,start);assert.ok(start>=0&&end>start);return s.slice(start,end)}
 assert.equal(section(script,'  var VWHITE=','  function lock()'),section(before,'  var VWHITE=','  function lock()'),'Opening timeline preserved');
 assert.equal(section(script,'  var LIST_URL=','  function captureReceipt'),section(before,'  var LIST_URL=','  function captureReceipt'),'Live signup transport preserved');
@@ -26,7 +27,7 @@ for(const [a,b]of [['    function flapStep(','    // Cosmetic work'],['    funct
 for(const match of before.matchAll(/<meta property="(?:og:|twitter:)[^>]*>/g))assert.ok(html.includes(match[0]),'Share metadata preserved');
 assert.equal(read('CNAME').trim(),'vctrsclo.com');for(const file of ['.nojekyll','google303d59fed389923f.html','robots.txt','sitemap.xml'])assert.ok(fs.existsSync(path.join(root,file)));
 assert.ok(!/<meta name="robots" content="noindex|DEMO ONLY|Demo preview · no email|flapDrawPaintBackdrop/.test(html));
-const preview=read('tools/guided/game-preview.html');assert.equal(JSON.parse(html.match(/<script[^>]*id="worldPreviewSource"[^>]*>([\s\S]*?)<\/script>/)[1]),preview);
+const preview=read('tools/guided/game-preview.html');assert.equal(read(JSON.parse(html.match(/<script[^>]*id="worldPreviewSource"[^>]*>([\s\S]*?)<\/script>/)[1])),preview);
 assert.equal(section(html,'<script data-demo="guided-chapters">','</script>').slice('<script data-demo="guided-chapters">'.length),read('tools/guided/journey.js'));
 let assets=0;
 for(const doc of [html,preview])for(const m of doc.matchAll(/<(?:img|video|source|script|link|image)\b[^>]*?\b(?:src|href)="([^"]+)"/g)){

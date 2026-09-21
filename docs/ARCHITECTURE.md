@@ -1,5 +1,11 @@
 # How the site works
 
+## Conservative media delivery candidate
+
+The root keeps original paths in `PHOTOS`. `dataset.original` retains each source; `dataset.delivery` names separate WebP copies. `vaultPhotoRect()` projects the final plane scale/offset rather than the tiny entrance transform, which otherwise makes most of the archive appear nearby. An IntersectionObserver follows desktop transforms and native scrolling with a 180px lead margin. Before Vault entry it cannot start requests. Without that API, the four-request queue loads the archive after entry. Selection follows tile size, plane scale and device pixel ratio; demand beyond 1280px uses the original, and resize can promote a loaded photo. Input readiness retains its bounded fallback.
+
+Opening delivery is `assets/delivery/opening-1080.mp4`; Surface uses `assets/delivery/surface-720.mp4`. Timeline and cancellation controllers remain. The Surface poster is an external lazy image; `worldPreviewSource` contains the preview URL instead of its complete escaped document. The guided builder writes that preview from `tools/guided/game-preview.html`. `warm()` attaches it on Surface, and the preview only animates when its visible chapter permits.
+
 ## Signup visible viewport
 
 The first controller in `tools/guided/journey.js` owns only the current `#nextDrop` signup panel. Focus and visible-viewport resize/scroll events coalesce into one animation frame. A valid contraction at scale 1 fits the panel to the visible height/offset and uses start alignment with auto card margins so oversized content stays reachable from the scroll origin. Local scroll adjustments expose the email row and receipt without moving document scroll, focus, value or selection. The session survives focus moving to JOIN while the viewport is contracted; viewport recovery restores the saved panel scroll. Pinch zoom suspends geometry writes. The existing CSS handles browsers that resize the layout viewport or lack VisualViewport.

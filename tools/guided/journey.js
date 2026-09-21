@@ -105,7 +105,7 @@ function paintGameArrow(){if(arrowPainted)return;arrowPainted=true;animateMoment
 function status(text){$('worldMediaStatus').textContent=text}
 function hideFilmRetry(){if(state!=='entry'&&document.activeElement===filmRetry)(world.classList.contains('film-waiting')?storyBack:next).focus({preventScroll:true});filmRetry.hidden=true}
 function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches&&!filmUserPaused&&!filmFailed}
-function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/story-party-cut.mp4'}}
+function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/delivery/surface-720.mp4'}}
 function cancelFilmFrame(){if(filmFrame&&video.cancelVideoFrameCallback)video.cancelVideoFrameCallback(filmFrame);filmFrame=0}
 function pauseFilm(){++filmToken;clearTimeout(filmTimer);cancelFilmFrame();filmStarting=false;video.pause()}
 function failFilm(message){filmFailed=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
@@ -129,7 +129,7 @@ function syncPreview(){
  tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
  preview.contentWindow?.postMessage({type:'vctrs-preview',active:state!=='entry'&&state!=='game'&&gameVisible&&!document.hidden&&!motion.matches},location.origin);
 }
-function warm(){if(previewLoaded)return;previewLoaded=true;preview.srcdoc=JSON.parse($('worldPreviewSource').textContent);setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
+function warm(){if(previewLoaded)return;previewLoaded=true;preview.src=JSON.parse($('worldPreviewSource').textContent);setTimeout(()=>{if(!previewReady)$('worldGameStatus').textContent='The preview is taking a moment. You can still take control.'},4000)}
 function surface(){
  if(state!=='entry')return;++storyVisit;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');
  // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.
@@ -183,7 +183,7 @@ function syncChapter(){
  if(state!=='entry'&&state!=='game')state=gameVisible?'preview':'story';
  if(gameVisible)paintGameArrow();syncFilm();syncPreview();
 }
-new MutationObserver(()=>{if(document.body.classList.contains('next-vault-open')||document.body.classList.contains('next-drop-landed'))warm();gateVault()}).observe(document.body,{attributes:true,attributeFilter:['class']});gateVault();
+new MutationObserver(()=>{gateVault()}).observe(document.body,{attributes:true,attributeFilter:['class']});gateVault();
 addEventListener('message',e=>{if(e.source!==preview.contentWindow||e.origin!==location.origin)return;
  if(e.data?.type==='vctrs-preview-ready'){previewReady=true;preview.classList.add('preview-ready');$('worldGameStatus').textContent='';syncPreview()}
  if(e.data?.type==='vctrs-preview-flapped'&&state==='preview'){animateMoment(tryFlight,[{boxShadow:'inset 0 0 0 1px #d4af5f88'},{boxShadow:'inset 0 0 0 1px #d4af5f00'}],{duration:320,easing:'ease-out'})}
