@@ -351,3 +351,12 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .collection-signup .next-drop-card{text-align:center}
 .popup-clock{margin-inline:auto}
 .collection-signup .next-drop-email input{text-align:center}
+
+/* Let the invitation unfold below the signup instead of fitting it all in one view. */
+.next-drop{scroll-snap-type:y proximity}
+.collection-signup{min-height:135svh;display:flex;align-items:stretch}
+.collection-signup .next-drop-card{box-sizing:border-box;min-height:135svh;display:flex;flex-direction:column;padding:clamp(72px,11svh,132px) 0 clamp(64px,9svh,108px)}
+.collection-signup .next-vault-hold{margin-top:auto}
+.next-drop.email-viewport .collection-signup,.next-drop.email-viewport .next-drop-card{min-height:0}
+.next-drop.email-viewport .next-drop-card{padding-block:32px}
+.next-drop.email-viewport .next-vault-hold{margin-top:24px}

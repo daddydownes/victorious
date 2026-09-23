@@ -278,3 +278,7 @@ The owner requested the real .com signup feel like joining the team with fewer w
 Publish the owner-selected original vector lettering: thick rounded strokes, solid gold and no dots or drips. Preserve preview layout and gameplay. Glow follows preview visibility, document visibility, game state and reduced motion. Keep original assets available.
 
 September 21 final owner choices: pure black without stars or ambient beam; centered borderless signup, event countdown between email and Vault; Pass the Mic Canberra 26 September 18:00–22:00 AEST at UC Hub, with the canonical Moshtix ticket link. Keep masthead/label shine, scroll cue/rebound and simple Vault fade.
+
+## September 24 - scroll down to enter the Vault
+
+The owner wants the post-hero invitation to breathe: after arriving at the email and pop-up information, visitors should scroll farther to reach PRESS HERE / ENTER THE VAULT. Make that section taller than one viewport and allow partial native scrolling within it. Keep the email, event information, and Vault action in their existing order.

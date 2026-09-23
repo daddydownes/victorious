@@ -1,5 +1,11 @@
 # Current status
 
+## September 24 - more room before Vault entry
+
+The post-hero signup section now extends to 135% of the viewport height. Its email and pop-up information remain near the top, while PRESS HERE / ENTER THE VAULT sits lower and comes into view through native scrolling. The collection scroller uses proximity snapping so visitors can pause partway through the invitation. The keyboard viewport fit still uses its compact layout.
+
+Based on GitHub main `f0fca1acf492b00f2a252c386c36a8e01474f7d0`, which matched the live homepage after newline normalization. The guided build, guided-source and vault-fade checks pass. Browser checks passed for collection layout at 10 viewport sizes in Chromium, WebKit and Firefox, partial scrolling and Vault entry at desktop and phone sizes, 87 controlled keyboard viewport checks, and six pointer/keyboard recovery paths. Form transport was mocked. Physical devices have not been tested. Next: owner review of the scroll pacing, then release approval if desired.
+
 ## September 21 — approved collection and pop-up release
 
 Owner authorized publication of the four-product collection, pure-black centered signup, Pass the Mic Canberra countdown, ticket link, and direct Vault fade. Event time is owner-confirmed: 26 September 2026, 18:00–22:00 AEST at UC Hub. The countdown uses the explicit Canberra offset, pauses while hidden, and changes to live/finished states. The ticket destination is https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057; its complete URL was loaded successfully in the native browser.
