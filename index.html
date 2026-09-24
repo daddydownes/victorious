@@ -575,16 +575,16 @@
   /* A clear exit affordance: warm metal, inset arrow seal and a readable label.
      The surface never shifts under a finger or during the exit animation. */
   .surface-btn{pointer-events:auto;position:relative;display:inline-flex;align-items:center;justify-content:center;
-    gap:9px;min-height:54px;padding:6px 16px 6px 6px;border:1px solid #fff1c38c;border-radius:999px;
+    gap:8px;min-height:52px;padding:6px 15px 6px 6px;border:1px solid #fff1c38c;border-radius:999px;
     overflow:hidden;isolation:isolate;background:linear-gradient(125deg,#e6bf78 0%,#f3dca5 48%,#d7b16b 100%);
     color:#21180d;text-align:left;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
     box-shadow:0 10px 28px #0009,inset 0 1px #fff7d3aa;transition:box-shadow .18s ease,filter .18s ease}
   .surface-btn::before{content:'';position:absolute;inset:-90% -20%;z-index:0;pointer-events:none;opacity:0;
     background:linear-gradient(0deg,transparent 31%,rgba(255,250,226,.55) 50%,transparent 69%);
     transform:translateY(70%)}
-  .surface-arrow{position:relative;z-index:1;display:grid;place-items:center;width:40px;height:40px;flex:none;
+  .surface-arrow{position:relative;z-index:1;display:grid;place-items:center;width:38px;height:38px;flex:none;
     border-radius:50%;background:#21180d;box-shadow:inset 0 1px #ffffff24,0 1px 2px #fff2bd88}
-  .surface-arrow svg{display:block;width:21px;height:21px;fill:none;stroke:#f3dca5;stroke-width:1.8;
+  .surface-arrow svg{display:block;width:20px;height:20px;fill:none;stroke:#f3dca5;stroke-width:1.8;
     stroke-linecap:round;stroke-linejoin:round}
   .surface-label{position:relative;z-index:1;font:700 13px/1 'VCTRS Rounded',Arial,sans-serif;
     letter-spacing:.18em;text-transform:uppercase;white-space:nowrap}
@@ -630,8 +630,8 @@
   }
   @media (orientation:landscape) and (max-height:520px){
     .vault-hud{padding-top:max(26px,calc(12px + env(safe-area-inset-top,0px)))}
-    .surface-btn{min-height:48px;padding:5px 15px 5px 5px}
-    .surface-arrow{width:36px;height:36px}
+    .surface-btn{min-height:46px;padding:5px 14px 5px 5px}
+    .surface-arrow{width:34px;height:34px}
   }
 
   /* mobile: 100vh is taller than the visible area under iOS Safari's address bar —

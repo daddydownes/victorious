@@ -85,6 +85,7 @@ async function run([engine,width,height,motion='no-preference'],pass=1){
   assert.equal(row.surface.label,'Surface');
   assert.equal(row.surface.ariaLabel,null);
   assert(rect.height>=44&&rect.height<=56&&rect.width<160,'Surface is not a compact touch target: '+JSON.stringify(rect));
+  assert(Math.abs(rect.height-(width>height&&height<=520?46:52))<1,'Surface height did not follow the compact sizing');
   assert(rect.left>=viewport.left+12&&rect.top>=viewport.top+12&&
    rect.right<=viewport.left+viewport.width-12&&rect.bottom<=viewport.top+viewport.height-12,
    'Surface clips the visible viewport: '+JSON.stringify(row.surface));
