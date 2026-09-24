@@ -207,6 +207,10 @@ User selected option3 from the three Surface demos and authorized integration af
 
 The same release removes the circular avatar from the vault’s top-right corner, explicitly requested by the user. Keep the main VCTRS identity and archive unchanged; the old asset remains in Git.
 
+## Vault gesture and Surface polish candidate
+
+September 24: the owner requested a hard pass on Vault smoothness, the Surface control's top-edge clipping and visual quality, and accidental phone zoom while keeping the opening hero. The candidate retains the accepted warm-gold Surface treatment and still press, but gives it a dark arrow seal, clearer hierarchy and more clearance on portrait phones. The archive's native one-finger pan remains; its own two-finger zoom now owns pinches that begin on the photo plane. The photo descent allows vertical finger scrolling without browser pinch zoom. Global viewport zoom is retained for accessibility outside those active photo regions, and reduced motion keeps browser pinch even there. This narrow gesture ownership avoids the reproduced browser page zoom that moved Surface outside the visible viewport. Pinch releases are tracked across targets, and a native scroll plus toolbar-height change preserves the new scroll position rather than restoring the prior frame. The candidate needs owner visual review and physical-phone feedback before describing those device behaviors as verified.
+
 ## Surface press simplification
 
 After the Gold Lift release, user found the pressed animation unclean and asked to change only that state. Removed the arrow’s disappearing/restarting loop, the extra exit reflection and the1px text shift. Retained the idle appearance/shine; pressed and accepted state now softly shade the gold while text/arrow remain steady during the existing HUD fade. No input or scene timing changes.

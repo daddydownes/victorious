@@ -7,9 +7,11 @@ function setup(){let calls=0;const buttonListeners={},page={},vaultListeners={};
  function event(n,p={},where='button'){const e={pointerId:1,pointerType:'touch',isPrimary:true,button:0,clientX:35,clientY:30,prevented:false,target:button,preventDefault(){this.prevented=true},...p};if(where==='page')for(const f of page[n]||[])f(e);else (where==='vault'?vaultListeners:buttonListeners)[n]?.(e);return e}return{c,button,vault,event,count:()=>calls};}
 for(let i=0;i<50;i++){
  let s=setup();s.event('pointerdown');assert(s.event('pointerup').prevented);assert.equal(s.count(),1);
- for(const end of ['pointercancel','lostpointercapture']){s=setup();s.event('pointerdown');s.event(end);s.event('pointerup');assert.equal(s.count(),0)}
- s=setup();s.event('pointerdown');s.event('pointermove',{clientX:80});s.event('pointerup',{clientX:80});assert.equal(s.count(),0);
- s=setup();s.event('pointerdown');s.event('pointerup',{clientX:5});assert.equal(s.count(),0);
+ s.event('click',{detail:1});assert.equal(s.count(),1,'compatibility click must not run Surface twice');
+ for(const end of ['pointercancel','lostpointercapture']){s=setup();s.event('pointerdown');s.event(end);s.event('pointerup');s.event('click',{detail:1});assert.equal(s.count(),0)}
+ s=setup();s.event('pointerdown');s.event('pointermove',{clientX:80});s.event('pointerup',{clientX:80});s.event('click',{detail:1});assert.equal(s.count(),0,'a moved touch click must not bypass the tap guard');
+ s=setup();s.event('pointerdown');s.event('pointerup',{clientX:5});s.event('click',{detail:1});assert.equal(s.count(),0);
+ s.event('click',{detail:0});assert.equal(s.count(),1,'keyboard activation remains available after a rejected touch');
  s=setup();assert(!s.event('keydown',{key:' '},'page').prevented);s.event('click');assert.equal(s.count(),1);assert(s.event('keydown',{key:' ',target:s.vault},'page').prevented);
  s.c.vaultClosing=true;assert(s.event('keydown',{key:' '},'page').prevented);
  s=setup();s.event('keydown',{key:'Tab'},'vault');assert.equal(s.c.document.activeElement,s.button);s.event('keydown',{key:'Tab'},'vault');assert.equal(s.c.document.activeElement,s.vault);

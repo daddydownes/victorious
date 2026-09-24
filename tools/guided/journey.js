@@ -66,20 +66,25 @@ if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
 const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motion=matchMedia('(prefers-reduced-motion: reduce)');
-let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false;
+let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastWidth=panel.clientWidth,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false;
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function enterIfReady(){if(Number(scene.style.getPropertyValue('--vault-progress'))>=.985&&eligible()){entered=true;button.click()}}
 function update(){
  frame=0;
  let top=panel.scrollTop;
  const resized=panel.clientHeight!==lastHeight;
- if(resized&&cameraWasVisible&&!panel.inert){
+ const widthChanged=panel.clientWidth!==lastWidth;
+ // A toolbar can change the visible height in the same frame as a finger scroll.
+ // Replaying the old progress then discards that movement and makes the camera
+ // jerk backwards. Preserve native movement; remap only a still view or rotation.
+ const scrolled=Math.abs(top-lastTop)>1;
+ if(resized&&cameraWasVisible&&!panel.inert&&(widthChanged||!scrolled)){
   const section=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
   panel.scrollTop=lastEntranceFraction>0?section-lastEntranceFraction*panel.clientHeight:section+lastProgress*Math.max(1,invitation.offsetHeight-panel.clientHeight);
   top=panel.scrollTop;
  }
  const down=!resized&&top>lastTop+1;
- lastTop=top;lastHeight=panel.clientHeight;
+ lastTop=top;lastHeight=panel.clientHeight;lastWidth=panel.clientWidth;
  panel.classList.toggle('collection-free-scroll',top>=signup.offsetTop-2);
  if(!photosWarmed&&top>=signup.offsetTop-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm();}
  const sectionTop=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;

@@ -1,5 +1,13 @@
 # How the site works
 
+## Current Vault descent, gestures and Surface
+
+`tools/guided/collection.html` contains the Previous Drops, signup and Vault invitation. The active `tools/guided/journey.js` descent controller follows the collection's native scroll, using the same root `#vault` and photo plane for the preview and interactive archive. `window.__vaultCamera.paint()` positions that plane through the sticky photo scene; `commitVaultCamera()` hands off its exact final frame without a second photo grid. The former `enterVaultFromNext()` fade remains in the root for a restoration path; it is not the normal scroll entrance. The opening hero is independent of these controls.
+
+On coarse-pointer devices, the landed `#dive` scrolls natively in two axes. Its `touch-action:pan-x pan-y` reserves two-finger contact for the archive's own up-to-4× pinch handler, keeping a pinch over photographs from zooming the whole page and moving the fixed Surface HUD out of view. Both pinch contacts must start inside `#dive`; window-capture touch release and cancellation retire the gesture even if a finger ends over the HUD. The sticky photo descent uses `touch-action:pan-y` to keep vertical page scrolling while preventing browser pinch zoom on its photo field. Elsewhere, the normal viewport meta and browser pinch zoom remain available. Reduced motion uses the legacy pan path and retains browser pinch zoom, including on the photo descent. The Surface control lives in `.vault-hud`, above the photos, with safe-area/portrait clearance and a steady touch target. Its pointer-up path handles an accepted stationary touch; a following compatibility click is consumed, while detail-zero keyboard/assistive clicks use the native handler.
+
+The descent controller remaps `scrollTop` on still-view resize or width change to preserve progress. When native scrolling and a height change arrive in the same frame, it keeps the new scroll position, avoiding a backward camera jump. `tests/vault-polish-browser.cjs`, `tests/descent-motion-browser.cjs` and `tests/vault-preview-resume-browser.cjs` cover these contracts in browser engines.
+
 ## Previous Drops collection and signup
 
 The sole .next-drop-mark lives in .collection-intro and remains there during Vault entry. tools/guided/collection.html owns the complete #nextDrop markup, embedded by tools/build-guided.cjs. The panel is one native scroller with a full-height .collection-screen followed by #collectionSignup. Portrait phones/tablets use a two-by-two grid; wider and landscape views use four columns. Width/height constraints preserve full uncropped photos and reserve room for the bottom scroll cue. Explicit full widths prevent inherited centring from shrinking either section after resize.

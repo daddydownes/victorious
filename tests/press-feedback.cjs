@@ -6,7 +6,7 @@ assert(source.length>1000);
 function setup(){
  const page={},buttonEvents={},style=new Map();let entered=0;
  const button={style:{setProperty:(k,v)=>style.set(k,v),removeProperty:k=>style.delete(k)},getBoundingClientRect:()=>({left:100,top:200,right:560,bottom:278,width:460,height:78}),addEventListener:(n,f)=>buttonEvents[n]=f};
- const c={document:{getElementById:()=>button,addEventListener(){},hidden:false},addEventListener:(n,f)=>(page[n]??=[]).push(f),enterVaultFromNext:()=>entered++};
+ const c={document:{getElementById:()=>button,addEventListener(){},hidden:false},addEventListener:(n,f)=>(page[n]??=[]).push(f),commitVaultCamera:()=>entered++};
  vm.runInNewContext(source,c);
  function event(name,props={},target=false){const e={pointerId:1,isPrimary:true,button:0,pointerType:'mouse',clientX:130,clientY:220,detail:1,preventDefault(){},...props};if(target)buttonEvents[name]?.(e);else for(const f of page[name]||[])f(e);return e}
  function down(props={}){event('pointerdown',props);event('pointerdown',props,true)}
