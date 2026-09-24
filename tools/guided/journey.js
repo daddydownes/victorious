@@ -6,10 +6,11 @@
 const panel=document.getElementById('nextDrop'),form=document.getElementById('nextDropEmail');
 if(!panel||!form)return;
 const row=form.querySelector('.next-drop-email-row'),result=document.getElementById('nextDropResult'),viewport=window.visualViewport;
-let frame=0,engaged=false,fitted=false,savedScroll=0,pointer=null;
+let frame=0,engaged=false,fitted=false,savedScroll=0,lastHeight=null,pointer=null,viewportSettlingUntil=0;
 function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function restore(){
  if(fitted){const signup=document.getElementById('collectionSignup'),leftSignup=signup&&panel.scrollTop>signup.offsetTop+signup.clientHeight/2;panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');if(!leftSignup)panel.scrollTop=savedScroll;fitted=false}
+ lastHeight=null;
 }
 function update(){
  frame=0;
@@ -29,6 +30,10 @@ function update(){
  if(engaged&&contracted){
   if(!fitted){savedScroll=panel.scrollTop;fitted=true}
   panel.style.setProperty('--email-top',top+'px');panel.style.setProperty('--email-height',height+'px');panel.classList.add('email-viewport');
+  // Return temporary keyboard scroll as the viewport expands, in step with
+  // the browser's own resize instead of one jump when the keyboard closes.
+  if(lastHeight!==null&&height>lastHeight&&panel.scrollTop>savedScroll)panel.scrollTop=Math.max(savedScroll,panel.scrollTop-(height-lastHeight));
+  lastHeight=height;
  }else restore();
  if(!focused&&!fitted)return;
  // Scroll only this panel, without moving focus, selection or the document.
@@ -44,7 +49,13 @@ function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue
 addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
 addEventListener('blur',()=>releasePointer());
 addEventListener('resize',queue);
-if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener('scroll',queue)}
+if(viewport){
+ const changed=()=>{viewportSettlingUntil=performance.now()+500;queue()};
+ viewport.addEventListener('resize',changed);viewport.addEventListener('scroll',changed);
+}
+// WebKit can run its own focused-input scroll just after a viewport resize.
+// Recheck only during that brief settle window, leaving ordinary scrolling free.
+panel.addEventListener('scroll',()=>{if(fitted&&form.contains(document.activeElement)&&performance.now()<viewportSettlingUntil)queue()},{passive:true});
 // Attribute changes are delivered after entry samples the logo's source rect.
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);

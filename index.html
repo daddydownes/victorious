@@ -1191,7 +1191,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* Quiet event countdown separates signup from the archive invitation. */
 .collection-signup .next-drop-card{padding-block:32px}
 .popup-countdown{margin-top:36px}
-.popup-eyebrow{margin:0 0 10px;font:600 10px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.22em;color:#d8bd80}
+.popup-eyebrow{display:block;margin:0 0 10px;font:600 10px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.22em;color:#d8bd80}
 .popup-name{color:#eee9de;text-decoration:none;font:500 18px/1.3 'VCTRS Rounded',Arial,sans-serif}
 .popup-name span{font-size:14px;color:#d8bd80}
 .popup-name:hover{text-decoration:underline;text-underline-offset:4px}
@@ -1200,10 +1200,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .popup-clock{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:320px}
 .popup-clock b{display:block;color:#efd69b;font:400 clamp(28px,5vw,36px)/1.1 'VCTRS Rounded',Arial,sans-serif;font-variant-numeric:tabular-nums}
 .popup-clock small{display:block;margin-top:7px;color:#a6a198;font:500 9px/1.3 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.14em}
-.popup-started{color:#efd69b;font:400 14px/1.5 'VCTRS Rounded',Arial,sans-serif}
+.popup-started{display:block;color:#efd69b;font:400 14px/1.5 'VCTRS Rounded',Arial,sans-serif}
 .collection-signup .next-vault-hold{margin-top:36px}
 @media(max-height:650px){.collection-signup .next-drop-card{padding-block:22px}.popup-countdown{margin-top:22px}.collection-signup .next-vault-hold{margin-top:24px}}
-.next-drop.email-viewport .popup-countdown{display:none}
 
 /* Owner preference: a centred invitation and event composition. */
 .collection-signup .next-drop-card{text-align:center}
@@ -1224,8 +1223,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .vault-photo-frame{width:min(430px,calc(100vw - 48px),40svh);aspect-ratio:2/3;overflow:hidden;background:#1a1a1a}
 .vault-photo-frame img{display:block;width:100%;height:100%;object-fit:cover}
 .collection-vault .next-vault-hold{width:min(400px,100%);margin-top:0;box-shadow:none}
-.next-drop.email-viewport .signup-landing{min-height:0;padding-block:0}
-.next-drop.email-viewport .vault-scroll-cue{display:none}
+.next-drop.email-viewport .signup-landing{min-height:100svh}
+.next-drop.email-viewport .next-drop-card{margin-block:0;padding-bottom:0}
 @media(max-height:520px){.signup-landing{padding-top:40px}.collection-vault{min-height:100svh;padding-block:36px}.collection-vault .next-vault-hold{min-height:60px}}
 
 /* Full-resolution product view stays on the same collection chapter. */
@@ -1246,11 +1245,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* The event reads as a poster, with a clear handoff into the archive. */
 .signup-landing{padding-top:clamp(38px,7svh,82px)}
 .collection-signup .next-drop-card{width:min(560px,calc(100% - 40px))}
-.popup-countdown{box-sizing:border-box;width:min(100%,480px);margin:clamp(26px,4svh,42px) auto 0;padding:clamp(22px,3svh,30px) 14px 26px;border:1px solid #ffffff29;border-radius:24px;background:linear-gradient(145deg,#ffffff18,#ffffff08 48%,#ffffff05);box-shadow:inset 0 1px #ffffff22,0 18px 55px #000b;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.popup-countdown{box-sizing:border-box;display:block;width:min(100%,480px);margin:clamp(26px,4svh,42px) auto 0;padding:clamp(22px,3svh,30px) 14px 26px;border:1px solid #ffffff29;border-radius:24px;background:linear-gradient(145deg,#ffffff18,#ffffff08 48%,#ffffff05);box-shadow:inset 0 1px #ffffff22,0 18px 55px #000b;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:inherit;text-decoration:none;cursor:pointer}
+.popup-countdown:hover{border-color:#efd69b88;box-shadow:inset 0 1px #ffffff33,0 18px 55px #000b,0 0 32px #efd69b16}
+.popup-countdown:focus-visible{outline:2px solid #efd69b;outline-offset:4px}
 .popup-eyebrow{font-size:12px;letter-spacing:.32em}
 .popup-name{display:block;max-width:12ch;margin-inline:auto;color:#f2e6c8;font:600 clamp(35px,6vw,62px)/.98 'VCTRS Rounded',Arial,sans-serif;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 32px #e4b85633}
 .popup-name span{display:inline-block;vertical-align:top;margin-left:5px;font-size:.42em;line-height:1.2;letter-spacing:0}
-.popup-date{margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
+.popup-date{display:block;margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
 .vault-scroll-cue{min-height:96px;padding:16px 26px max(12px,env(safe-area-inset-bottom));border-top:1px solid #d9bc7540}
 .vault-scroll-cue b{font-size:12px;letter-spacing:.19em}
 .vault-scroll-cue span{border-color:#efd69b}
@@ -1268,7 +1269,6 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .vault-descent-instruction span{display:block;margin-top:5px;font:25px/1 Arial,sans-serif}
 .collection-vault .next-vault-hold{position:absolute;z-index:6;right:16px;bottom:16px;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
 .collection-vault .next-vault-hold:focus-visible{right:50%;bottom:24px;transform:translateX(50%);width:auto;height:48px;min-height:48px;padding:0 22px;opacity:1;overflow:visible;clip-path:none;background:#efd69b;color:#000}
-.next-drop.email-viewport .popup-countdown{display:none}
 @media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
 @media(max-height:650px){.signup-landing{padding-top:30px}.popup-countdown{margin-top:18px;padding:14px 12px}.popup-name{font-size:clamp(30px,7svh,42px)}.popup-date{margin:10px 0}.vault-scroll-cue{min-height:76px}}
 @media(prefers-reduced-motion:reduce){.vault .vault-hud{transition:none}.vault-descent-instruction{opacity:1}}
@@ -1386,12 +1386,14 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
         <div class="next-drop-email-row"><input id="nextDropEmailInput" type="email" autocomplete="email" placeholder="Your email address" aria-describedby="nextDropResult" required><button type="submit">JOIN</button></div>
         <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
       </form>
-      <aside class="popup-countdown" aria-label="Next pop-up">
-        <p class="popup-eyebrow">NEXT UP</p>
-        <a href="https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057" target="_blank" rel="noopener noreferrer" class="popup-name">Pass the Mic Canberra <span aria-hidden="true">↗</span></a>
-        <p class="popup-date">@ UC Hub · 26 September · 6–10 PM AEST</p>
-        <div class="popup-clock" id="popupClock" role="timer" aria-label="Countdown to the event start" data-start="2026-09-26T18:00:00+10:00" data-end="2026-09-26T22:00:00+10:00" hidden><span><b data-time="days">00</b><small>DAYS</small></span><span><b data-time="hours">00</b><small>HRS</small></span><span><b data-time="minutes">00</b><small>MIN</small></span><span><b data-time="seconds">00</b><small>SEC</small></span></div>
-        <p class="popup-started" id="popupStarted" hidden>On now · Until 10 PM</p>
+      <aside aria-label="Next pop-up">
+        <a href="https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057" target="_blank" rel="noopener noreferrer" class="popup-countdown" aria-label="Pass the Mic Canberra at UC Hub, 26 September, 6 to 10 PM AEST. Event details and tickets">
+          <span class="popup-eyebrow">NEXT UP</span>
+          <span class="popup-name">Pass the Mic Canberra <span aria-hidden="true">↗</span></span>
+          <span class="popup-date">@ UC Hub · 26 September · 6–10 PM AEST</span>
+          <span class="popup-clock" id="popupClock" role="timer" aria-label="Countdown to the event start" data-start="2026-09-26T18:00:00+10:00" data-end="2026-09-26T22:00:00+10:00" hidden><span><b data-time="days">00</b><small>DAYS</small></span><span><b data-time="hours">00</b><small>HRS</small></span><span><b data-time="minutes">00</b><small>MIN</small></span><span><b data-time="seconds">00</b><small>SEC</small></span></span>
+          <span class="popup-started" id="popupStarted" hidden>On now · Until 10 PM</span>
+        </a>
       </aside>
     </div>
     <button type="button" class="collection-scroll-cue vault-scroll-cue" id="vaultScrollCue" aria-label="Scroll into the vault" aria-controls="vaultInvitation"><b>SCROLL INTO THE VAULT</b><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
@@ -2901,7 +2903,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     // while a Seal exit repositions to the top UNDER the sealed doors, updateScroll
     // must stand down — otherwise it snaps vault opacity/visibility from scroll and
     // fights the fade-to-film
-    if(vaultActive && guidePhase==='vault'){
+    if(vaultCameraActive){
+      /* The collection preview owns this fixed archive before entry commits.
+         Resume/resize bookkeeping must not blank its already-decoded photos. */
+      vault.style.opacity='1';
+      vault.style.visibility='visible';
+      vault.style.pointerEvents='none';
+    }else if(vaultActive && guidePhase==='vault'){
       /* Reduced motion enters without a scroll-driven dive. Once the vault owns
          the journey, scroll bookkeeping must never hide the completed state. */
       shroud.style.opacity='1';
@@ -5321,10 +5329,11 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
 const panel=document.getElementById('nextDrop'),form=document.getElementById('nextDropEmail');
 if(!panel||!form)return;
 const row=form.querySelector('.next-drop-email-row'),result=document.getElementById('nextDropResult'),viewport=window.visualViewport;
-let frame=0,engaged=false,fitted=false,savedScroll=0,pointer=null;
+let frame=0,engaged=false,fitted=false,savedScroll=0,lastHeight=null,pointer=null,viewportSettlingUntil=0;
 function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function restore(){
  if(fitted){const signup=document.getElementById('collectionSignup'),leftSignup=signup&&panel.scrollTop>signup.offsetTop+signup.clientHeight/2;panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');if(!leftSignup)panel.scrollTop=savedScroll;fitted=false}
+ lastHeight=null;
 }
 function update(){
  frame=0;
@@ -5344,6 +5353,10 @@ function update(){
  if(engaged&&contracted){
   if(!fitted){savedScroll=panel.scrollTop;fitted=true}
   panel.style.setProperty('--email-top',top+'px');panel.style.setProperty('--email-height',height+'px');panel.classList.add('email-viewport');
+  // Return temporary keyboard scroll as the viewport expands, in step with
+  // the browser's own resize instead of one jump when the keyboard closes.
+  if(lastHeight!==null&&height>lastHeight&&panel.scrollTop>savedScroll)panel.scrollTop=Math.max(savedScroll,panel.scrollTop-(height-lastHeight));
+  lastHeight=height;
  }else restore();
  if(!focused&&!fitted)return;
  // Scroll only this panel, without moving focus, selection or the document.
@@ -5359,7 +5372,13 @@ function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue
 addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
 addEventListener('blur',()=>releasePointer());
 addEventListener('resize',queue);
-if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener('scroll',queue)}
+if(viewport){
+ const changed=()=>{viewportSettlingUntil=performance.now()+500;queue()};
+ viewport.addEventListener('resize',changed);viewport.addEventListener('scroll',changed);
+}
+// WebKit can run its own focused-input scroll just after a viewport resize.
+// Recheck only during that brief settle window, leaving ordinary scrolling free.
+panel.addEventListener('scroll',()=>{if(fitted&&form.contains(document.activeElement)&&performance.now()<viewportSettlingUntil)queue()},{passive:true});
 // Attribute changes are delivered after entry samples the logo's source rect.
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
