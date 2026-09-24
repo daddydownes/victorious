@@ -360,5 +360,13 @@
       "status": "PASS",
       "sourceSha256": "13b541530d814fe337edbbde0781ace899ed085eb44a921d880a1ea5d6fa9dee"
     }
-  ]
+  ],
+  "deployment": {
+    "codeCommit": "d6fa2e2716a73c56adc2bcbb4cd920a8d4061c39",
+    "pages": "built",
+    "canonicalHomepageEqualsCommit": true,
+    "deployedLfSha256": "d6a2886dd3e69e615504e8844f1d39287f46b4b48c7750407424e705cb6f7ad8",
+    "localChecksumNote": "homepageSha256 and journey hashes identify the mixed-line-ending local HTTP response. Git normalizes CRLF on commit; normalized candidate, committed bytes and live homepage are identical.",
+    "livePhoneJourney": "PASS: completed hero, focus recovery, guided stops, Vault, Surface/game/return; signup mocked; no page errors."
+  }
 }
