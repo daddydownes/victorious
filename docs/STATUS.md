@@ -1,10 +1,10 @@
 # Current status
 
-## September 24 — compact Surface follow-up (draft PR #6)
+## September 24 — compact Surface and Vault polish published
 
-After reviewing the Vault candidate, the owner requested a simpler Surface button and said the rest of the system looks good. The button now reads only “Surface”; its gold capsule and arrow are smaller (54px high in portrait/desktop, 48px in short landscape) while retaining the safe-area clearance and existing touch behavior. The opening hero, photo descent, archive gestures and story are unchanged. This refinement is on the existing draft PR branch; `main` and the live site are unchanged.
+After reviewing the Vault candidate, the owner requested a single-label Surface button, then a tiny further size reduction and publication to `vctrsclo.com`. The button reads only “Surface”; the final gold capsule is 52px high in portrait/desktop and 46px in short landscape, with a matching smaller arrow. It retains safe-area clearance and the existing touch behavior. The opening hero, photographs and story remain unchanged. The release was pushed to `main` as `ca5c72a390f983b781e71f517927d9c8d2716482` after a fresh main/Pages/live baseline match. GitHub Pages reported that commit built, and the canonical live homepage matched the release `index.html` after line-ending normalization.
 
-The guided build, source guard and 50 repeated Surface input cases pass. The updated browser suite passes Chromium phone at 390×844 and 320×568, WebKit phone portrait and landscape, Firefox at 320×568, Chromium desktop, and reduced-motion phone and desktop. Portrait and landscape renders were inspected; the new button remains fully visible and at least 44px high. Firefox automation could not create a page inside the restricted sandbox, then passed in the permitted browser test run outside it. The explicit-root preview served the edited `index.html` byte for byte. Physical phones remain untested.
+The guided build, source guard, native-scroll, press/reveal/recovery checks and 50 repeated Surface input cases pass. The final browser suite passes eight configurations: Chromium phone at 390×844 and 320×568, WebKit phone portrait and landscape, Firefox at 320×568, Chromium desktop, and reduced-motion phone and desktop. Chromium phone, WebKit phone and Chromium desktop each passed four consecutive journeys. Portrait and landscape renders were inspected; Surface is fully visible and at least 46px high. The explicit-root preview served the edited `index.html` byte for byte. Physical iPhone/Android and embedded-browser checks remain untested; the browser-engine results do not certify those devices.
 
 ## September 24 — Vault smoothness and Surface polish (local candidate)
 
