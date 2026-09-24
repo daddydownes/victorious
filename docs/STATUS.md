@@ -1,5 +1,15 @@
 # Current status
 
+## September 24 — guided post-film scrolling, original journey preserved
+
+This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.
+
+One controller guides accepted gestures to named landings. Forward input during a transition is coalesced, deliberate accumulated reversal turns back, and the final handoff waits for the exact endpoint and gesture release. Touch cancellation, multitouch, resize and lifecycle interruption revoke pending entry without blocking a later fresh gesture. Short landscape has readable intermediate signup stops. Keyboard-closed onward input retires form focus into the signup heading, preserving subsequent keyboard navigation; active keyboard fitting, editable controls and pinch remain available.
+
+The generated homepage SHA-256 is `13b541530d814fe337edbbde0781ace899ed085eb44a921d880a1ea5d6fa9dee`. Thirty-two final Chromium journeys pass: four fresh completed-hero journeys each at 390×844, 320×568, 844×390, 430×932, 1280×720 and 1440×900, plus four existing static-opening/reduced-motion journeys each at phone and desktop sizes. The hash is enforced per run; see [release evidence](../reviews/guided-entry-2026-09-24.json). They cover quick pairs/spam, slow reversals, cancellation/resize, form-focus recovery and one unchanged Surface/game/return smoke per viewport. Chromium and WebKit signup geometry checks pass (29 each), as do four pointer/keyboard-recovery cases. Independent review confirms focused-JOIN keyboard continuation/reversal in reduced-motion Chromium and focused-email continuation/reversal in WebKit. Build, scope, source, reveal, guided scroll, press, Surface input/recovery, spatial layout and game regression checks pass. Test navigation now uses Page Down rather than expecting programmatic scroll alone to authorize entry.
+
+WebKit entry coverage is after its existing hero codec-error fallback, not completed hero playback. Physical iPhone/Android, macOS Safari and embedded browsers remain untested here; Firefox page creation was unavailable in this environment. Routine signup transport was mocked. Deployment completion must be checked against the intended commit and canonical live homepage as described in `docs/WORKFLOW.md`; a push alone is not evidence of a completed release.
+
 ## September 24 — guided Vault scroll correction
 
 The source for this candidate is fresh GitHub `main` and the built Pages deployment at `c864ec5d4a8788961a677409cfc1128cc8867f41`; the canonical homepage matched its `index.html` after normalizing line endings. Work is isolated in `codex/vault-guided-seam-20260924`, served from its explicit root at `http://127.0.0.1:8944/` with a byte-matched homepage.

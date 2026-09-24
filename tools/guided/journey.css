@@ -32,8 +32,8 @@ button{touch-action:manipulation}
 .next-drop.email-viewport{top:var(--email-top);bottom:auto;height:var(--email-height);place-items:start center;touch-action:pan-y pinch-zoom}
 .next-drop.email-viewport .next-drop-card{margin-block:auto}
 /* The collection and invitation share one native scroller, including keyboard fit. */
-.next-drop{display:block;touch-action:pan-y pinch-zoom;background:#000;overflow-x:hidden;scroll-snap-type:y mandatory;scrollbar-width:thin;scrollbar-color:#625b4e #000}
-.next-drop.email-viewport,.next-drop.email-editing{scroll-snap-type:none}
+.next-drop{display:block;touch-action:pan-x pinch-zoom;background:#000;overflow-x:hidden;scroll-snap-type:none;scrollbar-width:thin;scrollbar-color:#625b4e #000}
+.next-drop.email-viewport,.next-drop.email-editing{scroll-snap-type:none;touch-action:pan-y pinch-zoom}
 .collection-screen,.collection-signup{scroll-snap-align:start;scroll-snap-stop:always;z-index:1}
 .next-drop::after{content:none}
 .collection-screen{position:relative;box-sizing:border-box;width:100%;min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,3vh,32px);padding:clamp(22px,3.5vh,40px) 0 58px}
@@ -356,7 +356,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .collection-signup .next-drop-email input{text-align:center}
 
 /* One firm landing at signup, followed by native movement inside its tall snap area. */
-.next-drop{scroll-snap-type:y mandatory}
+.next-drop{scroll-snap-type:none}
 .next-drop.collection-free-scroll{scroll-snap-type:none}
 .collection-signup{min-height:0;display:block}
 .signup-landing{box-sizing:border-box;width:100%;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:clamp(64px,10svh,112px) 0 20px}
