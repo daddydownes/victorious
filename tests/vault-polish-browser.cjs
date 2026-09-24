@@ -8,7 +8,7 @@ const base=process.env.BASE_URL,out=process.env.EVIDENCE_DIR;
 assert(base&&out,'Set BASE_URL and an EVIDENCE_DIR outside the checkout');
 fs.mkdirSync(out,{recursive:true});
 const rows=[];
-const configs=[['chromium',390,844],['webkit',390,844],['webkit',844,390],['firefox',320,568],['chromium',390,844,'reduce'],['chromium',1440,900],['chromium',1440,900,'reduce']]
+const configs=[['chromium',390,844],['chromium',320,568],['webkit',390,844],['webkit',844,390],['firefox',320,568],['chromium',390,844,'reduce'],['chromium',1440,900],['chromium',1440,900,'reduce']]
  .filter(config=>!process.env.QA_CASE||config.join('-')===process.env.QA_CASE);
 const passes=Number(process.env.QA_PASSES||1);
 assert(Number.isInteger(passes)&&passes>=1&&passes<=10,'QA_PASSES must be 1–10');
@@ -78,10 +78,13 @@ async function run([engine,width,height,motion='no-preference'],pass=1){
    return {rect:r.toJSON(),viewport:{left:v.offsetLeft,top:v.offsetTop,width:v.width,height:v.height,scale:v.scale},
     hit:el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)),nativePan:__vaultPan.active,
     touchAction:getComputedStyle(dive).touchAction,vaultTouchAction:getComputedStyle(vault).touchAction,
-    subtitle:el.querySelector('.surface-subtitle')?.textContent.trim()};
+    label:el.textContent.trim(),ariaLabel:el.getAttribute('aria-label')};
   });
   const {rect,viewport,hit}=row.surface;
   assert(hit,'Surface centre is not hit-testable');
+  assert.equal(row.surface.label,'Surface');
+  assert.equal(row.surface.ariaLabel,null);
+  assert(rect.height>=44&&rect.height<=56&&rect.width<160,'Surface is not a compact touch target: '+JSON.stringify(rect));
   assert(rect.left>=viewport.left+12&&rect.top>=viewport.top+12&&
    rect.right<=viewport.left+viewport.width-12&&rect.bottom<=viewport.top+viewport.height-12,
    'Surface clips the visible viewport: '+JSON.stringify(row.surface));
