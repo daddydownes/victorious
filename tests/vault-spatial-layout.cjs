@@ -17,5 +17,10 @@ for(let i=17;i<33;i++){
 const visited=new Set([0]);let more=true;while(more){more=false;for(let i=0;i<33;i++)if(!visited.has(i)&&[...visited].some(j=>gap(boxes[i],boxes[j])<=300)){visited.add(i);more=true;}}
 assert.equal(visited.size,33,'Every tile belongs to one connected collection');
 assert(photos.slice(17).some(p=>p.x<420)&&photos.slice(17).some(p=>p.x>3400)&&photos.slice(17).some(p=>p.y<420)&&photos.slice(17).some(p=>p.y>3150),'Additions surround all four sides');
+const green=photos.find(p=>p.src==='photos/33-vctrs-feature-portrait.jpg');
+const formerTopRight=photos.find(p=>p.src==='photos/19-DSCF3817.jpg');
+assert(green&&green.x>=3150&&green.x<3400&&green.y>=300&&green.y<370&&green.w<=350,'Smaller green portrait should sit lower within the upper-right photo cluster');
+assert(formerTopRight&&formerTopRight.x>=2500&&formerTopRight.x<2700&&formerTopRight.y===460,'Former top-right photo should move toward the centre');
+assert(green.x-(formerTopRight.x+formerTopRight.w)<=100,'The two upper-right portraits should read as one group');
 assert(html.includes('px=(vw-3781*S)/2')&&html.includes('py=(vh-3557*S)/2'),'Original start centre retained on both axes');
 console.log('PASS: original17 fixed;16 additions surround all sides; no added overlap; single connected collection; nearest original gaps '+nearest.join(',')+'px; bounds '+plane.w+'x'+plane.h);

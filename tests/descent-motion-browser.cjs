@@ -15,28 +15,39 @@ fs.mkdirSync(out,{recursive:true});
   const entering=await page.evaluate(()=>({progress:Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress')),top:vault.getBoundingClientRect().top}));
   assert.equal(entering.progress,0);assert(Math.abs(entering.top-height/2)<3);
   await page.screenshot({path:path.join(out,engine+'-'+width+'-page-entering.png')});
-  await page.evaluate(top=>nextDrop.scrollTo({top,behavior:'instant'}),approach);
-  await page.waitForFunction(()=>Math.abs(vaultInvitation.getBoundingClientRect().top-nextDrop.getBoundingClientRect().top)<2&&vault.classList.contains('vault-previewing'));
+ await page.evaluate(top=>nextDrop.scrollTo({top,behavior:'instant'}),approach);
+ await page.waitForFunction(()=>Math.abs(vaultInvitation.getBoundingClientRect().top-nextDrop.getBoundingClientRect().top)<2&&vault.classList.contains('vault-previewing'));
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   const scene=await page.evaluate(()=>({top:vaultInvitation.getBoundingClientRect().top-nextDrop.getBoundingClientRect().top+nextDrop.scrollTop,travel:vaultInvitation.offsetHeight-nextDrop.clientHeight}));
-  const start=await page.evaluate(()=>({lead:plane.querySelector('.vault-centrepiece').getBoundingClientRect().width,hud:Number(getComputedStyle(vault.querySelector('.vault-hud')).opacity),bg:getComputedStyle(vault).backgroundColor}));
-  assert.equal(start.hud,0);assert.equal(start.bg,'rgb(0, 0, 0)');
+  const start=await page.evaluate(()=>({lead:plane.querySelector('.vault-centrepiece').getBoundingClientRect().width,hud:Number(getComputedStyle(vault.querySelector('.vault-hud')).opacity),bg:getComputedStyle(vault).backgroundColor,total:plane.querySelectorAll('img').length,
+   visible:[...plane.querySelectorAll('img')].filter(img=>{const r=img.getBoundingClientRect();return r.right>0&&r.bottom>0&&r.left<innerWidth&&r.top<innerHeight}).length,
+   travel:(vaultInvitation.offsetHeight-nextDrop.clientHeight)/nextDrop.clientHeight}));
   await page.screenshot({path:path.join(out,engine+'-'+width+'-camera-start.png')});
+  assert.equal(start.hud,0);assert.equal(start.bg,'rgb(0, 0, 0)');
+  assert.equal(start.visible,33,'bird-eye frame should show every Vault photograph: '+JSON.stringify(start));
+  assert(start.travel>.8&&start.travel<.9,'phone-sized zoom corridor should take less than one screenful: '+JSON.stringify(start));
   await page.evaluate(({top,travel})=>nextDrop.scrollTo({top:top+travel*.6,behavior:'instant'}),scene);
   await page.waitForFunction(()=>Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress'))>.55);
-  const middle=await page.evaluate(()=>({lead:plane.querySelector('.vault-centrepiece').getBoundingClientRect().width,transform:getComputedStyle(dive).transform}));assert(middle.lead<start.lead);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  const middle=await page.evaluate(()=>({lead:plane.querySelector('.vault-centrepiece').getBoundingClientRect().width,transform:getComputedStyle(dive).transform}));assert(middle.lead>start.lead*1.7,'scroll did not zoom into the photographs');
   await page.screenshot({path:path.join(out,engine+'-'+width+'-camera-middle.png')});
   if(engine==='webkit'){
    const saved=await page.evaluate(()=>Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress')));
    await page.setViewportSize({width:844,height:390});
    await page.waitForFunction(expected=>Math.abs(Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress'))-expected)<.03,saved);
+   await page.screenshot({path:path.join(out,'webkit-844-camera-rotated.png')});
    await page.setViewportSize({width:390,height:844});
    await page.waitForFunction(expected=>Math.abs(Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress'))-expected)<.03,saved);
+   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   }
-  await page.evaluate(({top,travel})=>nextDrop.scrollTo({top:top+travel*.96,behavior:'instant'}),scene);
-  await page.waitForFunction(()=>Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress'))>.94);
+  const endScene=await page.evaluate(()=>({top:vaultInvitation.getBoundingClientRect().top-nextDrop.getBoundingClientRect().top+nextDrop.scrollTop,travel:vaultInvitation.offsetHeight-nextDrop.clientHeight}));
+  await page.evaluate(({top,travel})=>nextDrop.scrollTo({top:top+travel*.96,behavior:'instant'}),endScene);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  const endProbe=await page.evaluate(()=>({progress:Number(document.querySelector('.vault-descent-scene').style.getPropertyValue('--vault-progress')),scrollTop:nextDrop.scrollTop,max:nextDrop.scrollHeight-nextDrop.clientHeight,phase:__guide.phase()}));
+  assert(endProbe.progress>.94,'zoom did not reach its endpoint after rotation: '+JSON.stringify({endScene,endProbe}));
   await page.evaluate(()=>__vaultCamera.paint(1));
   const before=await page.evaluate(()=>{const e=plane.querySelector('.vault-centrepiece');return e.getBoundingClientRect().toJSON()});
-  await page.evaluate(({top,travel})=>nextDrop.scrollTo({top:top+travel,behavior:'instant'}),scene);
+  await page.evaluate(({top,travel})=>nextDrop.scrollTo({top:top+travel,behavior:'instant'}),endScene);
   await page.waitForFunction(()=>__guide.phase()==='vault'&&!vault.inert);
   const after=await page.evaluate(()=>plane.querySelector('.vault-centrepiece').getBoundingClientRect().toJSON());
   for(const axis of ['x','y','width','height'])assert(Math.abs(before[axis]-after[axis])<1.5,axis+' jumped at handoff: '+JSON.stringify({before,after}));

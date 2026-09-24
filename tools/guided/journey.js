@@ -66,9 +66,9 @@ if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
 const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motion=matchMedia('(prefers-reduced-motion: reduce)');
-let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastWidth=panel.clientWidth,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false;
+let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastWidth=panel.clientWidth,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false,overviewWarmed=false;
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
-function enterIfReady(){if(Number(scene.style.getPropertyValue('--vault-progress'))>=.985&&eligible()){entered=true;button.click()}}
+function enterIfReady(){if(Number(scene.style.getPropertyValue('--vault-progress'))>=.995&&eligible()){entered=true;button.click()}}
 function update(){
  frame=0;
  let top=panel.scrollTop;
@@ -83,10 +83,14 @@ function update(){
   panel.scrollTop=lastEntranceFraction>0?section-lastEntranceFraction*panel.clientHeight:section+lastProgress*Math.max(1,invitation.offsetHeight-panel.clientHeight);
   top=panel.scrollTop;
  }
- const down=!resized&&top>lastTop+1;
+ // Count the last small scroll step, including a real forward swipe that
+ // arrives with a height-only mobile-toolbar resize. Still-view remaps and
+ // rotations must not enter the Vault on their own.
+ const down=top>lastTop&&(!resized||(scrolled&&!widthChanged));
  lastTop=top;lastHeight=panel.clientHeight;lastWidth=panel.clientWidth;
  panel.classList.toggle('collection-free-scroll',top>=signup.offsetTop-2);
  if(!photosWarmed&&top>=signup.offsetTop-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm();}
+ if(!overviewWarmed&&top>=invitation.offsetTop-panel.clientHeight*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview();}
  const sectionTop=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
  const range=Math.max(1,invitation.offsetHeight-panel.clientHeight),progress=Math.max(0,Math.min(1,(top-sectionTop)/range));
  const entranceOffset=Math.max(0,Math.min(panel.clientHeight,sectionTop-top));
