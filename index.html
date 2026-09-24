@@ -1052,6 +1052,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world .live-game-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
 #world .preview-play{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding:0 20px 6%}
 #world .preview-play span{display:flex;align-items:center;justify-content:space-between;gap:35px;background:#000e;color:#f0d492;border:1px solid #d4af5faa;padding:16px 24px;min-height:56px;font:600 14px/1.4 Cinzel,serif;transition:background .2s,color .2s}
+#world .preview-play svg{display:block;flex:none;width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #world .preview-play:hover span{background:#d4af5f;color:#000}
 #world .preview-play:focus-visible{outline-offset:-6px}
 #world .game-instruction{grid-column:2;text-align:center;font:14px/1.5 Arial,sans-serif;color:#b9ae97}
@@ -1096,7 +1097,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-width:700px){#world .world-scene,#world .play-section{min-height:max(680px,100svh)}}
 #world .story-controls{max-width:360px}
 #world .story-controls .scroll-cue{display:flex;align-items:center;gap:12px;color:#f0d492;text-align:left;border:0;padding:7px 10px 7px 0;font-size:13px;min-height:48px}
-#world .scroll-cue-mark{display:inline-grid;place-items:center;width:24px;font:32px/1 Georgia,serif}
+#world .scroll-cue-mark{display:inline-grid;place-items:center;width:24px;height:32px}
+#world .scroll-cue-mark svg{display:block;width:24px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .world-active #world .scroll-cue-mark{animation:scroll-invitation 2.4s ease-in-out 3}
 #world .scroll-cue:hover .scroll-cue-mark{color:#fff}
 @keyframes scroll-invitation{0%,65%,100%{transform:translateY(0);opacity:.8}35%{transform:translateY(7px);opacity:1}}
@@ -1129,15 +1131,16 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* Fit the V's tall artwork above copy across the short-layout breakpoint. */
 @media(min-height:521px) and (min-width:701px){#world .persistent-v{max-width:calc(27svh - 12px)}}
 #world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
-#world .world-scroll .scroll-cue-mark{font-size:36px}
+#world .world-scroll .scroll-cue-mark{height:36px}
+#world .world-scroll .scroll-cue-mark svg{height:36px}
 #world .world-scroll:hover{color:#fff}
 @media(max-width:700px){#world .persistent-v{width:20vw;max-width:calc(33svh - 14px)}#world .world-scroll{margin:22px auto 0}}
 @media(prefers-reduced-motion:reduce){#world .world-scroll .scroll-cue-mark{animation:none!important}}
 
 /* Give the film the space previously occupied by oversized lettering. */
-#world .portrait-photo{left:44%;top:6%;width:52%;height:84%}
+#world .portrait-photo{left:44%;top:8%;width:52%;height:84%}
 #world .portrait-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0007,transparent 28%),linear-gradient(0deg,#0009,transparent 35%)}
-@media(max-width:700px){#world .portrait-photo{left:20%;top:5%;width:78%;height:65%}}
+@media(max-width:700px){#world .portrait-photo{left:20%;top:8%;width:78%;height:65%}}
 
 /* Two matching return choices fill the ending without boxed controls. */
 #world .world-return{align-self:stretch;align-items:stretch;justify-content:center;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -1261,6 +1264,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .popup-eyebrow{font-size:12px;letter-spacing:.32em}
 .popup-name{display:block;max-width:12ch;margin-inline:auto;color:#f2e6c8;font:600 clamp(35px,6vw,62px)/.98 'VCTRS Rounded',Arial,sans-serif;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 32px #e4b85633}
 .popup-name span{display:inline-block;vertical-align:top;margin-left:5px;font-size:.42em;line-height:1.2;letter-spacing:0}
+.popup-name svg{display:block;width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .popup-date{display:block;margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
 .vault-scroll-cue{min-height:96px;padding:16px 26px max(12px,env(safe-area-inset-bottom));border-top:1px solid #d9bc7540}
 .vault-scroll-cue b{font-size:12px;letter-spacing:.19em}
@@ -1270,13 +1274,14 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* A native scroll zooms through one sticky photo field before the Vault opens. */
 .next-drop.vault-camera-active{background:transparent}
 .next-drop.vault-camera-active .collection-screen,.next-drop.vault-camera-active .signup-landing{background:#000}
-.collection-vault{display:block;position:relative;width:100%;min-height:185svh;padding:0;background:transparent}
+.collection-vault{display:block;position:relative;width:100%;min-height:200svh;padding:0;background:transparent}
 .vault-descent-scene{position:sticky;top:0;box-sizing:border-box;width:100%;height:100svh;overflow:hidden;isolation:isolate;background:transparent;touch-action:pan-y;--vault-progress:0}
 .collection-vault h2{position:absolute;z-index:5;top:clamp(24px,7svh,72px);left:0;right:0;opacity:var(--vault-title-opacity,1);font-size:clamp(12px,1.5vw,16px);transition:none;pointer-events:none}
 .vault.vault-previewing .vault-hud{opacity:0;pointer-events:none;transition:none}
 .vault .vault-hud{transition:opacity .55s ease}
 .vault-descent-instruction{position:absolute;z-index:5;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));margin:0;color:#ecd7aa;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.19em;text-align:center;opacity:calc(1 - var(--vault-progress));pointer-events:none}
-.vault-descent-instruction span{display:block;margin-top:5px;font:25px/1 Arial,sans-serif}
+.vault-descent-instruction span{display:block;margin-top:5px}
+.vault-descent-instruction svg{display:block;width:25px;height:25px;margin-inline:auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .collection-vault .next-vault-hold{position:absolute;z-index:6;right:16px;bottom:16px;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
 .collection-vault .next-vault-hold:focus-visible{right:50%;bottom:24px;transform:translateX(50%);width:auto;height:48px;min-height:48px;padding:0 22px;opacity:1;overflow:visible;clip-path:none;background:#efd69b;color:#000}
 @media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
@@ -1290,9 +1295,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 <section id="worldStory" class="world-scene" aria-labelledby="portrait-title" tabindex="-1">
 
 <div class="portrait-photo" id="worldPortrait" role="region" aria-label="VCTRS film"><img id="worldFilmPoster" loading="lazy" decoding="async" src="assets/delivery/surface-poster.webp" alt="A still from the VCTRS film" width="960" height="540"><video id="worldVideo" playsinline muted loop preload="none" aria-label="VCTRS film"></video></div>
-<div class="portrait-copy"><h2 id="portrait-title" tabindex="-1"><span>A Canberra </span><span>clothing brand. </span><span>Drops, pop-ups, </span><span>music and good food.</span></h2><button id="worldNext" class="world-scroll" type="button"><span>Scroll down</span><span class="scroll-cue-mark" aria-hidden="true">↓</span></button><button id="worldFilmRetry" type="button" hidden>Retry film</button><span id="worldMediaStatus" class="sr-only" aria-live="polite"></span></div>
+<div class="portrait-copy"><h2 id="portrait-title" tabindex="-1"><span>A Canberra </span><span>clothing brand. </span><span>Drops, pop-ups, </span><span>music and good food.</span></h2><button id="worldNext" class="world-scroll" type="button"><span>Scroll down</span><span class="scroll-cue-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v17m-7-7 7 7 7-7"/></svg></span></button><button id="worldFilmRetry" type="button" hidden>Retry film</button><span id="worldMediaStatus" class="sr-only" aria-live="polite"></span></div>
 </section>
-<section data-nosnippet class="play-section journey-section" id="worldGame" aria-labelledby="play-title"><div class="play-copy"><h2 id="play-title" class=""><span class="paint-title-text">Play the game.</span><img class="spray-headline" src="assets/play-the-game-custom-v1.svg" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2><button id="worldArrow" class="journey-button play-cue " type="button" data-reveal style="--reveal-delay:180ms"><span class="sr-only">Play the game</span><span class="play-cue-arrow" aria-hidden="true"><svg class="spray-arrow-art" viewBox="0 0 1280 1280" width="1280" height="1280" focusable="false"><defs><mask id="play-arrow-paint" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280"><path class="spray-arrow-shaft" pathLength="100" d="M155 160C580 135 1060 420 795 1090"/><path class="spray-arrow-head" pathLength="100" d="M620 860L795 1090L1010 880"/></mask></defs><image href="assets/play-arrow-vstyle-v1.svg" width="1280" height="1280" mask="url(#play-arrow-paint)"/></svg></span></button></div><div class="game-shell live-game-shell" data-reveal style="--reveal-delay:140ms"><img class="preview-poster" src="data:image/jpeg;base64,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" alt="" aria-hidden="true"><iframe id="game-preview" title="Automatic Fly the V demonstration" src="about:blank" loading="lazy" tabindex="-1" aria-hidden="true"></iframe><button id="worldTryFlight" class="preview-rehearse" type="button" aria-label="Play Fly the V" disabled></button><button id="worldPlay" class="preview-play" type="button" aria-label="Play Fly the V"><span>Take control <b aria-hidden="true">↗</b></span></button></div><div class="game-instruction"><span id="worldGameStatus" role="status"></span></div><div class="world-return"><button class="world-refresh world-vault-return" id="worldReturnVault" type="button"><span class="refresh-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M18 10L8 20l10 10M8 20h20a9 9 0 0 1 0 18h-6"/></svg></span><span>Back to the vault</span></button><button class="world-refresh" id="worldRefresh" type="button"><span class="refresh-mark" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="refresh-arc" pathLength="100" d="M35 13a15 15 0 1 0 4 16"/><path class="refresh-tip" d="M35 5v8h-8"/></svg></span><span>Refresh website</span></button></div></section>
+<section data-nosnippet class="play-section journey-section" id="worldGame" aria-labelledby="play-title"><div class="play-copy"><h2 id="play-title" class=""><span class="paint-title-text">Play the game.</span><img class="spray-headline" src="assets/play-the-game-custom-v1.svg" alt="" width="1536" height="1024" loading="lazy" decoding="async"></h2><button id="worldArrow" class="journey-button play-cue " type="button" data-reveal style="--reveal-delay:180ms"><span class="sr-only">Play the game</span><span class="play-cue-arrow" aria-hidden="true"><svg class="spray-arrow-art" viewBox="0 0 1280 1280" width="1280" height="1280" focusable="false"><defs><mask id="play-arrow-paint" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280"><path class="spray-arrow-shaft" pathLength="100" d="M155 160C580 135 1060 420 795 1090"/><path class="spray-arrow-head" pathLength="100" d="M620 860L795 1090L1010 880"/></mask></defs><image href="assets/play-arrow-vstyle-v1.svg" width="1280" height="1280" mask="url(#play-arrow-paint)"/></svg></span></button></div><div class="game-shell live-game-shell" data-reveal style="--reveal-delay:140ms"><img class="preview-poster" src="data:image/jpeg;base64,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" alt="" aria-hidden="true"><iframe id="game-preview" title="Automatic Fly the V demonstration" src="about:blank" loading="lazy" tabindex="-1" aria-hidden="true"></iframe><button id="worldTryFlight" class="preview-rehearse" type="button" aria-label="Play Fly the V" disabled></button><button id="worldPlay" class="preview-play" type="button" aria-label="Play Fly the V"><span>Take control <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 13 13 3M5 3h8v8"/></svg></span></button></div><div class="game-instruction"><span id="worldGameStatus" role="status"></span></div><div class="world-return"><button class="world-refresh world-vault-return" id="worldReturnVault" type="button"><span class="refresh-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M18 10L8 20l10 10M8 20h20a9 9 0 0 1 0 18h-6"/></svg></span><span>Back to the vault</span></button><button class="world-refresh" id="worldRefresh" type="button"><span class="refresh-mark" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="refresh-arc" pathLength="100" d="M35 13a15 15 0 1 0 4 16"/><path class="refresh-tip" d="M35 5v8h-8"/></svg></span><span>Refresh website</span></button></div></section>
 </main>
 <script type="application/json" id="worldPreviewSource">"assets/delivery/game-preview.html"</script>
 
@@ -1399,7 +1404,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       <aside aria-label="Next pop-up">
         <a href="https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057" target="_blank" rel="noopener noreferrer" class="popup-countdown" aria-label="Pass the Mic Canberra at UC Hub, 26 September, 6 to 10 PM AEST. Event details and tickets">
           <span class="popup-eyebrow">NEXT UP</span>
-          <span class="popup-name">Pass the Mic Canberra <span aria-hidden="true">↗</span></span>
+          <span class="popup-name">Pass the Mic Canberra <span aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M3 13 13 3M5 3h8v8"/></svg></span></span>
           <span class="popup-date">@ UC Hub · 26 September · 6–10 PM AEST</span>
           <span class="popup-clock" id="popupClock" role="timer" aria-label="Countdown to the event start" data-start="2026-09-26T18:00:00+10:00" data-end="2026-09-26T22:00:00+10:00" hidden><span><b data-time="days">00</b><small>DAYS</small></span><span><b data-time="hours">00</b><small>HRS</small></span><span><b data-time="minutes">00</b><small>MIN</small></span><span><b data-time="seconds">00</b><small>SEC</small></span></span>
           <span class="popup-started" id="popupStarted" hidden>On now · Until 10 PM</span>
@@ -1411,7 +1416,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     <section class="collection-vault" id="vaultInvitation" aria-labelledby="vaultInvitationTitle">
       <div class="vault-descent-scene">
         <h2 id="vaultInvitationTitle" tabindex="-1">THE VAULT</h2>
-        <p class="vault-descent-instruction" aria-hidden="true">KEEP SCROLLING TO ENTER <span>↓</span></p>
+        <p class="vault-descent-instruction" aria-hidden="true">KEEP SCROLLING TO ENTER <span><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v17m-7-7 7 7 7-7"/></svg></span></p>
         <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Enter the vault"><span class="vh-base">ENTER THE VAULT</span></button>
       </div>
     </section>
@@ -3490,15 +3495,15 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 
   // The collection scroll looks through the real, landed Vault. Its last
   // camera frame is the interactive archive's exact identity transform.
-  var vaultCameraQualityStep=0;
   function prepareVaultCamera(){
     if(vaultCameraActive || nativePanActive || vaultActive) return;
-    vaultCameraActive=true; vaultCameraQualityStep=0;
+    vaultCameraActive=true;
     vaultCameraZoom=Math.min(vw/(PW*S),vh/(PH*S))*.88;
     setHot(null);
     setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');
     vault.classList.add('vault-previewing');
     vault.style.visibility='visible'; vault.style.opacity='1'; vault.style.pointerEvents='none';
+    vault.style.transform='';
     dive.style.transformOrigin='0 0'; dive.style.willChange='transform';
     dive.style.setProperty('--vault-brightness','1');
     applyPan(); warmVaultOverview();
@@ -3515,16 +3520,21 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     var centerX=px+PW*S/2, centerY=py+PH*S/2;
     var startX=vw/2-overview*centerX, startY=vh/2-overview*centerY;
     vaultCameraZoom=q;
-    vault.style.transform=entranceOffset>0?'translate3d(0,'+Math.max(0,entranceOffset).toFixed(3)+'px,0)':'';
-    if(t>=1 || reduced) dive.style.transform='scale(1)';
-    else dive.style.transform='translate3d('+(startX*(1-e)).toFixed(3)+'px,'+(startY*(1-e)).toFixed(3)+'px,0) scale('+q.toFixed(5)+')';
-    if(!reduced && t>=.6 && vaultCameraQualityStep===0){vaultCameraQualityStep=1;warmVaultImages();}
-    if(!reduced && t>=.86 && vaultCameraQualityStep===1){vaultCameraQualityStep=2;warmVaultImages();}
+    // Reveal the stationary archive below the invitation's leading edge.
+    // Moving the entire fixed Vault exposed its rectangular boundary and
+    // made the first phone swipe look like a separate sheet sliding in.
+    vault.style.clipPath=entranceOffset>0?'inset('+Math.max(0,entranceOffset).toFixed(3)+'px 0 0)':'';
+    // Move only the photos while the section rises; the black viewport itself
+    // stays fixed and blends with the black collection page at the clip edge.
+    if(t>=1) dive.style.transform='scale(1)';
+    else if(reduced) dive.style.transform=entranceOffset>0?'translate3d(0,'+entranceOffset.toFixed(3)+'px,0) scale(1)':'scale(1)';
+    else dive.style.transform='translate3d('+(startX*(1-e)).toFixed(3)+'px,'+(startY*(1-e)+entranceOffset).toFixed(3)+'px,0) scale('+q.toFixed(5)+')';
   }
   function cancelVaultCamera(){
     if(!vaultCameraActive || vaultActive) return;
     vaultCameraActive=false; vaultCameraZoom=1;
     vault.style.transform='';
+    vault.style.clipPath='';
     vault.classList.remove('vault-previewing');
     vault.style.visibility='hidden'; vault.style.opacity='0'; vault.style.pointerEvents='none';
     dive.style.removeProperty('transform-origin');
@@ -3535,6 +3545,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     paintVaultCamera(1);
     vaultCameraActive=false; vaultCameraZoom=1;
     vault.style.transform='';
+    vault.style.clipPath='';
     guidePhase='toVault'; hideCue(); entryGen++;
     vaultArming=true; surfacing=true;
     var next=document.getElementById('nextDrop');
@@ -3547,7 +3558,6 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     vaultCameraSettleUntil=Date.now()+700;
     dive.style.transform='scale(1)'; dive.style.removeProperty('transform-origin');
     activateNativePan();
-    warmVaultImages();
     setNextDropInert(vault,false); vault.removeAttribute('aria-hidden');
     unlock(); scrollTo(0,vaultY()); surfacing=false;
     vault.style.visibility='visible'; vault.style.opacity='1'; vault.style.pointerEvents='auto';
@@ -3555,6 +3565,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(!vaultRevealed) revealVaultTitle();
     vault.classList.remove('vault-previewing');
     finishNextDropVaultHandoff();
+    // Decode upgrades after the first interactive frame, away from the zoom.
+    setTimeout(function(){if(guidePhase==='vault')warmVaultImages();},180);
   }
   window.__vaultCamera={paint:paintVaultCamera,cancel:cancelVaultCamera,commit:commitVaultCamera,warm:warmVaultImages,warmOverview:warmVaultOverview};
 
@@ -5443,8 +5455,22 @@ const panel=document.getElementById('nextDrop'),signup=document.getElementById('
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastWidth=panel.clientWidth,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false,overviewWarmed=false;
+let touchStage=null,entryInput=null,touchEntryReady=false,touchMovedDown=false,touchReversed=false,guidingOverview=false,guidedFinish=false,overviewReady=false;
+let wheelStage=null,wheelEntryReady=false,wheelIdle=0;
+function cancelEntry(){
+ touchEntryReady=false;wheelEntryReady=false;overviewReady=overviewReady&&panel.scrollTop>=sectionTop()-2;guidedFinish=false;guidingOverview=false;
+ clearTimeout(wheelIdle);wheelStage=null;
+ // Stop an unfinished smooth settle at its current position. In particular,
+ // never snap a reversing finger forward to the overview.
+ panel.scrollTo({top:panel.scrollTop,behavior:'instant'});
+}
+function sectionTop(){return invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop}
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
-function enterIfReady(){if(Number(scene.style.getPropertyValue('--vault-progress'))>=.995&&eligible()){entered=true;button.click()}}
+function enterIfReady(){
+ if(entryInput==='touch'&&(!touchEntryReady||touchStage==='zoom'))return;
+ if(entryInput==='wheel'&&(!wheelEntryReady||wheelStage==='zoom'))return;
+ if(Number(scene.style.getPropertyValue('--vault-progress'))>=.995&&eligible()){entered=true;button.click()}
+}
 function update(){
  frame=0;
  let top=panel.scrollTop;
@@ -5455,7 +5481,7 @@ function update(){
  // jerk backwards. Preserve native movement; remap only a still view or rotation.
  const scrolled=Math.abs(top-lastTop)>1;
  if(resized&&cameraWasVisible&&!panel.inert&&(widthChanged||!scrolled)){
-  const section=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
+  const section=sectionTop();
   panel.scrollTop=lastEntranceFraction>0?section-lastEntranceFraction*panel.clientHeight:section+lastProgress*Math.max(1,invitation.offsetHeight-panel.clientHeight);
   top=panel.scrollTop;
  }
@@ -5463,32 +5489,95 @@ function update(){
  // arrives with a height-only mobile-toolbar resize. Still-view remaps and
  // rotations must not enter the Vault on their own.
  const down=top>lastTop&&(!resized||(scrolled&&!widthChanged));
- lastTop=top;lastHeight=panel.clientHeight;lastWidth=panel.clientWidth;
+ lastHeight=panel.clientHeight;lastWidth=panel.clientWidth;
  panel.classList.toggle('collection-free-scroll',top>=signup.offsetTop-2);
  if(!photosWarmed&&top>=signup.offsetTop-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm();}
  if(!overviewWarmed&&top>=invitation.offsetTop-panel.clientHeight*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview();}
- const sectionTop=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
- const range=Math.max(1,invitation.offsetHeight-panel.clientHeight),progress=Math.max(0,Math.min(1,(top-sectionTop)/range));
- const entranceOffset=Math.max(0,Math.min(panel.clientHeight,sectionTop-top));
+ const section=sectionTop();
+ // The approach gesture may reveal the whole overview, but cannot spend its
+ // remaining momentum zooming past it. The next deliberate touch owns entry.
+ if((touchStage==='approach'||wheelStage==='approach'||guidingOverview)&&top>section){panel.scrollTop=section;top=section;}
+ if(top<section-8&&overviewReady)cancelEntry();
+ if(guidingOverview&&Math.abs(top-section)<2){guidingOverview=false;overviewReady=true;}
+ lastTop=top;
+ const range=Math.max(1,invitation.offsetHeight-panel.clientHeight),progress=Math.max(0,Math.min(1,(top-section)/range));
+ const entranceOffset=Math.max(0,Math.min(panel.clientHeight,section-top));
  if(progress>.05&&!panel.classList.contains('email-viewport')&&form.contains(document.activeElement))document.activeElement.blur();
  scene.style.setProperty('--vault-progress',progress.toFixed(4));
  scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
- const cameraVisible=top+panel.clientHeight>sectionTop&&top<sectionTop+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
+ const cameraVisible=top+panel.clientHeight>section&&top<section+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  cameraWasVisible=cameraVisible;lastProgress=progress;lastEntranceFraction=entranceOffset/panel.clientHeight;
  panel.classList.toggle('vault-camera-active',cameraVisible);
  if(cameraVisible&&window.__vaultCamera)window.__vaultCamera.paint(progress,entranceOffset);
  else if(!panel.inert&&window.__vaultCamera)window.__vaultCamera.cancel();
- if(down)enterIfReady();
+ if(down||guidedFinish)enterIfReady();
 }
 function queue(){if(!frame)frame=requestAnimationFrame(update)}
 panel.addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);queue();
-panel.addEventListener('wheel',e=>{if(e.deltaY>0&&!e.ctrlKey)enterIfReady()},{passive:true});
-let touchY=null;
-panel.addEventListener('touchstart',e=>{touchY=e.touches.length===1?e.touches[0].clientY:null},{passive:true});
-panel.addEventListener('touchmove',e=>{if(touchY!==null&&e.touches.length===1){const y=e.touches[0].clientY;if(touchY-y>3)enterIfReady();touchY=y}},{passive:true});
-panel.addEventListener('touchend',()=>{touchY=null},{passive:true});
-panel.addEventListener('touchcancel',()=>{touchY=null},{passive:true});
-panel.addEventListener('keydown',e=>{if(['ArrowDown','PageDown','End',' '].includes(e.key))enterIfReady()});
+panel.addEventListener('wheel',e=>{
+ if(e.ctrlKey)return;
+ if(e.deltaY<0){cancelEntry();return;}
+ if(e.deltaY===0)return;
+ if(!eligible())return;
+ entryInput='wheel';
+ if(touchY===null)touchStage=null;
+ const section=sectionTop();
+ if(wheelStage!=='approach'&&wheelStage!=='zoom'){
+  wheelStage=overviewReady&&panel.scrollTop>=section-2?'zoom':'approach';
+  if(wheelStage==='zoom')wheelEntryReady=true;
+ }
+ clearTimeout(wheelIdle);
+ wheelIdle=setTimeout(()=>{
+  const stage=wheelStage;wheelStage=null;
+  if(!eligible())return;
+  const section=sectionTop(),top=panel.scrollTop,range=Math.max(1,invitation.offsetHeight-panel.clientHeight);
+  if(stage==='approach'&&top>=section-panel.clientHeight*.45){
+   guidingOverview=true;panel.scrollTo({top:section,behavior:motion.matches?'instant':'smooth'});queue();
+  }else if(stage==='zoom'&&top>=section+range*.52){
+   guidedFinish=true;panel.scrollTo({top:section+range,behavior:motion.matches?'instant':'smooth'});queue();
+  }
+ },180);
+},{passive:true});
+let touchY=null,touchStartY=null,touchLowestY=null;
+panel.addEventListener('touchstart',e=>{
+ touchY=touchStartY=touchLowestY=e.touches.length===1?e.touches[0].clientY:null;
+ if(touchY===null){cancelEntry();touchStage=null;return;}
+ clearTimeout(wheelIdle);wheelStage=null;
+ entryInput='touch';touchMovedDown=false;touchReversed=false;
+ const section=sectionTop();
+ if(guidedFinish){guidedFinish=false;panel.scrollTo({top:panel.scrollTop,behavior:'instant'});}
+ if(guidingOverview){guidingOverview=false;panel.scrollTo({top:panel.scrollTop,behavior:'instant'});}
+ touchStage=overviewReady&&panel.scrollTop>=section-2?'zoom':'approach';
+ if(touchStage==='zoom')touchEntryReady=true;
+},{passive:true});
+panel.addEventListener('touchmove',e=>{
+ if(touchY===null||e.touches.length!==1)return;
+ const y=e.touches[0].clientY;
+ touchLowestY=Math.min(touchLowestY,y);
+ if(!touchReversed&&y-touchLowestY>12){touchReversed=true;touchMovedDown=false;cancelEntry();}
+ if(!touchReversed)touchMovedDown=touchStartY-y>12;
+ touchY=y;
+},{passive:true});
+panel.addEventListener('touchend',()=>{
+ const stage=touchStage,moved=touchMovedDown;
+ touchY=null;touchStartY=null;touchLowestY=null;touchStage=null;touchMovedDown=false;touchReversed=false;
+ if(!moved||!eligible())return;
+ const section=sectionTop(),top=panel.scrollTop,range=Math.max(1,invitation.offsetHeight-panel.clientHeight);
+ if(stage==='approach'&&top>=section-panel.clientHeight*.45){
+  guidingOverview=true;panel.scrollTo({top:section,behavior:motion.matches?'instant':'smooth'});queue();
+ }else if(stage==='zoom'&&top>=section+range*.52){
+  guidedFinish=true;panel.scrollTo({top:section+range,behavior:motion.matches?'instant':'smooth'});queue();
+ }
+},{passive:true});
+panel.addEventListener('touchcancel',()=>{touchY=null;touchStartY=null;touchLowestY=null;touchStage=null;touchMovedDown=false;touchReversed=false;cancelEntry()},{passive:true});
+panel.addEventListener('keydown',e=>{
+ if(['ArrowUp','PageUp','Home'].includes(e.key)){cancelEntry();entryInput='keyboard';return;}
+ if(!['ArrowDown','PageDown','End',' '].includes(e.key)||e.target.closest('input,textarea,select,button,[contenteditable]'))return;
+ clearTimeout(wheelIdle);wheelStage=null;touchEntryReady=false;wheelEntryReady=false;
+ entryInput='keyboard';enterIfReady();
+});
+addEventListener('pagehide',cancelEntry);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelEntry()});
 // A keyboard user can activate the discreet fallback, while page scroll uses
 // the same guarded entry lifecycle as the former button.
 button.addEventListener('click',()=>{entered=true});

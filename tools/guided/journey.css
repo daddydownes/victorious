@@ -185,6 +185,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world .live-game-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
 #world .preview-play{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding:0 20px 6%}
 #world .preview-play span{display:flex;align-items:center;justify-content:space-between;gap:35px;background:#000e;color:#f0d492;border:1px solid #d4af5faa;padding:16px 24px;min-height:56px;font:600 14px/1.4 Cinzel,serif;transition:background .2s,color .2s}
+#world .preview-play svg{display:block;flex:none;width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #world .preview-play:hover span{background:#d4af5f;color:#000}
 #world .preview-play:focus-visible{outline-offset:-6px}
 #world .game-instruction{grid-column:2;text-align:center;font:14px/1.5 Arial,sans-serif;color:#b9ae97}
@@ -229,7 +230,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-width:700px){#world .world-scene,#world .play-section{min-height:max(680px,100svh)}}
 #world .story-controls{max-width:360px}
 #world .story-controls .scroll-cue{display:flex;align-items:center;gap:12px;color:#f0d492;text-align:left;border:0;padding:7px 10px 7px 0;font-size:13px;min-height:48px}
-#world .scroll-cue-mark{display:inline-grid;place-items:center;width:24px;font:32px/1 Georgia,serif}
+#world .scroll-cue-mark{display:inline-grid;place-items:center;width:24px;height:32px}
+#world .scroll-cue-mark svg{display:block;width:24px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .world-active #world .scroll-cue-mark{animation:scroll-invitation 2.4s ease-in-out 3}
 #world .scroll-cue:hover .scroll-cue-mark{color:#fff}
 @keyframes scroll-invitation{0%,65%,100%{transform:translateY(0);opacity:.8}35%{transform:translateY(7px);opacity:1}}
@@ -262,15 +264,16 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* Fit the V's tall artwork above copy across the short-layout breakpoint. */
 @media(min-height:521px) and (min-width:701px){#world .persistent-v{max-width:calc(27svh - 12px)}}
 #world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
-#world .world-scroll .scroll-cue-mark{font-size:36px}
+#world .world-scroll .scroll-cue-mark{height:36px}
+#world .world-scroll .scroll-cue-mark svg{height:36px}
 #world .world-scroll:hover{color:#fff}
 @media(max-width:700px){#world .persistent-v{width:20vw;max-width:calc(33svh - 14px)}#world .world-scroll{margin:22px auto 0}}
 @media(prefers-reduced-motion:reduce){#world .world-scroll .scroll-cue-mark{animation:none!important}}
 
 /* Give the film the space previously occupied by oversized lettering. */
-#world .portrait-photo{left:44%;top:6%;width:52%;height:84%}
+#world .portrait-photo{left:44%;top:8%;width:52%;height:84%}
 #world .portrait-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0007,transparent 28%),linear-gradient(0deg,#0009,transparent 35%)}
-@media(max-width:700px){#world .portrait-photo{left:20%;top:5%;width:78%;height:65%}}
+@media(max-width:700px){#world .portrait-photo{left:20%;top:8%;width:78%;height:65%}}
 
 /* Two matching return choices fill the ending without boxed controls. */
 #world .world-return{align-self:stretch;align-items:stretch;justify-content:center;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -394,6 +397,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .popup-eyebrow{font-size:12px;letter-spacing:.32em}
 .popup-name{display:block;max-width:12ch;margin-inline:auto;color:#f2e6c8;font:600 clamp(35px,6vw,62px)/.98 'VCTRS Rounded',Arial,sans-serif;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 32px #e4b85633}
 .popup-name span{display:inline-block;vertical-align:top;margin-left:5px;font-size:.42em;line-height:1.2;letter-spacing:0}
+.popup-name svg{display:block;width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .popup-date{display:block;margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
 .vault-scroll-cue{min-height:96px;padding:16px 26px max(12px,env(safe-area-inset-bottom));border-top:1px solid #d9bc7540}
 .vault-scroll-cue b{font-size:12px;letter-spacing:.19em}
@@ -403,13 +407,14 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 /* A native scroll zooms through one sticky photo field before the Vault opens. */
 .next-drop.vault-camera-active{background:transparent}
 .next-drop.vault-camera-active .collection-screen,.next-drop.vault-camera-active .signup-landing{background:#000}
-.collection-vault{display:block;position:relative;width:100%;min-height:185svh;padding:0;background:transparent}
+.collection-vault{display:block;position:relative;width:100%;min-height:200svh;padding:0;background:transparent}
 .vault-descent-scene{position:sticky;top:0;box-sizing:border-box;width:100%;height:100svh;overflow:hidden;isolation:isolate;background:transparent;touch-action:pan-y;--vault-progress:0}
 .collection-vault h2{position:absolute;z-index:5;top:clamp(24px,7svh,72px);left:0;right:0;opacity:var(--vault-title-opacity,1);font-size:clamp(12px,1.5vw,16px);transition:none;pointer-events:none}
 .vault.vault-previewing .vault-hud{opacity:0;pointer-events:none;transition:none}
 .vault .vault-hud{transition:opacity .55s ease}
 .vault-descent-instruction{position:absolute;z-index:5;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));margin:0;color:#ecd7aa;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.19em;text-align:center;opacity:calc(1 - var(--vault-progress));pointer-events:none}
-.vault-descent-instruction span{display:block;margin-top:5px;font:25px/1 Arial,sans-serif}
+.vault-descent-instruction span{display:block;margin-top:5px}
+.vault-descent-instruction svg{display:block;width:25px;height:25px;margin-inline:auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .collection-vault .next-vault-hold{position:absolute;z-index:6;right:16px;bottom:16px;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
 .collection-vault .next-vault-hold:focus-visible{right:50%;bottom:24px;transform:translateX(50%);width:auto;height:48px;min-height:48px;padding:0 22px;opacity:1;overflow:visible;clip-path:none;background:#efd69b;color:#000}
 @media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
