@@ -1,6 +1,6 @@
 # Current status
 
-## September 24 - photo descent release candidate
+## September 24 - photo descent and Surface loading release
 
 The first scroll from Previous Drops still snaps to the email landing. The Pass the Mic Canberra event is a larger dark-glass typographic poster below the email form, with a clearer animated cue and OLED-black surroundings. Native scrolling carries the actual Vault frame up as the next page with its photos stationary relative to that page. Once it fills the viewport, another 1.6 viewports of scrolling pulls the camera back through those same photographs. At the endpoint the camera transform is identity, so the same Vault pixels become interactive without the older separate grid or 720ms collection fade. Surface and drag controls appear after landing. A keyboard-accessible fallback entry control remains. Reduced motion shows the landed frame without camera zoom.
 
@@ -8,7 +8,7 @@ Each Previous Drops product opens its byte-preserved owner-supplied original JPE
 
 The Surface film-loading view now keeps “Back to the vault” hidden during ordinary startup and buffering. If the video fails, Retry and Back become visible; Retry hides Back again while a new load runs. The end-of-story Vault return is unchanged.
 
-This release candidate is based on GitHub main `f0fca1acf492b00f2a252c386c36a8e01474f7d0`, which matched the live homepage after newline normalization. The guided build passes. The two-stage page entrance and identity handoff pass in Chromium, WebKit and Firefox, including numerical photo-rectangle comparison before and after activation. This timing revision also passes 33 responsive layouts and 87 controlled keyboard-viewport checks. The final candidate passes Surface loading, failure/retry, return, rotation and reduced-motion recovery in Chromium, WebKit and Firefox, plus four product-viewer configurations and the three-engine photo descent check. Earlier checks covered six pointer recovery paths and focused WebKit/Firefox checks for preview focus, rotation, and handoff stability; those cases have not all been repeated after this revision. Physical iPhone Safari and real signup delivery remain untested. The owner authorized publication after the Surface loading cleanup; the site has not yet been published.
+Published as commit `3aa14ecda91d0272a553f85dbca720a83689b5a9` on `main` after verifying the prior GitHub main against the live homepage. GitHub Pages reported that commit built. The canonical live homepage matched the release `index.html` after line-ending normalization, and all four new full-size product JPEGs matched byte-for-byte. The guided build, 33 responsive layouts, 87 controlled keyboard-viewport checks, three-engine photo descent and identity handoff, four product-viewer configurations, and Chromium/WebKit/Firefox Surface loading, failure/retry, return, rotation and reduced-motion recovery passed. Earlier checks covered six pointer recovery paths and focused WebKit/Firefox checks for preview focus, rotation, and handoff stability; those cases were not all repeated for this release. Physical iPhone Safari and real signup delivery remain untested.
 
 ## September 21 — approved collection and pop-up release
 
