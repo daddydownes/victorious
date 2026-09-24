@@ -145,7 +145,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world.film-waiting .portrait-copy{transform:none!important}
 @keyframes film-loading-breathe{0%,100%{opacity:1}50%{opacity:.55}}
 @media(prefers-reduced-motion:no-preference){#world.film-waiting #worldStory:not(.film-ready) .persistent-v svg{animation:film-loading-breathe 2.4s ease-in-out infinite}}
-#world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px));transform:translateX(-50%);margin:0}
+#world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);margin:0}
+#world.film-waiting.film-failed #worldFilmRetry{bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px))}
 /* Outside the transformed story copy: reachable even while the film clips scroll. */
 #world #worldStoryReturnVault{position:fixed;z-index:5;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100% - 40px);min-height:48px;padding:12px 18px;border:0;border-bottom:1px solid #d4af5f88;background:#000e;font-size:13px;white-space:nowrap}
 #worldNext[hidden]{display:none!important}
@@ -352,11 +353,65 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .popup-clock{margin-inline:auto}
 .collection-signup .next-drop-email input{text-align:center}
 
-/* Let the invitation unfold below the signup instead of fitting it all in one view. */
-.next-drop{scroll-snap-type:y proximity}
-.collection-signup{min-height:135svh;display:flex;align-items:stretch}
-.collection-signup .next-drop-card{box-sizing:border-box;min-height:135svh;display:flex;flex-direction:column;padding:clamp(72px,11svh,132px) 0 clamp(64px,9svh,108px)}
-.collection-signup .next-vault-hold{margin-top:auto}
-.next-drop.email-viewport .collection-signup,.next-drop.email-viewport .next-drop-card{min-height:0}
-.next-drop.email-viewport .next-drop-card{padding-block:32px}
-.next-drop.email-viewport .next-vault-hold{margin-top:24px}
+/* One firm landing at signup, followed by native movement inside its tall snap area. */
+.next-drop{scroll-snap-type:y mandatory}
+.next-drop.collection-free-scroll{scroll-snap-type:none}
+.collection-signup{min-height:0;display:block}
+.signup-landing{box-sizing:border-box;width:100%;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:clamp(64px,10svh,112px) 0 20px}
+.collection-signup .next-drop-card{box-sizing:border-box;min-height:0;display:block;padding:0;margin:0 auto}
+.vault-scroll-cue{position:relative;inset:auto;transform:none;width:auto;height:auto;min-height:70px;margin-top:auto;padding:10px 24px 6px;gap:0}
+.vault-scroll-cue b{display:block;margin-bottom:8px;color:#efd69b;font:600 10px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.22em;white-space:nowrap}
+.vault-scroll-cue span{margin-inline:auto}
+.collection-vault{box-sizing:border-box;min-height:105svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,3svh,32px);padding:clamp(48px,8svh,90px) 24px clamp(70px,10svh,110px);background:#000}
+.collection-vault h2{margin:0;color:#efd69b;font:600 12px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.3em;text-indent:.3em;text-align:center}
+.vault-photo-frame{width:min(430px,calc(100vw - 48px),40svh);aspect-ratio:2/3;overflow:hidden;background:#1a1a1a}
+.vault-photo-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.collection-vault .next-vault-hold{width:min(400px,100%);margin-top:0;box-shadow:none}
+.next-drop.email-viewport .signup-landing{min-height:0;padding-block:0}
+.next-drop.email-viewport .vault-scroll-cue{display:none}
+@media(max-height:520px){.signup-landing{padding-top:40px}.collection-vault{min-height:100svh;padding-block:36px}.collection-vault .next-vault-hold{min-height:60px}}
+
+/* Full-resolution product view stays on the same collection chapter. */
+.collection-piece .collection-open{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.collection-piece .collection-open:focus-visible{outline:2px solid #efd69b;outline-offset:-4px}
+@media(hover:hover){.collection-piece .collection-open img{transition:transform .3s ease}.collection-piece .collection-open:hover img{transform:scale(1.035)}}
+.next-drop.product-viewing{overflow-y:hidden}
+.product-viewer{box-sizing:border-box;position:fixed;inset:0;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;border:0;padding:clamp(52px,8svh,84px) 20px 24px;background:#000;color:#efd69b;overflow:hidden}
+.product-viewer[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.product-viewer::backdrop{background:rgba(0,0,0,.98)}
+.product-viewer img{display:block;max-width:min(100%,1200px);max-height:calc(100dvh - 150px);width:auto;height:auto;object-fit:contain;animation:productPhotoOpen .32s cubic-bezier(.2,.7,.2,1) both}
+.product-viewer p{margin:0;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.16em;text-align:center}
+.product-viewer-close{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid #efd69b88;border-radius:50%;background:#000;color:#efd69b;font:28px/1 Arial,sans-serif;cursor:pointer}
+.product-viewer-close:focus-visible{outline:2px solid #efd69b;outline-offset:3px}
+@keyframes productPhotoOpen{from{opacity:.3;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.product-viewer img{animation:none}.collection-piece .collection-open img{transition:none!important}}
+
+/* The event reads as a poster, with a clear handoff into the archive. */
+.signup-landing{padding-top:clamp(38px,7svh,82px)}
+.collection-signup .next-drop-card{width:min(560px,calc(100% - 40px))}
+.popup-countdown{box-sizing:border-box;width:min(100%,480px);margin:clamp(26px,4svh,42px) auto 0;padding:clamp(22px,3svh,30px) 14px 26px;border:1px solid #ffffff29;border-radius:24px;background:linear-gradient(145deg,#ffffff18,#ffffff08 48%,#ffffff05);box-shadow:inset 0 1px #ffffff22,0 18px 55px #000b;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.popup-eyebrow{font-size:12px;letter-spacing:.32em}
+.popup-name{display:block;max-width:12ch;margin-inline:auto;color:#f2e6c8;font:600 clamp(35px,6vw,62px)/.98 'VCTRS Rounded',Arial,sans-serif;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 32px #e4b85633}
+.popup-name span{display:inline-block;vertical-align:top;margin-left:5px;font-size:.42em;line-height:1.2;letter-spacing:0}
+.popup-date{margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
+.vault-scroll-cue{min-height:96px;padding:16px 26px max(12px,env(safe-area-inset-bottom));border-top:1px solid #d9bc7540}
+.vault-scroll-cue b{font-size:12px;letter-spacing:.19em}
+.vault-scroll-cue span{border-color:#efd69b}
+.vault-scroll-cue:hover b,.vault-scroll-cue:focus-visible b{color:#fff8e4}
+
+/* A native scroll moves through one sticky photo field before the Vault opens. */
+.next-drop.vault-camera-active{background:transparent}
+.next-drop.vault-camera-active .collection-screen,.next-drop.vault-camera-active .signup-landing{background:#000}
+.collection-vault{display:block;position:relative;width:100%;min-height:260svh;padding:0;background:transparent}
+.vault-descent-scene{position:sticky;top:0;box-sizing:border-box;width:100%;height:100svh;overflow:hidden;isolation:isolate;background:transparent;--vault-progress:0}
+.collection-vault h2{position:absolute;z-index:5;top:clamp(24px,7svh,72px);left:0;right:0;opacity:var(--vault-title-opacity,1);font-size:clamp(12px,1.5vw,16px);transition:none;pointer-events:none}
+.vault.vault-previewing .vault-hud{opacity:0;pointer-events:none;transition:none}
+.vault .vault-hud{transition:opacity .55s ease}
+.vault-descent-instruction{position:absolute;z-index:5;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));margin:0;color:#ecd7aa;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.19em;text-align:center;opacity:calc(1 - var(--vault-progress));pointer-events:none}
+.vault-descent-instruction span{display:block;margin-top:5px;font:25px/1 Arial,sans-serif}
+.collection-vault .next-vault-hold{position:absolute;z-index:6;right:16px;bottom:16px;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
+.collection-vault .next-vault-hold:focus-visible{right:50%;bottom:24px;transform:translateX(50%);width:auto;height:48px;min-height:48px;padding:0 22px;opacity:1;overflow:visible;clip-path:none;background:#efd69b;color:#000}
+.next-drop.email-viewport .popup-countdown{display:none}
+@media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
+@media(max-height:650px){.signup-landing{padding-top:30px}.popup-countdown{margin-top:18px;padding:14px 12px}.popup-name{font-size:clamp(30px,7svh,42px)}.popup-date{margin:10px 0}.vault-scroll-cue{min-height:76px}}
+@media(prefers-reduced-motion:reduce){.vault .vault-hud{transition:none}.vault-descent-instruction{opacity:1}}

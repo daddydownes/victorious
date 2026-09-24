@@ -32,10 +32,16 @@ async function run(engine){
  async function escape(keyboard=false){
   const geometry=await p.locator('#worldStoryReturnVault').evaluate(e=>{const r=e.getBoundingClientRect();return{visible:r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth,hit:document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===e}});
   assert(geometry.visible&&geometry.hit,'Back must be visible and hit-testable while scrolling is locked');
-  if(keyboard){for(let i=0;i<12&&await p.evaluate(()=>document.activeElement.id)!=='worldStoryReturnVault';i++)await p.keyboard.press('Tab');assert.equal(await p.evaluate(()=>document.activeElement.id),'worldStoryReturnVault');await p.keyboard.press('Enter')}
+  if(keyboard){for(let i=0;i<12&&await p.evaluate(()=>document.activeElement.id)!=='worldStoryReturnVault';i++)await p.keyboard.press('Shift+Tab');assert.equal(await p.evaluate(()=>document.activeElement.id),'worldStoryReturnVault');await p.keyboard.press('Enter')}
   else await p.locator('#worldStoryReturnVault').tap();
   await p.waitForFunction(()=>__guide.phase()==='vault'&&!vault.inert&&__worldJourney.state==='entry');
   const s=await snapshot();assert(s.worldHidden&&!s.gate&&!s.gameInert&&s.videoSrc===null);assert.equal(s.active,'vault');return s;
+ }
+ async function abandonPending(){
+  assert((await snapshot()).backHidden,'Loading must not show Back to the vault');
+  await p.evaluate(()=>worldStoryReturnVault.click());
+  await p.waitForFunction(()=>__guide.phase()==='vault'&&!vault.inert&&__worldJourney.state==='entry');
+  return snapshot();
  }
  async function playing(){await p.waitForFunction(()=>__worldJourney.state==='story'&&!world.classList.contains('film-waiting')&&worldVideo.currentTime>.3);const s=await snapshot();assert(!s.gameInert&&!s.nextHidden&&s.backHidden);return s}
  async function backFromEnd(){await p.locator('#worldNext').click();await p.waitForFunction(()=>__worldJourney.state==='preview');await p.locator('#worldReturnVault').click();await p.waitForFunction(()=>__guide.phase()==='vault'&&!vault.inert)}
@@ -46,7 +52,7 @@ async function run(engine){
   assert(requests.some(r=>r.mode==='503'));
   const initial=await snapshot();assert(initial.gate&&initial.gameInert);
   await p.screenshot({path:path.join(out,engine+'-503-escape.png')});
-  await p.locator('#worldFilmRetry').tap();
+  await p.locator('#worldFilmRetry').tap();await p.locator('#worldStoryReturnVault').waitFor({state:'visible'});
   const restoredVault=await escape(true);
   results.push({case:'503-retry-then-keyboard-escape',engine,status:'PASS',initial,restoredVault});
   await surface();await p.locator('#worldFilmRetry').waitFor({state:'visible'});mode='normal';
@@ -57,28 +63,27 @@ async function run(engine){
 
   mode='pending';await surface();
   await p.waitForFunction(()=>worldVideo.networkState===2);
-  const duringLoad=await snapshot();assert(duringLoad.gate&&duringLoad.retryHidden);
-  await escape();const abandoned=pending.splice(0);
+  const duringLoad=await snapshot();assert(duringLoad.gate&&duringLoad.retryHidden&&duringLoad.backHidden);
+  await abandonPending();const abandoned=pending.splice(0);
   assert(abandoned.length>0,'Server must have a genuinely pending media request');
   await surface(); // A new visit is still waiting when the abandoned response completes.
   for(const old of abandoned){if(!old.res.destroyed)normal(old.req,old.res)}
   await p.waitForTimeout(7000);
-  const afterLate=await snapshot();assert(afterLate.gate&&afterLate.gameInert&&!afterLate.filmReady&&!afterLate.backHidden&&!afterLate.retryHidden);
+  const afterLate=await snapshot();assert(afterLate.gate&&afterLate.gameInert&&!afterLate.filmReady&&afterLate.backHidden&&!afterLate.retryHidden);
   await p.screenshot({path:path.join(out,engine+'-pending-escape.png')});
-  await p.locator('#worldFilmRetry').tap();const afterRetryEscape=await escape();
+  mode='503';await p.locator('#worldFilmRetry').tap();await p.locator('#worldStoryReturnVault').waitFor({state:'visible'});const afterRetryEscape=await escape();
   results.push({case:'pending-immediate-escape-late-response-new-visit-retry-escape',engine,status:'PASS',duringLoad,afterLate,afterRetryEscape,abandoned:abandoned.map(x=>x.row)});
   mode='normal';await surface();
   await p.waitForFunction(()=>worldStory.classList.contains('film-ready')&&world.classList.contains('film-waiting'));
-  await escape();mode='pending';await surface();await p.waitForTimeout(2300);
+  await abandonPending();mode='pending';await surface();await p.waitForTimeout(2300);
   const afterAnimation=await snapshot();assert(afterAnimation.gate&&afterAnimation.gameInert&&!afterAnimation.filmReady);
   mode='normal';await p.locator('#worldFilmRetry').waitFor({state:'visible'});await p.locator('#worldFilmRetry').tap();await playing();await backFromEnd();
   results.push({case:'escape-during-reveal-then-fresh-visit',engine,status:'PASS',afterAnimation});
   mode='pending';await p.setViewportSize({width:320,height:568});await surface();
-  for(let i=0;i<12&&await p.evaluate(()=>document.activeElement.id)!=='worldStoryReturnVault';i++)await p.keyboard.press('Tab');
-  assert.equal(await p.evaluate(()=>document.activeElement.id),'worldStoryReturnVault');
+  assert((await snapshot()).backHidden,'Loading must not expose Back to the vault through Tab');
   for(const size of [{width:320,height:568},{width:844,height:390}]){
    await p.setViewportSize(size);
-   assert(await p.locator('#worldStoryReturnVault').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===e}),'Escape remains reachable after rotation');
+   assert((await snapshot()).backHidden,'Loading stays clear after rotation');
   }
   await p.emulateMedia({reducedMotion:'reduce'});await p.waitForFunction(()=>!world.classList.contains('film-waiting'));
   const reduced=await snapshot();assert(reduced.filmReady&&reduced.backHidden&&!reduced.gameInert);assert.equal(reduced.active,'worldNext');

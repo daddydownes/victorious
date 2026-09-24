@@ -1002,7 +1002,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 #world.film-waiting .portrait-copy{transform:none!important}
 @keyframes film-loading-breathe{0%,100%{opacity:1}50%{opacity:.55}}
 @media(prefers-reduced-motion:no-preference){#world.film-waiting #worldStory:not(.film-ready) .persistent-v svg{animation:film-loading-breathe 2.4s ease-in-out infinite}}
-#world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px));transform:translateX(-50%);margin:0}
+#world.film-waiting #worldFilmRetry{position:fixed;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);margin:0}
+#world.film-waiting.film-failed #worldFilmRetry{bottom:max(130px,calc(env(safe-area-inset-bottom) + 110px))}
 /* Outside the transformed story copy: reachable even while the film clips scroll. */
 #world #worldStoryReturnVault{position:fixed;z-index:5;left:50%;bottom:max(28px,env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100% - 40px);min-height:48px;padding:12px 18px;border:0;border-bottom:1px solid #d4af5f88;background:#000e;font-size:13px;white-space:nowrap}
 #worldNext[hidden]{display:none!important}
@@ -1209,14 +1210,68 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 .popup-clock{margin-inline:auto}
 .collection-signup .next-drop-email input{text-align:center}
 
-/* Let the invitation unfold below the signup instead of fitting it all in one view. */
-.next-drop{scroll-snap-type:y proximity}
-.collection-signup{min-height:135svh;display:flex;align-items:stretch}
-.collection-signup .next-drop-card{box-sizing:border-box;min-height:135svh;display:flex;flex-direction:column;padding:clamp(72px,11svh,132px) 0 clamp(64px,9svh,108px)}
-.collection-signup .next-vault-hold{margin-top:auto}
-.next-drop.email-viewport .collection-signup,.next-drop.email-viewport .next-drop-card{min-height:0}
-.next-drop.email-viewport .next-drop-card{padding-block:32px}
-.next-drop.email-viewport .next-vault-hold{margin-top:24px}
+/* One firm landing at signup, followed by native movement inside its tall snap area. */
+.next-drop{scroll-snap-type:y mandatory}
+.next-drop.collection-free-scroll{scroll-snap-type:none}
+.collection-signup{min-height:0;display:block}
+.signup-landing{box-sizing:border-box;width:100%;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:clamp(64px,10svh,112px) 0 20px}
+.collection-signup .next-drop-card{box-sizing:border-box;min-height:0;display:block;padding:0;margin:0 auto}
+.vault-scroll-cue{position:relative;inset:auto;transform:none;width:auto;height:auto;min-height:70px;margin-top:auto;padding:10px 24px 6px;gap:0}
+.vault-scroll-cue b{display:block;margin-bottom:8px;color:#efd69b;font:600 10px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.22em;white-space:nowrap}
+.vault-scroll-cue span{margin-inline:auto}
+.collection-vault{box-sizing:border-box;min-height:105svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,3svh,32px);padding:clamp(48px,8svh,90px) 24px clamp(70px,10svh,110px);background:#000}
+.collection-vault h2{margin:0;color:#efd69b;font:600 12px/1.4 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.3em;text-indent:.3em;text-align:center}
+.vault-photo-frame{width:min(430px,calc(100vw - 48px),40svh);aspect-ratio:2/3;overflow:hidden;background:#1a1a1a}
+.vault-photo-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.collection-vault .next-vault-hold{width:min(400px,100%);margin-top:0;box-shadow:none}
+.next-drop.email-viewport .signup-landing{min-height:0;padding-block:0}
+.next-drop.email-viewport .vault-scroll-cue{display:none}
+@media(max-height:520px){.signup-landing{padding-top:40px}.collection-vault{min-height:100svh;padding-block:36px}.collection-vault .next-vault-hold{min-height:60px}}
+
+/* Full-resolution product view stays on the same collection chapter. */
+.collection-piece .collection-open{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.collection-piece .collection-open:focus-visible{outline:2px solid #efd69b;outline-offset:-4px}
+@media(hover:hover){.collection-piece .collection-open img{transition:transform .3s ease}.collection-piece .collection-open:hover img{transform:scale(1.035)}}
+.next-drop.product-viewing{overflow-y:hidden}
+.product-viewer{box-sizing:border-box;position:fixed;inset:0;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;border:0;padding:clamp(52px,8svh,84px) 20px 24px;background:#000;color:#efd69b;overflow:hidden}
+.product-viewer[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.product-viewer::backdrop{background:rgba(0,0,0,.98)}
+.product-viewer img{display:block;max-width:min(100%,1200px);max-height:calc(100dvh - 150px);width:auto;height:auto;object-fit:contain;animation:productPhotoOpen .32s cubic-bezier(.2,.7,.2,1) both}
+.product-viewer p{margin:0;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.16em;text-align:center}
+.product-viewer-close{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid #efd69b88;border-radius:50%;background:#000;color:#efd69b;font:28px/1 Arial,sans-serif;cursor:pointer}
+.product-viewer-close:focus-visible{outline:2px solid #efd69b;outline-offset:3px}
+@keyframes productPhotoOpen{from{opacity:.3;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.product-viewer img{animation:none}.collection-piece .collection-open img{transition:none!important}}
+
+/* The event reads as a poster, with a clear handoff into the archive. */
+.signup-landing{padding-top:clamp(38px,7svh,82px)}
+.collection-signup .next-drop-card{width:min(560px,calc(100% - 40px))}
+.popup-countdown{box-sizing:border-box;width:min(100%,480px);margin:clamp(26px,4svh,42px) auto 0;padding:clamp(22px,3svh,30px) 14px 26px;border:1px solid #ffffff29;border-radius:24px;background:linear-gradient(145deg,#ffffff18,#ffffff08 48%,#ffffff05);box-shadow:inset 0 1px #ffffff22,0 18px 55px #000b;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.popup-eyebrow{font-size:12px;letter-spacing:.32em}
+.popup-name{display:block;max-width:12ch;margin-inline:auto;color:#f2e6c8;font:600 clamp(35px,6vw,62px)/.98 'VCTRS Rounded',Arial,sans-serif;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 0 32px #e4b85633}
+.popup-name span{display:inline-block;vertical-align:top;margin-left:5px;font-size:.42em;line-height:1.2;letter-spacing:0}
+.popup-date{margin:18px 0 20px;color:#d2c8b4;font-size:clamp(12px,1.5vw,15px)}
+.vault-scroll-cue{min-height:96px;padding:16px 26px max(12px,env(safe-area-inset-bottom));border-top:1px solid #d9bc7540}
+.vault-scroll-cue b{font-size:12px;letter-spacing:.19em}
+.vault-scroll-cue span{border-color:#efd69b}
+.vault-scroll-cue:hover b,.vault-scroll-cue:focus-visible b{color:#fff8e4}
+
+/* A native scroll moves through one sticky photo field before the Vault opens. */
+.next-drop.vault-camera-active{background:transparent}
+.next-drop.vault-camera-active .collection-screen,.next-drop.vault-camera-active .signup-landing{background:#000}
+.collection-vault{display:block;position:relative;width:100%;min-height:260svh;padding:0;background:transparent}
+.vault-descent-scene{position:sticky;top:0;box-sizing:border-box;width:100%;height:100svh;overflow:hidden;isolation:isolate;background:transparent;--vault-progress:0}
+.collection-vault h2{position:absolute;z-index:5;top:clamp(24px,7svh,72px);left:0;right:0;opacity:var(--vault-title-opacity,1);font-size:clamp(12px,1.5vw,16px);transition:none;pointer-events:none}
+.vault.vault-previewing .vault-hud{opacity:0;pointer-events:none;transition:none}
+.vault .vault-hud{transition:opacity .55s ease}
+.vault-descent-instruction{position:absolute;z-index:5;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));margin:0;color:#ecd7aa;font:600 11px/1.5 'VCTRS Rounded',Arial,sans-serif;letter-spacing:.19em;text-align:center;opacity:calc(1 - var(--vault-progress));pointer-events:none}
+.vault-descent-instruction span{display:block;margin-top:5px;font:25px/1 Arial,sans-serif}
+.collection-vault .next-vault-hold{position:absolute;z-index:6;right:16px;bottom:16px;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
+.collection-vault .next-vault-hold:focus-visible{right:50%;bottom:24px;transform:translateX(50%);width:auto;height:48px;min-height:48px;padding:0 22px;opacity:1;overflow:visible;clip-path:none;background:#efd69b;color:#000}
+.next-drop.email-viewport .popup-countdown{display:none}
+@media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
+@media(max-height:650px){.signup-landing{padding-top:30px}.popup-countdown{margin-top:18px;padding:14px 12px}.popup-name{font-size:clamp(30px,7svh,42px)}.popup-date{margin:10px 0}.vault-scroll-cue{min-height:76px}}
+@media(prefers-reduced-motion:reduce){.vault .vault-hud{transition:none}.vault-descent-instruction{opacity:1}}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -1313,15 +1368,16 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       <h2 id="collectionTitle">PREVIOUS DROPS</h2>
     </header>
     <div class="collection-grid">
-      <figure class="collection-piece"><img data-product="zip-hoodie" width="1080" height="1432" decoding="async" alt="Black zip hoodie laid flat on pavement, with a white V and star on the chest."></figure>
-      <figure class="collection-piece"><img data-product="spray-tee" width="1080" height="1432" decoding="async" alt="White T-shirt laid flat on dark pavement, with the VCTRS spray-can graphic."></figure>
-      <figure class="collection-piece"><img data-product="canberra-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt on concrete, with the Victorious wordmark and Canberra tower graphic."></figure>
-      <figure class="collection-piece"><img data-product="black-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt laid flat on pavement, with a small pale V and star on the chest."></figure>
+      <figure class="collection-piece"><button type="button" class="collection-open" data-view-product="zip-hoodie" aria-label="View zip hoodie photo in detail"><img data-product="zip-hoodie" width="1080" height="1432" decoding="async" alt="Black zip hoodie laid flat on pavement, with a white V and star on the chest."></button></figure>
+      <figure class="collection-piece"><button type="button" class="collection-open" data-view-product="spray-tee" aria-label="View spray T-shirt photo in detail"><img data-product="spray-tee" width="1080" height="1432" decoding="async" alt="White T-shirt laid flat on dark pavement, with the VCTRS spray-can graphic."></button></figure>
+      <figure class="collection-piece"><button type="button" class="collection-open" data-view-product="canberra-tee" aria-label="View Canberra T-shirt photo in detail"><img data-product="canberra-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt on concrete, with the Victorious wordmark and Canberra tower graphic."></button></figure>
+      <figure class="collection-piece"><button type="button" class="collection-open" data-view-product="black-tee" aria-label="View black V and star T-shirt photo in detail"><img data-product="black-tee" width="1440" height="1920" decoding="async" alt="Black T-shirt laid flat on pavement, with a small pale V and star on the chest."></button></figure>
     </div>
   </section>
   <button type="button" class="collection-scroll-cue" id="collectionScrollCue" aria-label="Scroll to add your email" aria-controls="collectionSignup"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
   </div>
   <div class="collection-signup" id="collectionSignup">
+    <div class="signup-landing">
     <div class="next-drop-card">
       <h2 class="next-drop-title" tabindex="-1">ADD YOUR EMAIL</h2>
       <p class="signup-caption">Stay close to what comes next.</p>
@@ -1331,15 +1387,28 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
         <div class="next-drop-result" id="nextDropResult" aria-live="polite"></div>
       </form>
       <aside class="popup-countdown" aria-label="Next pop-up">
-        <p class="popup-eyebrow">NEXT POP-UP</p>
+        <p class="popup-eyebrow">NEXT UP</p>
         <a href="https://www.moshtix.com.au/v2/event/pass-the-mic-canberra/198057" target="_blank" rel="noopener noreferrer" class="popup-name">Pass the Mic Canberra <span aria-hidden="true">↗</span></a>
         <p class="popup-date">@ UC Hub · 26 September · 6–10 PM AEST</p>
         <div class="popup-clock" id="popupClock" role="timer" aria-label="Countdown to the event start" data-start="2026-09-26T18:00:00+10:00" data-end="2026-09-26T22:00:00+10:00" hidden><span><b data-time="days">00</b><small>DAYS</small></span><span><b data-time="hours">00</b><small>HRS</small></span><span><b data-time="minutes">00</b><small>MIN</small></span><span><b data-time="seconds">00</b><small>SEC</small></span></div>
         <p class="popup-started" id="popupStarted" hidden>On now · Until 10 PM</p>
       </aside>
-      <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Press here to enter the vault"><span class="vh-press-light" aria-hidden="true"></span><span class="vh-base">PRESS HERE<small>ENTER THE VAULT</small></span></button>
     </div>
+    <button type="button" class="collection-scroll-cue vault-scroll-cue" id="vaultScrollCue" aria-label="Scroll into the vault" aria-controls="vaultInvitation"><b>SCROLL INTO THE VAULT</b><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+    </div>
+    <section class="collection-vault" id="vaultInvitation" aria-labelledby="vaultInvitationTitle">
+      <div class="vault-descent-scene">
+        <h2 id="vaultInvitationTitle" tabindex="-1">THE VAULT</h2>
+        <p class="vault-descent-instruction" aria-hidden="true">KEEP SCROLLING TO ENTER <span>↓</span></p>
+        <button type="button" id="nextVaultHold" class="vhold next-vault-hold" aria-label="Enter the vault"><span class="vh-base">ENTER THE VAULT</span></button>
+      </div>
+    </section>
   </div>
+  <dialog id="productViewer" class="product-viewer" aria-label="Previous drop photo">
+    <button type="button" id="productViewerClose" class="product-viewer-close" aria-label="Close photo">×</button>
+    <img id="productViewerImage" alt="" width="1440" height="1920" decoding="async">
+    <p id="productViewerCaption"></p>
+  </dialog>
 </section>
 
 
@@ -2518,7 +2587,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     // After a swipe, touch browsers may omit the compatibility click. A valid
     // stationary touch/pen release is sufficient; mouse and keyboard use click.
     if(!nextEntrySkipClick && (e.pointerType==='touch'||e.pointerType==='pen')){
-      e.preventDefault(); enterVaultFromNext();
+      e.preventDefault(); commitVaultCamera();
     }
   },{passive:false});
   function cancelNextEntryPointer(){if(nextEntryPointer){nextEntryPointer=null;nextEntrySkipClick=true;}}
@@ -2533,7 +2602,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(!e.detail){
       nextEntryButton.style.removeProperty('--press-x'); nextEntryButton.style.removeProperty('--press-y');
     }
-    enterVaultFromNext();
+    commitVaultCamera();
   });
 
   /* ================= descent: scroll-driven sink into black ================= */
@@ -2544,6 +2613,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   var nativePanActive=false, nativePanScrolling=false, nativePanPointerDown=false,
       nativePanInputArmed=false, nativePanUserMoved=false, nativeSettleTimer=0, nativeExpectedX=null,
       nativeExpectedY=null, nativeTravel=0, nativeResizePending=false, nativeScrollEpoch=0;
+  var pinchActive=false, pinchFrame=0, pinchContacts=null, pinchStartDistance=0,
+      pinchStartScale=1, pinchAnchorX=0, pinchAnchorY=0, pinchNext=null, nativeContinuationTouch=null;
+  var vaultCameraActive=false, vaultCameraZoom=1;
   var stageDim=document.getElementById('stageDim');
   function primeVaultUnderSeam(){ vault.style.visibility='visible'; vault.style.opacity='1'; }
   if(reduced){ // no entry choreography: the archive sits landed
@@ -2622,7 +2694,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       }
     });
   }
-  // Explicit tap/click/keyboard entry; scrolling never submits or enters.
+  // The collection scroll and keyboard fallback both use this guarded entry.
   var tapEntryFinish=null;
   function enterVaultFromNext(immediate){
     if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
@@ -2867,12 +2939,12 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   var measureQueued=false;
   function queueMeasure(){
     if(document.hidden) return;
-    if(nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
+    if(pinchActive || nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
     if(measureQueued) return;
     measureQueued=true;
     requestAnimationFrame(function(){
       measureQueued=false;
-      if(nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
+      if(pinchActive || nativePanScrolling || nativePanPointerDown || nativePanInputArmed){ nativeResizePending=true; return; }
       measure();
     });
   }
@@ -2957,7 +3029,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   }
   var vaultImageJobs=new WeakMap(), vaultNetworkActive=0, vaultNetworkQueue=[];
   var vaultDemandActive=false;
-  function vaultPhotoPixels(img){return Number(img.dataset.tileWidth)*Math.min(1,Math.max(.45,innerWidth/1100))*(devicePixelRatio||1);}
+  function vaultPhotoPixels(img){return Number(img.dataset.tileWidth)*S*vaultCameraZoom*(devicePixelRatio||1);}
   function vaultDelivery(img){
     var pixels=vaultPhotoPixels(img);
     return pixels>1280?img.dataset.original:img.dataset.delivery+'-'+(pixels>640?1280:640)+'.webp';
@@ -3061,8 +3133,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
      kept misfiring — slow pans under 10px ended as "taps" and lit a random
      photo mid-explore. So on touch the light simply FOLLOWS the pan: whichever
      photo sits nearest the screen centre glows as you move (lightCentre). */
-  var hotImg=null;
+  var hotImg=null, vaultCameraSettleUntil=0;
   function setHot(img){
+    if(img && (vaultCameraActive || Date.now()<vaultCameraSettleUntil)) return;
     if(hotImg===img) return;
     if(hotImg) hotImg.classList.remove('hot');
     hotImg=img||null;
@@ -3112,6 +3185,9 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(nativePanActive && nativePanScrolling) return;
     if(!dragging && e.target.tagName==='IMG') setHot(e.target);
   });
+  plane.addEventListener('pointermove',function(e){
+    if(e.pointerType==='mouse' && !dragging && e.target.tagName==='IMG' && Date.now()>=vaultCameraSettleUntil) setHot(e.target);
+  },{passive:true});
   plane.addEventListener('pointerout',function(e){
     if(e.pointerType==='touch'||e.pointerType==='pen') return;
     if(e.target===hotImg) setHot(null);
@@ -3121,8 +3197,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   var velX=0, velY=0, inertia=null, needCenter=true;
   // mobile fit: scale the whole baked layout down on small screens so the
   // centrepiece photo doesn't swallow the viewport (desktop stays 1:1)
-  var S=1;
-  function calcScale(){ S=Math.min(1, Math.max(0.45, vw/1100)); }
+  var S=1, baseScale=1, userZoom=1;
+  function calcScale(){ baseScale=Math.min(1, Math.max(0.45, vw/1100)); S=baseScale*userZoom; }
   var nativePadX=0, nativePadY=0, nativeFracX=0, nativeFracY=0;
   function clampAxis(v,view,size){
     if(size<=view) return (view-size)/2;   // plane smaller than viewport: center it
@@ -3162,7 +3238,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   plane.style.transformOrigin='0 0';
 
   function settleNativePan(){
-    if(!nativePanActive) return;
+    if(!nativePanActive || pinchActive) return;
     if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
     /* A resize clamp can emit scrollend even though its scroll event was rejected
        above. Only a genuine movement run may replace the authoritative logical
@@ -3171,7 +3247,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     nativePanScrolling=false;
     if(nativePanUserMoved) lightCentre();
     nativePanUserMoved=false;
-    nativePanInputArmed=false;
+    nativePanInputArmed=nativeContinuationTouch!==null;
     if(nativeResizePending){ nativeResizePending=false; queueMeasure(); }
   }
   function queueNativeSettle(delay){
@@ -3180,7 +3256,8 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     nativeSettleTimer=setTimeout(function(){
       nativeSettleTimer=0;
       if(!nativePanActive) return;
-      if(nativePanPointerDown || epoch!==nativeScrollEpoch){ queueNativeSettle(140); return; }
+      if(nativeContinuationTouch!==null) return;
+      if(pinchActive || nativePanPointerDown || epoch!==nativeScrollEpoch){ queueNativeSettle(140); return; }
       settleNativePan();
     },delay||140);
   }
@@ -3196,9 +3273,10 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   }
   function freezeNativePan(){
     if(!nativePanActive) return;
+    stopPinch();
     syncNativePosition();
     if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
-    nativePanScrolling=false; nativePanPointerDown=false; nativePanInputArmed=false; nativePanUserMoved=false;
+    nativePanScrolling=false; nativePanPointerDown=false; nativePanInputArmed=false; nativePanUserMoved=false; nativeContinuationTouch=null;
     nativeResizePending=false; nativePanActive=false;
     vault.classList.remove('native-pan-active');
     dive.scrollLeft=0; dive.scrollTop=0;
@@ -3210,6 +3288,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   }
   dive.addEventListener('scroll',function(){
     if(!nativePanActive) return;
+    if(pinchActive) return;
     var expected=nativeExpectedX!==null && Math.abs(dive.scrollLeft-nativeExpectedX)<1 &&
       nativeExpectedY!==null && Math.abs(dive.scrollTop-nativeExpectedY)<1;
     if(expected){ syncNativePosition(); nativeExpectedX=nativeExpectedY=null; return; }
@@ -3235,11 +3314,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     if(nativePanActive && !nativePanPointerDown) queueNativeSettle(100);
   },{passive:true});
   dive.addEventListener('pointerdown',function(e){
+    if(pinchActive) return;
     if(nativePanActive && (e.pointerType==='touch'||e.pointerType==='pen')){
       nativePanPointerDown=true; nativePanInputArmed=true;
     }
   },{passive:true});
   function nativePointerReleased(e){
+    if(pinchActive) return;
     if(!nativePanPointerDown) return;
     nativePanPointerDown=false;
     /* pointercancel is the normal signal when the browser takes ownership of a
@@ -3260,10 +3341,98 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
        paused forever; real scroll events replace this deadline. */
     queueNativeSettle(180);
   },{passive:true});
+  function pinchEligible(){ return nativePanActive && vaultActive && guidePhase==='vault' && !document.hidden; }
+  function pinchPair(touches){
+    if(!pinchContacts) return null;
+    var a=null,b=null;
+    for(var i=0;i<touches.length;i++){
+      if(touches[i].identifier===pinchContacts[0]) a=touches[i];
+      if(touches[i].identifier===pinchContacts[1]) b=touches[i];
+    }
+    return a&&b?[a,b]:null;
+  }
+  function pinchGeometry(pair){
+    var rect=dive.getBoundingClientRect(),a=pair[0],b=pair[1];
+    return {x:(a.clientX+b.clientX)/2-rect.left,y:(a.clientY+b.clientY)/2-rect.top,
+      distance:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)};
+  }
+  function commitPinch(){
+    if(!pinchActive || !pinchEligible() || !pinchNext) return;
+    var next=pinchNext; pinchNext=null;
+    userZoom=Math.max(1,Math.min(4,pinchStartScale*next.distance/pinchStartDistance/baseScale));
+    calcScale();
+    px=next.x-pinchAnchorX*S; py=next.y-pinchAnchorY*S;
+    clampPan(); applyPan();
+  }
+  function stopPinch(remainingFinger,commitPending,remainingId){
+    if(commitPending) commitPinch();
+    if(pinchFrame){ cancelAnimationFrame(pinchFrame); pinchFrame=0; }
+    pinchNext=null;
+    if(!pinchActive){
+      if(nativeContinuationTouch!==null){
+        nativeContinuationTouch=null; nativePanInputArmed=false; nativePanPointerDown=false;
+        nativePanScrolling=false; nativePanUserMoved=false;
+        if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+        if(nativeResizePending){ nativeResizePending=false; queueMeasure(); }
+      }
+      return;
+    }
+    pinchActive=false; pinchContacts=null;
+    nativeContinuationTouch=remainingFinger===true?remainingId:null;
+    nativePanPointerDown=false; nativePanInputArmed=nativeContinuationTouch!==null; nativePanScrolling=false;
+    nativePanUserMoved=false; nativeScrollEpoch++;
+    if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+    if(nativePanActive){ applyPan(); lightCentre(); warmVaultImages(); }
+    if(nativeResizePending){ nativeResizePending=false; queueMeasure(); }
+  }
+  function updatePinch(geometry){
+    pinchNext=geometry;
+    if(pinchFrame) return;
+    pinchFrame=requestAnimationFrame(function(){
+      pinchFrame=0;
+      commitPinch();
+    });
+  }
+  dive.addEventListener('touchstart',function(e){
+    if(!pinchEligible() || pinchActive || e.touches.length!==2) return;
+    var pair=[e.touches[0],e.touches[1]],g=pinchGeometry(pair);
+    if(g.distance<8) return;
+    if(e.cancelable) e.preventDefault();
+    syncNativePosition();
+    if(nativeSettleTimer){ clearTimeout(nativeSettleTimer); nativeSettleTimer=0; }
+    pinchActive=true; pinchContacts=[pair[0].identifier,pair[1].identifier];
+    pinchStartDistance=g.distance; pinchStartScale=S;
+    pinchAnchorX=(g.x-px)/S; pinchAnchorY=(g.y-py)/S;
+    nativePanScrolling=false; nativePanUserMoved=false;
+  },{passive:false});
+  dive.addEventListener('touchmove',function(e){
+    if(!pinchActive) return;
+    if(!pinchEligible() || e.touches.length!==2){ stopPinch(); return; }
+    var pair=pinchPair(e.touches);
+    if(!pair){ stopPinch(); return; }
+    if(e.cancelable) e.preventDefault();
+    updatePinch(pinchGeometry(pair));
+  },{passive:false});
+  function pinchTouchReleased(e){
+    if(pinchActive && (!pinchPair(e.touches) || e.touches.length!==2)) stopPinch(e.touches.length===1,e.type==='touchend',e.touches.length===1?e.touches[0].identifier:null);
+    else if(nativeContinuationTouch!==null){
+      var kept=false;
+      for(var i=0;i<e.touches.length;i++)if(e.touches[i].identifier===nativeContinuationTouch)kept=true;
+      if(!kept){ nativeContinuationTouch=null; queueNativeSettle(140); }
+    }
+  }
+  dive.addEventListener('touchend',pinchTouchReleased,{passive:true});
+  dive.addEventListener('touchcancel',pinchTouchReleased,{passive:true});
+  dive.addEventListener('gesturestart',function(e){if(pinchActive && e.cancelable)e.preventDefault();},{passive:false});
+  dive.addEventListener('gesturechange',function(e){if(pinchActive && e.cancelable)e.preventDefault();},{passive:false});
+  addEventListener('blur',stopPinch);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)stopPinch();});
   window.__vaultPan={
     get mode(){ return nativeVaultEligible?'native':'legacy'; },
     get active(){ return nativePanActive; },
     get moving(){ return nativePanScrolling; },
+    get pinching(){ return pinchActive; },
+    get zoom(){ return userZoom; },
     position:function(){ return {x:px,y:py,left:dive.scrollLeft,top:dive.scrollTop}; },
     scrollSize:function(){ return {width:dive.scrollWidth,height:dive.scrollHeight}; },
     scrollTo:function(left,top){
@@ -3277,6 +3446,69 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
   // start centered on the plane
   calcScale();
   px=(vw-3781*S)/2; py=(vh-3557*S)/2; clampPan(); applyPan();
+
+  // The collection scroll looks through the real, landed Vault. Its last
+  // camera frame is the interactive archive's exact identity transform.
+  function prepareVaultCamera(){
+    if(vaultCameraActive || nativePanActive || vaultActive) return;
+    vaultCameraActive=true; vaultCameraZoom=1.30;
+    setHot(null);
+    setNextDropInert(vault,true); vault.setAttribute('aria-hidden','true');
+    vault.classList.add('vault-previewing');
+    vault.style.visibility='visible'; vault.style.opacity='1'; vault.style.pointerEvents='none';
+    dive.style.transformOrigin='0 0'; dive.style.willChange='transform';
+    dive.style.setProperty('--vault-brightness','1');
+    applyPan(); warmVaultImages();
+  }
+  function paintVaultCamera(progress,entranceOffset){
+    if(!vaultCameraActive) prepareVaultCamera();
+    if(!vaultCameraActive) return;
+    var t=Math.max(0,Math.min(1,progress));
+    var e=reduced?1:t*t*(3-2*t), group=PHOTOS[16];
+    var groupH=group.w*PHOTO_NH[16]/620;
+    var gx=px+(group.x+group.w/2)*S, gy=py+(group.y+groupH/2)*S;
+    var q=1+0.30*(1-e);
+    var cx=vw/2+(gx-vw/2)*e, cy=vh/2+(gy-vh/2)*e;
+    vaultCameraZoom=q;
+    vault.style.transform=entranceOffset>0?'translate3d(0,'+Math.max(0,entranceOffset).toFixed(3)+'px,0)':'';
+    if(t>=1 || reduced) dive.style.transform='scale(1)';
+    else dive.style.transform='translate3d('+(cx-q*gx).toFixed(3)+'px,'+(cy-q*gy).toFixed(3)+'px,0) scale('+q.toFixed(5)+')';
+  }
+  function cancelVaultCamera(){
+    if(!vaultCameraActive || vaultActive) return;
+    vaultCameraActive=false; vaultCameraZoom=1;
+    vault.style.transform='';
+    vault.classList.remove('vault-previewing');
+    vault.style.visibility='hidden'; vault.style.opacity='0'; vault.style.pointerEvents='none';
+    dive.style.removeProperty('transform-origin');
+    dive.style.transform=reduced?'scale(1)':'scale(.55)';
+  }
+  function commitVaultCamera(){
+    if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+    paintVaultCamera(1);
+    vaultCameraActive=false; vaultCameraZoom=1;
+    vault.style.transform='';
+    guidePhase='toVault'; hideCue(); entryGen++;
+    vaultArming=true; surfacing=true;
+    var next=document.getElementById('nextDrop');
+    setNextDropInert(next,true);
+    setNextDropInert(stage,true); stage.setAttribute('aria-hidden','true');
+    setNextDropInert(seamGold,true); seamGold.setAttribute('aria-hidden','true');
+    document.documentElement.classList.add('journey-held');
+    document.body.classList.add('next-vault-opening');
+    stopInertia();
+    vaultCameraSettleUntil=Date.now()+700;
+    dive.style.transform='scale(1)'; dive.style.removeProperty('transform-origin');
+    activateNativePan();
+    setNextDropInert(vault,false); vault.removeAttribute('aria-hidden');
+    unlock(); scrollTo(0,vaultY()); surfacing=false;
+    vault.style.visibility='visible'; vault.style.opacity='1'; vault.style.pointerEvents='auto';
+    vaultActive=true; guidePhase='vault';
+    if(!vaultRevealed) revealVaultTitle();
+    vault.classList.remove('vault-previewing');
+    finishNextDropVaultHandoff();
+  }
+  window.__vaultCamera={paint:paintVaultCamera,cancel:cancelVaultCamera,commit:commitVaultCamera,warm:warmVaultImages};
 
   function stopInertia(){ inertia=null; motionVaultStep=null; vault.classList.remove('gliding'); }
   function startInertia(){
@@ -5092,7 +5324,7 @@ const row=form.querySelector('.next-drop-email-row'),result=document.getElementB
 let frame=0,engaged=false,fitted=false,savedScroll=0,pointer=null;
 function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function restore(){
- if(fitted){panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');panel.scrollTop=savedScroll;fitted=false}
+ if(fitted){const signup=document.getElementById('collectionSignup'),leftSignup=signup&&panel.scrollTop>signup.offsetTop+signup.clientHeight/2;panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');if(!leftSignup)panel.scrollTop=savedScroll;fitted=false}
 }
 function update(){
  frame=0;
@@ -5132,36 +5364,54 @@ if(viewport){viewport.addEventListener('resize',queue);viewport.addEventListener
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
 })();
-// Match the Surface chapter's native snap and restrained end-stop rebound.
+// One snap lands on signup; native scroll then drives the photographic descent.
 (()=>{
 'use strict';
-const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup');
-if(!panel||!signup)return;
-const card=signup.querySelector('.next-drop-card'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),motion=matchMedia('(prefers-reduced-motion: reduce)');
-let bounce=null,touchY=null,heldPointer=null,frozenBounce=false;
-function stopBounce(force=false){if(heldPointer!==null&&!force)return;if(bounce){bounce.cancel();bounce=null}if(frozenBounce){card.style.removeProperty('transform');frozenBounce=false}}
-function atEnd(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&heldPointer===null&&panel.scrollTop>0&&panel.scrollTop+panel.clientHeight>=panel.scrollHeight-2}
-function rebound(){
- if(motion.matches||document.hidden||bounce||frozenBounce||!card.animate)return;
- const animation=card.animate([{transform:'translateY(0)'},{transform:'translateY(-16px)',offset:.32},{transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,.65,.3,1)'});
- bounce=animation;animation.finished.catch(()=>{}).then(()=>{if(bounce===animation)bounce=null});
+const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
+if(!panel||!signup||!invitation)return;
+const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+let frame=0,lastTop=panel.scrollTop,lastHeight=panel.clientHeight,lastProgress=0,lastEntranceFraction=0,cameraWasVisible=false,entered=false,photosWarmed=false;
+function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
+function enterIfReady(){if(Number(scene.style.getPropertyValue('--vault-progress'))>=.985&&eligible()){entered=true;button.click()}}
+function update(){
+ frame=0;
+ let top=panel.scrollTop;
+ const resized=panel.clientHeight!==lastHeight;
+ if(resized&&cameraWasVisible&&!panel.inert){
+  const section=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
+  panel.scrollTop=lastEntranceFraction>0?section-lastEntranceFraction*panel.clientHeight:section+lastProgress*Math.max(1,invitation.offsetHeight-panel.clientHeight);
+  top=panel.scrollTop;
+ }
+ const down=!resized&&top>lastTop+1;
+ lastTop=top;lastHeight=panel.clientHeight;
+ panel.classList.toggle('collection-free-scroll',top>=signup.offsetTop-2);
+ if(!photosWarmed&&top>=signup.offsetTop-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm();}
+ const sectionTop=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+top;
+ const range=Math.max(1,invitation.offsetHeight-panel.clientHeight),progress=Math.max(0,Math.min(1,(top-sectionTop)/range));
+ const entranceOffset=Math.max(0,Math.min(panel.clientHeight,sectionTop-top));
+ if(progress>.05&&!panel.classList.contains('email-viewport')&&form.contains(document.activeElement))document.activeElement.blur();
+ scene.style.setProperty('--vault-progress',progress.toFixed(4));
+ scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
+ const cameraVisible=top+panel.clientHeight>sectionTop&&top<sectionTop+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
+ cameraWasVisible=cameraVisible;lastProgress=progress;lastEntranceFraction=entranceOffset/panel.clientHeight;
+ panel.classList.toggle('vault-camera-active',cameraVisible);
+ if(cameraVisible&&window.__vaultCamera)window.__vaultCamera.paint(progress,entranceOffset);
+ else if(!panel.inert&&window.__vaultCamera)window.__vaultCamera.cancel();
+ if(down)enterIfReady();
 }
-panel.addEventListener('wheel',e=>{if(e.ctrlKey||e.deltaY<=0){stopBounce();return}if(atEnd()){if(e.cancelable)e.preventDefault();rebound()}},{passive:false});
-panel.addEventListener('touchstart',e=>{touchY=e.touches.length===1?e.touches[0].clientY:null;if(e.touches.length!==1)stopBounce(true)},{passive:true});
-panel.addEventListener('touchmove',e=>{if(e.touches.length!==1||touchY===null)return;const y=e.touches[0].clientY,delta=touchY-y;touchY=y;if(delta<0){stopBounce();return}if(delta>0&&atEnd()&&e.cancelable){e.preventDefault();rebound()}},{passive:false});
+function queue(){if(!frame)frame=requestAnimationFrame(update)}
+panel.addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);queue();
+panel.addEventListener('wheel',e=>{if(e.deltaY>0&&!e.ctrlKey)enterIfReady()},{passive:true});
+let touchY=null;
+panel.addEventListener('touchstart',e=>{touchY=e.touches.length===1?e.touches[0].clientY:null},{passive:true});
+panel.addEventListener('touchmove',e=>{if(touchY!==null&&e.touches.length===1){const y=e.touches[0].clientY;if(touchY-y>3)enterIfReady();touchY=y}},{passive:true});
 panel.addEventListener('touchend',()=>{touchY=null},{passive:true});
-panel.addEventListener('touchcancel',()=>{touchY=null;stopBounce()},{passive:true});
-panel.addEventListener('scroll',()=>{if(!atEnd())stopBounce()},{passive:true});
-// Freeze a rebound during a control press. Reset only after its click, so JOIN
-// and Vault cannot move away between pointerdown and pointerup.
-panel.addEventListener('pointerdown',e=>{if(form.contains(e.target)||button.contains(e.target)){heldPointer=e.pointerId;if(bounce){card.style.transform=getComputedStyle(card).transform;bounce.cancel();bounce=null;frozenBounce=true}}},{capture:true,passive:true});
-function release(e){if(e&&e.pointerId!==heldPointer)return;heldPointer=null;requestAnimationFrame(()=>stopBounce())}
-addEventListener('pointerup',release,{passive:true});addEventListener('pointercancel',release,{passive:true});
-panel.addEventListener('focusin',()=>stopBounce());panel.addEventListener('keydown',()=>stopBounce());
-addEventListener('blur',()=>{heldPointer=null;stopBounce(true)});
-addEventListener('resize',()=>stopBounce());document.addEventListener('visibilitychange',()=>{if(document.hidden){heldPointer=null;stopBounce(true)}});
-if(motion.addEventListener)motion.addEventListener('change',()=>stopBounce(true));
-new MutationObserver(()=>{if(panel.inert){heldPointer=null;stopBounce(true)}}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+panel.addEventListener('touchcancel',()=>{touchY=null},{passive:true});
+panel.addEventListener('keydown',e=>{if(['ArrowDown','PageDown','End',' '].includes(e.key))enterIfReady()});
+// A keyboard user can activate the discreet fallback, while page scroll uses
+// the same guarded entry lifecycle as the former button.
+button.addEventListener('click',()=>{entered=true});
+if(motion.addEventListener)motion.addEventListener('change',queue);
 })();
 // Product delivery starts only when the post-film collection is revealed.
 (()=>{
@@ -5170,12 +5420,19 @@ const panel=document.getElementById('nextDrop');
 if(!panel)return;
 const photos=[...panel.querySelectorAll('[data-product]')];
 const cue=document.getElementById('collectionScrollCue'),signup=document.getElementById('collectionSignup');
+const vaultCue=document.getElementById('vaultScrollCue'),invitation=document.getElementById('vaultInvitation'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 if(cue&&signup)cue.addEventListener('click',()=>{
  if(panel.inert||panel.getAttribute('aria-hidden')==='true')return;
  const top=signup.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
  // The same native chapter scroll used by Surface; form editing suspends snap.
- panel.scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ panel.scrollTo({top,behavior:motion.matches?'instant':'smooth'});
  const heading=signup.querySelector('h2');if(heading)heading.focus({preventScroll:true});
+});
+if(vaultCue&&invitation)vaultCue.addEventListener('click',()=>{
+ if(panel.inert||panel.getAttribute('aria-hidden')==='true')return;
+ const top=invitation.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
+ panel.scrollTo({top,behavior:motion.matches?'instant':'smooth'});
+ const heading=invitation.querySelector('h2');if(heading)heading.focus({preventScroll:true});
 });
 let started=false,observer=null;
 function size(img){const width=Math.ceil(img.getBoundingClientRect().width);if(width>0&&img.sizes!==width+'px')img.sizes=width+'px'}
@@ -5201,6 +5458,33 @@ function start(){
 const visibility=new MutationObserver(()=>{start();if(started)visibility.disconnect()});
 visibility.observe(panel,{attributes:true,attributeFilter:['aria-hidden']});
 start();
+})();
+// Open the owner-supplied originals over black without leaving the collection.
+(()=>{
+'use strict';
+const panel=document.getElementById('nextDrop'),viewer=document.getElementById('productViewer');
+if(!panel||!viewer)return;
+const image=document.getElementById('productViewerImage'),caption=document.getElementById('productViewerCaption'),close=document.getElementById('productViewerClose');
+const names={'zip-hoodie':'Zip hoodie','spray-tee':'Spray T-shirt','canberra-tee':'Canberra T-shirt','black-tee':'Black V and star T-shirt'};
+let trigger=null,savedScroll=0,request=0;
+function restore(){++request;panel.classList.remove('product-viewing');panel.scrollTop=savedScroll;if(trigger){trigger.focus({preventScroll:true});trigger=null}}
+function dismiss(){if(viewer.close)viewer.close();else{viewer.removeAttribute('open');restore()}}
+for(const button of panel.querySelectorAll('.collection-open'))button.addEventListener('click',()=>{
+ const name=button.dataset.viewProduct;if(!Object.prototype.hasOwnProperty.call(names,name)||viewer.open)return;
+ const thumb=button.querySelector('img');if(!thumb)return;
+ trigger=button;savedScroll=panel.scrollTop;const token=++request;
+ image.width=Number(thumb.getAttribute('width'))||1080;image.height=Number(thumb.getAttribute('height'))||1432;
+ image.alt=thumb.alt;image.src=thumb.currentSrc||thumb.src||'assets/products/full/'+name+'.jpg';caption.textContent=names[name];
+ panel.classList.add('product-viewing');
+ if(viewer.showModal)viewer.showModal();else viewer.setAttribute('open','');
+ close.focus({preventScroll:true});
+ const original=new Image();original.src='assets/products/full/'+name+'.jpg';
+ original.decode().then(()=>{if(request===token&&viewer.open)image.src=original.src}).catch(()=>{});
+});
+close.addEventListener('click',dismiss);
+viewer.addEventListener('click',event=>{if(event.target===viewer)dismiss()});
+viewer.addEventListener('close',restore);
+viewer.addEventListener('keydown',event=>{if(event.key==='Escape'&&!viewer.close){event.preventDefault();dismiss()}});
 })();
 (()=>{
 'use strict';
@@ -5229,7 +5513,7 @@ function storyArrival(source,rect){
  const destination=arrivalMark.getBoundingClientRect(),dx=rect.x-destination.x,dy=rect.y-destination.y,scale=rect.width/destination.width;
  animateMoment(arrivalMark,[{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:0},{transform:'translate('+dx+'px,'+dy+'px) scale('+scale+')',opacity:1,offset:.12},{transform:'translate(0,0) scale(1)',opacity:1,offset:1}],{duration:1850,easing:'cubic-bezier(.25,.7,.2,1)'});
 }
-function unlockFilmGate(){world.classList.remove('film-waiting');game.inert=false;next.hidden=false;if(document.activeElement===storyBack)next.focus({preventScroll:true});storyBack.hidden=true}
+function unlockFilmGate(){world.classList.remove('film-waiting','film-failed');game.inert=false;next.hidden=false;if(document.activeElement===storyBack||document.activeElement===story)next.focus({preventScroll:true});storyBack.hidden=true}
 function revealFilm(){if(story.classList.contains('film-ready')){if(motion.matches)unlockFilmGate();return}const visit=storyVisit;story.classList.add('film-ready');animateMoment(portrait,[{opacity:0,clipPath:'inset(0 48% 0 48%)'},{opacity:1,clipPath:'inset(0 0% 0 0%)'}],{duration:1200,easing:'cubic-bezier(.25,.7,.2,1)'});animateMoment($('portrait-title'),[{opacity:0},{opacity:1}],{duration:900,delay:250,fill:'backwards',easing:'ease-out'});Promise.allSettled([...animations].map(a=>a.finished)).then(()=>{if(visit===storyVisit&&state!=='entry')unlockFilmGate()})}
 function measureFlow(){flowDistance=Math.max(1,game.offsetTop);flowHeight=world.clientHeight;gameHeight=game.offsetHeight;queueFlow()}
 function renderFlow(){flowFrame=0;if(state==='entry')return;syncChapter();const p=Math.max(0,Math.min(1,world.scrollTop/flowDistance));
@@ -5257,12 +5541,12 @@ world.addEventListener('scroll',()=>{if(!atWorldEnd())stopEndBounce()},{passive:
 
 function paintGameArrow(){if(arrowPainted)return;arrowPainted=true;animateMoment(game.querySelector('.spray-arrow-shaft'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:900,easing:'ease-out'});animateMoment(game.querySelector('.spray-arrow-head'),[{strokeDasharray:'100',strokeDashoffset:'100'},{strokeDasharray:'100',strokeDashoffset:'0'}],{duration:400,delay:550,fill:'backwards',easing:'ease-out'})}
 function status(text){$('worldMediaStatus').textContent=text}
-function hideFilmRetry(){if(state!=='entry'&&document.activeElement===filmRetry)(world.classList.contains('film-waiting')?storyBack:next).focus({preventScroll:true});filmRetry.hidden=true}
+function hideFilmRetry(){if(state!=='entry'&&document.activeElement===filmRetry)(world.classList.contains('film-waiting')?story:next).focus({preventScroll:true});filmRetry.hidden=true}
 function filmAllowed(){return state==='story'&&!document.hidden&&!motion.matches&&!filmUserPaused&&!filmFailed}
 function prepareFilm(){if(!video.getAttribute('src')){video.preload='metadata';video.src='assets/delivery/surface-720.mp4'}}
 function cancelFilmFrame(){if(filmFrame&&video.cancelVideoFrameCallback)video.cancelVideoFrameCallback(filmFrame);filmFrame=0}
 function pauseFilm(){++filmToken;clearTimeout(filmTimer);cancelFilmFrame();filmStarting=false;video.pause()}
-function failFilm(message){filmFailed=true;pauseFilm();filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
+function failFilm(message){filmFailed=true;pauseFilm();storyBack.hidden=false;world.classList.add('film-failed');filmRetry.hidden=false;filmRetry.textContent='Retry film';status(message)}
 function bufferLimit(){clearTimeout(filmTimer);filmTimer=setTimeout(()=>{if(filmAllowed()){filmRetry.hidden=false;filmRetry.textContent='Retry film';status('Film is loading. You can retry while we hold your place.')}},6500)}
 async function startFilm(){
  if(!filmAllowed()||filmStarting||(!video.paused&&!video.ended))return;
@@ -5277,7 +5561,7 @@ video.addEventListener('playing',()=>{if(!filmAllowed()){video.pause();return;}f
 });
 video.addEventListener('waiting',()=>{if(filmAllowed()){status('Film is loading. Holding your place.');bufferLimit()}});
 video.addEventListener('error',()=>{if(state==='story'&&video.error)failFilm('Film unavailable. Retry while we hold your place.')});
-filmRetry.addEventListener('click',()=>{if(state!=='story')return;pauseFilm();filmFailed=false;filmUserPaused=false;hideFilmRetry();status('Film is loading.');video.load();syncFilm()});
+filmRetry.addEventListener('click',()=>{if(state!=='story')return;pauseFilm();filmFailed=false;filmUserPaused=false;storyBack.hidden=true;world.classList.remove('film-failed');hideFilmRetry();status('Film is loading.');video.load();syncFilm()});
 function syncPreview(){
  game.classList.toggle('play-light-active',state==='preview'&&gameVisible&&!document.hidden&&!motion.matches);
  tryFlight.disabled=state!=='preview'||!gameVisible||document.hidden;
@@ -5287,7 +5571,7 @@ function warm(){if(previewLoaded)return;previewLoaded=true;preview.src=JSON.pars
 function surface(){
  if(state!=='entry')return;++storyVisit;const source=document.querySelector('.surface-story-logo'),rect=source?.getBoundingClientRect();settleArrival();state='story';warm();world.hidden=false;document.body.classList.add('world-active');
  // Reset while world is scrollable: overflow:clip in the film gate masks its saved snap position.
- world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');game.inert=true;next.hidden=true;storyBack.hidden=false;
+ world.scrollTo({top:0,left:0,behavior:'instant'});world.classList.add('film-waiting');world.classList.remove('film-failed');game.inert=true;next.hidden=true;storyBack.hidden=true;
  for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=true;el.setAttribute('aria-hidden','true')}}
  world.scrollTop=0;story.focus({preventScroll:true});measureFlow();renderFlow();storyArrival(source,rect);syncFilm();
 }
@@ -5316,7 +5600,7 @@ function returnToVault(){
  story.classList.remove('film-ready');portrait.classList.remove('media-ready');portrait.style.transform='';copy.style.transform='';
  video.removeAttribute('src');video.load();
  if(arrivalMark){arrivalMark.remove();arrivalMark=null}
- world.classList.remove('film-waiting');world.hidden=true;world.inert=false;world.removeAttribute('aria-hidden');next.hidden=true;storyBack.hidden=true;game.inert=false;
+ world.classList.remove('film-waiting','film-failed');world.hidden=true;world.inert=false;world.removeAttribute('aria-hidden');next.hidden=true;storyBack.hidden=true;game.inert=false;
  document.body.classList.remove('world-active','world-game');
  for(const id of ['stage','beyond','nextDrop','vault','seamTrack']){const el=$(id);if(el){el.inert=false;el.removeAttribute('aria-hidden')}}
  vaultGateSeen=false;vaultGatePending=false;vault.classList.remove('vault-settling');vault.removeAttribute('aria-busy');
