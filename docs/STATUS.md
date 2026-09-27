@@ -1,5 +1,10 @@
 # Current status
 
+## September 27 — Safari performance candidate; not published
+
+The isolated review branch `review/safari-preserved-performance-20260927` contains pre-Vault geometry caching, hidden legacy-animation suspension, regenerated homepage and a 725-frame equivalence regression test. No visible design, media or gesture tuning is changed. Four actual desktop Safari journeys and selected repeated Chromium journeys pass; sampled Safari signup and Vault screenshots match the original exactly. The full phone regression matrix remains non-green, with several failures reproduced unchanged on the original. This candidate is **not approved as an eliminated-lag fix and is not published**. See [the evidence and remaining work](reviews/safari-performance-2026-09-27.md). The next task is to identify the owner's affected Safari/device/section and resolve the remaining mobile checks without changing the look and feel.
+
+
 ## September 24 — guided post-film scrolling, original journey preserved
 
 This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.
