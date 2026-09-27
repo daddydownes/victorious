@@ -9,6 +9,8 @@ function edit(file,expected,changes){
  fs.writeFileSync(path.join(root,file),text);
 }
 edit('tools/guided/journey.js','b28c333fb6e56c169dca5ee38fd0ed0a1acfac804677b62e66ba94a72a455d5e',[
+ ["form.addEventListener('pointerdown',e=>{pointer=e.pointerId;panel.classList.add('email-editing')},{passive:true});",
+ "// Only real controls need keyboard/press protection. The receipt and form gaps\n// are chapter-scroll surfaces, not an editing session.\nform.addEventListener('pointerdown',e=>{if(!e.target.closest('input,button,select,textarea,[contenteditable]'))return;pointer=e.pointerId;panel.classList.add('email-editing')},{passive:true});"],
  [`const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
 function stops(){
  const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);`,
@@ -58,4 +60,4 @@ edit('tools/guided/journey.css','a91e48c621679cb28d999034bbcac1690fd9bc21ea3afc0
 #seamGold[aria-hidden="true"] *::after{animation-play-state:paused!important}
 /* The collection and invitation share one native scroller, including keyboard fit. */`]
 ]);
-console.log('Prepared hidden-animation and scroll-geometry performance changes; build and validation required.');
+console.log('Prepared hidden-animation, scroll-geometry and receipt-gesture fixes; build and validation required.');
