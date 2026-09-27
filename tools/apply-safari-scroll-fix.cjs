@@ -52,4 +52,17 @@ css+=`\n/* Retired seam animation work must not compete with the visible journey
 `;
 fs.writeFileSync(cssFile,css);
 }
+// Test-only corrections: never let screenshot capture resume CSS-paused clocks,
+// and keep landscape navigation swipes away from an editable control's hit area.
+const perfPath='tests/safari-scroll-performance.cjs';
+if(fs.existsSync(perfPath)){
+ const before=fs.readFileSync(perfPath,'utf8');
+ fs.writeFileSync(perfPath,before.replace(",animations:'disabled'",''));
+}
+const entryPath='tests/entry-scroll-browser.cjs';
+if(fs.existsSync(entryPath)){
+ const before=fs.readFileSync(entryPath,'utf8');
+ fs.writeFileSync(entryPath,before.replace('const x=view.width*.5,start=view.height*(direction>0?.84:.16)',
+  'const x=view.width*(view.width>view.height?.08:.5),start=view.height*(direction>0?.84:.16)'));
+}
 console.log('Applied geometry caching and retired-seam animation pause; original input thresholds/easing retained.');
