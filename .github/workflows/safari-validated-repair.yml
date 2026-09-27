@@ -1,0 +1,102 @@
+name: Validate Safari scroll repair
+on:
+  push:
+    branches: [fix/safari-scroll-native-review-20260927]
+    paths: ['.github/workflows/safari-validated-repair.yml']
+permissions:
+  contents: write
+concurrency:
+  group: safari-validated-repair
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: macos-15
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare isolated baseline and apply bounded repair
+        env:
+          DIAGNOSTIC_SHA: cef1924fadd141fb853497375b57c42d3a187874
+          BASELINE_SHA: bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate"
+          echo "EVIDENCE_ROOT=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          git fetch origin "$DIAGNOSTIC_SHA"
+          git worktree add --detach "$RUNNER_TEMP/baseline" "$BASELINE_SHA"
+          git show "$DIAGNOSTIC_SHA:tools/apply-safari-scroll-fix.cjs" > "$RUNNER_TEMP/apply-repair.cjs"
+          git show "$DIAGNOSTIC_SHA:tests/entry-scroll-performance-unit.cjs" > tests/entry-scroll-performance-unit.cjs
+          git show "$DIAGNOSTIC_SHA:tests/safari-scroll-performance.cjs" > "$RUNNER_TEMP/performance.cjs"
+          git show "$DIAGNOSTIC_SHA:tests/safari-native-scroll.py" > "$RUNNER_TEMP/native.py"
+          python3 - <<'PY'
+          import os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'native.py'
+          text=p.read_text().replace('viewport:[innerWidth,innerHeight],ua:navigator.userAgent', "viewport:[innerWidth,innerHeight],reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ua:navigator.userAgent")
+          p.write_text(text)
+          PY
+          node "$RUNNER_TEMP/apply-repair.cjs"
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs | tee "$RUNNER_TEMP/evidence/controller-equivalence.txt"
+          node tests/entry-scroll-scope.cjs
+          for test in guided-source guided-scroll reveal press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do
+            node "tests/$test.cjs"
+          done
+          git diff --check
+          git diff --stat > "$RUNNER_TEMP/evidence/change-stat.txt"
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/repair.patch"
+          shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate-sha256.txt"
+          cp index.html "$RUNNER_TEMP/evidence/candidate-index.html"
+          cp tools/guided/journey.js "$RUNNER_TEMP/evidence/candidate-journey.js"
+          cp tools/guided/journey.css "$RUNNER_TEMP/evidence/candidate-journey.css"
+      - name: Install test engines
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install chromium webkit
+          sudo /usr/bin/safaridriver --enable
+          defaults read com.apple.universalaccess reduceMotion || true
+          /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/safari-version.txt"
+      - name: Native Safari baseline and candidate
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/candidate-server.log" 2>&1 &
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$RUNNER_TEMP/evidence/baseline-server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          BASE_URL=http://127.0.0.1:8922/ EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline/native" python3 "$RUNNER_TEMP/native.py"
+          BASE_URL=http://127.0.0.1:8921/ EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate/native" python3 "$RUNNER_TEMP/native.py"
+      - name: Repeated normal-motion browser journeys and geometry recovery
+        run: |
+          export BASE_URL=http://127.0.0.1:8921/
+          export QA_SOURCE_SHA256=$(shasum -a 256 index.html | cut -d ' ' -f 1)
+          for case in chromium-390-844 chromium-1440-900 chromium-844-390; do
+            QA_CASE="$case" QA_PASSES=4 EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate/$case" node tests/entry-scroll-browser.cjs
+          done
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate/signup" node tests/signup-viewport-browser.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate/pointer" node tests/signup-pointer-browser.cjs
+      - name: Commit tested source to the isolated candidate branch only
+        run: |
+          git fetch origin fix/safari-scroll-native-review-20260927
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          import hashlib, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'evidence'
+          text='''# September 27 scroll performance candidate\n\nPreserves the original movement law, gesture thresholds, media, markup and visible styles. Caches pre-Vault geometry with layout/font/focus invalidation and pauses only fully covered legacy seam animations.\n\nValidation: 725 frame-by-frame controller states compared with production, original scope guard and regression tests, native macOS Safari baseline/candidate diagnostic, twelve full normal-motion Chromium journeys across phone portrait, landscape and desktop, signup viewport and pointer recovery. Native Safari preference and frame measurements are in the Actions evidence; browser-engine and hosted-Mac tests are not physical iPhone validation. No real form submissions were made.\n\nCandidate homepage SHA-256: `'''+hashlib.sha256(pathlib.Path('index.html').read_bytes()).hexdigest()+'`.\n\nActions run: '+os.environ['GITHUB_SERVER_URL']+'/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']+'\n\nProduction deployment has not been performed by this workflow.\n'
+          p=pathlib.Path('docs/reviews/safari-scroll-2026-09-27.md');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
+          p=pathlib.Path('docs/STATUS.md');old=p.read_text();p.write_text(old.replace('# Current status\n','# Current status\n\n## September 27 — validated scroll-performance candidate\n\nSee [repair review](reviews/safari-scroll-2026-09-27.md) for exact scope and tested environments. The candidate keeps all visible styles and timings, reduces repeated entry geometry measurements and suspends fully covered legacy seam animations. This branch is not a deployment; native-device feedback remains separate.\n',1))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs docs/STATUS.md docs/reviews/safari-scroll-2026-09-27.md
+          git commit -m "Reduce redundant scroll work while preserving the original journey"
+          git push origin HEAD:fix/safari-scroll-native-review-20260927
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/tested-commit.txt"
+      - name: Upload complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safari-validated-repair
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
