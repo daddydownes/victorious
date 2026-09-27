@@ -5466,7 +5466,7 @@ let frame=0,move=null,entered=false,endpointReady=false,contact=null,touchCount=
 // Sample all rectangles together; never read them after this frame's scroll write.
 let entryGeometry=null;
 function geometry(){
- if(entryGeometry)return entryGeometry;
+ if(entryGeometry&&window.ResizeObserver)return entryGeometry;
  const panelTop=panel.getBoundingClientRect().top,scrollTop=panel.scrollTop,height=panel.clientHeight;
  const first=signup.getBoundingClientRect().top-panelTop+scrollTop,overview=invitation.getBoundingClientRect().top-panelTop+scrollTop,sectionHeight=invitation.offsetHeight;
  const end=Math.max(overview,overview+sectionHeight-height);

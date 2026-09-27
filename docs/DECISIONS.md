@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## September 27 — remove redundant work, not the visual experience
+
+The owner authorized Safari scrolling repairs while preserving the look and feel. Keep the existing scripted landing sequence and its timing; optimize geometry reads and decorations only when completely covered. Do not remove visible glow, lower image quality, retime the entrance, or replace guided gestures with a different journey. Distinguish native Safari, Linux WebKit, synthetic viewport signals and physical-device evidence.
+
 ## September 24 — guide only the existing pre-Vault journey
 
 The owner rejected making the whole website one continuous scroll and clarified the scope: preserve the original hero, Previous Drops, Adreama/signup, full-screen Vault, and existing Surface/story/game sequence. Change only how visitors move through the post-film collection, signup, overview and zoom. After reviewing the corrected local demo, the owner authorized publishing it to the existing domain.

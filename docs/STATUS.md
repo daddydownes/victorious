@@ -1,5 +1,9 @@
 # Current status
 
+## September 27 — Safari scroll performance repair
+
+The repair preserves the approved look, chapter stops, gesture thresholds, easing and duration. Pre-Vault geometry is cached only while ResizeObserver can invalidate it; resize, focus, fonts, content geometry and lifecycle changes refresh it. Older engines retain live measurements. Covered legacy seam decorations are paused during the current journey; visible lighting, photographs, hero, Surface and game remain unchanged. See `docs/reviews/safari-scroll-2026-09-27.md` for test evidence, limitations and deployment state. No production permission is inferred from an Actions step summary; per-test JSON outcomes are checked.
+
 ## September 24 — guided post-film scrolling, original journey preserved
 
 This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.

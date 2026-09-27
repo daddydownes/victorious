@@ -37,7 +37,7 @@ async function run(config){
   const mark=stage=>{row.stage=stage;save()};
   const pause=ms=>page.waitForTimeout(ms);
   async function finger(direction=1,{fraction=.66,steps=16,gap=14,settle=850,cancel=false,jitter=0,reverse=false}={}){
-   const x=view.width*.5,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   const x=view.width*.04,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y:start,id:1}]});
    for(let i=1;i<=steps;i++){
     await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:start+(end-start)*i/steps,id:1}]});await pause(gap);
