@@ -1,0 +1,55 @@
+name: Prepare reviewed Safari scroll repair
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-prepare-reviewed.yml']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare isolated production changes, without deploying
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          echo 'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157  index.html' | sha256sum --check
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/repair.patch"
+          cp tests/entry-scroll-performance-unit.cjs "$RUNNER_TEMP/unit.cjs"
+          git restore index.html tools/guided/journey.js tools/guided/journey.css
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = 'bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a'
+          git switch --detach bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          git apply "$RUNNER_TEMP/repair.patch"
+          cp "$RUNNER_TEMP/unit.cjs" tests/entry-scroll-performance-unit.cjs
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('docs/STATUS.md')
+          text=p.read_text()
+          assert text.startswith('# Current status\n')
+          update='''\n## September 27 — Safari scroll performance, visible journey preserved\n\nThe pre-Vault controller caches stable section geometry instead of repeatedly reading rectangles during every animation frame. ResizeObserver, resize, font readiness, visibility return, motion changes and panel exposure invalidate the cache; browsers without ResizeObserver retain fresh reads. The retired aria-hidden seam has its CSS animations paused, preventing invisible layout animation from competing with the current journey. No media, visible styling, transition duration, gesture threshold, signup transport, Surface or game code changes.\n\nThe new executable unit check matches 725 baseline animation frames, including reverse and resize cases. macOS WebKit passed four candidate journeys at each of four viewport sizes; all 16 frozen collection/signup/overview/Vault screenshot comparisons were pixel-identical. See [Safari scroll review](reviews/safari-scroll-2026-09-27.md) for exact hashes, evidence, additional browser results, deployment status and remaining device limitations.\n'''
+          p.write_text('# Current status\n'+update+text[len('# Current status\n'):])
+          review=Path('docs/reviews/safari-scroll-2026-09-27.md')
+          review.parent.mkdir(parents=True,exist_ok=True)
+          review.write_text('''# Safari scroll performance review — 27 September 2026\n\n## Scope and source identity\n\nOwner authorized repairs while preserving the look and feel. Baseline main is `bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a`; the normalized original homepage SHA-256 is `d6a2886dd3e69e615504e8844f1d39287f46b4b48c7750407424e705cb6f7ad8`. Tested candidate homepage SHA-256: `e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157`.\n\nOnly the pre-Vault geometry reader in `tools/guided/journey.js` and inaccessible legacy-seam animation play state in `tools/guided/journey.css` change. `tools/build-guided.cjs` regenerates `index.html`. The hero, collection and signup markup, all assets, current visible CSS, Surface, game, transport, easing, transition durations, touch/wheel thresholds and entry-release rules remain unchanged.\n\n## Findings and correction\n\n1. Stable section rectangles were read repeatedly inside animation frames. Cache them and invalidate on actual layout changes. The no-ResizeObserver path still reads live geometry.\n2. The old `.seam-gold[aria-hidden="true"]` kept animation clocks running, including `signalScan` changing `left`. Pause only that retired section and its pseudo-elements. Do not remove filters or effects from the visible design.\n\n## Evidence already inspected\n\n- Playwright 1.63.0, macOS WebKit: 20 A/B contexts (four original baselines plus four consecutive candidate passes at each of 390x844, 844x390, 1440x900 and 320x568), all passed. Narrow WebKit contexts use desktop wheel input, not physical iPhone swipes.\n- Sixteen paired screenshots at collection, signup, overview and Vault are pixel-identical. CSS animation clocks are frozen and the randomized dust overlay is excluded only by the screenshot harness. Production dust and animations are unchanged.\n- macOS WebKit collection-to-signup geometry reads fell from 222–230 per measured transition to zero; cached layout had already been measured before the gesture. No blanket FPS guarantee is inferred from runner measurements.\n- `tests/entry-scroll-performance-unit.cjs`: 725 baseline-matched frame checks pass, including reversal, resize, short landscape and reduced motion. Candidate geometry reads are bounded at <=12 in the unit scenarios.\n- Build, source-scope, guided scroll, reveal, press, Surface input/recovery, spatial layout and game lifecycle/physics guards pass.\n- macOS WebKit controlled signup viewport and pointer recovery checks pass. Signup requests are mocked throughout.\n- The original was exercised in native Safari 26.6.1 on macOS 15.7.9 using Apple WebDriver. This desktop run did not reproduce severe persistent stuttering; it is not a physical iPhone test.\n\nEvidence: GitHub Actions run `36307496795`, macOS artifact `10927579202`; original native Safari run `36307077834`, artifact `10927976435`.\n\n## Release verification\n\nThis branch contains the exact candidate, not an automatic publication. Final regression classification, native Safari candidate results and deployment verification are to be recorded before merging. Physical iPhone Safari, embedded browsers and the owner's original device are not certified by desktop or engine automation.\n''')
+          PY
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs docs/STATUS.md docs/reviews/safari-scroll-2026-09-27.md
+          git commit -m 'Reduce Safari scroll layout work while preserving the approved journey'
+          git push origin HEAD:refs/heads/fix/safari-scroll-reviewed-20260927-0902
+          git rev-parse HEAD
+          sha256sum index.html
