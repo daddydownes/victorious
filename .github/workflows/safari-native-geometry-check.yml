@@ -8,8 +8,12 @@ jobs:
   safari:
     runs-on: macos-14
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -24,6 +28,7 @@ jobs:
           from pathlib import Path
           p=Path('tests/safari-native-audit.py')
           text=p.read_text().replace("and 'error' in result:", "and isinstance(result.get('error'),str):")
+          text=text.replace("document.getElementById('nextDrop').focus({preventScroll:true})", "document.getElementById('collectionScrollCue').focus({preventScroll:true})")
           lines=text.splitlines()
           for i,line in enumerate(lines):
               if line.startswith('    for variant,css in '):
@@ -33,11 +38,22 @@ jobs:
           for attempt in $(seq 1 30); do curl --silent http://127.0.0.1:4444/status > /dev/null && break; sleep 1; done
       - name: Four baseline Safari journeys
         run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/baseline" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/baseline.log" 2>&1
-      - name: Build the same minimal candidate
+      - name: Build final minimal candidate and preserve old-browser path
         run: |
           node tools/apply-safari-scroll-fix.cjs
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tools/guided/journey.js');s=p.read_text()
+          assert s.count('if(entryGeometry)return entryGeometry;')==1
+          p.write_text(s.replace('if(entryGeometry)return entryGeometry;','if(entryGeometry&&window.ResizeObserver)return entryGeometry;'))
+          PY
           node tools/build-guided.cjs
+          node tests/entry-scroll-scope.cjs
+          node tests/guided-source.cjs
+          git diff --check
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/native-check/repair.patch"
           shasum -a 256 index.html > "$RUNNER_TEMP/native-check/source-sha256.txt"
+          tar -czf "$RUNNER_TEMP/native-check/candidate-source.tgz" index.html tools/guided/journey.js tools/guided/journey.css
       - name: Four candidate Safari journeys
         run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/candidate" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/candidate.log" 2>&1
       - name: Verify completed Safari transitions
@@ -55,6 +71,15 @@ jobs:
                   assert row['segments'][-1]['phase']=='vault',row
               print(variant,'4 native Safari keyboard-driven full-hero journeys passed')
           PY
+      - name: Save Safari-validated source to isolated branch
+        run: |
+          test "$(git branch --show-current)" = fix/safari-native-check-20260927
+          git config user.name "VCTRS performance validation"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html tools/guided/journey.js tools/guided/journey.css
+          git commit -m "Preserve scroll choreography while removing redundant layout work [skip ci]"
+          git push origin HEAD:fix/safari-native-check-20260927
+          git rev-parse HEAD > "$RUNNER_TEMP/native-check/validated-commit.txt"
       - name: Upload Safari evidence
         if: always()
         uses: actions/upload-artifact@v4
