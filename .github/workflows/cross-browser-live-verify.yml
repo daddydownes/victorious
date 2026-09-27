@@ -1,0 +1,61 @@
+name: Verify live shared-browser performance release
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/cross-browser-live-verify.yml]
+permissions: {contents: read}
+defaults:
+  run: {shell: bash}
+jobs:
+  live:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 163b01a29eb8b34245115ba42f5a5f33283d34f3
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install isolated browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Verify exact canonical page and live journey without real signup
+        env:
+          BASE_URL: https://vctrsclo.com/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+          QA_CASE: chromium-412-915
+          QA_DPR: '2.625'
+          QA_PASSES: '1'
+          QA_PATTERN: normal
+          QA_SOURCE_SHA256: 1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          python3 - <<'PY'
+          import urllib.request,pathlib,hashlib,json,os,time
+          local=pathlib.Path('index.html').read_bytes().replace(b'\r\n',b'\n')
+          expected=os.environ['QA_SOURCE_SHA256'];assert hashlib.sha256(local).hexdigest()==expected
+          result={}
+          for attempt in range(12):
+              try:
+                  with urllib.request.urlopen('https://vctrsclo.com/',timeout=20) as response:
+                      body=response.read().replace(b'\r\n',b'\n')
+                      result={'release':'163b01a29eb8b34245115ba42f5a5f33283d34f3','url':response.url,'status':response.status,'sha256':hashlib.sha256(body).hexdigest(),'exactMatch':body==local}
+                  if result['exactMatch']:break
+              except Exception as error:result={'error':str(error)}
+              time.sleep(5)
+          pathlib.Path(os.environ['EVIDENCE_DIR'],'live-source.json').write_text(json.dumps(result,indent=2))
+          print(json.dumps(result));assert result.get('exactMatch'),'Canonical source differs from reviewed release'
+          PY
+          node tests/cross-browser-performance-scope.cjs | tee "$EVIDENCE_DIR/scope.txt"
+          node tests/game-scheduler-idle.cjs | tee "$EVIDENCE_DIR/scheduler.txt"
+          node tests/entry-scroll-browser.cjs | tee "$EVIDENCE_DIR/live-journey.log"
+          node -e 'const d=require(process.env.EVIDENCE_DIR+"/entry-scroll.json");if(d.rows.length!==1||d.rows.some(r=>r.status!=="PASS"||r.sourceSha256!==process.env.QA_SOURCE_SHA256))throw Error("Incomplete live verification")'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-shared-browser-release
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
