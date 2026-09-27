@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 10
     steps:
+      - name: Preserve committed source line endings
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
       - uses: actions/setup-node@v4
