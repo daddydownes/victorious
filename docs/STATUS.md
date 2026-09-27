@@ -1,5 +1,11 @@
 # Current status
 
+## September 27 — Safari scroll performance, visible journey preserved
+
+The pre-Vault controller caches stable section geometry instead of repeatedly reading rectangles during every animation frame. ResizeObserver, resize, font readiness, visibility return, motion changes and panel exposure invalidate the cache; browsers without ResizeObserver retain fresh reads. The retired aria-hidden seam has its CSS animations paused, preventing invisible layout animation from competing with the current journey. No media, visible styling, transition duration, gesture threshold, signup transport, Surface or game code changes.
+
+The new executable unit check matches 725 baseline animation frames, including reverse and resize cases. macOS WebKit passed four candidate journeys at each of four viewport sizes; all 16 frozen collection/signup/overview/Vault screenshot comparisons were pixel-identical. See [Safari scroll review](reviews/safari-scroll-2026-09-27.md) for exact hashes, evidence, additional browser results, deployment status and remaining device limitations.
+
 ## September 24 — guided post-film scrolling, original journey preserved
 
 This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.
