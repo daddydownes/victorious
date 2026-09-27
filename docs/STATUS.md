@@ -1,5 +1,12 @@
 # Current status
 
+## September 27 - conservative Safari scroll performance candidate
+
+The candidate caches pre-Vault landing geometry between actual layout changes and pauses only the aria-hidden legacy seam animations. Input thresholds, easing, layout, visible lighting, films, artwork, archive, Surface, game and signup transport are preserved. The frame-equivalence test checks 725 states against production bac0b908; the scope test verifies unchanged downstream source.
+
+Browser verification job: failure. Native macOS Safari verification job: failure. See Actions run 36308001344 and its artifacts for actual results and infrastructure gaps. This is a task-branch candidate, not publication or physical-iPhone certification. Review the reports and main/live equality before release.
+
+
 ## September 24 — guided post-film scrolling, original journey preserved
 
 This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.

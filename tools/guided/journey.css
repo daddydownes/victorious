@@ -420,3 +420,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
 @media(max-height:650px){.signup-landing{padding-top:30px}.popup-countdown{margin-top:18px;padding:14px 12px}.popup-name{font-size:clamp(30px,7svh,42px)}.popup-date{margin:10px 0}.vault-scroll-cue{min-height:76px}}
 @media(prefers-reduced-motion:reduce){.vault .vault-hud{transition:none}.vault-descent-instruction{opacity:1}.vault-descent-scene{touch-action:pan-y pinch-zoom}}
+
+/* Retired seam animation work must not compete with the visible journey.
+   This legacy chapter is explicitly aria-hidden while collection/Vault owns
+   the screen. Keep its artwork/layout; pause only its inaccessible animations. */
+.seam-gold[aria-hidden="true"],
+.seam-gold[aria-hidden="true"] *,
+.seam-gold[aria-hidden="true"]::before,
+.seam-gold[aria-hidden="true"]::after,
+.seam-gold[aria-hidden="true"] *::before,
+.seam-gold[aria-hidden="true"] *::after{animation-play-state:paused!important}
