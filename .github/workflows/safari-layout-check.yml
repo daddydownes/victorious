@@ -1,0 +1,52 @@
+name: Safari layout check
+on:
+  push:
+    branches: [perf/safari-layout-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: safari-layout-check
+  cancel-in-progress: true
+jobs:
+  render:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare diagnostic environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/safari-scroll-performance.cjs')
+          p.write_text(p.read_text().replace('isMobile: width < 900', 'isMobile: false'))
+          PY
+      - name: Install pinned browser engines
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit
+      - name: Run controlled rendering comparisons
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          node tests/safari-scroll-ablation.cjs
+          node tests/safari-scroll-performance.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-layout-${{ matrix.os }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
