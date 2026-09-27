@@ -1,0 +1,64 @@
+name: Canonical Safari repair verification
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-canonical-verification.yml']
+permissions:
+  contents: read
+jobs:
+  live-check:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 965985284f3f750dd5f27b873872fad30ac8f2ec
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check deployed page against the exact published commit
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          python3 - <<'PY'
+          import json,hashlib,pathlib,urllib.request,os
+          expected='bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e'
+          local=pathlib.Path('index.html').read_bytes().replace(b'\r\n',b'\n')
+          assert hashlib.sha256(local).hexdigest()==expected
+          with urllib.request.urlopen('https://vctrsclo.com/',timeout=40) as r:
+              live=r.read().replace(b'\r\n',b'\n');url=r.url;status=r.status
+          result={'commit':'965985284f3f750dd5f27b873872fad30ac8f2ec','url':url,'status':status,'sha256':hashlib.sha256(live).hexdigest(),'expected':expected,'exactMatch':live==local}
+          pathlib.Path(os.environ['RUNNER_TEMP'],'evidence','live-source.json').write_text(json.dumps(result,indent=2))
+          print(json.dumps(result));assert live==local,'Canonical page does not match the reviewed release'
+          PY
+          node tests/entry-scroll-performance-unit.cjs | tee "$RUNNER_TEMP/evidence/unit.txt"
+          node tests/entry-scroll-scope.cjs | tee "$RUNNER_TEMP/evidence/scope.txt"
+      - name: Install the isolated browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Complete the actual live film, signup navigation, Vault, Surface, game and return
+        env:
+          BASE_URL: https://vctrsclo.com/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+          QA_CASE: chromium-390-844
+          QA_PATTERN: normal
+          QA_PASSES: '1'
+        run: |
+          node tests/entry-scroll-browser.cjs | tee "$RUNNER_TEMP/evidence/live-journey.log"
+          python3 - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path(os.environ['EVIDENCE_DIR'],'entry-scroll.json').read_text())
+          assert len(d['rows'])==1
+          for row in d['rows']:
+              assert row['status']=='PASS',row
+              assert row['sourceSha256']=='bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e'
+          print('Exact canonical release completed its live phone-sized journey. Signup transport was mocked by the harness.')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: canonical-safari-repair-verification
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
