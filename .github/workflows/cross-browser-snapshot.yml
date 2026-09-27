@@ -1,0 +1,30 @@
+name: Cross-browser source snapshot
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/cross-browser-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Bundle public source and isolated test tooling
+        run: |
+          mkdir -p "$RUNNER_TEMP/snapshot"
+          git bundle create "$RUNNER_TEMP/snapshot/source.bundle" HEAD refs/remotes/origin/main
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          tar -czf "$RUNNER_TEMP/snapshot/test-tooling.tgz" -C "$RUNNER_TEMP/qa" node_modules
+          git rev-parse HEAD > "$RUNNER_TEMP/snapshot/commit.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cross-browser-source
+          path: ${{ runner.temp }}/snapshot
+          retention-days: 1
