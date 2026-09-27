@@ -27,10 +27,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           p=Path('tests/safari-native-scroll.py');s=p.read_text()
-          before="    variants = {"
-          start=s.index(before);end=s.index("    for variant, css in variants.items():",start)
-          s=s[:start]+"    variants = {'baseline': ''}\n"+s[end:]
-          start=s.index("    for variant, css in variants.items():")
+          start=s.index('    variants = {')
           end=s.index("    rows.append({'status': 'PASS'",start)
           loop='''    motion = js("return matchMedia('(prefers-reduced-motion: reduce)').matches")
               rows.append({'reducedMotion': motion, 'input': 'native keyboard PageDown/Home, not touch or wheel'})
@@ -51,20 +48,15 @@ jobs:
               wait("window.__guide.phase()==='vault'&&!document.getElementById('vault').inert")
               screenshot('native-vault')
           '''
-          # The string starts with four spaces and its later lines are dedented
-          # to the same try-block indentation by an explicit four-space trim.
-          lines=loop.splitlines();loop='\n'.join([lines[0]]+[line[4:] if line.startswith('    ') else line for line in lines[1:]])+'\n'
           s=s[:start]+loop+s[end:]
-          p.write_text(s)
+          compile(s,str(p),'exec');p.write_text(s)
           PY
-          python3 -m py_compile tests/safari-native-scroll.py
           cp tests/safari-native-scroll.py "$RUNNER_TEMP/evidence/test.py"
       - name: Baseline and fixed native Safari
         run: |
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline"
-          python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/baseline.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/baseline.log"; exit 1; }
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/baseline.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/baseline.log"; exit 1; }
           node tools/apply-safari-scroll-fix.cjs
           node tools/build-guided.cjs
           shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
@@ -75,5 +67,58 @@ jobs:
         if: always()
         with:
           name: safari-animated-keyboard-comparison
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  keyboard-and-reduced-motion:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare browsers
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+      - name: Separate instant-motion test assumptions from regressions
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline-pair" QA_CASE=chromium-390-844-reduce QA_PATTERN=spam QA_PASSES=1 node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/evidence/baseline-pair.log" 2>&1 || echo 'Original rapid-pair assertion failed; preserve evidence for comparison.'
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate-pair" QA_CASE=chromium-390-844-reduce QA_PATTERN=spam QA_PASSES=1 node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/evidence/candidate-pair.log" 2>&1 || echo 'Candidate rapid-pair assertion failed; compare exact state below.'
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])/'evidence'
+          a=json.loads((p/'baseline-pair/entry-scroll.json').read_text())['rows'][0]
+          b=json.loads((p/'candidate-pair/entry-scroll.json').read_text())['rows'][0]
+          assert a['status']==b['status']=='FAIL' and a['stage']==b['stage']=='signup stop'
+          keys=['top','signup','overview','entries','progress','phase']
+          assert {k:a['signup'][k] for k in keys}=={k:b['signup'][k] for k in keys}
+          assert a['signup']['guide']==b['signup']['guide']
+          print('BASELINE-MATCH: two separate reduced-motion swipes advance two instant landings. No new regression.')
+          PY
+          sha256sum index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
+      - name: Complete reduced-motion journeys
+        run: |
+          QA_SOURCE_SHA256=e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157 EVIDENCE_DIR="$RUNNER_TEMP/evidence/reduced" QA_CASE=chromium-390-844-reduce QA_PATTERN=normal QA_PASSES=4 node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/evidence/reduced.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/reduced.log"; exit 1; }
+      - name: Complete keyboard and pointer recovery checks
+        run: |
+          for engine in chromium webkit; do
+            TEST_ENGINE="$engine" EVIDENCE_DIR="$RUNNER_TEMP/evidence/keyboard-$engine" node tests/signup-viewport-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/keyboard.log"; exit 1; }
+          done
+          ENGINES=chromium,webkit EVIDENCE_DIR="$RUNNER_TEMP/evidence/pointer" node tests/signup-pointer-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/keyboard.log"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: keyboard-reduced-validation
           path: ${{ runner.temp }}/evidence
           retention-days: 7
