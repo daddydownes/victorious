@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   wheel:
-    runs-on: macos-15
+    runs-on: macos-15-intel
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -21,8 +21,6 @@ jobs:
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
           sudo /usr/bin/safaridriver --enable
           /usr/bin/safaridriver --version > "$RUNNER_TEMP/evidence/version.txt"
-          open -a Safari
-          sleep 2
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -49,7 +47,11 @@ jobs:
           python3 -m py_compile tests/safari-native-scroll.py
       - name: Compare native wheel behavior
         run: |
-          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          python3 -m http.server 8921 --bind 127.0.0.1:8921 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          sleep 1
+          if ! curl --fail --silent http://127.0.0.1:8921/ > /dev/null; then
+            python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          fi
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
           check() {
             local label="$1"
