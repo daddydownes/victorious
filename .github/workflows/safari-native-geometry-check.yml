@@ -1,4 +1,4 @@
-name: Native Safari geometry check
+name: Normal-motion native Safari validation
 on:
   push:
     branches: [fix/safari-native-check-20260927]
@@ -8,27 +8,33 @@ jobs:
   safari:
     runs-on: macos-14
     timeout-minutes: 15
-    permissions:
-      contents: write
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Prepare Safari and corrected diagnostic harness
+      - name: Prepare native Safari with normal-motion host settings
         run: |
-          mkdir -p "$RUNNER_TEMP/native-check/baseline" "$RUNNER_TEMP/native-check/candidate"
+          mkdir -p "$RUNNER_TEMP/native-normal/baseline" "$RUNNER_TEMP/native-normal/candidate"
+          defaults write -g reduceMotion -bool false
+          defaults write com.apple.universalaccess reduceMotion -bool false
+          defaults write com.apple.Accessibility ReduceMotionEnabled -bool false
+          killall cfprefsd || true
           sudo /usr/bin/safaridriver --enable
-          /usr/bin/safaridriver -p 4444 > "$RUNNER_TEMP/native-check/driver.log" 2>&1 &
-          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/native-check/server.log" 2>&1 &
-          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          /usr/bin/safaridriver -p 4444 > "$RUNNER_TEMP/native-normal/driver.log" 2>&1 &
+          git worktree add --detach "$RUNNER_TEMP/native-original" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/native-original" > "$RUNNER_TEMP/native-normal/baseline-server.log" 2>&1 &
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/native-normal/server.log" 2>&1 &
+          shasum -a 256 index.html > "$RUNNER_TEMP/native-normal/source-sha256.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/native-normal/tested-commit.txt"
           python3 - <<'PY'
           from pathlib import Path
           p=Path('tests/safari-native-audit.py')
           text=p.read_text().replace("and 'error' in result:", "and isinstance(result.get('error'),str):")
           text=text.replace("document.getElementById('nextDrop').focus({preventScroll:true})", "document.getElementById('collectionScrollCue').focus({preventScroll:true})")
+          text=text.replace("row={'variant':variant,", "row={'reducedMotion':execute(\"return matchMedia('(prefers-reduced-motion: reduce)').matches\"),'variant':variant,")
           lines=text.splitlines()
           for i,line in enumerate(lines):
               if line.startswith('    for variant,css in '):
@@ -36,54 +42,29 @@ jobs:
           p.write_text('\n'.join(lines)+'\n')
           PY
           for attempt in $(seq 1 30); do curl --silent http://127.0.0.1:4444/status > /dev/null && break; sleep 1; done
-      - name: Four baseline Safari journeys
-        run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/baseline" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/baseline.log" 2>&1
-      - name: Build final minimal candidate and preserve old-browser path
-        run: |
-          node tools/apply-safari-scroll-fix.cjs
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('tools/guided/journey.js');s=p.read_text()
-          assert s.count('if(entryGeometry)return entryGeometry;')==1
-          p.write_text(s.replace('if(entryGeometry)return entryGeometry;','if(entryGeometry&&window.ResizeObserver)return entryGeometry;'))
-          PY
-          node tools/build-guided.cjs
-          node tests/entry-scroll-scope.cjs
-          node tests/guided-source.cjs
-          git diff --check
-          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/native-check/repair.patch"
-          shasum -a 256 index.html > "$RUNNER_TEMP/native-check/source-sha256.txt"
-          tar -czf "$RUNNER_TEMP/native-check/candidate-source.tgz" index.html tools/guided/journey.js tools/guided/journey.css
-      - name: Four candidate Safari journeys
-        run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/candidate" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/candidate.log" 2>&1
-      - name: Verify completed Safari transitions
+      - name: Four normal-motion baseline Safari journeys
+        run: BASE_URL=http://127.0.0.1:8922/ EVIDENCE_DIR="$RUNNER_TEMP/native-normal/baseline" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-normal/baseline.log" 2>&1
+      - name: Four normal-motion candidate Safari journeys
+        run: BASE_URL=http://127.0.0.1:8921/ EVIDENCE_DIR="$RUNNER_TEMP/native-normal/candidate" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-normal/candidate.log" 2>&1
+      - name: Verify motion mode and natural film completion
         run: |
           python3 - <<'PY'
           import json,os,pathlib
-          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'native-check'
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'native-normal'
           for variant in ['baseline','candidate']:
-              rows=json.loads((root/variant/'safari-native.json').read_text())
-              assert len(rows)==4
+              rows=json.loads((root/variant/'safari-native.json').read_text());assert len(rows)==4
               for row in rows:
-                  hero=row['hero'];assert hero['duration']>0 and hero['time']>=hero['duration']-.15 and hero['error'] is None,hero
+                  assert row['reducedMotion'] is False,row
+                  hero=row['hero'];assert hero['ended'] is True and hero['duration']>0 and hero['time']>=hero['duration']-.005 and hero['error'] is None,hero
                   assert row['segments'][1]['target']=='signup',row
                   assert row['segments'][3]['target']=='overview',row
                   assert row['segments'][-1]['phase']=='vault',row
-              print(variant,'4 native Safari keyboard-driven full-hero journeys passed')
+              print(variant,'4 normal-motion native Safari journeys passed after natural hero playback')
           PY
-      - name: Save Safari-validated source to isolated branch
-        run: |
-          test "$(git branch --show-current)" = fix/safari-native-check-20260927
-          git config user.name "VCTRS performance validation"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html tools/guided/journey.js tools/guided/journey.css
-          git commit -m "Preserve scroll choreography while removing redundant layout work [skip ci]"
-          git push origin HEAD:fix/safari-native-check-20260927
-          git rev-parse HEAD > "$RUNNER_TEMP/native-check/validated-commit.txt"
-      - name: Upload Safari evidence
+      - name: Upload native Safari evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: native-safari-geometry-check
-          path: ${{ runner.temp }}/native-check
+          name: native-safari-normal-motion
+          path: ${{ runner.temp }}/native-normal
           retention-days: 7
