@@ -1297,6 +1297,22 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 :is(.next-drop-landed,.next-vault-open,.world-active) #stage *::after{
  animation-play-state:paused!important;
 }
+
+/* The archive hint is not visible before entry or behind Surface/the game.
+   Keep its original keyframes and resume them only in the visible archive. */
+body:not(.next-vault-open) #vault .drag-label,
+body.world-active #vault .drag-label{
+ animation-play-state:paused!important;
+}
+
+/* The first two chapters are fully clipped once the overview reaches the top.
+   Pause both together so their shared logo/button lighting stays synchronized. */
+.entry-content-offscreen :is(.collection-screen,.collection-signup),
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *,
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *::before,
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *::after{
+ animation-play-state:paused!important;
+}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -4333,6 +4349,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       if(!flapOpen || reduced || FG.state!=='play') return;
       fPaused=!fPaused; flapLast=performance.now(); fEffectsLast=flapLast; fAccumulator=0;
       flapDraw(flapSize());
+      if(fPaused) stopFlapLoop(); else startFlapLoop();
       (fPaused?fAction:flapCv).focus({preventScroll:true});
     }
     function flapPanels(){
@@ -4362,7 +4379,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
     }
     function flapLoop(){
       flapRaf=0;
-      if(!flapOpen || reduced || document.hidden) return;
+      if(!flapOpen || reduced || document.hidden || fPaused) return;
       flapRaf=requestAnimationFrame(flapLoop);
       flapTick();
     }
@@ -4371,7 +4388,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
       if(flapIv){clearInterval(flapIv);flapIv=null;}
     }
     function startFlapLoop(){
-      if(!flapOpen || reduced || document.hidden)return;
+      if(!flapOpen || reduced || document.hidden || fPaused)return;
       if(!flapRaf) flapRaf=requestAnimationFrame(flapLoop);
       if(!flapIv) flapIv=setInterval(function(){
         if(performance.now()-flapLast>200) flapTick();
@@ -4396,7 +4413,7 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
         FG.gates.forEach(function(g){g.x*=w/FS.w;});
         FS.w=w;
         flapResetFrames();
-        if(FG.state==='play') fPaused=true;
+        if(FG.state==='play'){ fPaused=true; stopFlapLoop(); }
         fAccumulator=0; flapLast=performance.now();
       }
       var W=Math.max(1,Math.round(w*d)), H=Math.max(1,Math.round(720*d));
@@ -5059,11 +5076,11 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
       if(motionQuery.matches!==reduced) refreshMotionPreference();
       if(!flapOpen || document.hidden){ flapLast=performance.now(); return; }
       var now=performance.now(), elapsed=Math.max(0,(now-flapLast)/1000); flapLast=now;
-      if(fPaused || reduced) return; // no layout reads while the world is paused
+      if(fPaused || reduced){ stopFlapLoop(); return; } // paused scenes need no scheduled frames
       var s=flapSize();
       // A suspended frame must never throw the player into an obstacle.
       if(elapsed>0.2 && FG.state==='play' && !fPaused){fPaused=true;flapDraw(s);}
-      if(fPaused || reduced) return; // paused world is unchanged; no full-canvas redraw
+      if(fPaused || reduced){ stopFlapLoop(); return; } // also retire a resize/stall-induced loop
       if(!fPaused && !reduced){
         flapAdvance(s,elapsed);
         flapEffects(Math.min(0.1,Math.max(0,(now-fEffectsLast)/1000)),s);fEffectsLast=now;
@@ -5312,7 +5329,7 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
       flapLast=performance.now();
       if(flapOpen && !document.hidden) flapDraw(flapSize());
     });
-    addEventListener('blur',function(){if(flapOpen && FG.state==='play'){fPaused=true;fAccumulator=0;flapDraw(flapSize());}});
+    addEventListener('blur',function(){if(flapOpen && FG.state==='play'){fPaused=true;fAccumulator=0;flapDraw(flapSize());stopFlapLoop();}});
     flapPlay.addEventListener('click',flapOpenFn);
     flapExit.addEventListener('click',flapCloseFn);
     window.__flap={ open:flapOpenFn, close:flapCloseFn, tap:flapTap,
@@ -5501,6 +5518,9 @@ function render(){
  if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
+ // Collection and signup are wholly above the viewport at the overview.
+ // Pause their shared light cycle together; resume before reverse reveal.
+ panel.classList.toggle('entry-content-offscreen',top>=section);
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
  const visible=top+height>section&&top<section+sectionHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  panel.classList.toggle('vault-camera-active',visible);

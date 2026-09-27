@@ -103,6 +103,9 @@ function render(){
  if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
+ // Collection and signup are wholly above the viewport at the overview.
+ // Pause their shared light cycle together; resume before reverse reveal.
+ panel.classList.toggle('entry-content-offscreen',top>=section);
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
  const visible=top+height>section&&top<section+sectionHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  panel.classList.toggle('vault-camera-active',visible);

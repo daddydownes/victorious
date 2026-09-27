@@ -9,6 +9,7 @@ assert(Number.isInteger(passes)&&passes>=1&&passes<=8,'QA_PASSES must be 1–8')
 assert(!process.env.QA_PATTERN||[...patterns,'focus'].includes(process.env.QA_PATTERN),'Unknown QA_PATTERN');
 fs.mkdirSync(out,{recursive:true});const rows=[];
 const allConfigs=[['chromium',390,844],['chromium',320,568],['chromium',844,390],['chromium',1440,900],['chromium',430,932],['chromium',1280,720],['chromium',390,844,'reduce'],['chromium',1440,900,'reduce'],['webkit',390,844],['webkit',844,390],['firefox',1440,900]];
+allConfigs.push(['chromium',412,915],['chromium',360,800]);
 const configs=process.env.QA_CASE?allConfigs.filter(c=>c.join('-')===process.env.QA_CASE):allConfigs.slice(0,4);
 assert(configs.length,'Unknown QA_CASE');
 const save=()=>fs.writeFileSync(path.join(out,'entry-scroll.json'),JSON.stringify({base,updated:new Date().toISOString(),rows},null,2));
@@ -30,14 +31,17 @@ async function run(config){
   const mobile=width<900,touch=engine==='chromium'&&mobile,pattern=process.env.QA_PATTERN||patterns[(pass-1)%4];
   const tag=config.join('-')+'-'+pattern+'-'+pass,row={tag,engine,width,height,motion,pattern,pass,input:touch?'CDP native touch':'wheel',status:'RUNNING',errors:[]};
   rows.push(row);save();
-  const context=await browser.newContext({viewport:{width,height},hasTouch:mobile,reducedMotion:motion,...(engine!=='firefox'?{isMobile:mobile}:{})});
+  const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:Number(process.env.QA_DPR||1),hasTouch:mobile,reducedMotion:motion,...(engine!=='firefox'?{isMobile:mobile}:{})});
   const page=await context.newPage();page.setDefaultTimeout(45000);page.on('pageerror',error=>row.errors.push(error.message));
   await context.route('**/formsubmit.co/**',route=>route.fulfill({json:{success:true}}));
-  const cdp=touch?await context.newCDPSession(page):null;let view={width,height};
+  const cdp=engine==='chromium'?await context.newCDPSession(page):null;let view={width,height};
+  if(cdp&&process.env.QA_CPU_RATE)await cdp.send('Emulation.setCPUThrottlingRate',{rate:Number(process.env.QA_CPU_RATE)});
   const mark=stage=>{row.stage=stage;save()};
   const pause=ms=>page.waitForTimeout(ms);
   async function finger(direction=1,{fraction=.66,steps=16,gap=14,settle=850,cancel=false,jitter=0,reverse=false}={}){
-   const x=view.width*.5,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   const start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   // A navigation swipe must not start in the intentionally protected email input.
+   const x=await page.evaluate(({width,y})=>{for(const f of [.5,.08,.92,.02,.98]){const el=document.elementFromPoint(width*f,y);if(el?.closest('#nextDrop')&&!el.closest('input,textarea,select,[contenteditable]'))return width*f}throw Error('No non-editable entry swipe start')},{width:view.width,y:start});
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y:start,id:1}]});
    for(let i=1;i<=steps;i++){
     await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:start+(end-start)*i/steps,id:1}]});await pause(gap);

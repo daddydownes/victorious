@@ -90,3 +90,7 @@ Build completion and caches can take time; a successful push alone does not veri
 For an unwanted release, identify the exact commit and use a reviewed `git revert` to preserve history. Avoid hard resets or force pushes of main. Retest the affected behavior and publish within the user’s authorization.
 
 Before stopping, update `docs/STATUS.md` with the code commit, outcome, tests, gaps and next task. Record durable reasons in `docs/DECISIONS.md`. Keep secrets, signup addresses and personal account information out of the repository. A new agent should be able to start from the GitHub README without the original computer or chat history.
+
+## Shared-browser performance regression
+
+Run `node tests/cross-browser-performance-scope.cjs` and `node tests/game-scheduler-idle.cjs` for the September 27 expanded performance scope. Browser lifecycle checks use `tests/cross-browser-performance-browser.cjs` with `BASE_URL`, `EVIDENCE_DIR`, `QA_ENGINE` and `QA_PASSES`. The complete-original-film suite accepts `QA_CASE=chromium-412-915` or `chromium-360-800`, optional `QA_DPR` and `QA_CPU_RATE`. Input starts are hit-tested outside editable fields without weakening assertions. Treat these as engine/emulation checks, not physical Android/iPhone certification.

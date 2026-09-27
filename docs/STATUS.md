@@ -1,5 +1,14 @@
 # Current status
 
+## September 27 - shared Chrome/Android-sized performance follow-up
+
+Based on production `fa03b08`. The earlier geometry fix already applies to all browsers. This follow-up pauses the collection/signup light cycle together only once both chapters are fully above the viewport, resumes it before reverse reveal, and stops the hidden Vault hint behind other chapters. The playable game now releases its animation frame and watchdog while paused, including resize, blur, reduced-motion and stall paths; explicit resume restores one of each. Visible keyframes, media, markup, game physics, entry easing and gesture thresholds are preserved.
+
+Verification run `36310068072` passed 20 completed-original-film Chromium journeys across 412x915 (DPR 2.625, 4x CPU slowdown), 360x800, 844x390, 1440x900 and 1280x720, four per configuration. Four Chromium and four macOS WebKit lifecycle journeys checked offscreen suspension, reverse, pause/resume and Vault return after static-opening setup. Source/scope, scheduler, 725 entry-state comparisons and game regressions passed. Signup transport was mocked. Root SHA-256: `1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95`. This is a staged candidate; publication requires a separate reviewed fast-forward and live equality check.
+
+Phone-sized engines and CPU throttling are not physical Android/iPhone, Google-app WebView, or native Windows Chrome tests. No universal FPS claim is made; remaining photo-entry hitches were not declared solved. Diagnostic workflows/patch scripts are excluded from the clean branch. The historical `entry-scroll-scope.cjs` protects the older entry-only release; use `cross-browser-performance-scope.cjs` for this explicitly expanded scope.
+
+
 ## September 27 - verified Safari scroll performance repair
 
 The guided-entry geometry cache removes repeated section measurements without changing easing, targets or gesture thresholds. Covered legacy/hero CSS animations are paused only after their chapters are retired. The root was rebuilt from the guided sources; visible artwork, media, layout, Surface and game remain unchanged.
