@@ -1,0 +1,59 @@
+name: Landscape focus baseline diagnosis
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-focus-diagnosis.yml']
+permissions:
+  contents: read
+jobs:
+  compare-focus:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Set up focused test
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          cp index.html "$RUNNER_TEMP/unmodified.html"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/entry-scroll-browser.cjs'); s=p.read_text()
+          anchor='const page=await context.newPage();'
+          assert s.count(anchor)==1
+          hook="""await context.addInitScript(()=>{window.__touchAudit=[];for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup'])window.addEventListener(type,e=>{if(type==='touchmove'&&__touchAudit.at(-1)?.type==='touchmove')return;const t=e.touches?.[0];__touchAudit.push({type,target:e.target.id||e.target.className,x:t?.clientX,y:t?.clientY,panel:document.getElementById('nextDrop')?.className,focus:document.activeElement?.id,top:document.getElementById('nextDrop')?.scrollTop});if(__touchAudit.length>90)__touchAudit.shift()},{capture:true,passive:true})});"""
+          s=s.replace(anchor,hook+anchor)
+          s=s.replace("row.last=await state(page).catch(()=>null);", "row.last=await state(page).catch(()=>null);row.inputAudit=await page.evaluate(()=>window.__touchAudit).catch(()=>null);")
+          p.write_text(s)
+          PY
+      - name: Same full-hero focus test on baseline and candidate
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          QA_CASE: chromium-844-390
+          QA_PASSES: '1'
+        run: |
+          node -e "require('./tools/serve-demo.cjs').createDemoServer().server.listen(8921,'127.0.0.1')" > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          git show bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a:index.html > index.html
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate"
+          set +e
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/evidence/baseline.log" 2>&1
+          echo "Baseline exit: $?"
+          cp "$RUNNER_TEMP/unmodified.html" index.html
+          node tools/apply-safari-scroll-fix.cjs && node tools/build-guided.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/evidence/candidate.log" 2>&1
+          echo "Candidate exit: $?"
+          cat "$RUNNER_TEMP/evidence/baseline.log" "$RUNNER_TEMP/evidence/candidate.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: landscape-focus-diagnosis
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
