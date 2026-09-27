@@ -1,0 +1,40 @@
+name: Compare landscape form input
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/signup-touch-trace.yml]
+permissions: {contents: read}
+defaults:
+  run:
+    shell: bash
+jobs:
+  trace:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Prepare original, candidate and browser
+        run: |
+          git worktree add "$RUNNER_TEMP/original" fa03b08cecfc65a6ea73e29fbc44bc123fb0a429
+          node tools/apply-cross-browser-performance.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Compare identical native touch inputs and event targets
+        env:
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server.log" 2>&1 &
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/original" > "$EVIDENCE_DIR/original.log" 2>&1 &
+          sleep 1
+          node tests/signup-touch-trace-browser.cjs | tee "$EVIDENCE_DIR/trace.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: landscape-input-trace
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
