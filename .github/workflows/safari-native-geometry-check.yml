@@ -1,0 +1,64 @@
+name: Native Safari geometry check
+on:
+  push:
+    branches: [fix/safari-native-check-20260927]
+permissions:
+  contents: read
+jobs:
+  safari:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare Safari and corrected diagnostic harness
+        run: |
+          mkdir -p "$RUNNER_TEMP/native-check/baseline" "$RUNNER_TEMP/native-check/candidate"
+          sudo /usr/bin/safaridriver --enable
+          /usr/bin/safaridriver -p 4444 > "$RUNNER_TEMP/native-check/driver.log" 2>&1 &
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/native-check/server.log" 2>&1 &
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/safari-native-audit.py')
+          text=p.read_text().replace("and 'error' in result:", "and isinstance(result.get('error'),str):")
+          lines=text.splitlines()
+          for i,line in enumerate(lines):
+              if line.startswith('    for variant,css in '):
+                  lines[i]="    for variant,css in [('baseline',''),('repeat-2',''),('repeat-3',''),('repeat-4','')]:"
+          p.write_text('\n'.join(lines)+'\n')
+          PY
+          for attempt in $(seq 1 30); do curl --silent http://127.0.0.1:4444/status > /dev/null && break; sleep 1; done
+      - name: Four baseline Safari journeys
+        run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/baseline" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/baseline.log" 2>&1
+      - name: Build the same minimal candidate
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          shasum -a 256 index.html > "$RUNNER_TEMP/native-check/source-sha256.txt"
+      - name: Four candidate Safari journeys
+        run: EVIDENCE_DIR="$RUNNER_TEMP/native-check/candidate" python3 tests/safari-native-audit.py > "$RUNNER_TEMP/native-check/candidate.log" 2>&1
+      - name: Verify completed Safari transitions
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'native-check'
+          for variant in ['baseline','candidate']:
+              rows=json.loads((root/variant/'safari-native.json').read_text())
+              assert len(rows)==4
+              for row in rows:
+                  hero=row['hero'];assert hero['duration']>0 and hero['time']>=hero['duration']-.15 and hero['error'] is None,hero
+                  assert row['segments'][1]['target']=='signup',row
+                  assert row['segments'][3]['target']=='overview',row
+                  assert row['segments'][-1]['phase']=='vault',row
+              print(variant,'4 native Safari keyboard-driven full-hero journeys passed')
+          PY
+      - name: Upload Safari evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-safari-geometry-check
+          path: ${{ runner.temp }}/native-check
+          retention-days: 7
