@@ -66,12 +66,13 @@ jobs:
                   row['hero']=js("const v=document.getElementById('film');return {time:v.currentTime,duration:v.duration,ended:v.ended,error:v.error?.code||null}")
                   assert row['hero']['duration'] and row['hero']['time']>=row['hero']['duration']-.12 and not row['hero']['error'],row['hero']
                   row['viewport']=js('return {width:innerWidth,height:innerHeight,ua:navigator.userAgent}')
-                  js("document.getElementById('nextDrop').focus({preventScroll:true});window.__nativeErrors=[];addEventListener('error',e=>__nativeErrors.push(e.message));const original=Element.prototype.getBoundingClientRect;window.__nativeQ={active:false,rects:0};Element.prototype.getBoundingClientRect=function(...a){if(__nativeQ.active)__nativeQ.rects++;return original.apply(this,a)}")
+                  js("document.getElementById('collectionScrollCue').focus({preventScroll:true});window.__nativeErrors=[];window.__nativeKeys=[];addEventListener('error',e=>__nativeErrors.push(e.message));addEventListener('keydown',e=>__nativeKeys.push({key:e.key,target:e.target.id,trusted:e.isTrusted}));const original=Element.prototype.getBoundingClientRect;window.__nativeQ={active:false,rects:0};Element.prototype.getBoundingClientRect=function(...a){if(__nativeQ.active)__nativeQ.rects++;return original.apply(this,a)}")
+                  assert js('return document.activeElement.id')=='collectionScrollCue'
                   for stage,target in [('collection-idle','collection'),('signup','signup'),('signup-idle','signup'),('overview','overview'),('overview-idle','overview'),('vault','vault')]:
                       js("Object.assign(__nativeQ,{active:true,last:0,times:[],rects:0});function sample(t){const q=__nativeQ;if(!q.active)return;if(q.last)q.times.push(t-q.last);q.last=t;requestAnimationFrame(sample)}requestAnimationFrame(sample)")
                       if not stage.endswith('idle'): key('\ue00f')
                       time.sleep(1.2)
-                      stats=js("const q=__nativeQ;q.active=false;const a=q.times.sort((a,b)=>a-b);return {frames:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,rects:q.rects,target:__vaultEntryGuide.target,moving:__vaultEntryGuide.moving,phase:__guide.phase(),top:document.getElementById('nextDrop').scrollTop}")
+                      stats=js("const q=__nativeQ;q.active=false;const a=q.times.sort((a,b)=>a-b);return {frames:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,rects:q.rects,target:__vaultEntryGuide.target,moving:__vaultEntryGuide.moving,phase:__guide.phase(),top:document.getElementById('nextDrop').scrollTop,keys:__nativeKeys,focused:document.activeElement.id}")
                       stats['stage']=stage;row['segments'].append(stats);save()
                       wait('return !__vaultEntryGuide.moving',15)
                       assert js('return __vaultEntryGuide.target')==target,stats
