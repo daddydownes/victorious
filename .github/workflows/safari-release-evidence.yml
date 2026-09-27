@@ -1,0 +1,126 @@
+name: Safari release evidence and live check
+on:
+  push:
+    branches: [qa/safari-release-20260927]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require successful final source and browser validation
+        run: |
+          for i in $(seq 1 45); do
+            gh api repos/daddydownes/victorious/actions/runs/36308539728 > "$RUNNER_TEMP/validation.json"
+            state=$(jq -r .status "$RUNNER_TEMP/validation.json")
+            if [ "$state" = completed ]; then
+              test "$(jq -r .head_sha "$RUNNER_TEMP/validation.json")" = 4f9ff6809b238538fb5e9a53ff3f91772e0c1c18
+              test "$(jq -r .conclusion "$RUNNER_TEMP/validation.json")" = success
+              break
+            fi
+            sleep 10
+          done
+          test "$(jq -r .conclusion "$RUNNER_TEMP/validation.json")" = success
+      - name: Prepare identical source and collect actual evidence
+        run: |
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          node tools/prepare-scroll-harness.cjs
+          test "$(sha256sum index.html | cut -d' ' -f1)" = f31e23c148b70e591e616bf58496a37b74effaf8d94349eb33e5dabaf6c39f77
+          mkdir -p "$RUNNER_TEMP/evidence"
+          gh run download 36308539728 --repo daddydownes/victorious -n scroll-layout-comparison -D "$RUNNER_TEMP/evidence/layout"
+          gh run download 36308371172 --repo daddydownes/victorious -n native-safari-verification -D "$RUNNER_TEMP/evidence/native"
+          for viewport in chromium-390-844 chromium-320-568 chromium-844-390 chromium-1440-900; do
+            gh run download 36308539728 --repo daddydownes/victorious -n scroll-journeys-$viewport -D "$RUNNER_TEMP/evidence/$viewport"
+          done
+      - name: Record portable diagnosis and verification
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,hashlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'evidence';out=pathlib.Path('docs/reviews');out.mkdir(exist_ok=True)
+          expected='f31e23c148b70e591e616bf58496a37b74effaf8d94349eb33e5dabaf6c39f77'
+          layout=json.loads((p/'layout/layout-comparison.json').read_text());summary=json.loads((p/'layout/layout-summary.json').read_text());native=json.loads((p/'native/native-safari.json').read_text())
+          entries=[]
+          for f in p.glob('chromium-*/entry-scroll.json'): entries.extend(json.loads(f.read_text())['rows'])
+          assert len(entries)==16 and all(r['status']=='PASS' and r['sourceSha256']==expected for r in entries)
+          assert len(layout)==16 and all(r['status']=='PASS' for r in layout)
+          assert all(r['sha256']==expected for r in layout if r['version']=='candidate')
+          candidate=[r for r in native if r['version']=='candidate'];assert len(candidate)==4 and all(r['status']=='PASS' for r in candidate)
+          assert (p/'native/candidate-hash.txt').read_text().split()[0]==expected
+          caps=json.loads((p/'native/capabilities.json').read_text())['capabilities']
+          evidence={'baseline':'bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a','candidateSha256':expected,'validationRun':36308539728,'nativeRun':36308371172,'browser':{k:caps[k] for k in ['browserName','browserVersion','platformName','safari:platformVersion']},'layoutSummary':summary,'layoutRaw':layout,'native':native,'journeys':entries}
+          (out/'safari-scroll-evidence-2026-09-27.json').write_text(json.dumps(evidence,indent=2)+'\n')
+          sample=next(r for r in summary if r['engine']=='chromium' and r['width']==390 and r['pass']==1)
+          lines=['# Safari scroll repair — 27 September 2026','','## Scope and source','','Baseline: `bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a`. Validated homepage SHA-256: `'+expected+'`. Only `tools/guided/journey.js`, `tools/guided/journey.css` and their generated `index.html` change at runtime.','','## Confirmed problems and repairs','','1. Invisible legacy effects below `#seamGold[aria-hidden="true"]` kept animating. Pause those animations, including pseudo-elements, without removing their retained geometry or changing visible lighting.','2. Guided entry repeatedly remeasured the same section rectangles on each animation frame. Cache chapter geometry and invalidate it on relevant element resizing, font loading, viewport resizing, visibility restoration and panel exposure. Keep the live-read fallback without ResizeObserver.','3. A touch starting on `#nextDropResult` incorrectly began form press protection. In 844×390 landscape this swallowed repeated reverse swipes. Apply that protection only to actual form controls. The regression now uses the original centre coordinates; moving the test away from the receipt is not the fix.','','The opening film, media files, photo placement, collection/signup markup, visible colours and typography, 420–640 ms transition timing, touch/wheel thresholds, Surface, story and game are unchanged. The source scope guard passes.','','## Measurements','','The following is the first 390-pixel Chromium A/B sample. Rectangles count measured geometry reads during a 900 ms segment; layouts are Chromium Performance-domain layout counts. They are workload measurements, not a percentage speed-up or physical-iPhone FPS claim.','','| Segment | Rectangle reads before → after | Layout passes before → after |','|---|---:|---:|']
+          for r in sample['segments']:
+              if r['label'] in ['collection-to-signup','signup-idle','approach-0','overview-idle','vault-pan']: lines.append('| '+r['label']+' | '+str(r['baselineRects'])+' → '+str(r['candidateRects'])+' | '+str(r['baselineLayouts'])+' → '+str(r['candidateLayouts'])+' |')
+          lines+=['','All raw samples and frame timings are retained in [the evidence JSON](safari-scroll-evidence-2026-09-27.json). Linux WebKit frame timings are variable and are not treated as physical Safari performance.','','## Executed checks','','- Sixteen complete-hero Chromium journeys: four consecutive passes each at 390×844, 320×568, 844×390 and 1440×900. These include original-coordinate receipt gestures, focused email/Join continuation, controlled keyboard closure, rapid input, reversal, cancellation, resizing and Surface/game/return smoke checks. Phone touch is CDP-emulated, not a physical handset.','- Sixteen A/B engine journeys: Chromium and WebKit at 390×844 and 1440×900, two passes each per source. WebKit uses a desktop engine with a narrow viewport and wheel input, starting from a static opening before restoring normal motion.','- Four consecutive candidate journeys in native Safari '+caps['browserVersion']+' on hosted macOS '+caps['safari:platformVersion']+', using trusted Page Down key events after ordinary opening playback. This is not an iPhone or trackpad test.','- Build, source/scope, guided scroll, reveal, press feedback, Surface input/recovery, spatial layout and six game regression suites pass. Signup transport is mocked.','','Native-run qualification: its first baseline journey and all four candidate journeys passed. An extra final baseline navigation reached the collection with hero time zero, failing the strict playback precondition. The native workflow therefore remains red; it is not described as an entirely passing run. The four candidate passes are recorded individually. Earlier harness failures (a nullable media error mistaken for a protocol error, and focusing a non-focusable section) were corrected in the harness, not in website code.','','The initial landscape failure was also reproduced on unchanged production. The alternate-edge gesture was only an isolation probe. The final candidate must pass the original centre gesture over the receipt. Screenshot animation freezing was removed from performance sampling because it changes CSS animation state.','','## Reproduction and limits','','Final validation: https://github.com/daddydownes/victorious/actions/runs/36308539728 . Native evidence: https://github.com/daddydownes/victorious/actions/runs/36308371172 . Run `node tools/build-guided.cjs`, the existing source tests and `tests/entry-scroll-browser.cjs`; set BASE_URL, EVIDENCE_DIR and QA_CASE/QA_PASSES. `tests/scroll-layout-performance.cjs` additionally needs BASELINE_URL. The temporary preparation scripts and investigation workflows are not required in production.','','Physical iPhone/Android, embedded browsers, real software-keyboard delivery, long macOS trackpad inertia, battery/thermal constraints and real signup delivery remain unverified. These fixes remove measured unnecessary work and the reproduced receipt dead zone; they do not establish that every device-specific lag report is resolved.']
+          report='\n'.join(lines)+'\n';(out/'safari-scroll-2026-09-27.md').write_text(report)
+          status=pathlib.Path('docs/STATUS.md');text=status.read_text();heading='## September 27 — Safari scrolling performance and receipt-gesture repair'
+          note=heading+'\n\nValidated against production `bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a`. Hidden legacy animations are paused only while aria-hidden; pre-Vault geometry is cached with layout/lifecycle invalidation; receipt/form-gap touches no longer start form-control press protection. Visible styling, media, timings, photo positions, Surface and game remain unchanged. Homepage SHA-256: `'+expected+'`.\n\nSixteen full-hero Chromium journeys, sixteen A/B Chromium/WebKit journeys, four consecutive native Safari candidate journeys and the source/build regression suites pass. Native Safari used a hosted Mac and keyboard input, not a physical iPhone or trackpad. The extra final native baseline run failed its hero precondition and is explicitly retained, so the entire native workflow is not labelled passing. See [diagnosis, measured results and limitations](reviews/safari-scroll-2026-09-27.md) and its durable JSON evidence. Publication is checked separately by matching this exact homepage hash and running live smoke tests.\n\n'
+          assert text.startswith('# Current status\n');status.write_text(text.replace('# Current status\n\n','# Current status\n\n'+note,1))
+          arch=pathlib.Path('docs/ARCHITECTURE.md');text=arch.read_text();anchor='## Current Vault descent, gestures and Surface\n\n';addition='The September 27 performance pass caches entry section rectangles until observed dimensions, viewport size, font loading, visibility or exposure change; browsers without ResizeObserver retain live measurement. Only aria-hidden legacy seam animations are paused. The signup press guard applies to actual controls, not the non-editable receipt or form gaps, preventing a landscape swipe dead zone without changing keyboard/Join protection.\n\n';assert anchor in text;arch.write_text(text.replace(anchor,anchor+addition,1))
+          PY
+          git diff --check
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-browser.cjs tests/scroll-layout-performance.cjs docs/STATUS.md docs/ARCHITECTURE.md docs/reviews/safari-scroll-2026-09-27.md docs/reviews/safari-scroll-evidence-2026-09-27.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          test "$(git ls-remote origin refs/heads/qa/safari-release-20260927 | cut -f1)" = "$GITHUB_SHA"
+          git commit -m 'Record final Safari scroll repair and reproducible evidence'
+          git push origin HEAD:refs/heads/qa/safari-release-20260927
+          git rev-parse HEAD
+  live:
+    needs: prepare
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa/safari-release-20260927
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Wait for separately authorized publication and compare source
+        run: |
+          mkdir -p "$RUNNER_TEMP/live-evidence"
+          python3 - <<'PY'
+          import hashlib,urllib.request,time,os,pathlib
+          expected='f31e23c148b70e591e616bf58496a37b74effaf8d94349eb33e5dabaf6c39f77'
+          for attempt in range(60):
+              try:
+                  req=urllib.request.Request('https://vctrsclo.com/?scroll-release-check='+str(time.time_ns()),headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(req,timeout=25) as response: data=response.read()
+                  actual=hashlib.sha256(data).hexdigest()
+                  if actual==expected:
+                      pathlib.Path(os.environ['RUNNER_TEMP']+'/live-evidence/live-source.txt').write_text('MATCH '+actual+'\n');print('LIVE_SOURCE_MATCH',actual);break
+              except Exception as error: print(type(error).__name__)
+              time.sleep(10)
+          else: raise SystemExit('Expected release not observed; this workflow never publishes.')
+          PY
+      - name: Live complete-hero phone and desktop smoke
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          export NODE_PATH="$RUNNER_TEMP/qa/node_modules" BASE_URL='https://vctrsclo.com/?release=f31e23c148b7' QA_PASSES=1 QA_SOURCE_SHA256=f31e23c148b70e591e616bf58496a37b74effaf8d94349eb33e5dabaf6c39f77
+          for viewport in chromium-390-844 chromium-1440-900; do
+            QA_CASE=$viewport EVIDENCE_DIR="$RUNNER_TEMP/live-evidence/$viewport" node tests/entry-scroll-browser.cjs
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-live-verification
+          path: ${{ runner.temp }}/live-evidence
+          retention-days: 7
