@@ -8,7 +8,97 @@ concurrency:
   group: safari-layout-check
   cancel-in-progress: true
 jobs:
-  render:
+  prepare:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    outputs:
+      candidate: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply and validate scoped source changes
+        run: |
+          node tests/apply-entry-layout.cjs
+          node tests/entry-layout-cache.cjs
+          for test in guided-source entry-scroll-scope guided-scroll reveal post-surface-scroll press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do node "tests/$test.cjs"; done
+          git diff --check
+      - name: Commit only rebuilt application files to isolated branch
+        id: commit
+        run: |
+          test "$GITHUB_REF_NAME" = 'perf/safari-layout-20260927'
+          git add -- index.html tools/guided/journey.js
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Cache guided scroll geometry while preserving all movement and visuals'
+            git push origin HEAD:refs/heads/perf/safari-layout-20260927
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  journeys:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            case: chromium-390-844
+          - os: ubuntu-22.04
+            case: chromium-320-568
+          - os: ubuntu-22.04
+            case: chromium-844-390
+          - os: ubuntu-22.04
+            case: chromium-1440-900
+          - os: macos-latest
+            case: webkit-390-844
+          - os: macos-latest
+            case: webkit-844-390
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.candidate }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare pinned browser tests
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          # WebKit has no wheel support in mobile mode: desktop WebKit at phone
+          # dimensions exercises the engine, not physical iPhone touch input.
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/entry-scroll-browser.cjs')
+          p.write_text(p.read_text().replace('isMobile:mobile','isMobile:engine===\'chromium\'&&mobile'))
+          PY
+      - name: Four completed-hero input journeys
+        env:
+          QA_CASE: ${{ matrix.case }}
+          QA_PASSES: '4'
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          node tests/entry-scroll-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-journeys-${{ matrix.case }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  performance:
+    needs: prepare
     strategy:
       fail-fast: false
       matrix:
@@ -18,35 +108,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.prepare.outputs.candidate }}
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare diagnostic environment
+      - name: Prepare comparison environment
         run: |
-          mkdir -p "$RUNNER_TEMP/evidence"
-          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate" "$RUNNER_TEMP/evidence/ablation"
           echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
-          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
           python3 - <<'PY'
           from pathlib import Path
           p=Path('tests/safari-scroll-performance.cjs')
           p.write_text(p.read_text().replace('isMobile: width < 900', 'isMobile: false'))
+          p=Path('tests/safari-scroll-ablation.cjs')
+          p.write_text(p.read_text().replace('content:css','content:css||\'/* unchanged */\''))
           PY
-      - name: Install pinned browser engines
+      - name: Measure baseline then candidate with the same engines
         run: |
-          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
-          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit
-      - name: Run controlled rendering comparisons
-        run: |
+          cp index.html "$RUNNER_TEMP/candidate.html"
+          git show bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a:index.html > index.html
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          node tests/safari-scroll-ablation.cjs
-          node tests/safari-scroll-performance.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" node tests/safari-scroll-performance.cjs
+          cp "$RUNNER_TEMP/candidate.html" index.html
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" node tests/safari-scroll-performance.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/ablation" node tests/safari-scroll-ablation.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: safari-layout-${{ matrix.os }}
+          name: safari-comparison-${{ matrix.os }}
           path: ${{ runner.temp }}/evidence
           retention-days: 7
