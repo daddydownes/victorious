@@ -57,6 +57,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/journey-evidence"
           node tools/prepare-scroll-performance.cjs
           node tools/build-guided.cjs
+          node tools/prepare-scroll-harness.cjs
           npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
           "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
           echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
@@ -77,6 +78,35 @@ jobs:
           name: scroll-journeys-${{ matrix.viewport }}
           path: ${{ runner.temp }}/journey-evidence
           retention-days: 7
+  baseline-landscape:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compare gesture coordinates without changing production code
+        run: |
+          mkdir -p "$RUNNER_TEMP/baseline-evidence/old-coordinates" "$RUNNER_TEMP/baseline-evidence/safe-coordinates"
+          git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          node tools/prepare-scroll-harness.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          export NODE_PATH="$RUNNER_TEMP/qa/node_modules" BASE_URL=http://127.0.0.1:8922/ QA_CASE=chromium-844-390
+          export QA_SOURCE_SHA256=$(sha256sum "$RUNNER_TEMP/baseline/index.html" | cut -d' ' -f1)
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$RUNNER_TEMP/baseline-evidence/server.log" 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8922/ > /dev/null && break; sleep 1; done
+          QA_SAFE_TOUCH=0 QA_PASSES=1 EVIDENCE_DIR="$RUNNER_TEMP/baseline-evidence/old-coordinates" node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/baseline-evidence/old-coordinates.log" 2>&1 || echo 'Original-coordinate diagnostic failed; inspect captured targets and state.'
+          QA_SAFE_TOUCH=1 QA_PASSES=4 EVIDENCE_DIR="$RUNNER_TEMP/baseline-evidence/safe-coordinates" node tests/entry-scroll-browser.cjs > "$RUNNER_TEMP/baseline-evidence/safe-coordinates.log" 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-baseline-landscape
+          path: ${{ runner.temp }}/baseline-evidence
+          retention-days: 7
   comparison:
     needs: source
     runs-on: ubuntu-22.04
@@ -94,6 +124,7 @@ jobs:
           git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
           node tools/prepare-scroll-performance.cjs
           node tools/build-guided.cjs
+          node tools/prepare-scroll-harness.cjs
           npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
           "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit
           echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
@@ -113,7 +144,7 @@ jobs:
           path: ${{ runner.temp }}/layout-evidence
           retention-days: 7
   record-candidate:
-    needs: [source, journeys, comparison]
+    needs: [source, journeys, comparison, baseline-landscape]
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     permissions:
@@ -126,15 +157,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Record only tested application changes on the isolated branch
+      - name: Record only tested application changes and harness corrections on the isolated branch
         env:
           EXPECTED_HEAD: ${{ github.sha }}
         run: |
           test "$(git ls-remote origin refs/heads/fix/safari-scroll-verified-20260927 | cut -f1)" = "$EXPECTED_HEAD"
           node tools/prepare-scroll-performance.cjs
           node tools/build-guided.cjs
+          node tools/prepare-scroll-harness.cjs
           git diff --check
-          git add index.html tools/guided/journey.js tools/guided/journey.css
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-browser.cjs tests/scroll-layout-performance.cjs
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Reduce hidden animation layout and cache pre-Vault scroll geometry'
