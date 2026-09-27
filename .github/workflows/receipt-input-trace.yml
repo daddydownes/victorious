@@ -1,0 +1,51 @@
+name: Trace receipt input
+on:
+  push:
+    branches: [qa/receipt-input-trace-20260927]
+permissions:
+  contents: read
+jobs:
+  trace:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare exact candidate and trace
+        run: |
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          node tools/prepare-scroll-harness.cjs
+          mkdir -p "$RUNNER_TEMP/evidence"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('tests/entry-scroll-browser.cjs');t=p.read_text();anchor='row.start=await state(page);'
+          t=t.replace(anchor,"""await page.evaluate(()=>{
+            window.__receiptTrace=[];
+            const snapshot=e=>({type:e.type,target:e.target.id||e.target.tagName,default:e.defaultPrevented,cancel:e.cancelable,focus:document.activeElement.id||document.activeElement.tagName,classes:nextDrop.className,top:nextDrop.scrollTop,guide:{moving:__vaultEntryGuide.moving,target:__vaultEntryGuide.target,touching:__vaultEntryGuide.touching},path:e.composedPath().filter(x=>x instanceof Element).map(x=>({id:x.id,tag:x.tagName,touch:getComputedStyle(x).touchAction,overflow:getComputedStyle(x).overflow,scroll:x.scrollHeight+' / '+x.clientHeight}))});
+            for(const name of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointercancel','focusin','focusout'])for(const capture of [true,false])window.addEventListener(name,e=>{if(__receiptTrace.length<600)__receiptTrace.push({...snapshot(e),capture})},{capture,passive:true});
+          });
+          """+anchor)
+          t=t.replace('row.last=await state(page).catch(()=>null);','row.last=await state(page).catch(()=>null);row.trace=await page.evaluate(()=>window.__receiptTrace);')
+          p.write_text(t)
+          PY
+      - name: Reproduce original centre gesture
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          QA_CASE: chromium-844-390
+          QA_PASSES: '1'
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 >/dev/null 2>&1 &
+          node tests/entry-scroll-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: receipt-input-trace
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
