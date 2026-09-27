@@ -67,17 +67,27 @@ const panel=document.getElementById('nextDrop'),signup=document.getElementById('
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 let frame=0,move=null,entered=false,endpointReady=false,contact=null,touchCount=0,wheelConsumed=false,wheelDirection=0,wheelReverse=0,wheelTimer=0,lastWheel=0,entryTimer=0,lastStop='collection',photosWarmed=false,overviewWarmed=false;
-const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
-function stops(){
- const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);
+// Section offsets do not change when this panel scrolls. Read them together,
+// only after layout changes, rather than forcing geometry reads in every frame.
+let layout=null;
+const canObserveLayout=typeof ResizeObserver==='function';
+function invalidateLayout(){layout=null;queue()}
+function geometry(){
+ if(layout&&canObserveLayout)return layout;
+ const panelTop=panel.getBoundingClientRect().top,scroll=panel.scrollTop,height=panel.clientHeight;
+ const first=signup.getBoundingClientRect().top-panelTop+scroll;
+ const overview=invitation.getBoundingClientRect().top-panelTop+scroll,sectionHeight=invitation.offsetHeight;
+ const end=Math.max(overview,overview+sectionHeight-height);
  const list=[{key:'collection',top:0},{key:'signup',top:first}];
  // In short landscape the email/event card can be taller than the viewport.
  // Reveal its lower part before moving into the photographic overview.
  for(let y=first+height*.85;y<overview-height-24;y+=height*.85)list.push({key:'email-'+list.length,top:y});
  if(overview-height>first+24)list.push({key:'email-bottom',top:overview-height});
  list.push({key:'overview',top:overview},{key:'vault',top:end});
- return list.filter((point,i)=>!i||point.top-list[i-1].top>3);
+ layout={height,first,overview,sectionHeight,end,points:list.filter((point,i)=>!i||point.top-list[i-1].top>3)};
+ return layout;
 }
+function stops(){return geometry().points}
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function cancelEntry(){endpointReady=false;if(move)move.allowEntry=false;clearTimeout(entryTimer);entryTimer=0}
 function enter(){
@@ -90,13 +100,13 @@ function enter(){
  entered=true;endpointReady=false;button.click();
 }
 function render(){
- const top=panel.scrollTop,section=topOf(invitation),height=panel.clientHeight;
- if(!photosWarmed&&top>=topOf(signup)-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
+ const top=panel.scrollTop,{overview:section,height,first,sectionHeight}=geometry();
+ if(!photosWarmed&&top>=first-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
  if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
- const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,invitation.offsetHeight-height)));
+ const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
- const visible=top+height>section&&top<section+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
+ const visible=top+height>section&&top<section+sectionHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  panel.classList.toggle('vault-camera-active',visible);
  if(visible&&window.__vaultCamera)window.__vaultCamera.paint(progress,entranceOffset);
  else if(!panel.inert&&window.__vaultCamera)window.__vaultCamera.cancel();
@@ -193,14 +203,22 @@ function reset(){
 }
 panel.addEventListener('scroll',queue,{passive:true});
 addEventListener('resize',()=>{
+ layout=null;
  if(!move&&!touchCount&&eligible()){const point=stops().find(point=>point.key===lastStop);if(point)panel.scrollTop=point.top}
  cancelEntry();queue();
 });
 addEventListener('blur',reset);addEventListener('pagehide',reset);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else queue()});
-new MutationObserver(()=>{if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else invalidateLayout()});
+new MutationObserver(()=>{layout=null;if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 button.addEventListener('click',()=>{entered=true;reset()});
-motionPreference.addEventListener('change',()=>{reset();queue()});
+motionPreference.addEventListener('change',()=>{layout=null;reset();queue()});
+// ResizeObserver covers rotation, keyboard fit, late fonts, image sizing and
+// changed signup receipts. Scroll/transform-only frames do not invalidate it.
+if(canObserveLayout){
+ const observer=new ResizeObserver(invalidateLayout);
+ for(const element of [panel,panel.querySelector('.collection-screen'),signup,invitation])if(element)observer.observe(element);
+}
+if(document.fonts){document.fonts.ready.then(invalidateLayout);document.fonts.addEventListener?.('loadingdone',invalidateLayout)}
 window.__vaultEntryGuide={get moving(){return !!move},get target(){return move?.key||lastStop},get touching(){return touchCount},get entered(){return entered}};
 queue();
 })();
