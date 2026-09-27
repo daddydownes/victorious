@@ -1,0 +1,48 @@
+name: Windows Chrome journey verification
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/windows-chrome-check.yml]
+permissions: {contents: read}
+defaults:
+  run:
+    shell: bash
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Assemble exact candidate and existing journey checks
+        run: |
+          node tools/apply-cross-browser-performance.cjs
+          node tools/prepare-chrome-device-tests.cjs
+          node tests/cross-browser-performance-scope.cjs
+          node tests/game-scheduler-idle.cjs
+      - name: Install isolated Chromium on Windows
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Four complete original-film Windows journeys
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+          QA_CASE: chromium-1440-900
+          QA_PASSES: '4'
+          QA_SOURCE_SHA256: 1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          python -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ >/dev/null && break; sleep 1; done
+          node tests/entry-scroll-browser.cjs | tee "$EVIDENCE_DIR/windows-journeys.log"
+          node -e 'const d=require(process.env.EVIDENCE_DIR+"/entry-scroll.json");if(d.rows.length!==4||d.rows.some(r=>r.status!=="PASS"||r.sourceSha256!==process.env.QA_SOURCE_SHA256))throw Error("Incomplete Windows evidence")'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-chrome-journeys
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
