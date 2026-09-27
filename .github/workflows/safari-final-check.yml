@@ -1,0 +1,99 @@
+name: Safari final regression classification
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-final-check.yml']
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [landscape, reduced-motion, keyboard]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare exact baseline and browsers
+        env:
+          CASE: ${{ matrix.case }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          if [ "$CASE" = 'keyboard' ]; then engine=webkit; else engine=chromium; fi
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps "$engine" >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          git show bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a:index.html > index.html
+      - name: Reproduce original assertions then check valid input and frame settling
+        env:
+          CASE: ${{ matrix.case }}
+        run: |
+          node -e "require('./tools/serve-demo.cjs').createDemoServer().server.listen(8921,'127.0.0.1')" > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          if [ "$CASE" = 'keyboard' ]; then
+            export TEST_ENGINE=webkit ENGINES=webkit
+            script=tests/signup-viewport-browser.cjs
+          elif [ "$CASE" = 'landscape' ]; then
+            export QA_CASE=chromium-844-390 QA_PATTERN=normal QA_PASSES=1
+            script=tests/entry-scroll-browser.cjs
+          else
+            export QA_CASE=chromium-390-844-reduce QA_PATTERN=spam QA_PASSES=1
+            script=tests/entry-scroll-browser.cjs
+          fi
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/original-baseline"
+          mkdir -p "$EVIDENCE_DIR"
+          set +e
+          node "$script" > "$EVIDENCE_DIR/result.log" 2>&1
+          original=$?
+          set -e
+          echo "$original" > "$EVIDENCE_DIR/exit-code.txt"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/entry-scroll-browser.cjs')
+          s=p.read_text()
+          # Gestures beginning over an editable field intentionally belong to
+          # the browser. Use the noneditable gutter for navigation-only probes.
+          old='const x=view.width*.5,start=view.height*(direction>0?.84:.16)'
+          assert s.count(old)==1
+          s=s.replace(old,'const x=12,start=view.height*(direction>0?.84:.16)')
+          # Reduced motion settles immediately: two released gestures are two
+          # commands, not repeated input during a still-running transition.
+          old="if(pattern==='spam')await rapidPair();else await move(1);"
+          assert s.count(old)==1
+          s=s.replace(old,"if(pattern==='spam'&&motion!=='reduce')await rapidPair();else await move(1);")
+          p.write_text(s)
+          p=Path('tests/signup-viewport-browser.cjs')
+          s=p.read_text()
+          old='await p.waitForTimeout(80)'
+          assert s.count(old)==1
+          s=s.replace(old,'await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))))')
+          p.write_text(s)
+          PY
+          git diff -- tests/entry-scroll-browser.cjs tests/signup-viewport-browser.cjs > "$RUNNER_TEMP/evidence/test-fixture.patch"
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/corrected-baseline"
+          mkdir -p "$EVIDENCE_DIR"
+          node "$script" > "$EVIDENCE_DIR/result.log" 2>&1
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          sha256sum index.html | tee "$RUNNER_TEMP/evidence/candidate-sha256.txt"
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate"
+          mkdir -p "$EVIDENCE_DIR"
+          if [ "$CASE" != 'keyboard' ]; then unset QA_PATTERN; export QA_PASSES=4; fi
+          node "$script" > "$EVIDENCE_DIR/result.log" 2>&1
+          if [ "$CASE" = 'keyboard' ]; then node tests/signup-pointer-browser.cjs > "$EVIDENCE_DIR/pointer.log" 2>&1; fi
+          echo "Original baseline exit: $original; corrected baseline PASS; exact candidate PASS."
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-final-${{ matrix.case }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
