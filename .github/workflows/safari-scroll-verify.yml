@@ -1,0 +1,124 @@
+name: Verify Safari scroll repair
+on:
+  push:
+    branches: [fix/safari-scroll-review-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: safari-scroll-independent-verification
+  cancel-in-progress: false
+jobs:
+  engines:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare baseline and browser engines
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate" "$RUNNER_TEMP/evidence/journeys"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$RUNNER_TEMP/evidence/baseline-server.log" 2>&1 &
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/candidate-server.log" 2>&1 &
+      - name: Measure original code
+        env:
+          BASE_URL: http://127.0.0.1:8922/
+          QA_PASSES: '1'
+        run: EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" node tests/safari-scroll-performance.cjs
+      - name: Apply and validate conservative repair
+        run: |
+          node tools/apply-scroll-repair.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          for test in entry-scroll-scope guided-source guided-scroll reveal post-surface-scroll press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do node "tests/$test.cjs"; done
+          git diff --check
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/source.patch"
+          sha256sum index.html > "$RUNNER_TEMP/evidence/candidate-sha256.txt"
+      - name: Measure repaired code
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          QA_PASSES: '1'
+        run: EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" node tests/safari-scroll-performance.cjs
+      - name: Repeat full film and real input journeys
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          QA_PASSES: '4'
+        run: |
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/journeys"
+          QA_CASE=chromium-390-844 node tests/entry-scroll-browser.cjs
+          QA_CASE=chromium-1440-900 node tests/entry-scroll-browser.cjs
+      - name: Upload engine evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safari-scroll-verified-engines
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  safari:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare actual Safari
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate"
+          sudo /usr/bin/safaridriver --enable
+          /usr/bin/safaridriver --version > "$RUNNER_TEMP/evidence/version.txt"
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+      - name: Native Safari baseline
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+        run: EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" python3 tests/safari-native-scroll.py
+      - name: Apply matching candidate
+        run: |
+          node tools/apply-scroll-repair.cjs
+          node tools/build-guided.cjs
+          shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate-sha256.txt"
+      - name: Native Safari candidate
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+        run: EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" python3 tests/safari-native-scroll.py
+      - name: Upload native Safari evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safari-scroll-verified-native
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  preserve-candidate:
+    needs: [engines, safari]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Commit only verified runtime files to review branch
+        run: |
+          test "$GITHUB_REF" = refs/heads/fix/safari-scroll-review-20260927
+          node tools/apply-scroll-repair.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          git diff --check
+          git add index.html tools/guided/journey.js tools/guided/journey.css
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Cache stable scroll geometry and suspend covered legacy animations'
+          git push origin HEAD:refs/heads/fix/safari-scroll-review-20260927
+          git rev-parse HEAD
