@@ -42,7 +42,7 @@ jobs:
               try:
                   with urllib.request.urlopen(req,timeout=90) as response: value=json.load(response)['value']
               except urllib.error.HTTPError as error: raise RuntimeError(error.read().decode()) from error
-              if isinstance(value,dict) and 'error' in value: raise RuntimeError(value)
+              if isinstance(value,dict) and isinstance(value.get('error'),str) and value.get('message'): raise RuntimeError(value)
               return value
           def js(script,*args): return call('POST','/session/'+sid+'/execute/sync',{'script':script,'args':list(args)})
           def wait(script,timeout=70):
