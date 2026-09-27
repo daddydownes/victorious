@@ -2,10 +2,13 @@
 // One-time migration used by isolated validation, never loaded by the website.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
+const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
+const accepted={'tools/guided/journey.js':['31130232cfe20650c7c5537059cec6a0aebc5efd73c1180ab0951ecb2ce9950b','10b880293017eea17827c623ba32f24b60901a28751369ff7e86cfa1439d5d6f'],'tools/guided/journey.css':['42e0b92bfdd0b200c669ad9ae7ec4954f211a637d37ede4a13437de69c827117']};
 function edit(file,expected,changes){
  let text=fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
- assert.equal(crypto.createHash('sha256').update(text).digest('hex'),expected,'Unexpected source; review concurrent edits before applying '+file);
- for(const [before,after] of changes){assert.equal(text.split(before).length-1,1,'Patch anchor is not unique: '+before);text=text.replace(before,after)}
+ assert(hash(text)===expected||accepted[file].includes(hash(text)),'Unexpected source; review concurrent edits before applying '+file);
+ for(const [before,after] of changes){if(text.includes(after))continue;assert.equal(text.split(before).length-1,1,'Patch anchor is not unique: '+before);text=text.replace(before,after)}
+ assert.equal(hash(text),accepted[file].at(-1),'Prepared candidate differs from the reviewed final source');
  fs.writeFileSync(path.join(root,file),text);
 }
 edit('tools/guided/journey.js','b28c333fb6e56c169dca5ee38fd0ed0a1acfac804677b62e66ba94a72a455d5e',[
