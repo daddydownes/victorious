@@ -1,51 +1,55 @@
 'use strict';
-// Narrow, fail-closed migration for the September 27 scroll repair.
-// This is run in an isolated branch; the ordinary builder remains authoritative.
-const fs = require('node:fs'), assert = require('node:assert/strict');
-const jsPath = 'tools/guided/journey.js', cssPath = 'tools/guided/journey.css';
-let js = fs.readFileSync(jsPath, 'utf8').replace(/\r\n/g, '\n');
-let css = fs.readFileSync(cssPath, 'utf8').replace(/\r\n/g, '\n');
-function replaceOnce(from, to) {
-  assert.equal(js.split(from).length, 2, 'Expected one unchanged source anchor: ' + from.slice(0, 100));
-  js = js.replace(from, to);
-}
-if (!js.includes('// Entry geometry changes with layout, not with each scroll frame.')) {
-  replaceOnce("const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;\nfunction stops(){\n const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);", `// Entry geometry changes with layout, not with each scroll frame.
-// Sample all rectangles together; never read them after this frame's scroll write.
-let entryGeometry=null;
+// Idempotent maintenance migration; never modifies media or input tuning.
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const jsFile='tools/guided/journey.js',cssFile='tools/guided/journey.css';
+let js=fs.readFileSync(jsFile,'utf8').replace(/\r\n/g,'\n');
+function replace(from,to){assert.equal(js.split(from).length,2,'Patch anchor changed: '+from.slice(0,90));js=js.replace(from,()=>to)}
+if(!js.includes('const canObserveLayout=')){
+replace("const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;\nfunction stops(){\n const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);",`// Section offsets do not change when this panel scrolls. Read them together,
+// only after layout changes, rather than forcing geometry reads in every frame.
+let layout=null;
+const canObserveLayout=typeof ResizeObserver==='function';
+function invalidateLayout(){layout=null;queue()}
 function geometry(){
- if(entryGeometry)return entryGeometry;
- const panelTop=panel.getBoundingClientRect().top,scrollTop=panel.scrollTop,height=panel.clientHeight;
- const first=signup.getBoundingClientRect().top-panelTop+scrollTop,overview=invitation.getBoundingClientRect().top-panelTop+scrollTop,sectionHeight=invitation.offsetHeight;
+ if(layout&&canObserveLayout)return layout;
+ const panelTop=panel.getBoundingClientRect().top,scroll=panel.scrollTop,height=panel.clientHeight;
+ const first=signup.getBoundingClientRect().top-panelTop+scroll;
+ const overview=invitation.getBoundingClientRect().top-panelTop+scroll,sectionHeight=invitation.offsetHeight;
  const end=Math.max(overview,overview+sectionHeight-height);`);
-  replaceOnce(" return list.filter((point,i)=>!i||point.top-list[i-1].top>3);\n}\nfunction eligible()", " entryGeometry={height,first,overview,sectionHeight,points:list.filter((point,i)=>!i||point.top-list[i-1].top>3)};\n return entryGeometry;\n}\nfunction stops(){return geometry().points}\nfunction invalidateGeometry(){entryGeometry=null;queue()}\nfunction eligible()");
-  replaceOnce(" const top=panel.scrollTop,section=topOf(invitation),height=panel.clientHeight;\n if(!photosWarmed&&top>=topOf(signup)-2", " const layout=geometry(),top=panel.scrollTop,section=layout.overview,height=layout.height;\n if(!photosWarmed&&top>=layout.first-2");
-  replaceOnce("(top-section)/Math.max(1,invitation.offsetHeight-height)", "(top-section)/Math.max(1,layout.sectionHeight-height)");
-  replaceOnce("top<section+invitation.offsetHeight&&!panel.inert", "top<section+layout.sectionHeight&&!panel.inert");
-  replaceOnce("addEventListener('resize',()=>{\n if(!move&&!touchCount&&eligible())", "addEventListener('resize',()=>{\n entryGeometry=null;\n if(!move&&!touchCount&&eligible())");
-  replaceOnce("document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else queue()});\nnew MutationObserver(()=>{if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});", `document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else invalidateGeometry()});
-new MutationObserver(()=>{entryGeometry=null;if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
-// Font loading, form receipts, keyboard fitting and responsive layout may change
-// the landings without a window resize. ResizeObserver refreshes the cache before
-// the next paint; scrolling and decorative animation do not invalidate it.
-if(window.ResizeObserver){
- const observer=new ResizeObserver(invalidateGeometry);
- [panel,signup,invitation,panel.querySelector('.collection-screen')].filter(Boolean).forEach(el=>observer.observe(el));
-}else{
- // Older engines retain the original always-current measurement path.
- panel.addEventListener('scroll',()=>{entryGeometry=null},{passive:true});
+replace(" return list.filter((point,i)=>!i||point.top-list[i-1].top>3);\n}\nfunction eligible()",` layout={height,first,overview,sectionHeight,end,points:list.filter((point,i)=>!i||point.top-list[i-1].top>3)};
+ return layout;
 }
-if(document.fonts){document.fonts.ready.then(invalidateGeometry);document.fonts.addEventListener?.('loadingdone',invalidateGeometry)}
-panel.addEventListener('focusin',invalidateGeometry);panel.addEventListener('focusout',invalidateGeometry);`);
-  fs.writeFileSync(jsPath, js);
+function stops(){return geometry().points}
+function eligible()`);
+replace(" const top=panel.scrollTop,section=topOf(invitation),height=panel.clientHeight;\n if(!photosWarmed&&top>=topOf(signup)-2&&window.__vaultCamera)"," const top=panel.scrollTop,{overview:section,height,first,sectionHeight}=geometry();\n if(!photosWarmed&&top>=first-2&&window.__vaultCamera)");
+replace(" const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,invitation.offsetHeight-height)));"," const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));");
+replace(" const visible=top+height>section&&top<section+invitation.offsetHeight&&!panel.inert", " const visible=top+height>section&&top<section+sectionHeight&&!panel.inert");
+replace("panel.addEventListener('scroll',queue,{passive:true});\naddEventListener('resize',()=>{\n if(!move", "panel.addEventListener('scroll',queue,{passive:true});\naddEventListener('resize',()=>{\n layout=null;\n if(!move");
+replace("document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else queue()});", "document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else invalidateLayout()});");
+replace("new MutationObserver(()=>{if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});", "new MutationObserver(()=>{layout=null;if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});");
+replace("motionPreference.addEventListener('change',()=>{reset();queue()});\nwindow.__vaultEntryGuide", `motionPreference.addEventListener('change',()=>{layout=null;reset();queue()});
+// ResizeObserver covers rotation, keyboard fit, late fonts, image sizing and
+// changed signup receipts. Scroll/transform-only frames do not invalidate it.
+if(canObserveLayout){
+ const observer=new ResizeObserver(invalidateLayout);
+ for(const element of [panel,panel.querySelector('.collection-screen'),signup,invitation])if(element)observer.observe(element);
 }
-const pauseRule = `
-/* The retained legacy seam is fully covered throughout the current journey.
-   Its scan still animates 'left', causing layout even though nobody can see it.
-   Pause only those retired decorations; keep all visible lighting and timing. */
-body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *,
-body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *::before,
-body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *::after{animation-play-state:paused!important}
+if(document.fonts){document.fonts.ready.then(invalidateLayout);document.fonts.addEventListener?.('loadingdone',invalidateLayout)}
+window.__vaultEntryGuide`);
+fs.writeFileSync(jsFile,js);
+}
+let css=fs.readFileSync(cssFile,'utf8').replace(/\r\n/g,'\n');
+if(!css.includes('Retired seam animation work')){
+css+=`\n/* Retired seam animation work must not compete with the visible journey.
+   This legacy chapter is explicitly aria-hidden while collection/Vault owns
+   the screen. Keep its artwork/layout; pause only its inaccessible animations. */
+.seam-gold[aria-hidden="true"],
+.seam-gold[aria-hidden="true"] *,
+.seam-gold[aria-hidden="true"]::before,
+.seam-gold[aria-hidden="true"]::after,
+.seam-gold[aria-hidden="true"] *::before,
+.seam-gold[aria-hidden="true"] *::after{animation-play-state:paused!important}
 `;
-if (!css.includes('Its scan still animates')) fs.writeFileSync(cssPath, css + pauseRule);
-console.log('Prepared bounded geometry cache and covered-legacy animation suspension. No gesture, easing, media, markup or artwork changes.');
+fs.writeFileSync(cssFile,css);
+}
+console.log('Applied geometry caching and retired-seam animation pause; original input thresholds/easing retained.');
