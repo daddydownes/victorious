@@ -1,0 +1,110 @@
+name: Safari scroll repair verification
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-scroll-verification.yml']
+permissions:
+  contents: read
+concurrency:
+  group: safari-scroll-repair-verification
+  cancel-in-progress: true
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build the candidate and preserve exact evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          git diff --check
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/implementation.patch"
+          tar -czf "$RUNNER_TEMP/evidence/candidate-source.tgz" index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/source-commit.txt"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/safari-scroll-compare.cjs')
+          s=p.read_text().replace('start=height*.82,end=start-direction', 'start=height*(direction>0?.82:.18),end=start-direction')
+          p.write_text(s)
+          PY
+      - name: Source and lifecycle regression checks
+        run: |
+          for test in entry-scroll-performance-unit entry-scroll-scope guided-source guided-scroll reveal press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do
+            node "tests/$test.cjs" | tee -a "$RUNNER_TEMP/evidence/static-checks.txt"
+          done
+      - name: Install pinned test browsers
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" --version | tee "$RUNNER_TEMP/evidence/playwright.txt"
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+            echo 'ENGINES=webkit' >> "$GITHUB_ENV"
+          else
+            "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+            echo 'ENGINES=webkit,chromium' >> "$GITHUB_ENV"
+          fi
+      - name: Compare scrolling with the exact production baseline
+        run: |
+          node -e "require('./tools/serve-demo.cjs').createDemoServer().server.listen(8921,'127.0.0.1')" > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          QA_PASSES=4 node tests/safari-scroll-compare.cjs | tee "$RUNNER_TEMP/evidence/comparison.log"
+      - name: Keyboard and pointer recovery checks
+        run: |
+          TEST_ENGINE=webkit node tests/signup-viewport-browser.cjs | tee "$RUNNER_TEMP/evidence/keyboard-checks.txt"
+          ENGINES=webkit node tests/signup-pointer-browser.cjs | tee "$RUNNER_TEMP/evidence/pointer-checks.txt"
+      - name: Four complete unchanged-hero touch journeys
+        if: runner.os == 'Linux'
+        run: |
+          QA_CASE=chromium-390-844 QA_PASSES=4 node tests/entry-scroll-browser.cjs | tee "$RUNNER_TEMP/evidence/full-journeys.log"
+      - name: Upload all evidence, including any failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scroll-repair-${{ matrix.os }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  prepare-release:
+    needs: verify
+    permissions:
+      contents: write
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare only the verified production diff, without publishing
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/repair.patch"
+          cp tests/entry-scroll-performance-unit.cjs "$RUNNER_TEMP/entry-scroll-performance-unit.cjs"
+          git restore index.html tools/guided/journey.js tools/guided/journey.css
+          git switch --detach bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          git apply "$RUNNER_TEMP/repair.patch"
+          cp "$RUNNER_TEMP/entry-scroll-performance-unit.cjs" tests/entry-scroll-performance-unit.cjs
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs
+          git commit -m 'Reduce scroll layout work and pause retired seam animations without changing the journey'
+          git push origin HEAD:refs/heads/fix/safari-scroll-release-20260927
+          echo "Verified release candidate: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
