@@ -1,5 +1,12 @@
 # Current status
 
+## September 27 - verified Safari scroll performance repair
+
+The guided-entry geometry cache removes repeated section measurements without changing easing, targets or gesture thresholds. Covered legacy/hero CSS animations are paused only after their chapters are retired. The root was rebuilt from the guided sources; visible artwork, media, layout, Surface and game remain unchanged.
+
+Independent run `36307336988` passed actual macOS Safari baseline/candidate journeys, Chromium/WebKit scroll checks, eight completed-hero Chromium journeys and 725 exact controller-state comparisons. The sampled native Safari signup and Vault screenshots were pixel-identical. Physical iPhone testing remains outstanding, and some photo-entry frame gaps remain; do not claim all Safari lag is eliminated. See [the review](reviews/safari-scroll-2026-09-27.md) for scope, measurements and limitations. Candidate root SHA-256: `bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e`. Publication/live equality is verified separately in the release task.
+
+
 ## September 24 — guided post-film scrolling, original journey preserved
 
 This release is based on production `07fb1502c05cf3d4507ed6bdbfe381a4c111d1ab`. The owner reviewed the corrected local demo and authorized publication to the existing domain. Only pre-Vault scrolling changes: Previous Drops → Adreama/signup → full overview → zoom into the existing Vault. The hero, collection/signup markup and transport, archive interaction, Surface, story and game remain unchanged; `tests/entry-scroll-scope.cjs` compares them with that baseline. The broader continuous-site prototype was rejected and is not part of this release.
