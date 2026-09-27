@@ -45,7 +45,7 @@ async function state(page){return page.evaluate(()=>{
    async function shot(label){
     if(pass!==1)return;
     await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.querySelectorAll('#nextDrop img')].filter(x=>x.currentSrc).map(x=>x.decode().catch(()=>{})))});
-    await page.screenshot({path:path.join(out,tag+'-'+label+'.png'),animations:'disabled'});
+    await page.screenshot({path:path.join(out,tag+'-'+label+'.png'),animations:'allow'});
    }
    await segment('collection-idle');await shot('collection');
    await segment('collection-to-signup',1);let s=await state(page);assert(Math.abs(s.top-s.signup)<4);
@@ -73,6 +73,7 @@ async function state(page){return page.evaluate(()=>{
  fs.writeFileSync(path.join(out,'layout-summary.json'),JSON.stringify(paired,null,2));
  const chrome=paired.filter(x=>x.engine==='chromium').flatMap(x=>x.segments);
  assert(chrome.filter(x=>['collection-to-signup','approach-0'].includes(x.label)).every(x=>x.candidateRects<x.baselineRects/2),'Geometry-read regression');
- assert(chrome.filter(x=>['signup-idle','overview-idle'].includes(x.label)).every(x=>x.candidateLayouts<x.baselineLayouts),'Hidden-layout regression');
+ const idle=chrome.filter(x=>['signup-idle','overview-idle'].includes(x.label));
+ assert(idle.reduce((n,x)=>n+x.candidateLayouts,0)<idle.reduce((n,x)=>n+x.baselineLayouts,0)/2,'Hidden-layout regression');
  console.log('PASS A/B journeys, hidden-animation pause and reduced layout work.');
 })().catch(e=>{save();console.error(e);process.exitCode=1});

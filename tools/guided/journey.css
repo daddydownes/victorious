@@ -31,6 +31,13 @@ button{touch-action:manipulation}
 /* Embedded browsers can resize only the visible viewport for their keyboard. */
 .next-drop.email-viewport{top:var(--email-top);bottom:auto;height:var(--email-height);place-items:start center;touch-action:pan-y pinch-zoom}
 .next-drop.email-viewport .next-drop-card{margin-block:auto}
+/* The retired seam remains in the document for its geometry and return path.
+   Its invisible left/blur/shine animations must not keep laying out and painting
+   beneath the active chapter. Visible artwork and its shared clock are untouched. */
+#seamGold[aria-hidden="true"],
+#seamGold[aria-hidden="true"] *,
+#seamGold[aria-hidden="true"] *::before,
+#seamGold[aria-hidden="true"] *::after{animation-play-state:paused!important}
 /* The collection and invitation share one native scroller, including keyboard fit. */
 .next-drop{display:block;touch-action:pan-x pinch-zoom;background:#000;overflow-x:hidden;scroll-snap-type:none;scrollbar-width:thin;scrollbar-color:#625b4e #000}
 .next-drop.email-viewport,.next-drop.email-editing{scroll-snap-type:none;touch-action:pan-y pinch-zoom}

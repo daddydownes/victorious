@@ -37,7 +37,14 @@ async function run(config){
   const mark=stage=>{row.stage=stage;save()};
   const pause=ms=>page.waitForTimeout(ms);
   async function finger(direction=1,{fraction=.66,steps=16,gap=14,settle=850,cancel=false,jitter=0,reverse=false}={}){
-   const x=view.width*.5,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   // A gesture intended for chapter navigation must start outside editable controls.
+   // Short landscape can place the email field under the old fixed centre point.
+   const start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   let x=view.width*.5;
+   const hit=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return {id:e?.id,tag:e?.tagName,editable:!!e?.closest('input,textarea,select,[contenteditable]'),form:!!e?.closest('form')}},{x,y:start});
+   if(process.env.QA_SAFE_TOUCH!=='0'&&view.width>view.height)x=view.width*.08;
+   const actual=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return {id:e?.id,tag:e?.tagName,editable:!!e?.closest('input,textarea,select,[contenteditable]'),form:!!e?.closest('form')}},{x,y:start});
+   (row.touchStarts||(row.touchStarts=[])).push({direction,x,y:start,original:hit,actual});save();
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y:start,id:1}]});
    for(let i=1;i<=steps;i++){
     await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:start+(end-start)*i/steps,id:1}]});await pause(gap);

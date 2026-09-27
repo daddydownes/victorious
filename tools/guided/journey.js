@@ -67,9 +67,20 @@ const panel=document.getElementById('nextDrop'),signup=document.getElementById('
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 let frame=0,move=null,entered=false,endpointReady=false,contact=null,touchCount=0,wheelConsumed=false,wheelDirection=0,wheelReverse=0,wheelTimer=0,lastWheel=0,entryTimer=0,lastStop='collection',photosWarmed=false,overviewWarmed=false;
-const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
+// Scroll changes the viewport position, not the chapter offsets. Read their
+// geometry together before writes, then reuse it until layout really changes.
+// In engines without ResizeObserver keep the original live-measure fallback.
+let entryGeometry=null;
+const entryResizeObserver=window.ResizeObserver?new ResizeObserver(()=>{entryGeometry=null;queue()}):null;
+function geometry(){
+ if(entryGeometry&&entryResizeObserver)return entryGeometry;
+ const panelTop=panel.getBoundingClientRect().top,top=panel.scrollTop;
+ return entryGeometry={height:panel.clientHeight,first:signup.getBoundingClientRect().top-panelTop+top,
+  overview:invitation.getBoundingClientRect().top-panelTop+top,size:invitation.offsetHeight};
+}
+function invalidateGeometry(){entryGeometry=null}
 function stops(){
- const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);
+ const {height,first,overview,size}=geometry(),end=Math.max(overview,overview+size-height);
  const list=[{key:'collection',top:0},{key:'signup',top:first}];
  // In short landscape the email/event card can be taller than the viewport.
  // Reveal its lower part before moving into the photographic overview.
@@ -90,13 +101,13 @@ function enter(){
  entered=true;endpointReady=false;button.click();
 }
 function render(){
- const top=panel.scrollTop,section=topOf(invitation),height=panel.clientHeight;
- if(!photosWarmed&&top>=topOf(signup)-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
+ const {height,first,overview:section,size}=geometry(),top=panel.scrollTop;
+ if(!photosWarmed&&top>=first-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
  if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
- const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,invitation.offsetHeight-height)));
+ const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,size-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
- const visible=top+height>section&&top<section+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
+ const visible=top+height>section&&top<section+size&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  panel.classList.toggle('vault-camera-active',visible);
  if(visible&&window.__vaultCamera)window.__vaultCamera.paint(progress,entranceOffset);
  else if(!panel.inert&&window.__vaultCamera)window.__vaultCamera.cancel();
@@ -193,12 +204,18 @@ function reset(){
 }
 panel.addEventListener('scroll',queue,{passive:true});
 addEventListener('resize',()=>{
+ invalidateGeometry();
  if(!move&&!touchCount&&eligible()){const point=stops().find(point=>point.key===lastStop);if(point)panel.scrollTop=point.top}
  cancelEntry();queue();
 });
 addEventListener('blur',reset);addEventListener('pagehide',reset);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else queue()});
-new MutationObserver(()=>{if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else{invalidateGeometry();queue()}});
+new MutationObserver(()=>{invalidateGeometry();if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+if(entryResizeObserver){
+ // The collection precedes signup; a size change there shifts every stop.
+ for(const el of [panel,panel.querySelector('.collection-screen'),signup,invitation])if(el)entryResizeObserver.observe(el);
+}
+if(document.fonts)document.fonts.addEventListener('loadingdone',()=>{invalidateGeometry();queue()});
 button.addEventListener('click',()=>{entered=true;reset()});
 motionPreference.addEventListener('change',()=>{reset();queue()});
 window.__vaultEntryGuide={get moving(){return !!move},get target(){return move?.key||lastStop},get touching(){return touchCount},get entered(){return entered}};
