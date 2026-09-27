@@ -1,0 +1,109 @@
+name: Preserved Safari repair final checks
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-scroll-final.yml']
+permissions:
+  contents: read
+jobs:
+  focused-validation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare exact candidate and test environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node -e "const c=require('crypto'),f=require('fs');require('assert').equal(c.createHash('sha256').update(f.readFileSync('index.html')).digest('hex'),'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157')"
+          cp index.html "$RUNNER_TEMP/candidate.html"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          if [ "$RUNNER_OS" = macOS ]; then "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1; else "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium >> "$RUNNER_TEMP/evidence/install.log" 2>&1; fi
+          node -e "require('./tools/serve-demo.cjs').createDemoServer().server.listen(8921,'127.0.0.1')" > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+      - name: Four landscape journeys outside editable fields and four reduced-motion journeys
+        if: runner.os == 'Linux'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/entry-scroll-browser.cjs');s=p.read_text()
+          old="const x=view.width*.5,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;"
+          new="""const start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+             // A page-scroll test must not start a text-editing gesture. The
+             // finished event card puts the old centre coordinate in the input.
+             const x=await page.evaluate(({w,y})=>[.5,.1,.9,.035,.965].map(n=>w*n).find(x=>{const e=document.elementFromPoint(x,y);return e&&!e.closest('input,textarea,select,form,button,a,[contenteditable]')}),{w:view.width,y:start});
+             assert(Number.isFinite(x),'No non-editable page-scroll point');"""
+          assert s.count(old)==1;s=s.replace(old,new);p.write_text(s)
+          PY
+          mkdir -p "$RUNNER_TEMP/evidence/landscape" "$RUNNER_TEMP/evidence/reduced"
+          QA_CASE=chromium-844-390 QA_PASSES=4 EVIDENCE_DIR="$RUNNER_TEMP/evidence/landscape" node tests/entry-scroll-browser.cjs
+          # Reduced motion deliberately settles immediately. Two distinct swipes
+          # can advance two stops; do not require them to share an animation.
+          QA_CASE=chromium-390-844-reduce QA_PATTERN=normal QA_PASSES=4 EVIDENCE_DIR="$RUNNER_TEMP/evidence/reduced" node tests/entry-scroll-browser.cjs
+      - name: Compare WebKit viewport fallback behavior with unchanged production
+        if: runner.os == 'macOS'
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/baseline" "$RUNNER_TEMP/evidence/candidate"
+          git show bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a:index.html > index.html
+          TEST_ENGINE=webkit EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" node tests/signup-viewport-browser.cjs > "$RUNNER_TEMP/evidence/baseline.log" 2>&1 || true
+          cp "$RUNNER_TEMP/candidate.html" index.html
+          TEST_ENGINE=webkit EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" node tests/signup-viewport-browser.cjs > "$RUNNER_TEMP/evidence/candidate.log" 2>&1 || true
+          node - <<'JS'
+          const fs=require('fs'),path=require('path'),assert=require('assert');const root=path.join(process.env.RUNNER_TEMP,'evidence');
+          const read=name=>{const text=fs.readFileSync(path.join(root,name+'.log'),'utf8');const line=text.trim().split('\n').reverse().find(l=>l.startsWith('{"checks"'));assert(line,'No completed keyboard result: '+name);return JSON.parse(line)};
+          const baseline=read('baseline'),candidate=read('candidate');
+          const failures=result=>result.failures.map(f=>({name:f.name,message:(typeof f.state==='string'?f.state:f.state.error).split('\n')[0]}));
+          assert(candidate.checks>=baseline.checks,'Candidate skipped checks');
+          assert.deepStrictEqual(failures(candidate),failures(baseline),'New keyboard/fallback regression');
+          const result={baseline,candidate,comparison:'No additional failure compared with unchanged production; matching failures remain limitations, not passes.'};fs.writeFileSync(path.join(root,'fallback-comparison.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-final-${{ matrix.os }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  prepare-clean-branch:
+    needs: focused-validation
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Commit only the reviewed source and regression test on an isolated release branch
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          node -e "const c=require('crypto'),f=require('fs');require('assert').equal(c.createHash('sha256').update(f.readFileSync('index.html')).digest('hex'),'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157')"
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/repair.patch"
+          cp tests/entry-scroll-performance-unit.cjs "$RUNNER_TEMP/regression.cjs"
+          git restore index.html tools/guided/journey.js tools/guided/journey.css
+          git switch --detach bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          git apply "$RUNNER_TEMP/repair.patch"
+          cp "$RUNNER_TEMP/regression.cjs" tests/entry-scroll-performance-unit.cjs
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs
+          git commit -m 'Cache stable scroll geometry and pause inaccessible legacy effects; preserve exact visuals and timing'
+          git push origin HEAD:refs/heads/fix/safari-scroll-preserved-20260927
+          echo "Prepared, not deployed: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
