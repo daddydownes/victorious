@@ -1,0 +1,138 @@
+name: Verify shared browser performance
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/cross-browser-verify.yml]
+permissions:
+  contents: read
+jobs:
+  journeys:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - {case: chromium-412-915, dpr: '2.625', cpu: '4'}
+          - {case: chromium-360-800, dpr: '3', cpu: '1'}
+          - {case: chromium-844-390, dpr: '2', cpu: '1'}
+          - {case: chromium-1440-900, dpr: '1', cpu: '1'}
+          - {case: chromium-1280-720, dpr: '1', cpu: '1'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Assemble exact reviewed candidate and extend QA inputs
+        run: |
+          node tools/apply-cross-browser-performance.cjs
+          node tools/prepare-chrome-device-tests.cjs
+          node tests/cross-browser-performance-scope.cjs
+      - name: Install isolated Chromium
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Four complete original-film touch or desktop journeys
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+          QA_CASE: ${{ matrix.case }}
+          QA_DPR: ${{ matrix.dpr }}
+          QA_CPU_RATE: ${{ matrix.cpu }}
+          QA_PASSES: '4'
+          QA_SOURCE_SHA256: 1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ >/dev/null && break; sleep 1; done
+          node tests/entry-scroll-browser.cjs | tee "$EVIDENCE_DIR/journeys.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: journey-${{ matrix.case }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  lifecycle:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-22.04, engine: chromium}
+          - {os: macos-15, engine: webkit}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Assemble candidate and run source and scheduler regressions
+        run: |
+          node tools/apply-cross-browser-performance.cjs
+          node tests/cross-browser-performance-scope.cjs
+          node tests/game-scheduler-idle.cjs
+          node tests/entry-scroll-performance-unit.cjs
+      - name: Install isolated browser engine
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps ${{ matrix.engine }}
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Reverse, motion suspension, pause and explicit resume four times
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+          QA_ENGINE: ${{ matrix.engine }}
+          QA_PASSES: '4'
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ >/dev/null && break; sleep 1; done
+          node tests/cross-browser-performance-browser.cjs | tee "$EVIDENCE_DIR/lifecycle.log"
+          if [ '${{ matrix.engine }}' = chromium ]; then node tests/journey-profile-browser.cjs | tee "$EVIDENCE_DIR/profile.log"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lifecycle-${{ matrix.engine }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  stage-release:
+    needs: [journeys, lifecycle]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Reproduce candidate and run regression suite
+        run: |
+          node tools/apply-cross-browser-performance.cjs
+          node tools/prepare-chrome-device-tests.cjs
+          for test in cross-browser-performance-scope game-scheduler-idle entry-scroll-performance-unit guided-source guided-scroll reveal post-surface-scroll press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do node "tests/$test.cjs"; done
+          git diff --check
+      - name: Stage clean review branch, never deploy from this workflow
+        env:
+          RELEASE_DIR: ${{ runner.temp }}/release
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git worktree add -b perf/cross-browser-release-20260927 "$RELEASE_DIR" fa03b08cecfc65a6ea73e29fbc44bc123fb0a429
+          for file in index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-browser.cjs tests/game-scheduler-idle.cjs tests/cross-browser-performance-browser.cjs tests/cross-browser-performance-scope.cjs tests/journey-profile-browser.cjs; do cp "$file" "$RELEASE_DIR/$file"; done
+          python3 - <<'PY'
+          import os,pathlib
+          root=pathlib.Path(os.environ['RELEASE_DIR'])
+          run=os.environ['GITHUB_RUN_ID']
+          text=f'''## September 27 - shared Chrome/Android-sized performance follow-up\n\nBased on production `fa03b08`. The earlier geometry fix already applies to all browsers. This follow-up pauses the collection/signup light cycle together only once both chapters are fully above the viewport, resumes it before reverse reveal, and stops the hidden Vault hint behind other chapters. The playable game now releases its animation frame and watchdog while paused, including resize, blur, reduced-motion and stall paths; explicit resume restores one of each. Visible keyframes, media, markup, game physics, entry easing and gesture thresholds are preserved.\n\nVerification run `{run}` passed 20 completed-original-film Chromium journeys across 412x915 (DPR 2.625, 4x CPU slowdown), 360x800, 844x390, 1440x900 and 1280x720, four per configuration. Four Chromium and four macOS WebKit lifecycle journeys checked offscreen suspension, reverse, pause/resume and Vault return after static-opening setup. Source/scope, scheduler, 725 entry-state comparisons and game regressions passed. Signup transport was mocked. Root SHA-256: `1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95`. This is a staged candidate; publication requires a separate reviewed fast-forward and live equality check.\n\nPhone-sized engines and CPU throttling are not physical Android/iPhone, Google-app WebView, or native Windows Chrome tests. No universal FPS claim is made; remaining photo-entry hitches were not declared solved. Diagnostic workflows/patch scripts are excluded from the clean branch. The historical `entry-scroll-scope.cjs` protects the older entry-only release; use `cross-browser-performance-scope.cjs` for this explicitly expanded scope.\n\n'''
+          p=root/'docs/STATUS.md';s=p.read_text();p.write_text(s.replace('# Current status\n','# Current status\n\n'+text,1))
+          p=root/'docs/WORKFLOW.md';p.write_text(p.read_text()+'''\n## Shared-browser performance regression\n\nRun `node tests/cross-browser-performance-scope.cjs` and `node tests/game-scheduler-idle.cjs` for the September 27 expanded performance scope. Browser lifecycle checks use `tests/cross-browser-performance-browser.cjs` with `BASE_URL`, `EVIDENCE_DIR`, `QA_ENGINE` and `QA_PASSES`. The complete-original-film suite accepts `QA_CASE=chromium-412-915` or `chromium-360-800`, optional `QA_DPR` and `QA_CPU_RATE`. Input starts are hit-tested outside editable fields without weakening assertions. Treat these as engine/emulation checks, not physical Android/iPhone certification.\n''')
+          PY
+          cd "$RELEASE_DIR"
+          git diff --check
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-browser.cjs tests/game-scheduler-idle.cjs tests/cross-browser-performance-browser.cjs tests/cross-browser-performance-scope.cjs tests/journey-profile-browser.cjs docs/STATUS.md docs/WORKFLOW.md
+          git commit -m 'Reduce invisible animation and paused-game work across browsers'
+          git push origin HEAD:refs/heads/perf/cross-browser-release-20260927
+          echo "STAGED_RELEASE_SHA=$(git rev-parse HEAD)"
