@@ -40,7 +40,7 @@ jobs:
         env:
           QA_PASSES: '1'
         run: |
-          python3 -m http.server 8921 --bind 127.0.0.1:8921 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
           node tests/safari-scroll-compare.cjs
       - uses: actions/upload-artifact@v4
