@@ -10,13 +10,13 @@ fs.writeFileSync('tests/scroll-layout-performance.cjs',perf);
 let entry=fs.readFileSync('tests/entry-scroll-browser.cjs','utf8');
 const old='const x=view.width*.5,start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;';
 assert(entry.includes(old));
-entry=entry.replace(old,`// A gesture intended for chapter navigation must start outside editable controls.
-   // Short landscape can place the email field under the old fixed centre point.
+entry=entry.replace(old,`// Keep the original centre gesture, including the receipt-area regression.
+   // QA_SAFE_TOUCH=1 is an explicit baseline-only isolation probe.
    const start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
    let x=view.width*.5;
    const hit=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return {id:e?.id,tag:e?.tagName,editable:!!e?.closest('input,textarea,select,[contenteditable]'),form:!!e?.closest('form')}},{x,y:start});
-   if(process.env.QA_SAFE_TOUCH!=='0'&&view.width>view.height)x=view.width*.08;
+   if(process.env.QA_SAFE_TOUCH==='1'&&view.width>view.height)x=view.width*.08;
    const actual=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return {id:e?.id,tag:e?.tagName,editable:!!e?.closest('input,textarea,select,[contenteditable]'),form:!!e?.closest('form')}},{x,y:start});
    (row.touchStarts||(row.touchStarts=[])).push({direction,x,y:start,original:hit,actual});save();`);
 fs.writeFileSync('tests/entry-scroll-browser.cjs',entry);
-console.log('Prepared test-only screenshot isolation and recorded non-editable touch starts.');
+console.log('Prepared screenshot isolation and recorded original touch-start targets.');
