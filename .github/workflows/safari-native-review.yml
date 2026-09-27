@@ -1,0 +1,64 @@
+name: Safari native review
+on:
+  push:
+    branches: [fix/safari-preserve-design-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: safari-native-review
+  cancel-in-progress: true
+jobs:
+  isolation:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare browser engines
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+      - name: Isolate rendering costs
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          sleep 1
+          node tests/safari-render-isolation.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-render-isolation
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  native-safari:
+    runs-on: macos-15
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable isolated Safari automation
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          sw_vers | tee "$RUNNER_TEMP/evidence/macos.txt"
+          /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/safari-version.txt"
+          sudo /usr/bin/safaridriver --enable
+      - name: Measure native Safari
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          /usr/bin/safaridriver -p 4444 > "$RUNNER_TEMP/evidence/driver.log" 2>&1 &
+          sleep 3
+          python3 tests/safari-native-audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-safari-evidence
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
