@@ -1,0 +1,59 @@
+name: Scroll release Chrome checks
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-chromium-release-check.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: cc815385947421c0f88f5c273b33cc2f52b0ca18
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and hash the exact Safari-tested candidate
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          echo 'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157  index.html' | sha256sum --check
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium > "$RUNNER_TEMP/evidence/install.log" 2>&1
+      - name: Four complete hero journeys at phone and desktop sizes
+        run: |
+          node -e "require('./tools/serve-demo.cjs').createDemoServer().server.listen(8921,'127.0.0.1')" > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          for config in chromium-390-844 chromium-1440-900; do
+            mkdir -p "$RUNNER_TEMP/evidence/$config"
+            EVIDENCE_DIR="$RUNNER_TEMP/evidence/$config" QA_SOURCE_SHA256=e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157 QA_CASE="$config" QA_PASSES=4 node tests/entry-scroll-browser.cjs | tee "$RUNNER_TEMP/evidence/$config/log.txt"
+          done
+      - name: One before-after measurement per viewport in Chromium
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/performance"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tests/safari-scroll-compare.cjs')
+          s=p.read_text().replace('start=height*.82,end=start-direction','start=height*(direction>0?.82:.18),end=start-direction')
+          p.write_text(s)
+          PY
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/performance" ENGINES=chromium QA_PASSES=1 node tests/safari-scroll-compare.cjs | tee "$RUNNER_TEMP/evidence/performance/log.txt"
+      - name: Upload strict checks and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scroll-release-chrome-checks
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
