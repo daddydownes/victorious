@@ -1,13 +1,13 @@
-name: Actual Safari wheel comparison
+name: Native Safari animated comparison
 on:
   push:
     branches: [qa/safari-wheel-20260927]
 permissions:
   contents: read
 jobs:
-  wheel:
+  animated-safari:
     runs-on: macos-15-intel
-    timeout-minutes: 12
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -15,63 +15,65 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare Safari and real wheel input
+      - name: Prepare actual Safari with normal motion
         run: |
           mkdir -p "$RUNNER_TEMP/evidence"
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          defaults write com.apple.universalaccess reduceMotion -bool false
+          defaults write com.apple.Accessibility ReduceMotionEnabled -bool false
+          killall cfprefsd || true
           sudo /usr/bin/safaridriver --enable
           /usr/bin/safaridriver --version > "$RUNNER_TEMP/evidence/version.txt"
           python3 - <<'PY'
           from pathlib import Path
-          import re
           p=Path('tests/safari-native-scroll.py');s=p.read_text()
-          wheel='''def wheel():
-              width, height = js('return [innerWidth,innerHeight]')
-              js("document.querySelector('#collectionSignup h2').focus({preventScroll:true})")
-              command('/actions', {'actions': [{'type': 'wheel', 'id': 'real-wheel', 'actions': [
-                  {'type': 'scroll', 'duration': 0, 'x': int(width*.08), 'y': int(height*.7),
-                   'deltaX': 0, 'deltaY': int(height), 'origin': 'viewport'}]}]})
-
-
+          before="    variants = {"
+          start=s.index(before);end=s.index("    for variant, css in variants.items():",start)
+          s=s[:start]+"    variants = {'baseline': ''}\n"+s[end:]
+          start=s.index("    for variant, css in variants.items():")
+          end=s.index("    rows.append({'status': 'PASS'",start)
+          loop='''    motion = js("return matchMedia('(prefers-reduced-motion: reduce)').matches")
+              rows.append({'reducedMotion': motion, 'input': 'native keyboard PageDown/Home, not touch or wheel'})
+              assert not motion, 'Hosted Safari still has Reduce Motion enabled; cannot certify normal animation'
+              for cycle in range(4):
+                  js("document.getElementById('nextDrop').focus({preventScroll:true})")
+                  measure('collection-idle-'+str(cycle))
+                  result=measure('to-signup-'+str(cycle), lambda: key('\\ue00f'))
+                  assert result['state']['target']=='signup' and not result['state']['moving']
+                  if cycle==0: screenshot('native-signup')
+                  result=measure('to-overview-'+str(cycle), lambda: key('\\ue00f'))
+                  assert result['state']['target']=='overview' and not result['state']['entered']
+                  if cycle==0: screenshot('native-overview')
+                  if cycle<3:
+                      key('\\ue011')
+                      wait("window.__vaultEntryGuide.target==='collection'&&!window.__vaultEntryGuide.moving")
+              measure('zoom', lambda: key('\\ue00f'))
+              wait("window.__guide.phase()==='vault'&&!document.getElementById('vault').inert")
+              screenshot('native-vault')
           '''
-          assert 'def key(value):' in s
-          s=s.replace('def key(value):',wheel+'def key(value):',1)
-          s=s.replace("lambda: click('#collectionScrollCue')",'lambda: wheel()')
-          s=s.replace("lambda: click('#vaultScrollCue')",'lambda: wheel()')
-          s=s.replace("lambda: key('\\ue00f')",'lambda: wheel()')
-          s,count=re.subn(r'    variants = \{[\s\S]*?\n    \}',"    variants = {'baseline': ''}",s,count=1)
-          assert count==1
-          s=s.replace('ua:navigator.userAgent}',"ua:navigator.userAgent,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,visibility:document.visibilityState,legacy:document.querySelector('.seamsec').getAnimations({subtree:true}).map(a=>({name:a.animationName,state:a.playState}))}")
+          # The string starts with four spaces and its later lines are dedented
+          # to the same try-block indentation by an explicit four-space trim.
+          lines=loop.splitlines();loop='\n'.join([lines[0]]+[line[4:] if line.startswith('    ') else line for line in lines[1:]])+'\n'
+          s=s[:start]+loop+s[end:]
           p.write_text(s)
           PY
           python3 -m py_compile tests/safari-native-scroll.py
-      - name: Compare native wheel behavior
+          cp tests/safari-native-scroll.py "$RUNNER_TEMP/evidence/test.py"
+      - name: Baseline and fixed native Safari
         run: |
-          python3 -m http.server 8921 --bind 127.0.0.1:8921 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
-          sleep 1
-          if ! curl --fail --silent http://127.0.0.1:8921/ > /dev/null; then
-            python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
-          fi
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          check() {
-            local label="$1"
-            if EVIDENCE_DIR="$RUNNER_TEMP/evidence/$label" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/$label.log" 2>&1; then return 0; fi
-            if grep -q 'session not created' "$RUNNER_TEMP/evidence/$label/native-safari.json"; then
-              cp "$RUNNER_TEMP/evidence/$label.log" "$RUNNER_TEMP/evidence/$label-startup-failure.log"
-              killall Safari || true
-              open -a Safari
-              sleep 3
-              EVIDENCE_DIR="$RUNNER_TEMP/evidence/$label" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/$label.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/$label.log"; return 1; }
-            else cat "$RUNNER_TEMP/evidence/$label.log"; return 1; fi
-          }
-          check baseline
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline"
+          python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/baseline.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/baseline.log"; exit 1; }
           node tools/apply-safari-scroll-fix.cjs
           node tools/build-guided.cjs
           shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
-          for pass in 1 2 3 4; do check "candidate-$pass"; done
+          for pass in 1 2 3 4; do
+            EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate-$pass" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/candidate-$pass.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/candidate-$pass.log"; exit 1; }
+          done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: safari-native-wheel-comparison
+          name: safari-animated-keyboard-comparison
           path: ${{ runner.temp }}/evidence
           retention-days: 7
