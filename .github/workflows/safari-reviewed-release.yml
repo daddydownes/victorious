@@ -1,0 +1,150 @@
+name: Prepare reviewed scroll repair
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-reviewed-release.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  prepare:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: cc815385947421c0f88f5c273b33cc2f52b0ca18
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require the independent strict Chromium checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json,os,time,urllib.request
+          url='https://api.github.com/repos/daddydownes/victorious/actions/runs/36308091269'
+          for attempt in range(28):
+              request=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(request,timeout=30) as response: run=json.load(response)
+              assert run['head_sha']=='c03480443f9ad843f1ca2cc1968eb2ead757bd00'
+              if run['status']=='completed':
+                  assert run['conclusion']=='success',run['conclusion']
+                  print('Strict completed-hero and source-matched comparison checks passed.')
+                  break
+              time.sleep(10)
+          else: raise SystemExit('Independent check still incomplete; release not prepared.')
+          PY
+      - name: Prepare only the reviewed production changes and handoff
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          echo 'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157  index.html' | sha256sum --check
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/repair.patch"
+          cp tests/entry-scroll-performance-unit.cjs "$RUNNER_TEMP/entry-scroll-performance-unit.cjs"
+          git restore index.html tools/guided/journey.js tools/guided/journey.css
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          git switch --detach bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          git apply "$RUNNER_TEMP/repair.patch"
+          cp "$RUNNER_TEMP/entry-scroll-performance-unit.cjs" tests/entry-scroll-performance-unit.cjs
+          mkdir -p docs/reviews
+          cat > docs/reviews/safari-scroll-performance-2026-09-27.md <<'EOF'
+          # Safari scrolling review — 27 September 2026
+
+          ## Scope and implementation
+
+          The owner authorized performance repairs while preserving the existing look and feel. Baseline: `bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a`. Original normalized homepage SHA-256: `d6a2886dd3e69e615504e8844f1d39287f46b4b48c7750407424e705cb6f7ad8`. Reviewed homepage SHA-256: `e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157`.
+
+          Two confirmed sources of avoidable work were repaired:
+
+          1. The pre-Vault controller repeatedly read section bounding boxes within its scrolling animation. It now groups and caches these reads, invalidating on layout resize, content/font changes, visibility restoration, reduced-motion changes and panel lifecycle changes. Browsers without ResizeObserver continue to read current geometry rather than retaining a stale cache.
+          2. Five legacy seam animation timelines continued running after that chapter became aria-hidden, including a scan that animates `left`. They are now paused only while their parent seam is aria-hidden. The visible collection, Vault and Surface animations remain running. No hidden section is removed from layout.
+
+          Runtime changes are confined to `tools/guided/journey.js`, `tools/guided/journey.css` and rebuilt `index.html`. Input thresholds, 420–640 ms movement bounds, easing, intermediate stops, reversal, exact-endpoint/release gating, media, photographs, fonts, signup transport, Surface, story and game are preserved. No backdrop/filter removal, visible-animation suppression, media recompression or new smooth-scroll library was shipped.
+
+          ## Measured results and visual checks
+
+          On macOS WebKit, the collection-to-signup transition at 390×844 made 230 bounding-box reads before the repair and zero afterward. The overview-to-Vault transition went from 179 reads to four. These are DOM geometry-read counts, not a claim of 230 forced layouts or a device-wide FPS multiplier.
+
+          Sixteen controlled before/after screenshots were compared as decoded RGB pixels: collection, signup, overview and landed Vault at 390×844, 320×568, 844×390 and 1440×900. Every pair was pixel-identical. The comparison temporarily froze CSS animation time and hid the random dust canvas on both sources; those controls were not included in production.
+
+          `tests/entry-scroll-performance-unit.cjs` verifies 725 frame states against the original controller across normal movement, forward coalescing, reversal during motion, resize during motion and content reflow. All states matched. Geometry reads in those scenarios dropped from 524–706 to three–six. The existing scope guard separately confirms that protected features outside the entry sources are unchanged.
+
+          ## Browser evidence
+
+          - Run `36307496795`, artifact `scroll-repair-macos-15`: Playwright 1.63.0 on macOS, 16 candidate scroll journeys plus four original journeys, four consecutive candidates per viewport. Reversal and resize cases passed. Narrow WebKit viewports use desktop-engine wheel input and forced native archive panning; they are not physical iPhone touch tests.
+          - Run `36307801089`, artifact `safari-scroll-native-candidate`: native Safari 26.6.1 on macOS 15.7.9 through Apple's safaridriver, not Playwright or an iPhone simulator. Collection/signup controls, Home reversal, overview and Page Down handoff reached the interactive Vault. Its source fingerprint matches the reviewed page. The hero was at time zero in the recorded run, so this is not evidence of completed Safari hero playback. Historical diagnostic labels saying baseline in that artifact mean the unmodified candidate before temporary CSS ablations, not old production.
+          - Run `36308091269`, artifact `scroll-release-chrome-checks`: independent strict Chromium checks, four completed-hero journeys at 390×844 and four at 1440×900, including reversal, spam/cancellation, resize and Surface/game/return smoke. The phone journeys use CDP touch input. Additional original/candidate measurements cover all four viewports. Response fingerprints are enforced. All form transport is mocked.
+
+          Build/source guards, guided scrolling, reveal/reduced-motion, press, Surface input/recovery, spatial layout and game regression tests also passed. Native Safari input smoke is bounded; it does not establish smoothness on every Mac or certify physical iPhone Safari.
+
+          ## Existing failure and remaining limits
+
+          The controlled macOS WebKit keyboard suite passed 28 of 29 checks. Its artificial no-VisualViewport fallback fails. Dedicated run `36307882536`, artifact `safari-keyboard-fallback-comparison`, reproduced the same input geometry on original and candidate in four pairs, at both 100 ms and 600 ms after resize. This is a pre-existing fallback defect, not a new scroll-cache regression. Current Safari has VisualViewport; no physical keyboard behavior is inferred from this simulation. The two pointer/keyboard-recovery cases passed.
+
+          Do not infer a clean result from the first aggregate workflow's green status: some piped test commands masked their exit status. The raw JSON was inspected and the above failure was isolated against production. The independent Chromium workflow uses explicit bash pipefail.
+
+          First-reveal photo rendering still produced intermittent long frames in the browser runners, and Linux WebKit software-rendering results are not representative of Apple hardware. The repair reduces verified unnecessary work; it does not prove every reported Safari stutter is eliminated. Next validation is the owner's actual device/browser and a focused trace if stutter remains. Keep the approved choreography and visible effects intact.
+
+          Diagnostic helpers and workflows stay on `fix/safari-scroll-20260927`; they are not part of the production release. Use `node tools/build-guided.cjs` for future edits, not the historical experience builder.
+          EOF
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('docs/STATUS.md');s=p.read_text();heading,rest=s.split('\n',1)
+          assert heading.strip()=='# Current status'
+          note='''## September 27 — Safari scroll overhead repair
+
+          The pre-Vault controller caches section geometry until layout changes, and the retired aria-hidden seam no longer runs invisible CSS animation timelines. Visible artwork/effects, scroll timing, gesture thresholds, exact entry gating, hero, Surface and game are unchanged. The reviewed homepage SHA-256 is `e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157`, based on `bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a`.
+
+          Validation includes 725 original-matched controller frame states, 16 pixel-identical macOS screenshot pairs, 16 macOS WebKit candidate journeys, native desktop Safari 26.6.1 navigation smoke, and eight completed-hero Chromium phone/desktop journeys. A no-VisualViewport simulated keyboard failure was reproduced identically on old and new code and remains documented; physical iPhone testing and any remaining first-reveal rendering stutter are not certified. See [the full evidence and limitations](reviews/safari-scroll-performance-2026-09-27.md). Production publication should be checked against the exact fingerprint, not inferred from the prepared branch.
+
+          '''
+          p.write_text(heading+'\n\n'+note+rest.lstrip('\n'))
+          PY
+          git diff --check
+          echo 'e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157  index.html' | sha256sum --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs docs/STATUS.md docs/reviews/safari-scroll-performance-2026-09-27.md
+          git commit -m 'Repair Safari scroll overhead without changing the visual journey'
+          git push origin HEAD:refs/heads/fix/safari-scroll-reviewed-20260927
+          echo "Prepared review commit $(git rev-parse HEAD); main was not changed."
+      - name: Wait for externally approved publication and verify live bytes
+        run: |
+          mkdir -p "$RUNNER_TEMP/release-evidence"
+          cp docs/reviews/safari-scroll-performance-2026-09-27.md "$RUNNER_TEMP/release-evidence/"
+          git rev-parse HEAD > "$RUNNER_TEMP/release-evidence/review-commit.txt"
+          export RELEASE_EVIDENCE="$RUNNER_TEMP/release-evidence"
+          python3 - <<'PY'
+          import hashlib,json,os,time,urllib.request
+          from pathlib import Path
+          expected='e54e83d476b7d7aff2254044358e1a1d3afd26f9ce06845fb8c35375dde95157'
+          rows=[]
+          for attempt in range(32):
+              try:
+                  request=urllib.request.Request('https://vctrsclo.com/',headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(request,timeout=20) as response: data=response.read().replace(b'\r\n',b'\n')
+                  actual=hashlib.sha256(data).hexdigest();rows.append({'time':time.time(),'sha256':actual,'matches':actual==expected})
+                  Path(os.environ['RELEASE_EVIDENCE'],'live-verification.json').write_text(json.dumps(rows,indent=2))
+                  if actual==expected:
+                      print('LIVE_SOURCE_MATCH',actual)
+                      break
+              except Exception as error:
+                  print(type(error).__name__,str(error))
+              time.sleep(10)
+          else: raise SystemExit('Canonical live fingerprint has not matched yet; no publication success claim.')
+          PY
+      - name: Upload release and live verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scroll-reviewed-release-evidence
+          path: ${{ runner.temp }}/release-evidence
+          retention-days: 7
