@@ -2,13 +2,14 @@ name: Safari scroll audit
 on:
   push:
     branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-scroll-audit.yml', 'tools/apply-safari-scroll-fix.cjs', 'tests/safari-scroll-compare.cjs', 'tests/entry-scroll-performance-unit.cjs']
 permissions:
   contents: read
 concurrency:
   group: safari-scroll-audit
   cancel-in-progress: true
 jobs:
-  audit:
+  comparison:
     runs-on: ubuntu-22.04
     timeout-minutes: 15
     steps:
@@ -18,31 +19,142 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare evidence
+      - name: Build exact repair and check source invariants
         run: |
           mkdir -p "$RUNNER_TEMP/evidence"
-          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          for test in entry-scroll-performance-unit entry-scroll-scope guided-source guided-scroll reveal press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do node "tests/$test.cjs"; done
+          git diff --check
+          git diff --stat
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/repair.patch"
+          tar -czf "$RUNNER_TEMP/evidence/tested-source.tgz" index.html tools/guided/journey.js tools/guided/journey.css
           echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
           echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
       - name: Install browser engines
         run: |
           npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
-          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" --version
           "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
-      - name: Run browser diagnostics
+      - name: A/B scroll work and rendering
+        env:
+          QA_PASSES: '1'
         run: |
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          if test -f tests/safari-paint-isolation.cjs; then
-            node tests/safari-paint-isolation.cjs
-          else
-            echo 'Paint-isolation harness not yet present; no production changes.'
-          fi
-      - name: Upload diagnosis evidence
+          node tests/safari-scroll-compare.cjs
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: safari-scroll-evidence
+          name: safari-scroll-comparison
           path: ${{ runner.temp }}/evidence
           retention-days: 7
+  journey:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [chromium-390-844, chromium-320-568, chromium-844-390, chromium-1440-900, chromium-390-844-reduce, chromium-1440-900-reduce]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare identical candidate and Chromium
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Four real-input journeys
+        env:
+          QA_CASE: ${{ matrix.case }}
+          QA_PASSES: '4'
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          node tests/entry-scroll-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-scroll-journey-${{ matrix.case }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  keyboard:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare candidate and browser
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Controlled keyboard and signup recovery
+        env:
+          TEST_ENGINE: ${{ matrix.engine }}
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          node tests/signup-viewport-browser.cjs
+          node tests/signup-pointer-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-scroll-keyboard-${{ matrix.engine }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  record-tested-repair:
+    needs: [comparison, journey, keyboard]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Commit only tested source to the repair branch
+        env:
+          TESTED_SHA: ${{ github.sha }}
+          REPAIR_BRANCH: ${{ github.ref_name }}
+        run: |
+          test "$REPAIR_BRANCH" = 'fix/safari-scroll-20260927'
+          test "$(git rev-parse HEAD)" = "$TESTED_SHA"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff --check
+          git add index.html tools/guided/journey.js tools/guided/journey.css
+          if git diff --cached --quiet; then echo 'Repair already recorded'; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Reduce scroll geometry reads and pause hidden legacy animations'
+          git push origin "HEAD:$REPAIR_BRANCH"
+          git rev-parse HEAD
+          sha256sum index.html
