@@ -1,5 +1,16 @@
 # Current status
 
+## September 27 - shared Chrome/Android-sized performance candidate
+
+Based on production `5cd5114`, retaining its touch-target investigation. The earlier geometry-cache fix already applies across browsers. This candidate suspends the collection/signup light cycle together only when both are fully above the viewport; reversing wakes it before reveal. The hidden Vault drag hint sleeps behind other chapters. Paused playable games release their animation frame and watchdog, including resize, blur, reduced-motion and stall paths; explicit resume restores one of each. Original visible CSS, media, markup, physics, gesture thresholds and entry easing are unchanged.
+
+All five Chromium journey jobs in run `36311047204` passed four completed-original-film journeys each (20 total): 412x915/DPR2.625/4x CPU slowdown, 360x800/DPR3, 844x390/DPR2, 1440x900 and 1280x720. The macOS WebKit lifecycle job in that run timed out at the overview in pass three; it is not a passing lifecycle result. A separate finalization run `36311401240` passed four Chromium and four macOS WebKit lifecycle journeys after static-opening setup, using actual settled chapter states instead of an arbitrary delay before the next key. Runtime hash remained identical. Source/scope, seven pause/resume modes, 725 matching entry-controller states and the existing regression suite passed. Signup was mocked.
+
+Root SHA-256: `1d459dc30e4a3ced0ec3101e7da23178b4e34ab3e423c98d9cfc1ac554837c95`. This branch is staged, not published; verify separate main publication, Pages completion and canonical source equality.
+
+Initial run `36310068072` masked a landscape assertion failure through a shell pipeline. That preliminary release branch is invalidated. Corrected tests use Bash pipefail and result-JSON assertions, keep landscape navigation gestures clear of editable fields, record delivered touch targets and verify rapid-pair input begins during the transition. No application input protection was weakened. Diagnostic workflows and one-time scripts are excluded from this clean branch. Phone-sized engines and CPU throttling are not physical Android/iPhone or Google-app WebView checks. Some photo-entry hitches remain outside the resolved overhead; no universal FPS or battery claim is made.
+
+
 ## September 27 - verified Safari scroll performance repair
 
 The guided-entry geometry cache removes repeated section measurements without changing easing, targets or gesture thresholds. Covered legacy/hero CSS animations are paused only after their chapters are retired. The root was rebuilt from the guided sources; visible artwork, media, layout, Surface and game remain unchanged.

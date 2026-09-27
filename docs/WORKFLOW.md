@@ -90,3 +90,7 @@ Build completion and caches can take time; a successful push alone does not veri
 For an unwanted release, identify the exact commit and use a reviewed `git revert` to preserve history. Avoid hard resets or force pushes of main. Retest the affected behavior and publish within the user’s authorization.
 
 Before stopping, update `docs/STATUS.md` with the code commit, outcome, tests, gaps and next task. Record durable reasons in `docs/DECISIONS.md`. Keep secrets, signup addresses and personal account information out of the repository. A new agent should be able to start from the GitHub README without the original computer or chat history.
+
+## Shared-browser performance regression
+
+Use `tests/cross-browser-performance-scope.cjs` for the expanded September 27 scope, plus `tests/game-scheduler-idle.cjs`. The older entry-only scope remains historical. Lifecycle browser checks require `BASE_URL`, `EVIDENCE_DIR`, `QA_ENGINE` and optional `QA_PASSES`; navigation waits for actual named landings. Full-film entry QA additionally supports `QA_CASE=chromium-412-915` or `chromium-360-800`, `QA_DPR` and `QA_CPU_RATE`. Rapid pairs assert their actual in-transition precondition and touch targets are recorded without per-gesture delay. Use Bash pipefail and validate result JSON; a successful artifact upload is not a passing test.

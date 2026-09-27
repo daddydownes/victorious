@@ -430,3 +430,19 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 :is(.next-drop-landed,.next-vault-open,.world-active) #stage *::after{
  animation-play-state:paused!important;
 }
+
+/* The archive hint is not visible before entry or behind Surface/the game.
+   Keep its original keyframes and resume them only in the visible archive. */
+body:not(.next-vault-open) #vault .drag-label,
+body.world-active #vault .drag-label{
+ animation-play-state:paused!important;
+}
+
+/* The first two chapters are fully clipped once the overview reaches the top.
+   Pause both together so their shared logo/button lighting stays synchronized. */
+.entry-content-offscreen :is(.collection-screen,.collection-signup),
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *,
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *::before,
+.entry-content-offscreen :is(.collection-screen,.collection-signup) *::after{
+ animation-play-state:paused!important;
+}
