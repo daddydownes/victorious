@@ -1,0 +1,38 @@
+name: Native Safari scroll audit
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-native-audit.yml', 'tests/safari-native-scroll.py', 'index.html', 'tools/guided/journey.js', 'tools/guided/journey.css']
+permissions:
+  contents: read
+concurrency:
+  group: safari-native-scroll-audit
+  cancel-in-progress: true
+jobs:
+  native-safari:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare native Safari
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+          sudo /usr/bin/safaridriver --enable
+          /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/safari-version.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+      - name: Native Safari scroll and rendering diagnosis
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          python3 tests/safari-native-scroll.py
+      - name: Upload native Safari evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safari-scroll-native
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
