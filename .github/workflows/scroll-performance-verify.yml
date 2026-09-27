@@ -1,0 +1,142 @@
+name: Verify scroll performance repair
+on:
+  push:
+    branches: [fix/safari-scroll-verified-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: verified-scroll-performance
+  cancel-in-progress: true
+jobs:
+  source:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and source regression checks
+        run: |
+          mkdir -p "$RUNNER_TEMP/source-evidence"
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          for test in guided-source guided-scroll entry-scroll-scope reveal press-feedback surface-input surface-recovery vault-spatial-layout flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do
+            node "tests/$test.cjs" >> "$RUNNER_TEMP/source-evidence/checks.log" 2>&1 || { cat "$RUNNER_TEMP/source-evidence/checks.log"; exit 1; }
+          done
+          git diff --check
+          git diff --stat | tee "$RUNNER_TEMP/source-evidence/stat.txt"
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/source-evidence/repair.diff"
+          sha256sum index.html tools/guided/journey.js tools/guided/journey.css | tee "$RUNNER_TEMP/source-evidence/hashes.txt"
+          tar -czf "$RUNNER_TEMP/source-evidence/candidate.tgz" index.html tools/guided/journey.js tools/guided/journey.css
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-source-evidence
+          path: ${{ runner.temp }}/source-evidence
+          retention-days: 7
+  journeys:
+    needs: source
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [chromium-390-844, chromium-320-568, chromium-844-390, chromium-1440-900]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare identical candidate and Chromium
+        run: |
+          mkdir -p "$RUNNER_TEMP/journey-evidence"
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/journey-evidence" >> "$GITHUB_ENV"
+          echo "QA_SOURCE_SHA256=$(sha256sum index.html | cut -d' ' -f1)" >> "$GITHUB_ENV"
+      - name: Four complete film and real-input journeys
+        env:
+          QA_CASE: ${{ matrix.viewport }}
+          QA_PASSES: '4'
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/journey-evidence/server.log" 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          node tests/entry-scroll-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-journeys-${{ matrix.viewport }}
+          path: ${{ runner.temp }}/journey-evidence
+          retention-days: 7
+  comparison:
+    needs: source
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare baseline and candidate
+        run: |
+          mkdir -p "$RUNNER_TEMP/layout-evidence"
+          git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+          echo "BASELINE_URL=http://127.0.0.1:8922/" >> "$GITHUB_ENV"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/layout-evidence" >> "$GITHUB_ENV"
+      - name: Compare layout and WebKit scrolling
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/layout-evidence/server-candidate.log" 2>&1 &
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$RUNNER_TEMP/layout-evidence/server-baseline.log" 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8922/ > /dev/null && break; sleep 1; done
+          node tests/scroll-layout-performance.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-layout-comparison
+          path: ${{ runner.temp }}/layout-evidence
+          retention-days: 7
+  record-candidate:
+    needs: [source, journeys, comparison]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Record only tested application changes on the isolated branch
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          test "$(git ls-remote origin refs/heads/fix/safari-scroll-verified-20260927 | cut -f1)" = "$EXPECTED_HEAD"
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          git diff --check
+          git add index.html tools/guided/journey.js tools/guided/journey.css
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Reduce hidden animation layout and cache pre-Vault scroll geometry'
+          git push origin HEAD:refs/heads/fix/safari-scroll-verified-20260927
+          git rev-parse HEAD
