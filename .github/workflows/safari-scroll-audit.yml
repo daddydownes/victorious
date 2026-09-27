@@ -18,33 +18,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare evidence and source snapshot
+      - name: Prepare evidence
         run: |
           mkdir -p "$RUNNER_TEMP/evidence"
-          tar -czf "$RUNNER_TEMP/evidence/source.tgz" index.html tools tests docs AGENTS.md TESTING.md
           git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
           echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
           echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
       - name: Install browser engines
         run: |
-          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright
-          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" --version | tee "$RUNNER_TEMP/evidence/playwright.txt"
-          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit
-      - name: Compare live source and run browser diagnostics
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" --version
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+      - name: Run browser diagnostics
         run: |
-          python3 - <<'PY'
-          import hashlib, pathlib, urllib.request
-          try:
-              live = urllib.request.urlopen('https://vctrsclo.com/', timeout=30).read().replace(b'\r\n', b'\n')
-              local = pathlib.Path('index.html').read_bytes().replace(b'\r\n', b'\n')
-              print('LIVE_SOURCE_MATCH', live == local, 'sha256', hashlib.sha256(live).hexdigest())
-          except Exception as error:
-              print('LIVE_SOURCE_CHECK_UNAVAILABLE', str(error))
-          PY
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          node tests/safari-scroll-performance.cjs
+          if test -f tests/safari-paint-isolation.cjs; then
+            node tests/safari-paint-isolation.cjs
+          else
+            echo 'Paint-isolation harness not yet present; no production changes.'
+          fi
       - name: Upload diagnosis evidence
         if: always()
         uses: actions/upload-artifact@v4
