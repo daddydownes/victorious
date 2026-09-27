@@ -18,11 +18,15 @@ try{for(let pass=1;pass<=passes;pass++){
  assert(await page.locator('#nextDrop').evaluate(el=>el.classList.contains('entry-content-offscreen')));
  row.overviewRunning=await page.evaluate(()=>document.getAnimations().filter(a=>a.playState==='running'&&a.effect?.target?.closest?.('.collection-screen,.collection-signup')).length);
  assert.equal(row.overviewRunning,0,'Fully clipped chapters must not animate');
- await page.locator('#nextDrop').focus();await page.keyboard.press('PageUp');await page.waitForTimeout(750);
+ await page.locator('#nextDrop').focus();await page.keyboard.press('PageUp');await page.waitForFunction(()=>!window.__vaultEntryGuide.moving&&window.__vaultEntryGuide.target!=='overview');
  assert.equal(await page.locator('#nextDrop').evaluate(el=>el.classList.contains('entry-content-offscreen')),false,'Reverse must wake before reveal');
  row.reversedRunning=await page.evaluate(()=>document.getAnimations().filter(a=>a.playState==='running'&&a.effect?.target?.closest?.('.collection-screen,.collection-signup')).length);
  assert(row.reversedRunning>0,'Shared light cycle failed to resume');
- await page.keyboard.press('PageDown');await page.waitForTimeout(750);await page.keyboard.press('End');
+ await page.keyboard.press('PageDown');
+ // A fixed delay can expire before an automation runner presents its last frame.
+ // The next gesture belongs to a separate settled chapter, not the current move.
+ await page.waitForFunction(()=>!window.__vaultEntryGuide.moving&&window.__vaultEntryGuide.target==='overview');
+ await page.keyboard.press('End');
  await page.waitForFunction(()=>window.__guide.phase()==='vault'&&!document.getElementById('vault').inert);
  assert.equal(await label(),'running');
  await page.locator('#surfaceBtn').tap();await page.waitForFunction(()=>window.__worldJourney.state==='story'&&!document.getElementById('world').classList.contains('film-waiting'),{},{timeout:30000});
@@ -44,7 +48,7 @@ try{for(let pass=1;pass<=passes;pass++){
  await page.locator('#flapExit').click();await page.locator('#worldReturnVault').click();await page.waitForFunction(()=>window.__guide.phase()==='vault'&&!document.getElementById('vault').inert);
  assert.equal(await label(),'running','Return must restore visible Vault motion');
  assert.deepEqual(errors,[]);row.status='PASS';console.log('PASS',JSON.stringify(row));
- }catch(e){row.status='FAIL';row.error=e.stack;await page.screenshot({path:path.join(out,engine+'-'+pass+'-FAIL.png')}).catch(()=>{});throw e}
+ }catch(e){row.status='FAIL';row.error=e.stack;row.last=await page.evaluate(()=>({phase:window.__guide?.phase(),moving:window.__vaultEntryGuide?.moving,target:window.__vaultEntryGuide?.target,top:document.getElementById('nextDrop')?.scrollTop,focus:document.activeElement?.id})).catch(()=>null);await page.screenshot({path:path.join(out,engine+'-'+pass+'-FAIL.png')}).catch(()=>{});throw e}
  finally{fs.writeFileSync(path.join(out,'performance-lifecycle-'+engine+'.json'),JSON.stringify({browser:browser.version(),rows},null,2));await context.close()}
 }}finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
