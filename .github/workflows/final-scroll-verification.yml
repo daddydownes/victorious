@@ -1,0 +1,88 @@
+name: Verify published Safari repair
+on:
+  push:
+    branches: [fix/safari-scroll-native-review-20260927]
+    paths: ['.github/workflows/final-scroll-verification.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 965985284f3f750dd5f27b873872fad30ac8f2ec
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare production and unchanged baseline
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          if test "$RUNNER_OS" = Linux; then
+            "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit firefox > "$RUNNER_TEMP/evidence/install.txt" 2>&1
+          else
+            "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install chromium > "$RUNNER_TEMP/evidence/install.txt" 2>&1
+          fi
+          python3 - <<'PY'
+          import pathlib, os
+          for root in [pathlib.Path.cwd(),pathlib.Path(os.environ['RUNNER_TEMP'])/'baseline']:
+              p=root/'tests/entry-scroll-browser.cjs';s=p.read_text()
+              # Timestamp actual dispatched touch events without changing event delivery.
+              anchor="await context.route('**/formsubmit.co/**',route=>route.fulfill({json:{success:true}}));"
+              addition="""await context.addInitScript(()=>{window.__touchAudit=[];for(const name of ['touchstart','touchmove','touchend','touchcancel'])addEventListener(name,e=>{const g=window.__vaultEntryGuide;window.__touchAudit.push({at:performance.now(),event:name,y:e.touches[0]?.clientY,target:g?.target,moving:g?.moving,top:document.getElementById('nextDrop')?.scrollTop})},{capture:true,passive:true})});"""
+              assert anchor in s
+              s=s.replace(anchor,anchor+'\n  '+addition,1)
+              anchor='finally{save();await context.close()}'
+              assert anchor in s
+              s=s.replace(anchor,"finally{row.touchAudit=await page.evaluate(()=>window.__touchAudit).catch(()=>[]);save();await context.close()}",1)
+              p.write_text(s)
+          PY
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/release-server.log" 2>&1 &
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$RUNNER_TEMP/evidence/baseline-server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+      - name: Verify actual canonical deployment
+        if: runner.os == 'Linux'
+        run: |
+          python3 - <<'PY'
+          import datetime,hashlib,json,os,pathlib,urllib.request
+          expected=hashlib.sha256(pathlib.Path('index.html').read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+          assert expected=='bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e'
+          result={'commit':'965985284f3f750dd5f27b873872fad30ac8f2ec','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'expected':expected,'samples':[]}
+          for url in ['https://vctrsclo.com/','https://vctrsclo.com/?verify=safari-9659852']:
+              with urllib.request.urlopen(urllib.request.Request(url,headers={'Cache-Control':'no-cache'}),timeout=30) as r:
+                  digest=hashlib.sha256(r.read().replace(b'\r\n',b'\n')).hexdigest()
+                  result['samples'].append({'url':url,'status':r.status,'sha256':digest,'match':digest==expected})
+          pathlib.Path(os.environ['RUNNER_TEMP'],'evidence','deployment.json').write_text(json.dumps(result,indent=2));print(json.dumps(result))
+          assert all(x['match'] for x in result['samples'])
+          PY
+      - name: Original and release touch stress control
+        run: |
+          set +e
+          QA_CASE=chromium-390-844 QA_PATTERN=spam QA_PASSES=1 BASE_URL=http://127.0.0.1:8922/ EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline-spam" node "$RUNNER_TEMP/baseline/tests/entry-scroll-browser.cjs"
+          echo "BASELINE_EXIT=$?" >> "$RUNNER_TEMP/evidence/stress-status.txt"
+          QA_CASE=chromium-390-844 QA_PATTERN=spam QA_PASSES=1 BASE_URL=http://127.0.0.1:8921/ EVIDENCE_DIR="$RUNNER_TEMP/evidence/release-spam" node tests/entry-scroll-browser.cjs
+          echo "RELEASE_EXIT=$?" >> "$RUNNER_TEMP/evidence/stress-status.txt"
+          cat "$RUNNER_TEMP/evidence/stress-status.txt"
+      - name: Release keyboard and layout recovery
+        if: runner.os == 'Linux'
+        run: |
+          export BASE_URL=http://127.0.0.1:8921/
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/signup" node tests/signup-viewport-browser.cjs
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/pointer" node tests/signup-pointer-browser.cjs
+          QA_CASE=chromium-844-390 QA_PATTERN=cancel-resize QA_PASSES=1 EVIDENCE_DIR="$RUNNER_TEMP/evidence/landscape" node tests/entry-scroll-browser.cjs
+      - name: Upload read-only verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-scroll-${{ matrix.os }}
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
