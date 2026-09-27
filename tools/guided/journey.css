@@ -420,3 +420,10 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-width:700px){.popup-name{font-size:clamp(38px,11vw,54px)}}
 @media(max-height:650px){.signup-landing{padding-top:30px}.popup-countdown{margin-top:18px;padding:14px 12px}.popup-name{font-size:clamp(30px,7svh,42px)}.popup-date{margin:10px 0}.vault-scroll-cue{min-height:76px}}
 @media(prefers-reduced-motion:reduce){.vault .vault-hud{transition:none}.vault-descent-instruction{opacity:1}.vault-descent-scene{touch-action:pan-y pinch-zoom}}
+
+/* The retained legacy seam is fully covered throughout the current journey.
+   Its scan still animates 'left', causing layout even though nobody can see it.
+   Pause only those retired decorations; keep all visible lighting and timing. */
+body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *,
+body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *::before,
+body:is(.next-drop-entering,.next-drop-landed,.next-vault-opening,.next-vault-open,.world-active) .seamsec *::after{animation-play-state:paused!important}
