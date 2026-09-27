@@ -1,0 +1,122 @@
+name: Verify Safari scroll repair
+on:
+  push:
+    branches: [fix/safari-scroll-release-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: safari-scroll-release-verification
+  cancel-in-progress: false
+jobs:
+  browser:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated test browsers
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium webkit >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+      - name: Measure unchanged baseline
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" QA_PASSES=1 node tests/safari-scroll-performance.cjs | tee "$RUNNER_TEMP/evidence/baseline.log"
+      - name: Apply and validate the narrowly scoped repair
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          git diff --check
+          node tests/entry-scroll-performance-unit.cjs | tee "$RUNNER_TEMP/evidence/frame-equivalence.log"
+          for test in entry-scroll-scope guided-source guided-scroll reveal press-feedback surface-input surface-recovery flappy-difficulty flappy-collision flappy-material flappy-lifecycle flappy-death flappy-reachability; do
+            node "tests/$test.cjs" >> "$RUNNER_TEMP/evidence/regressions.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/regressions.log"; exit 1; }
+          done
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/candidate.patch"
+          sha256sum index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
+          tar -czf "$RUNNER_TEMP/evidence/candidate-source.tgz" index.html tools/guided/journey.js tools/guided/journey.css
+      - name: Measure repaired browser behavior
+        run: |
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate" QA_PASSES=1 node tests/safari-scroll-performance.cjs | tee "$RUNNER_TEMP/evidence/candidate.log"
+      - name: Repeat complete real-input journeys and keyboard tests
+        run: |
+          export QA_SOURCE_SHA256=$(sha256sum index.html | cut -d' ' -f1)
+          for case in chromium-390-844 chromium-844-390 chromium-1440-900; do
+            EVIDENCE_DIR="$RUNNER_TEMP/evidence/$case" QA_CASE="$case" QA_PASSES=4 node tests/entry-scroll-browser.cjs >> "$RUNNER_TEMP/evidence/journeys.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/journeys.log"; exit 1; }
+          done
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/reduced" QA_CASE=chromium-390-844-reduce QA_PASSES=4 node tests/entry-scroll-browser.cjs >> "$RUNNER_TEMP/evidence/journeys.log" 2>&1
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/keyboard" node tests/signup-viewport-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/pointer" node tests/signup-pointer-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verified-scroll-browser
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  safari:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare actual Safari
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          sudo /usr/bin/safaridriver --enable
+          /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/version.txt"
+          echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
+      - name: Native baseline and candidate
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
+          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/baseline.log" 2>&1
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs > "$RUNNER_TEMP/evidence/frame-equivalence.log"
+          for pass in 1 2 3 4; do
+            EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate-$pass" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/candidate-$pass.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/candidate-$pass.log"; exit 1; }
+          done
+          shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verified-scroll-native-safari
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
+  save-candidate:
+    needs: [browser, safari]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Save tested code on the task branch only
+        run: |
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          git diff --check
+          git fetch origin fix/safari-scroll-release-20260927
+          test "$(git rev-parse origin/fix/safari-scroll-release-20260927)" = "$GITHUB_SHA"
+          git config user.name 'VCTRS performance verification'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- index.html tools/guided/journey.js tools/guided/journey.css
+          git commit -m 'Reduce scroll layout work and pause retired animations without changing the journey'
+          git push origin HEAD:refs/heads/fix/safari-scroll-release-20260927
