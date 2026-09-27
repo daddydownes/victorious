@@ -6,7 +6,7 @@ permissions:
   contents: read
 concurrency:
   group: safari-scroll-release-verification
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   browser:
     runs-on: ubuntu-22.04
@@ -52,8 +52,10 @@ jobs:
             EVIDENCE_DIR="$RUNNER_TEMP/evidence/$case" QA_CASE="$case" QA_PASSES=4 node tests/entry-scroll-browser.cjs >> "$RUNNER_TEMP/evidence/journeys.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/journeys.log"; exit 1; }
           done
           EVIDENCE_DIR="$RUNNER_TEMP/evidence/reduced" QA_CASE=chromium-390-844-reduce QA_PASSES=4 node tests/entry-scroll-browser.cjs >> "$RUNNER_TEMP/evidence/journeys.log" 2>&1
-          EVIDENCE_DIR="$RUNNER_TEMP/evidence/keyboard" node tests/signup-viewport-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
-          EVIDENCE_DIR="$RUNNER_TEMP/evidence/pointer" node tests/signup-pointer-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
+          for engine in chromium webkit; do
+            TEST_ENGINE="$engine" EVIDENCE_DIR="$RUNNER_TEMP/evidence/keyboard-$engine" node tests/signup-viewport-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
+          done
+          ENGINES=chromium,webkit EVIDENCE_DIR="$RUNNER_TEMP/evidence/pointer" node tests/signup-pointer-browser.cjs >> "$RUNNER_TEMP/evidence/keyboard.log" 2>&1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -75,18 +77,32 @@ jobs:
           mkdir -p "$RUNNER_TEMP/evidence"
           sudo /usr/bin/safaridriver --enable
           /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/version.txt"
+          open -a Safari
+          sleep 2
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
       - name: Native baseline and candidate
         run: |
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
-          EVIDENCE_DIR="$RUNNER_TEMP/evidence/baseline" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/baseline.log" 2>&1
+          native_check() {
+            local label="$1"
+            if EVIDENCE_DIR="$RUNNER_TEMP/evidence/$label" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/$label.log" 2>&1; then return 0; fi
+            if grep -q 'session not created' "$RUNNER_TEMP/evidence/$label/native-safari.json"; then
+              cp "$RUNNER_TEMP/evidence/$label.log" "$RUNNER_TEMP/evidence/$label-startup-failure.log"
+              killall Safari || true
+              open -a Safari
+              sleep 3
+              EVIDENCE_DIR="$RUNNER_TEMP/evidence/$label" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/$label.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/$label.log"; return 1; }
+            else
+              cat "$RUNNER_TEMP/evidence/$label.log"
+              return 1
+            fi
+          }
+          native_check baseline
           node tools/apply-safari-scroll-fix.cjs
           node tools/build-guided.cjs
           node tests/entry-scroll-performance-unit.cjs > "$RUNNER_TEMP/evidence/frame-equivalence.log"
-          for pass in 1 2 3 4; do
-            EVIDENCE_DIR="$RUNNER_TEMP/evidence/candidate-$pass" python3 tests/safari-native-scroll.py > "$RUNNER_TEMP/evidence/candidate-$pass.log" 2>&1 || { cat "$RUNNER_TEMP/evidence/candidate-$pass.log"; exit 1; }
-          done
+          for pass in 1 2 3 4; do native_check "candidate-$pass"; done
           shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate.sha256"
       - uses: actions/upload-artifact@v4
         if: always()
@@ -96,6 +112,7 @@ jobs:
           retention-days: 7
   save-candidate:
     needs: [browser, safari]
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -106,7 +123,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Save tested code on the task branch only
+      - name: Save checked source on the task branch only; never publish
+        env:
+          BROWSER_RESULT: ${{ needs.browser.result }}
+          SAFARI_RESULT: ${{ needs.safari.result }}
         run: |
           node tools/apply-safari-scroll-fix.cjs
           node tools/build-guided.cjs
@@ -115,8 +135,18 @@ jobs:
           git diff --check
           git fetch origin fix/safari-scroll-release-20260927
           test "$(git rev-parse origin/fix/safari-scroll-release-20260927)" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          p=Path('docs/STATUS.md')
+          note='## September 27 - conservative Safari scroll performance candidate\n\n'
+          note+='The candidate caches pre-Vault landing geometry between actual layout changes and pauses only the aria-hidden legacy seam animations. Input thresholds, easing, layout, visible lighting, films, artwork, archive, Surface, game and signup transport are preserved. The frame-equivalence test checks 725 states against production bac0b908; the scope test verifies unchanged downstream source.\n\n'
+          note+='Browser verification job: '+os.environ['BROWSER_RESULT']+'. Native macOS Safari verification job: '+os.environ['SAFARI_RESULT']+'. See Actions run '+os.environ['GITHUB_RUN_ID']+' and its artifacts for actual results and infrastructure gaps. This is a task-branch candidate, not publication or physical-iPhone certification. Review the reports and main/live equality before release.\n\n'
+          old=p.read_text()
+          if note not in old:p.write_text(old.replace('# Current status\n','# Current status\n\n'+note,1))
+          PY
           git config user.name 'VCTRS performance verification'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- index.html tools/guided/journey.js tools/guided/journey.css
+          git add -- index.html tools/guided/journey.js tools/guided/journey.css docs/STATUS.md
           git commit -m 'Reduce scroll layout work and pause retired animations without changing the journey'
           git push origin HEAD:refs/heads/fix/safari-scroll-release-20260927
