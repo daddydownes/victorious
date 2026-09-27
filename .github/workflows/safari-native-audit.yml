@@ -16,23 +16,32 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Prepare native Safari
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build exact candidate and prepare native Safari
         run: |
           mkdir -p "$RUNNER_TEMP/evidence"
+          node tools/apply-safari-scroll-fix.cjs
+          node tools/build-guided.cjs
+          node tests/entry-scroll-performance-unit.cjs
+          node tests/entry-scroll-scope.cjs
+          shasum -a 256 index.html > "$RUNNER_TEMP/evidence/candidate-sha256.txt"
+          git diff -- index.html tools/guided/journey.js tools/guided/journey.css > "$RUNNER_TEMP/evidence/repair.patch"
           echo "BASE_URL=http://127.0.0.1:8921/" >> "$GITHUB_ENV"
           echo "EVIDENCE_DIR=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
           sudo /usr/bin/safaridriver --enable
           /usr/bin/safaridriver --version | tee "$RUNNER_TEMP/evidence/safari-version.txt"
           git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
-      - name: Native Safari scroll and rendering diagnosis
+      - name: Native Safari candidate scroll and rendering diagnosis
         run: |
           python3 -m http.server 8921 --bind 127.0.0.1 > "$RUNNER_TEMP/evidence/server.log" 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ > /dev/null && break; sleep 1; done
           python3 tests/safari-native-scroll.py
-      - name: Upload native Safari evidence
+      - name: Upload native Safari candidate evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: safari-scroll-native
+          name: safari-scroll-native-candidate
           path: ${{ runner.temp }}/evidence
           retention-days: 7
