@@ -1,0 +1,65 @@
+name: Verify published Safari repair
+on:
+  push:
+    branches: [fix/safari-scroll-20260927]
+    paths: ['.github/workflows/safari-live-confirm.yml']
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify the exact published source and canonical homepage
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          export EVIDENCE_DIR="$RUNNER_TEMP/evidence"
+          for file in index.html tools/guided/journey.js tools/guided/journey.css tests/entry-scroll-performance-unit.cjs; do git show "965985284f3f750dd5f27b873872fad30ac8f2ec:$file" > "$file"; done
+          echo 'bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e  index.html' | sha256sum --check
+          node tests/entry-scroll-performance-unit.cjs | tee "$RUNNER_TEMP/evidence/unit.log"
+          node tests/entry-scroll-scope.cjs | tee "$RUNNER_TEMP/evidence/scope.log"
+          python3 - <<'PY'
+          import hashlib,json,os,time,urllib.request
+          from pathlib import Path
+          expected='bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e'
+          rows=[]
+          for attempt in range(30):
+              try:
+                  with urllib.request.urlopen('https://vctrsclo.com/',timeout=25) as response:
+                      data=response.read()
+                      row={'attempt':attempt,'status':response.status,'url':response.url,'sha256':hashlib.sha256(data.replace(b'\r\n',b'\n')).hexdigest(),'bytes':len(data)}
+                  rows.append(row)
+                  if row['sha256']==expected:break
+              except Exception as error:rows.append({'attempt':attempt,'error':str(error)})
+              time.sleep(5)
+          out=Path(os.environ['EVIDENCE_DIR'])
+          (out/'live-source.json').write_text(json.dumps({'main_commit':'965985284f3f750dd5f27b873872fad30ac8f2ec','expected':expected,'checks':rows},indent=2))
+          print(json.dumps(rows[-1]))
+          assert rows[-1].get('sha256')==expected,'Canonical homepage does not match the tested main source'
+          PY
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Install the pinned browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0 > "$RUNNER_TEMP/evidence/install.log" 2>&1
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium >> "$RUNNER_TEMP/evidence/install.log" 2>&1
+      - name: Fresh complete live journey with mocked signup transport
+        env:
+          BASE_URL: https://vctrsclo.com/
+          QA_CASE: chromium-390-844
+          QA_PASSES: '1'
+          QA_PATTERN: normal
+          QA_SOURCE_SHA256: bfef4d4b086834c074274d12bc2e97d93004b99c619ac2dc2c6e13c1e04ce67e
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+        run: node tests/entry-scroll-browser.cjs | tee "$RUNNER_TEMP/evidence/live-journey.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: published-safari-repair-verification
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
