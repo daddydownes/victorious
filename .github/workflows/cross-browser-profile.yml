@@ -1,0 +1,39 @@
+name: Cross-browser whole-journey profile
+on:
+  push:
+    branches: [perf/cross-browser-20260927]
+    paths: [.github/workflows/cross-browser-profile.yml]
+permissions:
+  contents: read
+jobs:
+  profile:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/qa" --no-audit --no-fund playwright@1.63.0
+          "$RUNNER_TEMP/qa/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/qa/node_modules" >> "$GITHUB_ENV"
+      - name: Sample all active chapters without submitting signup
+        env:
+          BASE_URL: http://127.0.0.1:8921/
+          EVIDENCE_DIR: ${{ runner.temp }}/evidence
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          sha256sum index.html > "$EVIDENCE_DIR/source-sha256.txt"
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8921/ >/dev/null && break; sleep 1; done
+          node tests/journey-profile-browser.cjs | tee "$EVIDENCE_DIR/profile.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: whole-journey-profile
+          path: ${{ runner.temp }}/evidence
+          retention-days: 7
