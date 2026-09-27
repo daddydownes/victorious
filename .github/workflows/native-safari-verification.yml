@@ -1,0 +1,98 @@
+name: Native Safari scroll verification
+on:
+  push:
+    branches: [qa/safari-native-20260927]
+permissions:
+  contents: read
+concurrency:
+  group: native-safari-scroll-verification
+  cancel-in-progress: true
+jobs:
+  safari:
+    runs-on: macos-15
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare original and repaired source
+        run: |
+          mkdir -p "$RUNNER_TEMP/safari-evidence"
+          git worktree add --detach "$RUNNER_TEMP/baseline" bac0b908e9814487c4c7fa8d7f8f05c43cfaba1a
+          node tools/prepare-scroll-performance.cjs
+          node tools/build-guided.cjs
+          shasum -a 256 index.html > "$RUNNER_TEMP/safari-evidence/candidate-hash.txt"
+          echo "EVIDENCE_DIR=$RUNNER_TEMP/safari-evidence" >> "$GITHUB_ENV"
+          /usr/bin/safaridriver --version > "$RUNNER_TEMP/safari-evidence/safari-version.txt"
+          sudo /usr/bin/safaridriver --enable
+      - name: Test original and repaired scroll journeys in Safari
+        run: |
+          python3 -m http.server 8921 --bind 127.0.0.1 > "$EVIDENCE_DIR/server-candidate.log" 2>&1 &
+          python3 -m http.server 8922 --bind 127.0.0.1 --directory "$RUNNER_TEMP/baseline" > "$EVIDENCE_DIR/server-baseline.log" 2>&1 &
+          /usr/bin/safaridriver --port 4444 > "$EVIDENCE_DIR/driver.log" 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:4444/status > /dev/null && break; sleep 1; done
+          python3 - <<'PY'
+          import base64,json,os,pathlib,time,urllib.request,urllib.error
+          out=pathlib.Path(os.environ['EVIDENCE_DIR']);sid=None;rows=[]
+          def call(method,path,data=None):
+              req=urllib.request.Request('http://127.0.0.1:4444'+path,data=None if data is None else json.dumps(data).encode(),method=method,headers={'Content-Type':'application/json'})
+              try:
+                  with urllib.request.urlopen(req,timeout=90) as response: value=json.load(response)['value']
+              except urllib.error.HTTPError as error: raise RuntimeError(error.read().decode()) from error
+              if isinstance(value,dict) and 'error' in value: raise RuntimeError(value)
+              return value
+          def js(script,*args): return call('POST','/session/'+sid+'/execute/sync',{'script':script,'args':list(args)})
+          def wait(script,timeout=70):
+              end=time.monotonic()+timeout
+              while time.monotonic()<end:
+                  value=js(script)
+                  if value: return value
+                  time.sleep(.2)
+              raise AssertionError('Timed out: '+script)
+          def key(value): call('POST','/session/'+sid+'/actions',{'actions':[{'type':'key','id':'keyboard','actions':[{'type':'keyDown','value':value},{'type':'keyUp','value':value}]}]})
+          def save(): (out/'native-safari.json').write_text(json.dumps(rows,indent=2))
+          try:
+              result=call('POST','/session',{'capabilities':{'alwaysMatch':{'browserName':'safari'}}});sid=result['sessionId']
+              (out/'capabilities.json').write_text(json.dumps(result,indent=2))
+              call('POST','/session/'+sid+'/window/rect',{'width':1440,'height':1000})
+              for run,version in enumerate(['baseline','candidate','candidate','candidate','candidate','baseline'],1):
+                  row={'version':version,'run':run,'engine':'native Safari on hosted macOS; keyboard scrolling, not physical iPhone','segments':[],'status':'RUNNING'};rows.append(row);save()
+                  port=8922 if version=='baseline' else 8921
+                  call('POST','/session/'+sid+'/url',{'url':f'http://127.0.0.1:{port}/?native-safari={run}'})
+                  wait("return document.body.classList.contains('next-drop-landed')&&!document.getElementById('nextDrop').inert")
+                  row['hero']=js("const v=document.getElementById('film');return {time:v.currentTime,duration:v.duration,ended:v.ended,error:v.error?.code||null}")
+                  assert row['hero']['duration'] and row['hero']['time']>=row['hero']['duration']-.12 and not row['hero']['error'],row['hero']
+                  row['viewport']=js('return {width:innerWidth,height:innerHeight,ua:navigator.userAgent}')
+                  js("document.getElementById('nextDrop').focus({preventScroll:true});window.__nativeErrors=[];addEventListener('error',e=>__nativeErrors.push(e.message));const original=Element.prototype.getBoundingClientRect;window.__nativeQ={active:false,rects:0};Element.prototype.getBoundingClientRect=function(...a){if(__nativeQ.active)__nativeQ.rects++;return original.apply(this,a)}")
+                  for stage,target in [('collection-idle','collection'),('signup','signup'),('signup-idle','signup'),('overview','overview'),('overview-idle','overview'),('vault','vault')]:
+                      js("Object.assign(__nativeQ,{active:true,last:0,times:[],rects:0});function sample(t){const q=__nativeQ;if(!q.active)return;if(q.last)q.times.push(t-q.last);q.last=t;requestAnimationFrame(sample)}requestAnimationFrame(sample)")
+                      if not stage.endswith('idle'): key('\ue00f')
+                      time.sleep(1.2)
+                      stats=js("const q=__nativeQ;q.active=false;const a=q.times.sort((a,b)=>a-b);return {frames:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,rects:q.rects,target:__vaultEntryGuide.target,moving:__vaultEntryGuide.moving,phase:__guide.phase(),top:document.getElementById('nextDrop').scrollTop}")
+                      stats['stage']=stage;row['segments'].append(stats);save()
+                      wait('return !__vaultEntryGuide.moving',15)
+                      assert js('return __vaultEntryGuide.target')==target,stats
+                      if run<=2:
+                          image=call('GET','/session/'+sid+'/screenshot');(out/(version+'-'+stage+'.png')).write_bytes(base64.b64decode(image))
+                  wait("return __guide.phase()==='vault'&&!document.getElementById('vault').inert",15)
+                  assert js('return __nativeErrors')==[]
+                  row['status']='PASS';save();print('NATIVE_SAFARI',json.dumps(row),flush=True)
+          except Exception as error:
+              if rows: rows[-1]['status']='FAIL';rows[-1]['error']=str(error);save()
+              (out/'error.txt').write_text(str(error))
+              if sid:
+                  try: (out/'failure.png').write_bytes(base64.b64decode(call('GET','/session/'+sid+'/screenshot')))
+                  except Exception: pass
+              raise
+          finally:
+              if sid: call('DELETE','/session/'+sid)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-safari-verification
+          path: ${{ runner.temp }}/safari-evidence
+          retention-days: 7
