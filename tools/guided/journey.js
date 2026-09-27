@@ -67,17 +67,25 @@ const panel=document.getElementById('nextDrop'),signup=document.getElementById('
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 let frame=0,move=null,entered=false,endpointReady=false,contact=null,touchCount=0,wheelConsumed=false,wheelDirection=0,wheelReverse=0,wheelTimer=0,lastWheel=0,entryTimer=0,lastStop='collection',photosWarmed=false,overviewWarmed=false;
-const topOf=el=>el.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop;
-function stops(){
- const height=panel.clientHeight,first=topOf(signup),overview=topOf(invitation),end=Math.max(overview,overview+invitation.offsetHeight-height);
+// Cache entry geometry until layout actually changes, never on scroll alone.
+let geometry=null;
+function invalidateGeometry(){geometry=null}
+function readGeometry(){
+ if(geometry)return geometry;
+ // Group layout reads before this controller writes scroll position or styles.
+ const height=panel.clientHeight,scroll=panel.scrollTop,origin=panel.getBoundingClientRect().top;
+ const first=signup.getBoundingClientRect().top-origin+scroll,overview=invitation.getBoundingClientRect().top-origin+scroll;
+ const sectionHeight=invitation.offsetHeight,end=Math.max(overview,overview+sectionHeight-height);
  const list=[{key:'collection',top:0},{key:'signup',top:first}];
  // In short landscape the email/event card can be taller than the viewport.
  // Reveal its lower part before moving into the photographic overview.
  for(let y=first+height*.85;y<overview-height-24;y+=height*.85)list.push({key:'email-'+list.length,top:y});
  if(overview-height>first+24)list.push({key:'email-bottom',top:overview-height});
  list.push({key:'overview',top:overview},{key:'vault',top:end});
- return list.filter((point,i)=>!i||point.top-list[i-1].top>3);
+ geometry={height,first,overview,sectionHeight,points:list.filter((point,i)=>!i||point.top-list[i-1].top>3)};
+ return geometry;
 }
+function stops(){return readGeometry().points}
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function cancelEntry(){endpointReady=false;if(move)move.allowEntry=false;clearTimeout(entryTimer);entryTimer=0}
 function enter(){
@@ -90,13 +98,13 @@ function enter(){
  entered=true;endpointReady=false;button.click();
 }
 function render(){
- const top=panel.scrollTop,section=topOf(invitation),height=panel.clientHeight;
- if(!photosWarmed&&top>=topOf(signup)-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
+ const {height,first,overview:section,sectionHeight}=readGeometry(),top=panel.scrollTop;
+ if(!photosWarmed&&top>=first-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
  if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
- const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,invitation.offsetHeight-height)));
+ const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
- const visible=top+height>section&&top<section+invitation.offsetHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
+ const visible=top+height>section&&top<section+sectionHeight&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true';
  panel.classList.toggle('vault-camera-active',visible);
  if(visible&&window.__vaultCamera)window.__vaultCamera.paint(progress,entranceOffset);
  else if(!panel.inert&&window.__vaultCamera)window.__vaultCamera.cancel();
@@ -188,17 +196,25 @@ function go(key,event){
 document.getElementById('collectionScrollCue').addEventListener('click',event=>go('signup',event),true);
 document.getElementById('vaultScrollCue').addEventListener('click',event=>go('overview',event),true);
 function reset(){
+ invalidateGeometry();
  if(move){const target=stops().find(point=>point.key===move.key);if(target){panel.scrollTop=target.top;lastStop=target.key}move=null}
  contact=null;touchCount=0;wheelConsumed=false;wheelDirection=0;wheelReverse=0;clearTimeout(wheelTimer);cancelEntry();
 }
 panel.addEventListener('scroll',queue,{passive:true});
+function layoutChanged(){invalidateGeometry();queue()}
+if(window.ResizeObserver){
+ const layoutObserver=new ResizeObserver(layoutChanged);
+ [panel,panel.querySelector('.collection-screen'),signup,invitation].filter(Boolean).forEach(el=>layoutObserver.observe(el));
+}
+if(document.fonts){document.fonts.ready.then(layoutChanged);document.fonts.addEventListener?.('loadingdone',layoutChanged)}
 addEventListener('resize',()=>{
+ invalidateGeometry();
  if(!move&&!touchCount&&eligible()){const point=stops().find(point=>point.key===lastStop);if(point)panel.scrollTop=point.top}
  cancelEntry();queue();
 });
 addEventListener('blur',reset);addEventListener('pagehide',reset);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else queue()});
-new MutationObserver(()=>{if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+new MutationObserver(()=>{invalidateGeometry();if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 button.addEventListener('click',()=>{entered=true;reset()});
 motionPreference.addEventListener('change',()=>{reset();queue()});
 window.__vaultEntryGuide={get moving(){return !!move},get target(){return move?.key||lastStop},get touching(){return touchCount},get entered(){return entered}};
