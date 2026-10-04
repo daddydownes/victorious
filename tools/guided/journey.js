@@ -461,7 +461,7 @@ if(context?.registerTool){try{Promise.resolve(context.registerTool({name:'start_
  function render(){
   const remaining=Math.max(0,Math.ceil((target-Date.now())/1000));
   clock.hidden=remaining===0;started.hidden=remaining>0;
-  started.textContent=Date.now()<end?'On now · Until 10 PM':'This pop-up has finished.';
+  started.textContent=Date.now()<end?'On now · Until 4 PM':'This pop-up has finished.';
   const values=[Math.floor(remaining/86400),Math.floor(remaining/3600)%24,Math.floor(remaining/60)%60,remaining%60];
   units.forEach((unit,i)=>{clock.querySelector('[data-time="'+unit+'"]').textContent=String(values[i]).padStart(2,'0')});
   if(Date.now()>=end)clearInterval(timer);
