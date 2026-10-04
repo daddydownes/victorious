@@ -1,5 +1,13 @@
 # Current status
 
+## October 4 — City Takeover pop-up update
+
+Code commit `546e073083a357ebb6bf982a2e07fae6520075c5` replaces the next pop-up with City Takeover at Garema Place, City, on 10 October 2026, 12–4 PM AEDT. The countdown uses explicit `+11:00` start/end timestamps and the live message ends at 4 PM. The card opens Garema Place in maps; a dedicated event URL was not supplied. Source changes are in `tools/guided/collection.html` and `tools/guided/journey.js`, rebuilt into `index.html`.
+
+The clean baseline was fresh GitHub main `546a336abbb101356adc45419649417613d75bc2`, with a successful Pages deployment and a matching canonical homepage after line-ending normalization. The explicit-root preview matched the edited homepage byte for byte. Guided build/source checks, countdown lifecycle boundaries, Canberra-local start/end conversion, and diff checks passed. Event-card title, venue, countdown and keyboard activation passed four fresh journeys each in Chromium at 1440×900, WebKit at 390×844 and Firefox at 320×568. A Chromium phone-size render was inspected. Physical-device testing was not performed.
+
+Publication is checked separately against Pages completion and the canonical live response. Future event changes should update both the source markup and countdown finish message, then rebuild the root.
+
 ## September 27 - shared Chrome/Android-sized performance candidate
 
 Based on production `5cd5114`, retaining its touch-target investigation. The earlier geometry-cache fix already applies across browsers. This candidate suspends the collection/signup light cycle together only when both are fully above the viewport; reversing wakes it before reveal. The hidden Vault drag hint sleeps behind other chapters. Paused playable games release their animation frame and watchdog, including resize, blur, reduced-motion and stall paths; explicit resume restores one of each. Original visible CSS, media, markup, physics, gesture thresholds and entry easing are unchanged.
