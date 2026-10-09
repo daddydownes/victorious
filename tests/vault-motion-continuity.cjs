@@ -77,7 +77,7 @@ console.log('PASS',checkedFrames,'continuous approach/zoom frames at60/120Hz; ze
 // Fractional native scroll targets may round down while a finger is still held.
 // They must remain visibly at the exact final frame without granting entry early.
 const held=create({extra:.4});begin(held,held.overview);
-held.touch('start',600);held.touch('move',550);held.until(()=>!held.state().moving,'held zoom completion');
+held.touch('start',600);held.touch('move',-400);held.framesFor(3);
 assert.equal(held.clicks,0);assert.equal(held.state().touching,1);near(held.lastPaint.progress,1,'Held final frame');
 held.framesFor(3);near(held.lastPaint.progress,1,'Scroll notification must not pull final frame backward');
 held.touch('end');held.framesFor(3);assert.equal(held.clicks,1,'Release commits once');
@@ -90,19 +90,27 @@ for(const input of ['touch','wheel','key']){
  else test[input]();
  nearTail(test);const before=test.lastPaint.position;
  if(input==='touch'){test.touch('start',600);test.touch('move',550)}else test[input]();
+ if(input==='touch'){
+  test.step();assert.equal(test.state().target,'overview','A new held touch takes over the current stage without a camera jump');
+  near(test.lastPaint.position,test.overview,'The direct drag completes its current landing');assert.equal(test.clicks,0);
+  test.touch('end');test.until(()=>!test.state().moving,'touch takeover landing');
+  test.touch('start',600);test.touch('move',550);test.touch('end');test.until(()=>test.state().entered,'next released touch enters');assert.equal(test.clicks,1);continue;
+ }
  assert.equal(test.state().target,'vault',input+': a fresh gesture in the former completion tail must continue');
  assert(test.state().moving);near(test.lastPaint.position,test.overview,'Prior landing is completed before continuation');
  assert(before<test.overview);if(input==='touch')test.touch('end');
  test.until(()=>test.state().entered,input+' continued entry');assert.equal(test.clicks,1);
 }
-const ongoing=create();begin(ongoing,844);ongoing.touch('start',600);ongoing.touch('move',550);nearTail(ongoing);
-ongoing.touch('move',350);assert.equal(ongoing.state().target,'overview','Ongoing contact must not consume the next chapter');
+const ongoing=create();begin(ongoing,844);ongoing.touch('start',600);ongoing.touch('move',550);ongoing.framesFor(60);
+const heldPosition=ongoing.lastPaint.position;assert(heldPosition<ongoing.overview-3,'A stationary short held drag must not auto-finish');
+ongoing.touch('move',-500);ongoing.framesFor(60);near(ongoing.lastPaint.position,ongoing.overview,'A full held drag reaches exactly one landing');
+ongoing.touch('move',-650);ongoing.step();assert.equal(ongoing.state().target,'overview','Ongoing contact must not consume the next chapter');
 ongoing.touch('end');ongoing.until(()=>!ongoing.state().moving);assert.equal(ongoing.clicks,0);
 const burst=create();begin(burst,844);burst.wheel();
 for(let n=0;!(burst.state().moving&&burst.overview-burst.lastPaint?.position<3);n++){assert(n<100,'Wheel fixture must reach the completion tail');burst.step();burst.wheel()}
 burst.wheel();assert.equal(burst.state().target,'overview','Ongoing wheel burst must remain coalesced');
 burst.until(()=>!burst.state().moving);assert.equal(burst.clicks,0);
-console.log('PASS fresh touch/wheel/key continues in near-end tail; held touch and wheel burst remain coalesced');
+console.log('PASS fresh touch takes over its current stage; wheel/key continues in near-end tail; held touch and wheel burst cannot skip stages');
 
 // Reverse from the last displayed subpixel position, not rounded scrollTop.
 const reverse=create();begin(reverse,reverse.overview);reverse.wheel();reverse.framesFor(8);
@@ -138,8 +146,8 @@ const unowned=create();begin(unowned,unowned.overview);unowned.scroll(unowned.ov
 near(unowned.lastPaint.position,unowned.state().top,'Unowned scroll uses actual native scroll position');
 unowned.framesFor(60);near(unowned.lastPaint.position,unowned.overview,'Unowned partial zoom settles back');assert.equal(unowned.clicks,0);
 const small=create({reduced:true,extra:.4});begin(small,small.overview);small.touch('start',600);small.touch('move',550);
-assert(!small.state().moving);near(small.lastPaint.progress,1,'Reduced-motion exact endpoint');assert.equal(small.clicks,0);
-small.touch('end');small.until(()=>small.state().entered);assert.equal(small.clicks,1);
+small.step();assert(small.state().moving,'Reduced motion still tracks its held contact');assert(small.lastPaint.progress>0&&small.lastPaint.progress<1);assert.equal(small.clicks,0);
+small.touch('end');assert(!small.state().moving,'Reduced motion skips the release tween');near(small.lastPaint.progress,1,'Reduced-motion exact endpoint');small.until(()=>small.state().entered);assert.equal(small.clicks,1);
 const changed=create();begin(changed,844);changed.wheel();changed.framesFor(8);changed.reflow(60);
 changed.until(()=>!changed.state().moving);near(changed.lastPaint.position,changed.overview,'Existing reflow updates destination');assert.equal(changed.clicks,0);
 console.log('PASS native/restored scroll ownership, reduced-motion release, remeasured destination');
@@ -163,15 +171,17 @@ partial.key();partial.until(()=>partial.state().entered);assert.equal(partial.cl
 const delayed=create();begin(delayed,delayed.overview);delayed.touch('start',600);delayed.touch('move',550);delayed.framesFor(8);
 const delayedPosition=delayed.lastPaint.position;
 delayed.notifyScroll();assert(delayed.state().moving,'Delayed own-anchor notification must retain accepted intent');delayed.step();
-assert(delayed.lastPaint.position>delayedPosition,'Owned camera continues after a delayed notification');
-delayed.until(()=>!delayed.state().moving);assert.equal(delayed.clicks,0,'Held contact retains endpoint release gate');delayed.touch('end');assert.equal(delayed.clicks,1);
+near(delayed.lastPaint.position,delayedPosition,'A delayed notification must not move a stationary held camera');
+delayed.touch('move',-400);delayed.framesFor(3);near(delayed.lastPaint.progress,1,'The same held gesture can reach its exact endpoint');
+assert.equal(delayed.clicks,0,'Held contact retains endpoint release gate');delayed.touch('end');assert.equal(delayed.clicks,1);
 
 const relayout=create();begin(relayout,relayout.overview);relayout.touch('start',600);relayout.touch('move',550);relayout.framesFor(8);
+const reflowProgress=relayout.lastPaint.progress;
 relayout.reflow(60);relayout.scroll(relayout.overview);
 assert(relayout.state().moving,'Layout invalidation plus native anchoring must retain the accepted zoom');
 relayout.step();relayout.notifyScroll();assert(relayout.state().moving,'Delayed correction notification must use the updated native anchor');
-relayout.until(()=>!relayout.state().moving);near(relayout.lastPaint.position,relayout.endpoint,'Remeasured camera reaches the updated endpoint');assert.equal(relayout.clicks,0);
-relayout.touch('end');assert.equal(relayout.clicks,1,'Resized accepted zoom still enters on release');
+near(relayout.lastPaint.progress,reflowProgress,'Remeasured held camera preserves its relative progress');relayout.framesFor(30);near(relayout.lastPaint.progress,reflowProgress,'A resized stationary contact stays still');assert.equal(relayout.clicks,0);
+relayout.touch('end');relayout.until(()=>!relayout.state().moving,'resized released zoom');near(relayout.lastPaint.position,relayout.endpoint,'Remeasured released camera reaches the updated endpoint');assert.equal(relayout.clicks,1,'Resized accepted zoom still enters on release');
 console.log('PASS native backward/partial takeover and fresh recovery; delayed own notifications and layout anchoring preserve intent');
 
 for(const delta of [-120,220]){
