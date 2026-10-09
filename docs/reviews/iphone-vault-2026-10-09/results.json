@@ -784,5 +784,31 @@
     "Focused cases use static-opening setup and controlled lifecycle/resize signals.",
     "Native Safari session creation timed out; it is not a passing test.",
     "No universal FPS or battery claim."
-  ]
+  ],
+  "publication": {
+    "pullRequest": "https://github.com/daddydownes/victorious/pull/9",
+    "mergeCommit": "642003f08ae45639d8bfc72c96307db02d3eaff4",
+    "pagesStatus": "built",
+    "canonicalUrl": "https://vctrsclo.com/",
+    "canonicalMatchesTestedRoot": true,
+    "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+    "liveSmoke": {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    }
+  }
 }

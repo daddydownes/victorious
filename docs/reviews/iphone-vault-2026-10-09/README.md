@@ -1,6 +1,6 @@
 # iPhone Vault entry recovery
 
-Code: `4450a04`; baseline: `4058137`. Candidate only, not deployed.
+Code: `4450a04`; baseline: `4058137`. Published with explicit owner approval through [PR #9](https://github.com/daddydownes/victorious/pull/9), merge `642003f08ae45639d8bfc72c96307db02d3eaff4`. GitHub Pages reported the merge built, and the canonical live homepage matched the tested SHA-256 below after line-ending normalization.
 
 The production controller could finish its camera tween after `touchcancel`, multiple contacts or resize revoked entry permission. Blur/background cleanup could also snap to that inactive endpoint. Visitors saw the landed photo composition without an interactive archive. Eleven of the first fourteen new controller cases reproduced this on the baseline.
 
@@ -33,4 +33,4 @@ Preliminary harness failures were corrected: mobile WebKit cannot inject wheel e
 
 WebKit runs at phone dimensions in desktop mode; it is not physical iOS Safari. No physical iPhone, embedded browser, battery measurement or universal frame-rate certification was performed. Native macOS Safari session creation timed out and is not counted as a pass. The older `network-loading.cjs` harness also has a pre-existing missing `vaultCameraZoom` mock; the targeted delivery/decode tests exercise this change directly.
 
-Build with `node tools/build-guided.cjs`. Run `tests/entry-scroll-settle-unit.cjs`, `tests/vault-delivery-work.cjs`, `tests/iphone-vault-scope.cjs` and the working-guide regression commands with Node. For Playwright, set `BASE_URL` to an explicit-root preview and `EVIDENCE_DIR` outside the checkout; run `tests/entry-scroll-settle-browser.cjs` and `tests/entry-scroll-browser.cjs`, selecting `QA_CASE` and four `QA_PASSES`. `QA_SOURCE_SHA256` enforces the tested page. Publication requires a separate main/Pages/live verification.
+Build with `node tools/build-guided.cjs`. Run `tests/entry-scroll-settle-unit.cjs`, `tests/vault-delivery-work.cjs`, `tests/iphone-vault-scope.cjs` and the working-guide regression commands with Node. For Playwright, set `BASE_URL` to an explicit-root preview and `EVIDENCE_DIR` outside the checkout; run `tests/entry-scroll-settle-browser.cjs` and `tests/entry-scroll-browser.cjs`, selecting `QA_CASE` and four `QA_PASSES`. `QA_SOURCE_SHA256` enforces the tested page. Publication verification passed for the merge above; future edits require fresh main/Pages/live verification.
