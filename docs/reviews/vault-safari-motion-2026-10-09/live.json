@@ -1,0 +1,26 @@
+{
+  "base": "https://vctrsclo.com/",
+  "mergeCommit": "759ae09fa0cf412f6d5df1c07ebdf37e5d17a131",
+  "rows": [
+    {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    }
+  ]
+}
