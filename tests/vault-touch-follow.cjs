@@ -67,6 +67,40 @@ for(const fps of [60,120])for(const quantum of [0,1/3,1])for(const phase of ['ap
 }
 console.log('PASS',paths,'slow/fast held up/down paths at60/120Hz with fractional/integer scroll getters; stationary fingers stay still');
 
+// Releasing a gently moving finger must not suddenly launch a much faster
+// animation. Check the displayed motion rather than the particular curve used.
+const releaseMetrics=[];
+for(const fps of [60,120])for(const phase of ['approach','zoom'])for(const gesture of ['slow','fast','stationary','reverse','near-endpoint']){
+ const test=create({fps,quantum:0}),from=phase==='approach'?test.signup:test.overview;
+ begin(test,from);let y=650;test.touch('start',y);
+ const moveBy=(pixels,count)=>{for(let n=0;n<count;n++)drag(test,y-=pixels)};
+ if(gesture==='fast')moveBy(32,12);
+ else if(gesture==='near-endpoint')moveBy(32,26);
+ else{
+  moveBy(4,gesture==='reverse'?60:40);
+  if(gesture==='stationary')test.framesFor(Math.ceil(fps*.2));
+  if(gesture==='reverse')moveBy(-4,16);
+ }
+ const target=gesture==='reverse'?from:from+844,direction=Math.sign(target-test.position),released=test.position;
+ assert(Math.abs(target-released)>2,'Release fixture must still need automatic completion');
+ test.touch('end');test.step();
+ const firstStep=Math.abs(test.position-released),maximum=['fast','near-endpoint'].includes(gesture)?48:12;
+ assert(firstStep<maximum,`${phase}/${gesture}/${fps}Hz release jumps ${firstStep.toFixed(3)}px on its first frame (limit ${maximum}px)`);
+ let previous=released,frames=1;
+ while(true){
+  assert((test.position-previous)*direction>=-1e-6,`${phase}/${gesture}/${fps}Hz release reverses unexpectedly`);
+  assert((target-test.position)*direction>=-1e-6,`${phase}/${gesture}/${fps}Hz release overshoots its landing`);
+  previous=test.position;
+  if(!test.state().moving)break;
+  assert(frames++<fps,`${phase}/${gesture}/${fps}Hz completion takes longer than a second`);test.step();
+ }
+ near(test.position,target,`${phase}/${gesture}/${fps}Hz release reaches its exact landing`);
+ const expectedClicks=phase==='zoom'&&gesture!=='reverse'?1:0;
+ test.framesFor(fps);assert.equal(test.clicks,expectedClicks,'Only a completed forward zoom enters, exactly once');
+ releaseMetrics.push({fps,phase,gesture,firstStep:Number(firstStep.toFixed(3)),frames});
+}
+console.log('PASS release continuity, monotonic landing and exact-once entry:',JSON.stringify(releaseMetrics));
+
 for(const phase of ['approach','zoom']){
  const test=create(),from=phase==='approach'?test.signup:test.overview,target=from+844;
  begin(test,from);test.touch('start',650);drag(test,600);const released=test.position;

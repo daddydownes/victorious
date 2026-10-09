@@ -5608,7 +5608,10 @@ function tick(now){
  }else if(move){
   if(!eligible()){recoverZoom(true);move=null;cancelEntry()}
   else{
-   const target=stops().find(point=>point.key===move.key)||stops().at(-1),p=Math.max(0,Math.min(1,(now-move.start)/move.duration)),eased=1-Math.pow(1-p,3);
+   const target=stops().find(point=>point.key===move.key)||stops().at(-1),p=Math.max(0,Math.min(1,(now-move.start)/move.duration));
+   // Touch release keeps its measured starting speed, then eases to rest.
+   // Wheel/key movement retains its existing curve.
+   const eased=move.releaseSlope===undefined?1-Math.pow(1-p,3):p*p*(3-2*p)+move.releaseSlope*p*(1-p)*(1-p);
    // Scroll APIs can quantize their readback. The camera follows the continuous
    // authored easing. Once the sticky overview is landed, its hidden scroller
    // need not move with every zoom frame; synchronize it only at the endpoint.
@@ -5624,7 +5627,7 @@ function queue(){if(!frame)frame=requestAnimationFrame(tick)}
 function finishMove(target){
  panel.scrollTop=target.top;lastStop=target.key;endpointReady=target.key==='vault'&&move.direction>0&&move.allowEntry;move=null;return target.top;
 }
-function travel(target,direction,position){
+function travel(target,direction,position,velocity){
  if(!eligible()||!target)return;
  const overview=readGeometry().overview;
  let from=position??currentPosition();
@@ -5637,8 +5640,16 @@ function travel(target,direction,position){
  cancelEntry();
  if(move&&move.key===target.key)return;
  if(motionPreference.matches||distance<2){panel.scrollTop=target.top;lastStop=target.key;move=null;endpointReady=target.key==='vault'&&direction>0;render(target.top);enter();return}
- // A bounded duration completes the chapter even when the initiating swipe is short.
- move={from,position:from,cameraOnly,overview,nativeAnchor:panel.scrollTop,key:target.key,direction,allowEntry:true,start:performance.now(),duration:Math.min(640,Math.max(420,360+distance/panel.clientHeight*170))};queue();
+ // A bounded completion prevents a partial landing. Touch uses the finger's
+ // release speed rather than restarting a fast ease-out after a slow drag.
+ let duration=Math.min(640,Math.max(420,360+distance/panel.clientHeight*170)),releaseSlope;
+ if(velocity!==undefined){
+  const speed=Math.max(0,velocity*direction);
+  duration=Math.min(520,Math.max(120,120+distance/panel.clientHeight*400));
+  if(speed>0)duration=Math.max(120,Math.min(duration,3*distance/speed));
+  releaseSlope=Math.min(3,speed*duration/distance);
+ }
+ move={from,position:from,cameraOnly,overview,nativeAnchor:panel.scrollTop,key:target.key,direction,allowEntry:true,start:performance.now(),duration,releaseSlope};queue();
 }
 function advance(direction,fresh=false){
  if(!eligible())return;
@@ -5693,7 +5704,7 @@ function beginDrag(delta){
  }
  const resume=move?.key||null,overview=readGeometry().overview;
  cancelEntry();move=null;recoveryPending=false;clearTimeout(settleTimer);
- drag={from,position:from,lower:lower.key,upper:upper.key,lowerTop:lower.top,upperTop:upper.top,origin,resume,direction,extreme:from,committed:false,cameraOnly:lower.top>=overview-1,overview,nativeAnchor:panel.scrollTop};
+ drag={from,position:from,lower:lower.key,upper:upper.key,lowerTop:lower.top,upperTop:upper.top,origin,resume,direction,extreme:from,committed:false,cameraOnly:lower.top>=overview-1,overview,nativeAnchor:panel.scrollTop,samples:[{time:contact.time,position:from}]};
  contact.accepted=true;
  // The small intent slop stays behind the finger; crossing it cannot cause a
  // large catch-up jump. All subsequent displacement is one-to-one and bounded.
@@ -5706,6 +5717,7 @@ function dragBounds(){
   // within the held chapter while rebasing the gesture onto its new geometry.
   const span=drag.upperTop-drag.lowerTop,rebase=value=>lower.top+(span?(value-drag.lowerTop)/span:0)*(upper.top-lower.top);
   drag.position=rebase(drag.position);drag.from=rebase(drag.from);drag.extreme=rebase(drag.extreme);
+  for(const sample of drag.samples)sample.position=rebase(sample.position);
   drag.lowerTop=lower.top;drag.upperTop=upper.top;
  }
  return {lower,upper};
@@ -5714,6 +5726,9 @@ function updateDrag(delta){
  if(!drag)return;
  const {lower,upper}=dragBounds();
  drag.position=Math.max(lower.top,Math.min(upper.top,drag.position+delta));
+ const now=performance.now();
+ drag.samples.push({time:now,position:drag.position});
+ while(drag.samples.length>2&&now-drag.samples[1].time>=80)drag.samples.shift();
  // Short landscape can introduce an email stop less than the usual intent
  // distance away. Reaching that actual endpoint must still complete the stop.
  const shortEndpoint=upper.top-lower.top<=28&&drag.position!==drag.from&&(drag.direction>0?drag.position===upper.top:drag.position===lower.top);
@@ -5730,7 +5745,7 @@ panel.addEventListener('touchstart',event=>{
  touchCount=event.touches.length;
  if(touchCount===1)releaseFormFocus(event.target);
  if(touchCount!==1||!eligible()||editable(event.target)){contact=null;if(touchCount!==1)recoverZoom();return}
- const touch=event.touches[0];contact={id:touch.identifier,start:touch.clientY,last:touch.clientY,startX:touch.clientX,accepted:false};
+ const touch=event.touches[0];contact={id:touch.identifier,start:touch.clientY,last:touch.clientY,startX:touch.clientX,accepted:false,time:performance.now()};
 },{passive:true});
 panel.addEventListener('touchmove',event=>{
  if(event.touches.length!==1||!contact||!eligible())return;
@@ -5755,7 +5770,9 @@ function release(event){
  if(held){
   const key=held.committed?(held.direction>0?held.upper:held.lower):held.resume||held.origin;
   const target=stops().find(point=>point.key===key);
-  if(target)travel(target,target.top>=held.position?1:-1,held.position);
+  const first=held.samples[0],last=held.samples.at(-1),now=performance.now(),elapsed=now-first.time;
+  const velocity=now-last.time<80&&elapsed>0?(last.position-first.position)/elapsed:0;
+  if(target)travel(target,target.top>=held.position?1:-1,held.position,velocity);
  }else if(recoveryPending)recoverZoom();else enter();
  settleUnownedScroll();
 }
