@@ -1,0 +1,29 @@
+{
+  "canonical": "https://vctrsclo.com/",
+  "mockedSignup": true,
+  "pagesCommit": "d79b4657e50f28bd14904b14514ac061157102a3",
+  "pagesStatus": "built",
+  "homepageMatchesCandidate": true,
+  "rows": [
+    {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ Three immediate-arrival runs per version at 390×844/DPR3/4× CPU slowdown found
 
 Validation: 12 completed-hero journeys (four each Chromium 390×844 touch, WebKit 390×844 and 844×390 wheel/keyboard), 32 settled composition comparisons across eight engine/viewport/motion configurations, 760 retained-controller frame states, 32 matching camera transforms, 27 interrupted-entry cases, image delivery and required workflow regressions pass. Signup is mocked. Tests, hashes, measurements and limitations are in [the arrival review](reviews/vault-overview-arrival-2026-10-09/README.md).
 
-Publication is pending separate Pages and canonical live verification. Physical iPhone Safari/embedded-browser confirmation and the owner’s exact device model remain outstanding. Next: publish the tested root and confirm the owner’s result on the dates-to-overview swipe.
+Published in PR #10, merged as `d79b4657e50f28bd14904b14514ac061157102a3`. GitHub Pages reported that commit built, and the canonical live homepage exactly matched the tested root after line-ending normalization (SHA-256 `c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520`). A further live Chromium 390×844 CDP-touch journey passed the completed hero, signup/focus, overview, Vault, Surface/game and return checks with mocked signup and no page errors. Physical iPhone Safari/embedded-browser confirmation and the owner’s exact device model remain outstanding. Next: confirm the owner’s result on the dates-to-overview swipe.
 
 ## October 9 — iPhone Vault entry recovery and photo work
 
