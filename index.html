@@ -171,7 +171,7 @@
     transform:translate(-50%,-50%); background:radial-gradient(ellipse at center,
       rgba(240,212,146,.52) 0%, rgba(240,212,146,.18) 24%,
       rgba(240,212,146,.045) 52%, rgba(240,212,146,0) 78%)}
-  .stage.playing .intro-v-halo,.stage.done .intro-v-halo{opacity:0!important}
+  .stage.playing:not(.opening-crossfade) .intro-v-halo,.stage.done .intro-v-halo{opacity:0!important}
   .vmark.pour{position:absolute; left:0; top:0; height:100%; width:auto; margin:0; filter:none; opacity:0}
   @keyframes letterUp{from{opacity:0; transform:translateY(.35em); filter:blur(6px)}
     to{opacity:1; transform:none; filter:none}}
@@ -180,6 +180,7 @@
   /* states */
   @keyframes pulse{50%{opacity:.35}}
   .stage.playing .title-block{opacity:0}
+  .stage.playing.opening-crossfade .title-block{opacity:1}
   .stage.done .title-block{opacity:1}
   /* the guided-journey cue — a fixed prompt that tells you the next move */
   /* width:max-content + the viewport cap, on EVERY screen: one line wherever it
@@ -1130,10 +1131,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-height:520px) and (min-width:701px){#world .persistent-v{width:clamp(68px,13vw,108px)}}
 /* Fit the V's tall artwork above copy across the short-layout breakpoint. */
 @media(min-height:521px) and (min-width:701px){#world .persistent-v{max-width:calc(27svh - 12px)}}
-#world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
+#world .world-scroll{appearance:none;-webkit-appearance:none;border-radius:0;box-shadow:none;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
 #world .world-scroll .scroll-cue-mark{height:36px}
 #world .world-scroll .scroll-cue-mark svg{height:36px}
 #world .world-scroll:hover{color:#fff}
+/* Keep the invitation unboxed when Safari focuses it after the film. */
+#world .world-scroll:focus{outline:none}
+#world .world-scroll:focus-visible>span:first-child{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}
 @media(max-width:700px){#world .persistent-v{width:20vw;max-width:calc(33svh - 14px)}#world .world-scroll{margin:22px auto 0}}
 @media(prefers-reduced-motion:reduce){#world .world-scroll .scroll-cue-mark{animation:none!important}}
 
@@ -1572,16 +1576,97 @@ body.world-active #vault .drag-label{
      position by default, but the journey state machine assumes scrollY=0 —
      a refresh mid-vault otherwise lands in a glitched half-state. */
   var film=document.getElementById('film');
-  /* Attach the film after the document is parsed. The Blob URL is also the fix
-     for iOS Safari, which does not reliably play a data: URI <video> — a data
-     source supports no byte ranges, so seeking (and on some builds playback
-     itself) fails, on the exact iPhone-heavy audience this site is for. */
-  var srcReady=false, playWanted=false;
+  /* The production MP4 is already attached. Retain the embedded-source fallback
+     for older wrappers, without making the real source wait for DOMContentLoaded. */
+  var srcReady=!!film.getAttribute('src'), playWanted=false;
   function filmReady(){
     if(srcReady) return;
     srcReady=true;
     if(playWanted){ playWanted=false; play(); }
+    else primeOpeningFilm();
   }
+  // Warm the first frame under the original intro, then return to frame zero.
+  // Every asynchronous completion belongs to either preparation or real playback.
+  var filmPrimeGeneration=0, filmPrimeActive=false, filmPrimeFrame=0, filmPrimeKind='';
+  var filmLaunchGeneration=0, filmLaunchPending=false, filmRevealFrame=0, filmRevealKind='';
+  var filmPlayConfirmed=false, filmCrossfadeActive=false, filmRevealAt=0;
+  function cancelFilmPrime(reset){
+    filmPrimeGeneration++;
+    if(filmPrimeFrame){
+      if(filmPrimeKind==='video'&&film.cancelVideoFrameCallback) film.cancelVideoFrameCallback(filmPrimeFrame);
+      else cancelAnimationFrame(filmPrimeFrame);
+    }
+    filmPrimeFrame=0;filmPrimeKind='';filmPrimeActive=false;
+    if(reset&&phase==='ready'){
+      film.pause();
+      try{ if(film.currentTime>0)film.currentTime=0; }catch(_primeSeekError){}
+    }
+  }
+  function completeFilmPrime(generation){
+    if(generation!==filmPrimeGeneration||!filmPrimeActive||phase!=='ready'||document.hidden) return;
+    filmPrimeFrame=0;filmPrimeKind='';filmPrimeActive=false;
+    film.pause();
+    try{ if(film.currentTime>0)film.currentTime=0; }catch(_primeSeekError){}
+  }
+  function queueFilmPrimeFrame(generation){
+    if(generation!==filmPrimeGeneration||!filmPrimeActive||filmPrimeFrame||phase!=='ready'||document.hidden) return;
+    if(film.requestVideoFrameCallback){
+      filmPrimeKind='video';filmPrimeFrame=film.requestVideoFrameCallback(function(){completeFilmPrime(generation);});
+    }else{
+      filmPrimeKind='raf';filmPrimeFrame=requestAnimationFrame(function(){completeFilmPrime(generation);});
+    }
+  }
+  function primeOpeningFilm(){
+    if(!srcReady||phase!=='ready'||reduced||directVault||document.hidden||filmPrimeActive||playWanted) return;
+    var generation=++filmPrimeGeneration;
+    filmPrimeActive=true;film.muted=true;film.defaultMuted=true;film.playsInline=true;
+    try{
+      var preparing=film.play();
+      if(preparing&&preparing.then) preparing.then(function(){queueFilmPrimeFrame(generation);},function(){
+        if(generation===filmPrimeGeneration&&phase==='ready'){filmPrimeActive=false;}
+      });
+    }catch(_primePlayError){filmPrimeActive=false;}
+  }
+  function cancelFilmReveal(){
+    filmLaunchGeneration++;filmPlayConfirmed=false;
+    if(filmRevealFrame){
+      if(filmRevealKind==='video'&&film.cancelVideoFrameCallback) film.cancelVideoFrameCallback(filmRevealFrame);
+      else cancelAnimationFrame(filmRevealFrame);
+    }
+    filmRevealFrame=0;filmRevealKind='';
+  }
+  function revealOpeningFilm(generation){
+    if(generation!==filmLaunchGeneration||!filmLaunchPending||!filmPlayConfirmed||phase!=='playing'||document.hidden) return;
+    filmRevealFrame=0;filmRevealKind='';filmLaunchPending=false;
+    filmCrossfadeActive=true;filmRevealAt=motionNow();
+    stage.classList.add('playing','opening-crossfade');startCam();wakeMotion();
+  }
+  function queueFilmReveal(generation){
+    if(generation!==filmLaunchGeneration||!filmLaunchPending||!filmPlayConfirmed||filmRevealFrame||phase!=='playing'||document.hidden) return;
+    if(film.requestVideoFrameCallback){
+      filmRevealKind='video';filmRevealFrame=film.requestVideoFrameCallback(function(){revealOpeningFilm(generation);});
+    }else{
+      filmRevealKind='raf';filmRevealFrame=requestAnimationFrame(function(){revealOpeningFilm(generation);});
+    }
+  }
+  function requestOpeningPlayback(){
+    var generation=++filmLaunchGeneration;
+    filmPlayConfirmed=false;
+    try{
+      var playback=film.play();
+      if(playback&&playback.then) playback.then(function(){
+        if(generation!==filmLaunchGeneration||phase!=='playing'||document.hidden) return;
+        filmPlayConfirmed=true;queueFilmReveal(generation);
+      },function(){
+        if(generation===filmLaunchGeneration&&phase==='playing'&&!document.hidden) failOpen();
+      });
+      else {filmPlayConfirmed=true;queueFilmReveal(generation);}
+    }catch(_openingPlayError){if(generation===filmLaunchGeneration&&phase==='playing'&&!document.hidden) failOpen();}
+  }
+  film.addEventListener('playing',function(){
+    if(phase==='ready'&&filmPrimeActive) queueFilmPrimeFrame(filmPrimeGeneration);
+    else if(phase==='playing'&&filmLaunchPending) queueFilmReveal(filmLaunchGeneration);
+  });
   addEventListener('DOMContentLoaded',function(){
     var fd=document.getElementById('filmData');
     if(!fd || film.src){ filmReady(); return; }        // already inline: nothing to do
@@ -1614,7 +1699,7 @@ body.world-active #vault .drag-label{
     reduced=motionQuery.matches;
     // Before the film completes, retain the existing static-intro restart.
     // Afterwards, preserve the visitor's form, archive and page position.
-    if(phase!=='done'){ location.reload(); return; }
+    if(phase!=='done'){cancelFilmPrime(false);cancelFilmReveal();film.pause();location.reload();return;}
     nativeVaultEligible=nativeVaultPreference();
     if(reduced){
       freezeNativePan(); stopInertia(); stopPostScroll();
@@ -1840,7 +1925,9 @@ body.world-active #vault .drag-label{
     var front=vclamp((pos-8)/100).toFixed(4), tail=vclamp((pos+12)/100).toFixed(4);
     if(front!==glowFrontLast){introGlowFront.setAttribute('offset',front);glowFrontLast=front;}
     if(tail!==glowTailLast){introGlowTail.setAttribute('offset',tail);glowTailLast=tail;}
-    var exit=1-vinout(vclamp((te-VI.exitA)/VI.EXIT));
+    // The original exit overlaps the first moving frame. If Safari is still
+    // preparing it, hold the finished V rather than fade to a blank poster.
+    var exit=filmCrossfadeActive?1-vinout(vclamp((motionNow()-filmRevealAt)/VI.EXIT)):1;
     // One continuous swell crests as the pour completes, then rests warm.
     var ignition=vout(vclamp(pourT/0.75));
     var breath=Math.sin(Math.PI*vclamp((te-(VI.FADE+VI.WHITE+400))/850));
@@ -1861,18 +1948,20 @@ body.world-active #vault .drag-label{
       introVHalo.style.height=(vGlowRect.height*k).toFixed(2)+'px';
       glowNeedsPlacement=false;
     }
-    if(te>=VI.launch && !vFired){ vFired=true; play(); }
+    if(filmCrossfadeActive&&exit<=0){filmCrossfadeActive=false;stage.classList.remove('opening-crossfade');}
+    if(te>=VI.exitA && !vFired){ vFired=true; play(); }
   }
   if(!reduced&&!directVault){
     vMeasure(); vStart=motionNow();
     introTask=addMotionTask(function(_,now){
-      if(phase!=='ready'){ introTask=null; return false; }
+      if(phase!=='ready'&&!filmLaunchPending&&!filmCrossfadeActive){ introTask=null; return false; }
       vRender(Math.min(now-vStart,VI.end+1));
     });
     addEventListener('resize',function(){
-      if(phase==='ready'){ vMeasure(); vRender(Math.min(motionNow()-vStart,VI.end+1)); }
+      if(phase==='ready'||filmLaunchPending||filmCrossfadeActive){ vMeasure(); vRender(Math.min(motionNow()-vStart,VI.end+1)); }
     });
     vRender(0);
+    primeOpeningFilm();
   } else if(!directVault) {
     reveal(wordmark); // reduced motion: the title just sits there (CSS forces it visible)
   }
@@ -1894,27 +1983,27 @@ body.world-active #vault .drag-label{
   openingContinue.addEventListener('click',failOpen);document.body.appendChild(openingContinue);
   addEventListener('visibilitychange',function(){
     if(document.hidden){
-      resumeFilm=phase==='playing' && !film.paused;
+      cancelFilmPrime(true);cancelFilmReveal();
+      resumeFilm=phase==='playing'&&!film.ended&&(filmLaunchPending||!film.paused);
       if(resumeFilm) film.pause();
     }else if(resumeFilm){
       resumeFilm=false;
-      if(phase==='playing'){
-        var resumed=film.play(); if(resumed&&resumed.catch) resumed.catch(failOpen);
-      }
+      if(phase==='playing') requestOpeningPlayback();
+    }else if(phase==='ready'){
+      if(playWanted){playWanted=false;play();}else primeOpeningFilm();
     }
   });
   // Unsupported playback and the visitor's explicit Continue share one exit.
   function failOpen(){ film.pause(); if(!logoShown) showFilmLogo(true); finish(); }
   function play(){
     if(phase!=='ready') return;
-    // the bytes are deferred, so the intro can reach its launch beat before the
-    // film is attached. Do NOT fall through — film.play() on a source-less
-    // element rejects, and the catch would skip the film entirely.
-    if(!srcReady){ playWanted=true; return; }
-    phase='playing'; introVHalo.style.opacity='0'; stage.classList.add('playing');
-    startCam();
-    var p=film.play();
-    if(p&&p.catch){ p.catch(failOpen); } // refused (in-app browser / low power): still paint the mark
+    if(!srcReady||document.hidden){ playWanted=true; return; }
+    // Preparation must be retired before real playback takes ownership. Its
+    // late promise or frame callback can then neither pause nor rewind the film.
+    playWanted=false;cancelFilmPrime(true);cancelFilmReveal();
+    phase='playing';filmLaunchPending=true;
+    requestOpeningPlayback();
+    if(phase!=='playing') return;
     started=motionNow(); lastFilmTime=film.currentTime;
     timer=setInterval(function(){
       if(document.hidden) return; // throttled to ~1Hz while hidden, but Date.now keeps running
@@ -1927,6 +2016,8 @@ body.world-active #vault .drag-label{
   }
   function finish(){
     if(phase==='done') return;
+    cancelFilmPrime(false);cancelFilmReveal();filmLaunchPending=false;filmCrossfadeActive=false;
+    stage.classList.remove('opening-crossfade');
     phase='done'; releaseFilmScrollCapture(); openingContinue.hidden=true; if(timer){clearInterval(timer); timer=null;}
     if(logoTintTask){cancelMotionTask(logoTintTask); logoTintTask=null;} // Cancel an interrupted fade before completing the handoff.
     // Keep the opening title hidden while the email chapter takes over.
@@ -2100,7 +2191,7 @@ body.world-active #vault .drag-label{
     film.style.objectPosition='50% 50%';
     film.style.transform='';
   }
-  film.addEventListener('playing',startCam);
+  film.addEventListener('playing',function(){if(phase==='playing'&&!filmLaunchPending)startCam();});
   film.addEventListener('pause',function(){ if(camRunning) cancelCamFrame(); });
   film.addEventListener('seeked',function(){ if(camRunning){ paintCam(film.currentTime||0); queueCam(); } });
   addEventListener('visibilitychange',function(){ if(document.hidden) cancelCamFrame(); else if(camRunning) queueCam(); });
@@ -2126,6 +2217,7 @@ body.world-active #vault .drag-label{
   addEventListener('touchcancel',function(){ armTouchY=null; },{passive:true});
 
   if(reduced&&!directVault){
+    cancelFilmPrime(false);cancelFilmReveal();filmLaunchPending=false;filmCrossfadeActive=false;
     phase='done'; releaseFilmScrollCapture(); stage.classList.add('done','cardend');
     showFilmLogo(true);
     var seekLast=function(){ film.currentTime=Math.max(0,(film.duration||10.9)-0.05); };
@@ -5561,7 +5653,9 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
     var returnedHud=vault.querySelector('.vault-hud');returnedHud.style.opacity='';returnedHud.style.transform='';returnedHud.style.willChange='';
     filmLogo.style.opacity='1';filmLogo.style.transform='';filmLogo.style.willChange='';
     setHot(null);flybloom.style.opacity='0';guidePhase='film';
+    cancelFilmPrime(false);cancelFilmReveal();filmLaunchPending=false;filmCrossfadeActive=false;
     phase='done'; releaseFilmScrollCapture(); playWanted=false; resumeFilm=false; film.pause();
+    stage.classList.remove('opening-crossfade');
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
     var enterReturnedVault=function(){

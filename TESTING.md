@@ -64,7 +64,7 @@ If one pass fails, the sequence is not considered stable. Fix or classify the is
 - [ ] The V appears once and remains optically centred.
 - [ ] White-to-gold motion is continuous.
 - [ ] No extra lettering appears; the opening contains only the single V mark.
-- [ ] The V fades fully before the moving film begins.
+- [ ] The finished V holds until the first film frame is ready, then its 320ms exit overlaps the film without a blank gap.
 - [ ] The film starts muted and plays without a black stall.
 - [ ] Resizing or rotating does not restart the intro unexpectedly.
 - [ ] Returning from a background tab does not skip or snap the intro.

@@ -1,0 +1,220 @@
+{
+  "baseCommit": "f4e4d9f",
+  "finalRootSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8",
+  "startupProbes": [
+    {
+      "engine": "chromium",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 3,
+      "injectedStartDelayMs": 0,
+      "status": "PASS",
+      "sourceSha256": "1962aa28776dcae3bc39dd560d457aed427d6abd357be808cf5aad4d80726a00",
+      "media": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "playRequests": [
+        {
+          "call": 1,
+          "now": 74.90000000223517,
+          "time": 0
+        },
+        {
+          "call": 2,
+          "now": 2487.5,
+          "time": 0
+        }
+      ],
+      "firstRealFrame": {
+        "now": 2552.9,
+        "call": 2,
+        "time": 0.033333,
+        "visible": false
+      },
+      "firstVisibleSample": {
+        "now": 2556.7000000029802,
+        "visible": true,
+        "crossfade": true,
+        "v": 1
+      },
+      "waitingVOpacityMinimum": 1,
+      "cue": {
+        "outline": "none",
+        "border": "0px",
+        "shadow": "none",
+        "appearance": "none",
+        "keyboard": true,
+        "label": "underline"
+      },
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 3,
+      "injectedStartDelayMs": 900,
+      "status": "PASS",
+      "sourceSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8",
+      "media": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "playRequests": [
+        {
+          "call": 1,
+          "now": 57.30000000074506,
+          "time": 0
+        },
+        {
+          "call": 2,
+          "now": 2461.900000002235,
+          "time": 0
+        }
+      ],
+      "firstRealFrame": {
+        "now": 3442.2,
+        "call": 2,
+        "time": 0.033333,
+        "visible": false
+      },
+      "firstVisibleSample": {
+        "now": 3444.800000000745,
+        "visible": true,
+        "crossfade": true,
+        "v": 1
+      },
+      "waitingVOpacityMinimum": 1,
+      "cue": null,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 3,
+      "injectedStartDelayMs": 0,
+      "status": "PASS",
+      "sourceSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8",
+      "media": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "playRequests": [
+        {
+          "call": 1,
+          "now": 174,
+          "time": 0
+        },
+        {
+          "call": 2,
+          "now": 2587,
+          "time": 0
+        }
+      ],
+      "firstRealFrame": {
+        "now": 2668,
+        "call": 2,
+        "time": 0.03333333333333333,
+        "visible": false
+      },
+      "firstVisibleSample": {
+        "now": 2670,
+        "visible": true,
+        "crossfade": true,
+        "v": 1
+      },
+      "waitingVOpacityMinimum": 1,
+      "cue": {
+        "outline": "none",
+        "border": "0px",
+        "shadow": "none",
+        "appearance": "none",
+        "keyboard": true,
+        "label": "underline"
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "viewport": [
+        390,
+        844
+      ],
+      "dpr": 3,
+      "injectedStartDelayMs": 900,
+      "status": "PASS",
+      "sourceSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8",
+      "media": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "playRequests": [
+        {
+          "call": 1,
+          "now": 31,
+          "time": 0
+        },
+        {
+          "call": 2,
+          "now": 2448,
+          "time": 0
+        }
+      ],
+      "firstRealFrame": {
+        "now": 3413,
+        "call": 2,
+        "time": 0.03333333333333333,
+        "visible": false
+      },
+      "firstVisibleSample": {
+        "now": 3416,
+        "visible": true,
+        "crossfade": true,
+        "v": 1
+      },
+      "waitingVOpacityMinimum": 1,
+      "cue": null,
+      "errors": []
+    }
+  ],
+  "finalJourney": {
+    "tag": "chromium-390-844-normal-1",
+    "status": "PASS",
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "input": "CDP native touch",
+    "sourceSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8",
+    "hero": {
+      "time": 3.733333,
+      "duration": 3.733333,
+      "ended": true,
+      "error": null
+    },
+    "errors": []
+  },
+  "unitCases": 23,
+  "preserved": "tools/guided/journey.js, media files and SHOTS are unchanged",
+  "limits": [
+    "Phone-size desktop engines; no physical iPhone startup timing",
+    "Chromium warm probe predates only ended/already-paused foreground guard; final delayed probe, both WebKit probes and full journey use final source",
+    "Signup transport mocked; no real submissions",
+    "No full matrix repeated; focused scope follows owner request"
+  ]
+}

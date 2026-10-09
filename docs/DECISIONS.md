@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## October 10 — prepare the hero during the V; keep the Surface cue unboxed
+
+The owner reports a small hero playback delay on Apple phones and a box around Surface's Scroll down control. Keep the approved V, full movie and newly accepted native two-swipe Vault behavior. Prepare one muted inline video frame under the intro, then rewind before real playback. At the original hold endpoint, request playback and retain the V until a current frame is ready; its existing 320ms exit overlaps that frame. This changes the handoff instead of shortening the movie or autoplaying most of it invisibly. Cold startup extends only the final V hold. Preparation must not own the camera or mutate actual playback through late callbacks.
+
+Reset native appearance and replace only `.world-scroll`'s focus rectangle with a label underline. Preserve semantic button activation, automatic focus recovery and keyboard indication. Other Surface/game controls retain their outlines. The owner has accepted the prior native Vault scrolling on their Safari phone; do not retune that mechanism as part of these fixes.
+
 ## October 9 — native approach, then a separate browser-run Vault zoom
 
 The owner still reports physical Safari lag after input/timing corrections and explicitly asks to preserve the first swipe from dates into the bird's-eye overview and a new second swipe into the Vault. Replace the phone mechanism rather than continue tuning its touchmove/RAF camera loop. Keep desktop wheel/key behavior, original photographs, their decoration and delivery quality, the full overview composition, signup, archive, Surface and game.

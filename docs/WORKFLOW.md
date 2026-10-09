@@ -63,6 +63,10 @@ The native phone controller uses real chapter scrolling and a separate browser-m
 
 The mobile WebKit context in this desktop runtime reports zero `navigator.maxTouchPoints` despite coarse-pointer/touch emulation. An explicitly controlled touch-point report can exercise the native branch with cue/keyboard input and real Web Animations; report that setup and do not describe it as injected Safari touch or physical iPhone testing. Keep physical Safari acceptance separate from mechanism, endpoint and rendering-engine checks.
 
+## Opening startup
+
+Run `node tests/hero-startup.cjs` for extracted preparation/launch/frame ownership and visibility recovery. With Playwright installed and `BASE_URL`/`EVIDENCE_DIR` configured, run `node tests/hero-startup-browser.cjs`; `QA_HERO_ENGINE=webkit` selects WebKit and `QA_SOURCE_SHA256` enforces a frozen root. Each engine checks one normal and one injected 900ms actual-start delay, complete unseeked film playback, the retained V while waiting and the existing overlapping exit. The normal case follows cue/keyboard entry into Surface and checks the unboxed button with a visible keyboard underline. This focused probe supplements a completed-film native-touch journey; it does not replace physical iPhone startup feedback or measure all network conditions.
+
 ## Publish an authorized change
 
 For signup keyboard layout, run `tests/signup-viewport-browser.cjs` and `tests/signup-pointer-browser.cjs` with Playwright installed, `BASE_URL` set to the verified explicit-root preview, and `EVIDENCE_DIR` outside the checkout. The harnesses drive controlled VisualViewport signals, ordinary layout resizing and viewport recovery between pointerdown and pointerup; they mock every FormSubmit request. Record physical-device and embedded-browser checks separately from these engine tests.

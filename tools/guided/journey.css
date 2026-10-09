@@ -263,10 +263,13 @@ body.world-active #stage,body.world-active #beyond,body.world-active .surface-st
 @media(max-height:520px) and (min-width:701px){#world .persistent-v{width:clamp(68px,13vw,108px)}}
 /* Fit the V's tall artwork above copy across the short-layout breakpoint. */
 @media(min-height:521px) and (min-width:701px){#world .persistent-v{max-width:calc(27svh - 12px)}}
-#world .world-scroll{pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
+#world .world-scroll{appearance:none;-webkit-appearance:none;border-radius:0;box-shadow:none;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:88px;min-width:150px;margin-top:22px;padding:12px 24px;border:0;background:none;color:#f0d492;font:14px/1.4 Cinzel,Georgia,serif;letter-spacing:.12em}
 #world .world-scroll .scroll-cue-mark{height:36px}
 #world .world-scroll .scroll-cue-mark svg{height:36px}
 #world .world-scroll:hover{color:#fff}
+/* Keep the invitation unboxed when Safari focuses it after the film. */
+#world .world-scroll:focus{outline:none}
+#world .world-scroll:focus-visible>span:first-child{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}
 @media(max-width:700px){#world .persistent-v{width:20vw;max-width:calc(33svh - 14px)}#world .world-scroll{margin:22px auto 0}}
 @media(prefers-reduced-motion:reduce){#world .world-scroll .scroll-cue-mark{animation:none!important}}
 

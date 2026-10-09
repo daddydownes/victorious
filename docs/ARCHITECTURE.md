@@ -1,5 +1,11 @@
 # How the site works
 
+## Opening media startup
+
+The root opening in `index.html` treats an attached production MP4 source as immediately ready; older embedded-source fallback remains. `primeOpeningFilm()` requests muted inline playback during the V intro, pauses after its decoded frame and returns to time zero. Prime and real-launch generations separately own promises/frame callbacks. At the existing hold endpoint, `play()` retires preparation before requesting real playback. `revealOpeningFilm()` requires a successful play request and a current decoded frame, then adds `opening-crossfade`; the original 320ms V exit overlaps the film instead of preceding decoder startup. A cold decoder keeps the finished V visible. The opening camera starts only after reveal. Visibility cancellation, foreground resume, completion, reduced motion and returned-Vault restoration invalidate old callbacks; ended/already-paused clips are not restarted.
+
+`tests/hero-startup.cjs` checks source-extracted ownership and recovery. `tests/hero-startup-browser.cjs` plays the complete media in a selected engine at phone dimensions, injects a delayed actual start and checks Surface keyboard styling. These are distinct from physical iPhone startup validation. The Surface `.world-scroll` removes native button chrome and uses a label underline for `:focus-visible`; automatic focus and the rest of the World controls retain their existing behavior.
+
 ## Current Vault descent, gestures and Surface
 
 The phone path in `tools/guided/journey.js` uses a separate native-entry controller when the device reports touch points and a coarse pointer. The older controller skips that path and retains desktop wheel/key timing. The opening hero, signup transport, photo arrangement, landed archive input, Surface and game retain their existing controllers.

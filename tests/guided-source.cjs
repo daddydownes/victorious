@@ -6,7 +6,26 @@ const openingVideo=s=>s.match(/<video id="film"[^>]*\bsrc="([^"]+)"/)[1];
 assert.equal(openingVideo(html),'assets/delivery/opening-1080.mp4','Reviewed 1080p delivery copy');
 assert.ok(fs.existsSync(path.join(root,openingVideo(before))),'Original opening remains available');
 function section(s,a,b){const start=s.indexOf(a),end=s.indexOf(b,start);assert.ok(start>=0&&end>start);return s.slice(start,end)}
-assert.equal(section(script,'  var VWHITE=','  function lock()'),section(before,'  var VWHITE=','  function lock()'),'Opening timeline preserved');
+// Only the reviewed first-frame handoff may differ from the original opening.
+// Require each new expression exactly once, then compare every remaining byte:
+// the V colours, geometry, pour, hold, timing constants and easing stay guarded.
+function openingBeforeFirstFrameHandoff(source){
+ let opening=section(source,'  var VWHITE=','  function lock()');
+ const changes=[
+  ["    // The original exit overlaps the first moving frame. If Safari is still\n    // preparing it, hold the finished V rather than fade to a blank poster.\n    var exit=filmCrossfadeActive?1-vinout(vclamp((motionNow()-filmRevealAt)/VI.EXIT)):1;", "    var exit=1-vinout(vclamp((te-VI.exitA)/VI.EXIT));"],
+  ["    if(filmCrossfadeActive&&exit<=0){filmCrossfadeActive=false;stage.classList.remove('opening-crossfade');}\n", ""],
+  ["    if(te>=VI.exitA && !vFired){ vFired=true; play(); }", "    if(te>=VI.launch && !vFired){ vFired=true; play(); }"],
+  ["      if(phase!=='ready'&&!filmLaunchPending&&!filmCrossfadeActive){ introTask=null; return false; }", "      if(phase!=='ready'){ introTask=null; return false; }"],
+  ["      if(phase==='ready'||filmLaunchPending||filmCrossfadeActive){ vMeasure(); vRender(Math.min(motionNow()-vStart,VI.end+1)); }", "      if(phase==='ready'){ vMeasure(); vRender(Math.min(motionNow()-vStart,VI.end+1)); }"],
+  ["    primeOpeningFilm();\n", ""]
+ ];
+ for(const [current,original]of changes){
+  assert.equal(opening.split(current).length,2,'Exact reviewed first-frame handoff expression exists once: '+current);
+  opening=opening.replace(current,original);
+ }
+ return opening;
+}
+assert.equal(openingBeforeFirstFrameHandoff(script),section(before,'  var VWHITE=','  function lock()'),'Opening preserved except the exact reviewed first-frame handoff');
 assert.equal(section(script,'  var LIST_URL=','  function captureReceipt'),section(before,'  var LIST_URL=','  function captureReceipt'),'Live signup transport preserved');
 const photos=s=>JSON.parse(s.match(/var PHOTOS=(\[[^\r\n]*\]);/)[1]).map(({preview,...p})=>p);
 const selected=photos(script),liveSlots=photos(before);
