@@ -1,5 +1,13 @@
 # Current status
 
+## October 9 — direct held-finger scrolling
+
+The owner clarified that the jump happens while holding a finger down and moving up/down. Code `2bbf0cf4d43589f31a1b882187b26c067383fc65` with short-stage follow-up `d8559065c153acb2bec689c68b44916b27bb6723`, based on published `9bb78db`, replaces phone swipe-triggered timing with direct finger-following movement within one chapter. Stationary contact holds still; release automatically finishes an accepted stage. Separate overview, reversal, cancellation and exact-once entry remain coordinated. Browser-owned input yields control, and toolbar resizing preserves held progress. Desktop wheel/key behavior is retained.
+
+This addresses a reproduced input/position mismatch independently of loading. Controller tests fail on the old behavior; actual predecoded-photo touch checks now show no camera movement beyond delivered finger movement and a fixed 6px intent offset. Earlier fixes were reviewed for lost functionality; none warranted rollback. Photos, quality, CSS, markup, image loading, root camera, signup, archive, Surface, game and hosting are unchanged. See [the touch review](reviews/vault-touch-controller-2026-10-09/README.md).
+
+Validation passes 40 final-source browser journeys across ten engine/viewport/motion configurations (32 completed films and eight reduced-motion runs), plus predecoded real-touch up/down checks. All 24 held-motion paths, 540 unchanged wheel frames, 540 continuity frames, 27 interruption cases, short-stage cases, delivery/handoff, scope and build checks pass. The required workflow suite passed before the short-stage condition correction; the final changed path was rechecked as detailed in the review. Publication verification is pending. Physical iPhone Safari confirmation remains outstanding.
+
 ## October 9 — smooth both Vault swipes
 
 The owner still reports small glitches on both dates-to-overview arrival and the second zoom swipe in Safari on a newer iPhone; the exact model is unknown. Code commit `6853483870def0aa80275bbdf4437c441d8b5619`, based on published `d1820a1`, drives the camera from its continuous eased position and finishes only a sub-quarter-pixel remainder. During zoom/reversal it keeps the covered signup scroller stationary, then synchronizes the native endpoint once. Fresh gestures can continue during the old completion tail. Native takeover, cancellation, multitouch, viewport changes and the release gate remain coordinated to avoid half-entered states.

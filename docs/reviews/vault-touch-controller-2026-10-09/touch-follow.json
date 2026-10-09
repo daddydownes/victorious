@@ -1,0 +1,86 @@
+[
+  {
+    "version": "baseline",
+    "phase": "arrival",
+    "sha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+    "staticOpening": true,
+    "imagesDecodedBeforeInput": true,
+    "metrics": {
+      "maximumStep": 262.2606333828917,
+      "maximumExcessStep": 258.2606333828917,
+      "heldDrift": 0,
+      "reverseErrors": 0,
+      "followError": 783.4000732043753
+    },
+    "errors": [],
+    "final": {
+      "phase": "film",
+      "entered": false,
+      "top": 1688
+    },
+    "deliveredTouchEvents": 82
+  },
+  {
+    "version": "baseline",
+    "phase": "zoom",
+    "sha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+    "staticOpening": true,
+    "imagesDecodedBeforeInput": true,
+    "metrics": {
+      "maximumStep": 250.14470644060157,
+      "maximumExcessStep": 246.14470644060157,
+      "heldDrift": 0,
+      "reverseErrors": 0,
+      "followError": 788
+    },
+    "errors": [],
+    "final": {
+      "phase": "vault",
+      "entered": true,
+      "top": 2532
+    },
+    "deliveredTouchEvents": 82
+  },
+  {
+    "version": "candidate",
+    "phase": "arrival",
+    "sha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+    "staticOpening": true,
+    "imagesDecodedBeforeInput": true,
+    "metrics": {
+      "maximumStep": 10,
+      "maximumExcessStep": 0,
+      "heldDrift": 0,
+      "reverseErrors": 0,
+      "followError": 6
+    },
+    "errors": [],
+    "final": {
+      "phase": "film",
+      "entered": false,
+      "top": 1688
+    },
+    "deliveredTouchEvents": 82
+  },
+  {
+    "version": "candidate",
+    "phase": "zoom",
+    "sha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+    "staticOpening": true,
+    "imagesDecodedBeforeInput": true,
+    "metrics": {
+      "maximumStep": 10,
+      "maximumExcessStep": 0,
+      "heldDrift": 0,
+      "reverseErrors": 0,
+      "followError": 6
+    },
+    "errors": [],
+    "final": {
+      "phase": "vault",
+      "entered": true,
+      "top": 2532
+    },
+    "deliveredTouchEvents": 82
+  }
+]
