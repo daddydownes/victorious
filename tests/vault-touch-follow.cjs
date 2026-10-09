@@ -8,7 +8,7 @@ function extract(text){
  const start=text.indexOf('// One owner guides'),end=text.indexOf('// Product delivery starts',start);
  assert(start>=0&&end>start,'Guided entry controller missing');return text.slice(start,end);
 }
-function create({code=source,height=844,width=390,quantum=1,fps=60,reduced=false}={}){
+function create({code=source,height=844,width=390,extra=0,quantum=1,fps=60,reduced=false}={}){
  let now=0,id=0,stored=0,scrollPending=false,clicks=0,paint=null;
  const frames=new Map(),timers=new Map(),events={},writes=[],paints=[];
  const classes=()=>{const values=new Set();return {contains:k=>values.has(k),add:k=>values.add(k),remove:k=>values.delete(k),toggle(k,on){on?values.add(k):values.delete(k)}}};
@@ -19,11 +19,11 @@ function create({code=source,height=844,width=390,quantum=1,fps=60,reduced=false
  Object.defineProperty(panel,'clientHeight',{get:()=>height});
  Object.defineProperty(invitation,'offsetHeight',{get:()=>height*2});
  signup.getBoundingClientRect=()=>({top:height-panel.scrollTop});
- invitation.getBoundingClientRect=()=>({top:height*2-panel.scrollTop});
+ invitation.getBoundingClientRect=()=>({top:height*2+extra-panel.scrollTop});
  invitation.querySelector=selector=>selector==='.vault-descent-scene'?scene:heading;panel.querySelector=()=>screen;
  const nodes={nextDrop:panel,collectionSignup:signup,vaultInvitation:invitation,nextDropEmail:form,productViewer:viewer,nextVaultHold:button,collectionScrollCue:node('collectionScrollCue'),vaultScrollCue:node('vaultScrollCue')};
  const doc={hidden:false,activeElement:heading,body:{classList:classes()},getElementById:key=>nodes[key],addEventListener(key,fn){(events[key]||=[]).push(fn)}};
- const context={document:doc,innerWidth:width,innerHeight:height,performance:{now:()=>now},matchMedia:()=>({matches:reduced,addEventListener(){}}),ResizeObserver:class{observe(){}},MutationObserver:class{observe(){}},setTimeout(fn,delay){timers.set(++id,{fn,at:now+delay});return id},clearTimeout:key=>timers.delete(key),requestAnimationFrame(fn){frames.set(++id,fn);return id},cancelAnimationFrame:key=>frames.delete(key),addEventListener(key,fn){(events[key]||=[]).push(fn)},__vaultCamera:{warm(){},warmOverview(){},paint(progress,offset){paint={time:now,progress,offset,position:height*2+(progress?progress*height:-offset)};paints.push(paint)},cancel(){paint=null}}};
+ const context={document:doc,innerWidth:width,innerHeight:height,performance:{now:()=>now},matchMedia:()=>({matches:reduced,addEventListener(){}}),ResizeObserver:class{observe(){}},MutationObserver:class{observe(){}},setTimeout(fn,delay){timers.set(++id,{fn,at:now+delay});return id},clearTimeout:key=>timers.delete(key),requestAnimationFrame(fn){frames.set(++id,fn);return id},cancelAnimationFrame:key=>frames.delete(key),addEventListener(key,fn){(events[key]||=[]).push(fn)},__vaultCamera:{warm(){},warmOverview(){},paint(progress,offset){paint={time:now,progress,offset,position:height*2+extra+(progress?progress*height:-offset)};paints.push(paint)},cancel(){paint=null}}};
  context.window=context;
  function emit(target,event,value){for(const fn of target.events[event]||[])fn(value)}
  function global(event,value={}){for(const fn of events[event]||[])fn(value)}
@@ -45,7 +45,7 @@ function create({code=source,height=844,width=390,quantum=1,fps=60,reduced=false
  function wheel(delta=600){emit(panel,'wheel',{target:panel,deltaX:0,deltaY:delta,preventDefault(){}})}
  function key(key='PageDown'){emit(panel,'keydown',{target:panel,key,repeat:false,preventDefault(){}})}
  const state=()=>({top:panel.scrollTop,target:context.__vaultEntryGuide.target,moving:context.__vaultEntryGuide.moving,entered:context.__vaultEntryGuide.entered,touching:context.__vaultEntryGuide.touching});
- return {step,framesFor,until,touch,scroll,wheel,key,state,global,doc,writes,paints,activateButton(){button.click()},get position(){return paint?.position??panel.scrollTop},get clicks(){return clicks},get overview(){return height*2},get endpoint(){return height*3},get signup(){return height}};
+ return {step,framesFor,until,touch,scroll,wheel,key,state,global,doc,writes,paints,activateButton(){button.click()},get position(){return paint?.position??panel.scrollTop},get clicks(){return clicks},get overview(){return height*2+extra},get endpoint(){return height*3+extra},get signup(){return height}};
 }
 const near=(actual,expected,label)=>assert(Math.abs(actual-expected)<1e-6,label+': '+actual+' != '+expected);
 function begin(test,top){test.framesFor(4);test.scroll(top);test.step();test.writes.length=0}
@@ -118,6 +118,27 @@ for(const phase of ['approach','zoom']){
  test.touch('end');test.until(()=>!test.state().moving,'small preview return');near(test.position,from,'A subthreshold preview returns to its starting landing');assert.equal(test.clicks,0);
 }
 console.log('PASS a small uncommitted preview returns to its starting landing');
+
+// The event card can leave a readable intermediate stop only25px away. Gesture
+// intent must still work when the visible displacement hits that narrow bound.
+for(const extra of [25,28,29]){
+ const test=create({extra}),shortLanding=test.signup+extra;
+ begin(test,test.signup);test.touch('start',650);drag(test,450);near(test.position,shortLanding,'A full swipe stops at the short email landing');
+ test.framesFor(30);near(test.position,shortLanding,'Holding a short stage cannot skip it');assert.equal(test.clicks,0);
+ test.touch('end');test.until(()=>!test.state().moving,'short-stage release');near(test.position,shortLanding,'A released full swipe accepts the short stage instead of returning');
+ test.framesFor(60);near(test.position,shortLanding,'A short-stage release cannot queue another chapter');
+ test.touch('start',650);drag(test,550);test.touch('end');test.until(()=>!test.state().moving,'overview after short stage');
+ near(test.position,test.overview,'A fresh next gesture reaches the overview');assert.equal(test.clicks,0,'The intermediate stage cannot skip into the Vault');
+ for(const interruption of ['reverse','cancel']){
+  const interrupted=create({extra});begin(interrupted,interrupted.signup);interrupted.touch('start',650);drag(interrupted,450);
+  near(interrupted.position,interrupted.signup+extra,'Interruption fixture must reach its short-stage bound');
+  if(interruption==='reverse'){drag(interrupted,650);interrupted.touch('end')}else interrupted.touch('cancel');
+  interrupted.until(()=>!interrupted.state().moving,interruption+' short-stage recovery');near(interrupted.position,interrupted.signup,interruption+': short-stage recovery returns to its origin');assert.equal(interrupted.clicks,0);
+  interrupted.touch('start',650);drag(interrupted,450);interrupted.touch('end');interrupted.until(()=>!interrupted.state().moving,'fresh short stage');
+  near(interrupted.position,interrupted.signup+extra,'A fresh gesture still accepts the recovered short stage');assert.equal(interrupted.clicks,0);
+ }
+}
+console.log('PASS 25/28/29px intermediate stages accept full gestures once and preserve reversal/cancellation recovery');
 
 for(const phase of ['approach','zoom'])for(const accepted of [false,true]){
  const test=create(),from=phase==='approach'?test.signup:test.overview;

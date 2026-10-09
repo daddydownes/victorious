@@ -5714,7 +5714,10 @@ function updateDrag(delta){
  if(!drag)return;
  const {lower,upper}=dragBounds();
  drag.position=Math.max(lower.top,Math.min(upper.top,drag.position+delta));
- if(Math.abs(drag.position-drag.from)>28)drag.committed=true;
+ // Short landscape can introduce an email stop less than the usual intent
+ // distance away. Reaching that actual endpoint must still complete the stop.
+ const shortEndpoint=upper.top-lower.top<=28&&drag.position!==drag.from&&(drag.direction>0?drag.position===upper.top:drag.position===lower.top);
+ if(Math.abs(drag.position-drag.from)>28||shortEndpoint)drag.committed=true;
  drag.extreme=drag.direction>0?Math.max(drag.extreme,drag.position):Math.min(drag.extreme,drag.position);
  const reverse=drag.direction>0?drag.extreme-drag.position:drag.position-drag.extreme;
  if(reverse>18){drag.direction*=-1;drag.extreme=drag.position}

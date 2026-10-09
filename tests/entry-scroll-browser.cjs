@@ -82,7 +82,10 @@ async function run(config){
   async function rapidPair(){
    if(touch){
     const begin=await page.evaluate(()=>window.__entryQA.touchTargets.length);
-    for(let i=0;i<2;i++)await finger(1,{fraction:.74,steps:2,gap:0,settle:10});
+    // Direct touch can already finish a short landscape stop while held.
+    // Use short accepted strokes so the second contact tests takeover during
+    // the release animation, and retain the observed overlap assertion below.
+    for(let i=0;i<2;i++)await finger(1,{fraction:40/view.height,steps:2,gap:0,settle:10});
     const observed=await page.evaluate(n=>window.__entryQA.touchTargets.slice(n),begin);
     assert.equal(observed.length,2);
     assert(observed[1].moving,'Rapid-pair fixture did not arrive during the transition: '+JSON.stringify(observed));
