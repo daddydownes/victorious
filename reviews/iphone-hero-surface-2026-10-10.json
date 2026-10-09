@@ -216,5 +216,12 @@
     "Chromium warm probe predates only ended/already-paused foreground guard; final delayed probe, both WebKit probes and full journey use final source",
     "Signup transport mocked; no real submissions",
     "No full matrix repeated; focused scope follows owner request"
-  ]
+  ],
+  "publication": {
+    "runtimeCommit": "49f76a9da84a706497bbfc7985455978e3f21385",
+    "pagesStatus": "built",
+    "canonicalHomepageMatches": true,
+    "freshQueryMatches": true,
+    "normalizedSha256": "61bd2460860f22ae6fb05f4ac2e23720fa1e4ccd35a232c93245865cfe1dc2a8"
+  }
 }
