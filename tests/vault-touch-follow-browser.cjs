@@ -25,11 +25,13 @@ assert(base&&out,'Set BASE_URL and EVIDENCE_DIR');fs.mkdirSync(out,{recursive:tr
    await page.evaluate(()=>{
     const panel=document.getElementById('nextDrop'),section=document.getElementById('vaultInvitation');
     const overview=section.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop,range=section.offsetHeight-panel.clientHeight;
-    window.touchFollowQA={origin:panel.scrollTop,overview,range,last:panel.scrollTop,paints:[],inputs:[]};
+    window.touchFollowQA={origin:panel.scrollTop,overview,range,last:panel.scrollTop,paints:[],inputs:[],entries:0};
     const paint=__vaultCamera.paint;
     __vaultCamera.paint=function(progress,offset){touchFollowQA.last=overview+progress*range-offset;touchFollowQA.paints.push({t:performance.now(),position:touchFollowQA.last});return paint.apply(this,arguments)};
     panel.addEventListener('touchmove',e=>touchFollowQA.inputs.push({y:e.touches[0]?.clientY,cancelable:e.cancelable,prevented:e.defaultPrevented}));
+    addEventListener('click',e=>{if(e.target.closest('#nextVaultHold'))touchFollowQA.entries++},{capture:true});
    });
+   if(phase==='zoom')await page.screenshot({path:path.join(out,'overview.png')});
    const cdp=await context.newCDPSession(page),samples=[];
    const sample=async(label,y)=>samples.push({label,y,...await page.evaluate(()=>({t:performance.now(),position:touchFollowQA.last,native:document.getElementById('nextDrop').scrollTop,entered:__vaultEntryGuide.entered,deliveredY:touchFollowQA.inputs.at(-1)?.y??650,inputCount:touchFollowQA.inputs.length}))});
    let y=650;
@@ -54,10 +56,30 @@ assert(base&&out,'Set BASE_URL and EVIDENCE_DIR');fs.mkdirSync(out,{recursive:tr
     followError:Math.max(...samples.filter(s=>s.label!=='start').map(s=>Math.abs((s.position-samples[0].position)-(650-s.deliveredY))))
    };
    await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+   // A fresh contact must stop an unfinished completion immediately, before
+   // touchmove clears either browser or controller intent slop. Observe the
+   // computed photo-camera transform, rather than its mathematical position.
+   await page.waitForFunction(()=>__vaultEntryGuide.moving);
+   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:8,y:650,id:2}]});
+   const freezeState=()=>page.evaluate(()=>({transform:getComputedStyle(document.getElementById('dive')).transform,native:document.getElementById('nextDrop').scrollTop,phase:__guide.phase(),entered:__vaultEntryGuide.entered,entries:touchFollowQA.entries}));
+   const freezeStart=await freezeState();
+   await page.waitForTimeout(180);const freezeHeld=await freezeState();
+   assert.equal(freezeHeld.transform,freezeStart.transform,phase+': new held contact moved the computed photo transform');
+   assert.equal(freezeHeld.native,freezeStart.native,phase+': new held contact moved the entry scroller');
+   assert(!freezeHeld.entered,phase+': completion entered while the new finger was held');
+   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:8,y:647,id:2}]});
+   await page.waitForTimeout(40);const freezeSlop=await freezeState();
+   assert.equal(freezeSlop.transform,freezeStart.transform,phase+': 3px subslop movement restarted the photo transform');
+   assert.equal(freezeSlop.native,freezeStart.native,phase+': 3px subslop movement restarted native entry scrolling');
+   assert(!freezeSlop.entered,phase+': subslop contact granted entry');
+   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
    await page.waitForFunction(()=>!__vaultEntryGuide.moving);
    if(phase==='zoom')await page.waitForFunction(()=>__guide.phase()==='vault');
    else await page.waitForFunction(()=>Math.abs(document.getElementById('nextDrop').scrollTop-touchFollowQA.overview)<3);
-   const row={phase,sha256,staticOpening:true,imagesDecodedBeforeInput:true,metrics,samples,errors,final:await page.evaluate(()=>({phase:__guide.phase(),entered:__vaultEntryGuide.entered,top:document.getElementById('nextDrop').scrollTop})),inputs:await page.evaluate(()=>touchFollowQA.inputs)};
+   const final=await page.evaluate(()=>({phase:__guide.phase(),entered:__vaultEntryGuide.entered,top:document.getElementById('nextDrop').scrollTop,entries:touchFollowQA.entries}));
+   assert.equal(final.entries,phase==='zoom'?1:0,phase+': releasing the new contact must complete its original landing exactly once');
+   if(phase==='zoom')await page.screenshot({path:path.join(out,'vault.png')});
+   const row={phase,sha256,staticOpening:true,imagesDecodedBeforeInput:true,metrics,samples,errors,freeze:{start:freezeStart,held180ms:freezeHeld,subslop3px:freezeSlop},final,inputs:await page.evaluate(()=>touchFollowQA.inputs)};
    rows.push(row);fs.writeFileSync(path.join(out,'touch-follow.json'),JSON.stringify(rows,null,2));
    if(expectFollow){
     assert(metrics.maximumExcessStep<=1,phase+': camera movement exceeded delivered finger movement by '+metrics.maximumExcessStep);

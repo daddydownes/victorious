@@ -36,16 +36,19 @@ function create({code=source,height=844,width=390,extra=0,quantum=1,fps=60,reduc
  }
  function framesFor(count){for(let n=0;n<count;n++)step()}
  function until(condition,label){for(let n=0;n<240;n++){if(condition())return;step()}assert.fail('Timed out: '+label)}
- function touch(kind,y=600,{count=1,cancelable=true}={}){
+ function touch(kind,y=600,{count=1,cancelable=true,timeStamp=now}={}){
   const touches=kind==='end'||kind==='cancel'?[]:Array.from({length:count},(_,i)=>({identifier:i+1,clientY:y+i*10}));
-  const event={target:panel,touches,cancelable,defaultPrevented:false,preventDefault(){assert(this.cancelable,'Must not cancel a browser-owned move');this.defaultPrevented=true}};
+  const event={target:panel,touches,cancelable,timeStamp,defaultPrevented:false,preventDefault(){assert(this.cancelable,'Must not cancel a browser-owned move');this.defaultPrevented=true}};
   if(kind==='end'||kind==='cancel')global('touch'+kind,event);else emit(panel,'touch'+kind,event);return event;
  }
  function scroll(top){panel.scrollTop=top;emit(panel,'scroll',{})}
  function wheel(delta=600){emit(panel,'wheel',{target:panel,deltaX:0,deltaY:delta,preventDefault(){}})}
  function key(key='PageDown'){emit(panel,'keydown',{target:panel,key,repeat:false,preventDefault(){}})}
  const state=()=>({top:panel.scrollTop,target:context.__vaultEntryGuide.target,moving:context.__vaultEntryGuide.moving,entered:context.__vaultEntryGuide.entered,touching:context.__vaultEntryGuide.touching});
- return {step,framesFor,until,touch,scroll,wheel,key,state,global,doc,writes,paints,activateButton(){button.click()},get position(){return paint?.position??panel.scrollTop},get clicks(){return clicks},get overview(){return height*2+extra},get endpoint(){return height*3+extra},get signup(){return height}};
+ // A prepared camera can stay behind opaque collection/signup chapters; only
+ // its visible transform represents displayed position. Root commits paint(1)
+ // synchronously on entry, after the guide has retired its own rendering.
+ return {step,framesFor,until,touch,scroll,wheel,key,state,global,doc,writes,paints,elapse(ms){now+=ms},get now(){return now},activateButton(){button.click()},get position(){return !context.__vaultEntryGuide.entered&&panel.classList.contains('vault-camera-active')?paint?.position??panel.scrollTop:panel.scrollTop},get clicks(){return clicks},get overview(){return height*2+extra},get endpoint(){return height*3+extra},get signup(){return height}};
 }
 const near=(actual,expected,label)=>assert(Math.abs(actual-expected)<1e-6,label+': '+actual+' != '+expected);
 function begin(test,top){test.framesFor(4);test.scroll(top);test.step();test.writes.length=0}
@@ -138,13 +141,60 @@ for(const phase of ['approach','zoom']){
  const test=create(),from=phase==='approach'?test.signup:test.overview;
  begin(test,from);test.touch('start',650);drag(test,570);test.touch('end');test.framesFor(5);
  const displayed=test.position;assert(test.state().moving,'Fixture must catch the unfinished release animation');
- test.touch('start',650);drag(test,590);const accepted=test.position;assert(accepted>=displayed&&accepted<=displayed+61,'Fresh drag continues without returning to its parked native anchor');
+ test.touch('start',650);test.framesFor(6);near(test.position,displayed,'Fresh finger-down immediately freezes unfinished completion');
+ drag(test,647,3);near(test.position,displayed,'Subslop finger movement cannot keep an old release moving');
+ drag(test,590);const accepted=test.position;assert(accepted>=displayed&&accepted<=displayed+61,'Fresh drag continues without returning to its parked native anchor');
  test.framesFor(12);near(test.position,accepted,phase+': fresh accepted contact pauses at the displayed position');
  drag(test,580);near(test.position-accepted,10,'Fresh drag follows its new finger origin');
  test.touch('end');test.until(()=>!test.state().moving,'fresh release completion');near(test.position,from+844,'Fresh takeover completes the same stage');
  assert.equal(test.clicks,phase==='zoom'?1:0);
 }
 console.log('PASS fresh touch takes over an unfinished release from its displayed position');
+
+for(const phase of ['approach','zoom']){
+ const test=create({quantum:0}),from=phase==='approach'?test.signup:test.overview;
+ begin(test,from);test.touch('start',650);drag(test,570);test.touch('end');test.framesFor(5);
+ const displayed=test.position;test.touch('start',650);test.framesFor(15);near(test.position,displayed,'A held tap pauses the existing completion');
+ test.touch('end');test.until(()=>!test.state().moving,'tap resumes completion');near(test.position,from+844,'Tap release resumes its retained destination');assert.equal(test.clicks,phase==='zoom'?1:0);
+}
+console.log('PASS tap and subslop contacts pause immediately and resume the retained stage on release');
+
+for(const phase of ['approach','near-overview-return']){
+ const test=create({quantum:0});begin(test,phase==='approach'?test.signup:test.overview);
+ test.touch('start',650);drag(test,570);
+ if(phase==='near-overview-return')drag(test,630);
+ test.touch('end');
+ if(phase==='approach')test.framesFor(5);
+ else test.until(()=>test.state().moving&&test.position>test.overview+.25&&test.position<=test.overview+3,'near-overview unfinished return');
+ assert(test.state().moving,'Cancellation fixture must have an unfinished completion');
+ const frozen=test.position;test.touch('start',650);test.framesFor(6);near(test.position,frozen,'Second contact freezes before cancellation');
+ test.touch('cancel');test.until(()=>!test.state().moving,'canceled contact retires its paused owner');
+ near(test.position,test.overview,'An unconsumed paused owner resumes to the overview');assert.equal(test.clicks,0,'Cancellation cannot grant Vault entry');
+ test.touch('start',650);drag(test,590);test.touch('end');test.until(()=>test.state().entered,'fresh gesture after paused cancellation');assert.equal(test.clicks,1,'A canceled paused owner cannot block a fresh accepted gesture');
+}
+console.log('PASS canceled paused approaches and near-overview returns retire without leaking ownership');
+
+// The same recorded input must retain the same completion speed when a busy
+// main thread dispatches those events in one batch instead of every frame.
+for(const idle of [0,1000]){
+ function recorded(batch){
+  const test=create({quantum:0});begin(test,test.overview);test.touch('start',650);test.elapse(idle);
+  const start=test.now,interval=1000/60;
+  if(batch)test.elapse(interval*10);
+  for(let n=0;n<10;n++){
+   test.touch('move',650-20*(n+1),{timeStamp:start+interval*n});
+   if(!batch)test.step();
+  }
+  if(batch)test.step();
+  test.touch('end',0,{timeStamp:start+interval*10});const released=test.position;test.step();return test.position-released;
+ }
+ near(recorded(true),recorded(false),'Recorded timestamps preserve speed despite batched dispatch or idle touchstart');
+}
+for(const timestamp of [null,-2000]){
+ const test=create({quantum:0});begin(test,test.overview);test.touch('start',650);drag(test,570);test.touch('move',500,{timeStamp:timestamp});test.step();
+ const released=test.position;test.touch('end',0,{timeStamp:timestamp});test.step();assert(test.position-released<12,'Unreliable timestamps use a safe zero-speed completion');
+}
+console.log('PASS timestamped batches, idle seeds and unreliable input clocks cannot manufacture release speed');
 
 for(const phase of ['approach','zoom']){
  const test=create(),from=phase==='approach'?test.signup:test.overview;

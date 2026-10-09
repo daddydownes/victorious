@@ -42,8 +42,9 @@ function cameraLifecycle(test){
  const record=(kind,...values)=>events.push({kind,values});
  function classes(name,initial=[]){const values=new Set(initial);return {contains:value=>values.has(value),add(...items){record(name+'.add',...items);items.forEach(value=>values.add(value))},remove(...items){record(name+'.remove',...items);items.forEach(value=>values.delete(value))}}}
  const style=name=>new Proxy({removeProperty(key){record(name+'.removeProperty',key)}},{set(object,key,value){record(name+'.style',key,value);object[key]=value;return true}});
+ c.plane.style=style('plane');
  const next={attrs:{},setAttribute(key,value){record('next.attribute',key,value);this.attrs[key]=value}},button={disabled:false};
- Object.assign(c,{vaultActive:false,reduced:false,vault:{style:style('vault'),classList:classes('vault',['vault-previewing']),setAttribute:noop,removeAttribute:noop,focus(options){record('focus',options)}},dive:{style:style('dive')},guidePhase:'film',entryGen:0,
+ Object.assign(c,{vaultActive:false,vaultCameraMeasurePending:false,nativePanActive:false,queueMeasure:noop,reduced:false,vault:{style:style('vault'),classList:classes('vault',['vault-previewing']),setAttribute:noop,removeAttribute:noop,focus(options){record('focus',options)}},dive:{style:style('dive')},guidePhase:'film',entryGen:0,
   paintVaultCamera(){record('paint')},hideCue:noop,setNextDropInert(node,value){record('inert',node===next?'next':node===c.vault?'vault':'other',value);node.inert=value},stage:{setAttribute:noop},seamGold:{setAttribute:noop},stopInertia:noop,
   activateNativePan(){record('native')},unlock(){record('unlock');c.document.documentElement.classList.add('gutter');c.document.body.classList.remove('locked')},scrollTo(...values){record('scroll',...values)},vaultY(){record('landing');return 731},
   vaultRevealed:false,revealVaultTitle:noop,document:{getElementById:id=>id==='nextDrop'?next:id==='nextVaultHold'?button:null,
