@@ -1,0 +1,620 @@
+[
+  {
+    "label": "baseline",
+    "pass": 1,
+    "mode": "baseline-1",
+    "sha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 17.59999999999991,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 189,
+            "ms": 59.49300000000002,
+            "max": 5.233
+          },
+          "UpdateLayoutTree": {
+            "count": 63,
+            "ms": 34.31400000000001,
+            "max": 5.207
+          },
+          "PrePaint": {
+            "count": 95,
+            "ms": 17.803999999999995,
+            "max": 2.524
+          },
+          "Paint": {
+            "count": 122,
+            "ms": 43.15500000000001,
+            "max": 2.868
+          },
+          "RasterTask": {
+            "count": 24,
+            "ms": 8.675999999999998,
+            "max": 3.828
+          },
+          "Layout": {
+            "count": 2,
+            "ms": 1.196,
+            "max": 1.007
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 22.341,
+            "max": 1.773
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 83.19999999999982,
+        "over33": 1,
+        "counts": {
+          "FunctionCall": {
+            "count": 201,
+            "ms": 124.30999999999996,
+            "max": 61.906
+          },
+          "UpdateLayoutTree": {
+            "count": 52,
+            "ms": 61.85,
+            "max": 5.307
+          },
+          "PrePaint": {
+            "count": 71,
+            "ms": 13.215000000000003,
+            "max": 5.192
+          },
+          "Paint": {
+            "count": 18,
+            "ms": 2.533,
+            "max": 0.938
+          },
+          "RasterTask": {
+            "count": 179,
+            "ms": 297.03800000000007,
+            "max": 7.712
+          },
+          "ImageDecodeTask": {
+            "count": 50,
+            "ms": 33.142999999999994,
+            "max": 3.138
+          },
+          "Layout": {
+            "count": 6,
+            "ms": 0.49000000000000005,
+            "max": 0.137
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 26,
+      "maxMs": 61.793
+    },
+    "zoomIncludingHandoffMaxFrameMs": 83.19999999999982
+  },
+  {
+    "label": "baseline",
+    "pass": 2,
+    "mode": "baseline-2",
+    "sha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 33.90000000000009,
+        "over33": 1,
+        "counts": {
+          "FunctionCall": {
+            "count": 189,
+            "ms": 79.60100000000008,
+            "max": 16.215
+          },
+          "UpdateLayoutTree": {
+            "count": 63,
+            "ms": 49.70200000000001,
+            "max": 8.697
+          },
+          "PrePaint": {
+            "count": 98,
+            "ms": 15.049999999999995,
+            "max": 2.157
+          },
+          "Paint": {
+            "count": 128,
+            "ms": 34.212,
+            "max": 2.915
+          },
+          "RasterTask": {
+            "count": 22,
+            "ms": 22.085,
+            "max": 14.319
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 72.555,
+            "max": 10.637
+          },
+          "Layout": {
+            "count": 2,
+            "ms": 2.322,
+            "max": 2.124
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 65.79999999999973,
+        "over33": 1,
+        "counts": {
+          "FunctionCall": {
+            "count": 201,
+            "ms": 138.621,
+            "max": 63.578
+          },
+          "UpdateLayoutTree": {
+            "count": 49,
+            "ms": 99.00599999999994,
+            "max": 11.691
+          },
+          "PrePaint": {
+            "count": 69,
+            "ms": 20.326,
+            "max": 3.446
+          },
+          "Paint": {
+            "count": 65,
+            "ms": 18.40400000000001,
+            "max": 2.283
+          },
+          "RasterTask": {
+            "count": 181,
+            "ms": 284.03499999999997,
+            "max": 8.147
+          },
+          "ImageDecodeTask": {
+            "count": 50,
+            "ms": 41.099,
+            "max": 10.163
+          },
+          "Layout": {
+            "count": 6,
+            "ms": 2.73,
+            "max": 2.209
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 27,
+      "maxMs": 63.475
+    },
+    "zoomIncludingHandoffMaxFrameMs": 65.79999999999973
+  },
+  {
+    "label": "baseline",
+    "pass": 3,
+    "mode": "baseline-3",
+    "sha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 17.59999999999991,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 192,
+            "ms": 62.10800000000002,
+            "max": 7.891
+          },
+          "UpdateLayoutTree": {
+            "count": 63,
+            "ms": 36.53499999999999,
+            "max": 6.332
+          },
+          "PrePaint": {
+            "count": 101,
+            "ms": 17.739999999999995,
+            "max": 3.057
+          },
+          "Paint": {
+            "count": 127,
+            "ms": 40.333999999999996,
+            "max": 4.004
+          },
+          "RasterTask": {
+            "count": 22,
+            "ms": 13.929,
+            "max": 7.239
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 28.93899999999999,
+            "max": 4.016
+          },
+          "Layout": {
+            "count": 1,
+            "ms": 0.118,
+            "max": 0.118
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 67.30000000000018,
+        "over33": 1,
+        "counts": {
+          "FunctionCall": {
+            "count": 200,
+            "ms": 133.2520000000001,
+            "max": 64.114
+          },
+          "PrePaint": {
+            "count": 69,
+            "ms": 12.687999999999999,
+            "max": 3.667
+          },
+          "UpdateLayoutTree": {
+            "count": 50,
+            "ms": 66.39899999999999,
+            "max": 9.966
+          },
+          "Paint": {
+            "count": 20,
+            "ms": 4.397999999999999,
+            "max": 1.426
+          },
+          "RasterTask": {
+            "count": 171,
+            "ms": 290.1339999999999,
+            "max": 8.767
+          },
+          "ImageDecodeTask": {
+            "count": 45,
+            "ms": 28.179,
+            "max": 3.705
+          },
+          "Layout": {
+            "count": 7,
+            "ms": 3.859,
+            "max": 1.617
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 26,
+      "maxMs": 63.822
+    },
+    "zoomIncludingHandoffMaxFrameMs": 67.30000000000018
+  },
+  {
+    "label": "release",
+    "pass": 1,
+    "mode": "release-1",
+    "sha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 18.5,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 205,
+            "ms": 18.251000000000026,
+            "max": 1.517
+          },
+          "UpdateLayoutTree": {
+            "count": 69,
+            "ms": 17.586000000000002,
+            "max": 3.802
+          },
+          "PrePaint": {
+            "count": 86,
+            "ms": 3.256999999999993,
+            "max": 0.855
+          },
+          "Paint": {
+            "count": 137,
+            "ms": 16.147999999999996,
+            "max": 1.214
+          },
+          "RasterTask": {
+            "count": 24,
+            "ms": 5.950000000000001,
+            "max": 1.852
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 16.918999999999993,
+            "max": 1.559
+          },
+          "Layout": {
+            "count": 2,
+            "ms": 1.879,
+            "max": 0.978
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 18.40000000000009,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 172,
+            "ms": 25.246000000000002,
+            "max": 11.234
+          },
+          "UpdateLayoutTree": {
+            "count": 54,
+            "ms": 21.609999999999992,
+            "max": 6.806
+          },
+          "PrePaint": {
+            "count": 50,
+            "ms": 4.806999999999999,
+            "max": 1.488
+          },
+          "Paint": {
+            "count": 18,
+            "ms": 6.636,
+            "max": 1.99
+          },
+          "RasterTask": {
+            "count": 183,
+            "ms": 153.27799999999996,
+            "max": 4.08
+          },
+          "ImageDecodeTask": {
+            "count": 50,
+            "ms": 19.005,
+            "max": 2.65
+          },
+          "Layout": {
+            "count": 4,
+            "ms": 1.887,
+            "max": 0.976
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 1,
+      "maxMs": 0.008
+    },
+    "zoomIncludingHandoffMaxFrameMs": 33.90000000000009
+  },
+  {
+    "label": "release",
+    "pass": 2,
+    "mode": "release-2",
+    "sha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 18.600000000000023,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 203,
+            "ms": 19.350000000000023,
+            "max": 1.597
+          },
+          "UpdateLayoutTree": {
+            "count": 68,
+            "ms": 14.703999999999995,
+            "max": 3.728
+          },
+          "PrePaint": {
+            "count": 90,
+            "ms": 4.090999999999996,
+            "max": 1.571
+          },
+          "Paint": {
+            "count": 133,
+            "ms": 21.338999999999995,
+            "max": 2.088
+          },
+          "RasterTask": {
+            "count": 22,
+            "ms": 4.888,
+            "max": 1.836
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 16.501999999999995,
+            "max": 2.052
+          },
+          "Layout": {
+            "count": 2,
+            "ms": 1.854,
+            "max": 1.722
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 31.5,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 167,
+            "ms": 26.76899999999999,
+            "max": 11.027
+          },
+          "UpdateLayoutTree": {
+            "count": 51,
+            "ms": 29.639000000000006,
+            "max": 6.696
+          },
+          "PrePaint": {
+            "count": 49,
+            "ms": 5.466999999999997,
+            "max": 1.666
+          },
+          "Paint": {
+            "count": 18,
+            "ms": 7.064999999999998,
+            "max": 1.657
+          },
+          "RasterTask": {
+            "count": 183,
+            "ms": 154.7689999999998,
+            "max": 4.292
+          },
+          "ImageDecodeTask": {
+            "count": 50,
+            "ms": 18.289,
+            "max": 3.091
+          },
+          "Layout": {
+            "count": 4,
+            "ms": 2.6460000000000004,
+            "max": 1.584
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 1,
+      "maxMs": 0.008
+    },
+    "zoomIncludingHandoffMaxFrameMs": 31.5
+  },
+  {
+    "label": "release",
+    "pass": 3,
+    "mode": "release-3",
+    "sha256": "0281483d13bb237d403e5c6fa060c2b8b7fbff486a59f375bda7d38f8585f39b",
+    "staticOpening": true,
+    "imagesDecodedBeforeArrival": true,
+    "cpuSlowdown": 6,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 3
+    },
+    "phases": {
+      "arrival": {
+        "maxFrame": 18.699999999999818,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 203,
+            "ms": 21.976000000000028,
+            "max": 2.171
+          },
+          "UpdateLayoutTree": {
+            "count": 68,
+            "ms": 10.738999999999997,
+            "max": 4.54
+          },
+          "PrePaint": {
+            "count": 88,
+            "ms": 4.284,
+            "max": 1.134
+          },
+          "Paint": {
+            "count": 134,
+            "ms": 16.886000000000006,
+            "max": 1.183
+          },
+          "RasterTask": {
+            "count": 22,
+            "ms": 4.915000000000001,
+            "max": 1.793
+          },
+          "ImageDecodeTask": {
+            "count": 33,
+            "ms": 18.750999999999998,
+            "max": 1.826
+          },
+          "Layout": {
+            "count": 2,
+            "ms": 0.9410000000000001,
+            "max": 0.79
+          }
+        }
+      },
+      "zoom": {
+        "maxFrame": 31.40000000000009,
+        "over33": 0,
+        "counts": {
+          "FunctionCall": {
+            "count": 169,
+            "ms": 26.22999999999999,
+            "max": 11.54
+          },
+          "UpdateLayoutTree": {
+            "count": 53,
+            "ms": 26.53,
+            "max": 6.422
+          },
+          "PrePaint": {
+            "count": 49,
+            "ms": 4.9479999999999995,
+            "max": 1.916
+          },
+          "Paint": {
+            "count": 18,
+            "ms": 5.6370000000000005,
+            "max": 1.808
+          },
+          "RasterTask": {
+            "count": 183,
+            "ms": 162.076,
+            "max": 3.437
+          },
+          "ImageDecodeTask": {
+            "count": 50,
+            "ms": 17.666999999999998,
+            "max": 2.576
+          },
+          "Layout": {
+            "count": 4,
+            "ms": 2.381,
+            "max": 1.196
+          }
+        }
+      }
+    },
+    "zoomPanelScroll": {
+      "count": 1,
+      "maxMs": 0.007
+    },
+    "zoomIncludingHandoffMaxFrameMs": 31.40000000000009
+  }
+]

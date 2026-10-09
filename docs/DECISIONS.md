@@ -1,5 +1,13 @@
 # Decisions and recent changes
 
+## October 9 — continuous two-swipe camera and quiet photo upgrades
+
+The owner still observes small glitches on both Vault swipes in Safari on a newer iPhone. Keep the same photos, filters, quality, layout, camera geometry and separate overview/zoom landings. Render from the continuous eased camera position and reduce the former three-pixel completion snap to a quarter pixel. Preserve the authored duration and allow fresh gestures to continue from the old near-end boundary without letting an ongoing burst skip stages.
+
+Once the sticky overview has landed, animate the camera without repeatedly scrolling the covered signup panel. Synchronize its native endpoint once, preserve displayed position through reversal/multitouch recovery, and let actual native scrolling revoke active or deferred ownership while lifecycle cleanup remains immediate. Delayed own-scroll notifications and real layout anchoring preserve accepted entry; a no-op geometry invalidation must not mask actual native takeover. Batch the final chapter styles before native-pan geometry/focus work. Skip unchanged visual-viewport measurement during camera ownership.
+
+Keep initial image loading available, but defer higher-resolution requests, retries and visible replacements during camera motion and the existing handoff-settling period. In-flight completions release network slots so first images cannot be starved. Cancellation and timed handoff release the pending work; input readiness is not extended to wait for higher resolution. The earlier exact-frame comparison is historical because this intentionally changes the former completion tail.
+
 ## October 9 — lighten the dates-to-overview reveal
 
 The owner clarified that the remaining lag happens while scrolling from event dates to the first bird’s-eye photo overview, before zooming into the archive. Start the existing bounded photo preparation during the covered approach to signup, rather than opening 33-photo preparation during the reveal. Keep the original images, delivery quality, four-job limit, timings, gestures and half-entry recovery. No Vault photo requests start while the opening/collection remains idle.
