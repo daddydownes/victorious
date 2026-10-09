@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## October 9 — lighten the dates-to-overview reveal
+
+The owner clarified that the remaining lag happens while scrolling from event dates to the first bird’s-eye photo overview, before zooming into the archive. Start the existing bounded photo preparation during the covered approach to signup, rather than opening 33-photo preparation during the reveal. Keep the original images, delivery quality, four-job limit, timings, gestures and half-entry recovery. No Vault photo requests start while the opening/collection remains idle.
+
+The opaque signup/collection sections already cover the fixed Vault above the invitation edge. Remove the duplicate per-frame Vault clip and keep the exact photo transform; this supersedes only the moving-clip mechanism in the September 24 decision. Geometry and image comparisons protect against reintroducing a visible seam. This is a reduction in critical-phase work, not a claim that all iPhone models sustain a particular frame rate.
+
 ## October 9 — settle Vault entry instead of parking an inactive zoom
 
 The owner reports visitors stopping just before the Vault becomes interactive and asks for iPhone/Safari optimization. Preserve the complete overview and original visual journey. An accepted short onward gesture finishes the zoom automatically after release, including ordinary height-only Safari toolbar resizing. Genuine touch cancellation, multiple contacts, rotation, blur or background interruption revoke entry and return to the overview. Native/restored partial positions also settle to the overview after input is idle; geometry alone still cannot activate the archive. This supersedes cancelling entry for every resize while leaving its camera tween running.

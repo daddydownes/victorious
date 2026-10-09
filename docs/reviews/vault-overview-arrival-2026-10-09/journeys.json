@@ -1,0 +1,246 @@
+{
+  "environment": "Explicit-root local preview; Playwright engines, not physical iPhones",
+  "mockedSignup": true,
+  "rows": [
+    {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-spam-3",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-cancel-resize-4",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-normal-1",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-spam-3",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-cancel-resize-4",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-normal-1",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-spam-3",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-cancel-resize-4",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c3637f55406d4b3eb8a20bc26a827eccd222d96ede7cbd82cff2ccf6182c0520",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    }
+  ]
+}
