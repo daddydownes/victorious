@@ -1,0 +1,808 @@
+{
+  "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+  "passes": 40,
+  "completedHero": 32,
+  "reducedMotion": 8,
+  "rows": [
+    {
+      "tag": "chromium-1280-720-normal-1",
+      "engine": "chromium",
+      "width": 1280,
+      "height": 720,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1280-720-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 1280,
+      "height": 720,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1280-720-spam-3",
+      "engine": "chromium",
+      "width": 1280,
+      "height": 720,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1280-720-cancel-resize-4",
+      "engine": "chromium",
+      "width": 1280,
+      "height": 720,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-normal-1",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-spam-3",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-cancel-resize-4",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-reduce-normal-1",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "reduce",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-reduce-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "reduce",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-reduce-focus-3",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "reduce",
+      "pattern": "focus",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-1440-900-reduce-cancel-resize-4",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "reduce",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-320-568-normal-1",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-320-568-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-320-568-spam-3",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-320-568-cancel-resize-4",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-spam-3",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-cancel-resize-4",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reduce-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reduce-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reduce-focus-3",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "focus",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-390-844-reduce-cancel-resize-4",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-430-932-normal-1",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-430-932-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-430-932-spam-3",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-430-932-cancel-resize-4",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-844-390-normal-1",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-844-390-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-844-390-spam-3",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "chromium-844-390-cancel-resize-4",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "CDP native touch",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-normal-1",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-spam-3",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-390-844-cancel-resize-4",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-normal-1",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "pass": 1,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "unchanged Surface smoke",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "pass": 2,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-spam-3",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "pass": 3,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    },
+    {
+      "tag": "webkit-844-390-cancel-resize-4",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "pass": 4,
+      "input": "wheel",
+      "status": "PASS",
+      "errors": [],
+      "stage": "zoom and handoff",
+      "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      }
+    }
+  ]
+}

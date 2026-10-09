@@ -1,5 +1,13 @@
 # Decisions and recent changes
 
+## October 9 — follow the held finger, finish on release
+
+The owner clarified that holding a finger down and moving up/down produces jumps. The existing swipe-triggered controller waited for 28px, then ran its own fixed-time chapter animation; reversing the finger launched another animation. This mismatch is reproducible without image loading. Replace only phone touch ownership with direct bounded movement after 6px of intent slop. Held movement and reversal track displacement one-to-one; a stationary finger stays still. After sufficient travel, release finishes the selected endpoint automatically. Small previews return to their origin. Keep the overview as a separate landing, and retain the existing desktop wheel/key behavior.
+
+A new deliberate drag can take over an unfinished release from its displayed position. Cancellation and multiple contacts recover to the appropriate whole stage; lifecycle cleanup is immediate. Real native/uncancelable input yields ownership rather than racing scripted scroll writes, including during approach. Toolbar geometry changes preserve a held segment fraction. The tests are updated where they previously demanded autonomous motion while the finger was held; endpoint/release, no-stage-skipping, interruption and native-ownership assertions remain.
+
+The owner also asked to restore anything lost in earlier fixes. Comparison against the earlier published versions found no removed media, styling, signup, archive, Surface or game functionality warranting rollback. Preserve the earlier cancellation and handoff safeguards. This change does not modify image loading, media, CSS, camera geometry or downstream flows.
+
 ## October 9 — continuous two-swipe camera and quiet photo upgrades
 
 The owner still observes small glitches on both Vault swipes in Safari on a newer iPhone. Keep the same photos, filters, quality, layout, camera geometry and separate overview/zoom landings. Render from the continuous eased camera position and reduce the former three-pixel completion snap to a quarter pixel. Preserve the authored duration and allow fresh gestures to continue from the old near-end boundary without letting an ongoing burst skip stages.

@@ -66,10 +66,10 @@ if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
 const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-let frame=0,move=null,entered=false,endpointReady=false,contact=null,touchCount=0,wheelConsumed=false,wheelDirection=0,wheelReverse=0,wheelTimer=0,lastWheel=0,entryTimer=0,lastStop='collection',photosWarmed=false,overviewWarmed=false;
+let frame=0,move=null,drag=null,entered=false,endpointReady=false,contact=null,touchCount=0,wheelConsumed=false,wheelDirection=0,wheelReverse=0,wheelTimer=0,lastWheel=0,entryTimer=0,lastStop='collection',photosWarmed=false,overviewWarmed=false;
 // Cache entry geometry until layout actually changes, never on scroll alone.
 let geometry=null;
-let recoveryPending=false,recoveryPosition=null,recoveryAnchor=null,recoveryOverview=null,settleTimer=0,viewportWidth=innerWidth,viewportHeight=innerHeight;
+let recoveryPending=false,recoveryPosition=null,recoveryAnchor=null,recoveryOverview=null,recoveryTarget=null,settleTimer=0,viewportWidth=innerWidth,viewportHeight=innerHeight;
 function invalidateGeometry(){geometry=null}
 function readGeometry(){
  if(geometry)return geometry;
@@ -87,23 +87,25 @@ function readGeometry(){
  return geometry;
 }
 function stops(){return readGeometry().points}
-function currentPosition(){return move?.position??(recoveryPending?recoveryPosition:null)??panel.scrollTop}
+function currentPosition(){if(drag)dragBounds();return drag?.position??move?.position??(recoveryPending?recoveryPosition:null)??panel.scrollTop}
 function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function cancelEntry(){endpointReady=false;if(move)move.allowEntry=false;clearTimeout(entryTimer);entryTimer=0}
 // An interrupted zoom must not leave the inactive archive looking entered.
 // Real cancellation returns to the overview; a released short swipe still
 // completes the existing forward transition without needing more scrolling.
 function recoverZoom(immediate=false){
- const overview=stops().find(point=>point.key==='overview');
- const from=currentPosition();
- const zooming=move?.key==='vault'||endpointReady||recoveryPending||from>overview.top+3;
+ const points=stops(),overview=points.find(point=>point.key==='overview'),from=currentPosition();
+ const interrupted=drag;
+ const zooming=!!interrupted||move?.key==='vault'||endpointReady||recoveryPending||from>overview.top+3;
+ const target=interrupted&&!interrupted.cameraOnly?points.find(point=>point.key===interrupted.origin)||overview:recoveryPending?points.find(point=>point.key===recoveryTarget)||overview:overview;
  cancelEntry();
  if(entered||!zooming)return;
- move=null;recoveryPending=true;recoveryPosition=from;recoveryAnchor=panel.scrollTop;recoveryOverview=overview.top;
+ drag=null;if(interrupted)contact=null;
+ move=null;recoveryPending=true;recoveryPosition=from;recoveryAnchor=panel.scrollTop;recoveryOverview=overview.top;recoveryTarget=target.key;
  if(touchCount&&!immediate)return;
  recoveryPending=false;
- if(immediate||!eligible()){panel.scrollTop=overview.top;lastStop='overview';queue()}
- else travel(overview,-1,from);
+ if(immediate||!eligible()){panel.scrollTop=target.top;lastStop=target.key;queue()}
+ else travel(target,target.top>=from?1:-1,from);
 }
 function enter(){
  entryTimer=0;
@@ -141,7 +143,15 @@ function render(position){
 function tick(now){
  frame=0;
  let position;
- if(move){
+ if(drag){
+  if(!eligible())recoverZoom(true);
+  else{
+   const {lower,upper}=dragBounds();
+   position=drag.position=Math.max(lower.top,Math.min(upper.top,drag.position));
+   if(!drag.cameraOnly){panel.scrollTop=position;drag.nativeAnchor=panel.scrollTop;drag.overview=readGeometry().overview}
+   else if(drag.overview!==readGeometry().overview){drag.overview=readGeometry().overview;panel.scrollTop=drag.overview;drag.nativeAnchor=panel.scrollTop}
+  }
+ }else if(move){
   if(!eligible()){recoverZoom(true);move=null;cancelEntry()}
   else{
    const target=stops().find(point=>point.key===move.key)||stops().at(-1),p=Math.max(0,Math.min(1,(now-move.start)/move.duration)),eased=1-Math.pow(1-p,3);
@@ -149,7 +159,7 @@ function tick(now){
    // authored easing. Once the sticky overview is landed, its hidden scroller
    // need not move with every zoom frame; synchronize it only at the endpoint.
    position=move.position=move.from+(target.top-move.from)*eased;
-   if(!move.cameraOnly)panel.scrollTop=position;
+   if(!move.cameraOnly){panel.scrollTop=position;move.nativeAnchor=panel.scrollTop;move.overview=readGeometry().overview}
    else if(move.overview!==readGeometry().overview){move.overview=readGeometry().overview;panel.scrollTop=move.overview;move.nativeAnchor=panel.scrollTop}
    if(p>=1||Math.abs(position-target.top)<.25){position=finishMove(target);enter()}
   }
@@ -168,6 +178,7 @@ function travel(target,direction,position){
  const cameraOnly=from>=overview-1&&target.top>=overview;
  if(cameraOnly)from=Math.max(overview,from);
  const distance=Math.abs(target.top-from);
+ if(drag){drag=null;contact=null}
  recoveryPending=false;clearTimeout(settleTimer);
  cancelEntry();
  if(move&&move.key===target.key)return;
@@ -213,25 +224,87 @@ panel.addEventListener('wheel',event=>{
  if(wheelConsumed)return;
  wheelConsumed=true;wheelDirection=direction;advance(direction,true);
 },{passive:false});
+// A held phone gesture owns position directly. Only its release starts a
+// bounded completion; repeated up/down motion never restarts an easing curve.
+function beginDrag(delta){
+ const points=stops(),from=currentPosition(),direction=delta>0?1:-1;
+ const resting=points.findIndex(point=>Math.abs(point.top-from)<=1);
+ let lower,upper,origin;
+ if(resting>=0){
+  const adjacent=Math.max(0,Math.min(points.length-1,resting+direction));
+  lower=points[Math.min(resting,adjacent)];upper=points[Math.max(resting,adjacent)];origin=points[resting].key;
+ }else{
+  lower=[...points].reverse().find(point=>point.top<from)||points[0];upper=points.find(point=>point.top>from)||points.at(-1);
+  origin=points.find(point=>point.key===lastStop&&point.top>=lower.top&&point.top<=upper.top)?.key||(from-lower.top<upper.top-from?lower.key:upper.key);
+ }
+ const resume=move?.key||null,overview=readGeometry().overview;
+ cancelEntry();move=null;recoveryPending=false;clearTimeout(settleTimer);
+ drag={from,position:from,lower:lower.key,upper:upper.key,lowerTop:lower.top,upperTop:upper.top,origin,resume,direction,extreme:from,committed:false,cameraOnly:lower.top>=overview-1,overview,nativeAnchor:panel.scrollTop};
+ contact.accepted=true;
+ // The small intent slop stays behind the finger; crossing it cannot cause a
+ // large catch-up jump. All subsequent displacement is one-to-one and bounded.
+ updateDrag(delta-direction*6);
+}
+function dragBounds(){
+ const points=stops(),lower=points.find(point=>point.key===drag.lower)||points[0],upper=points.find(point=>point.key===drag.upper)||points.at(-1);
+ if(lower.top!==drag.lowerTop||upper.top!==drag.upperTop){
+  // A Safari toolbar/layout change is not finger input. Keep the same place
+  // within the held chapter while rebasing the gesture onto its new geometry.
+  const span=drag.upperTop-drag.lowerTop,rebase=value=>lower.top+(span?(value-drag.lowerTop)/span:0)*(upper.top-lower.top);
+  drag.position=rebase(drag.position);drag.from=rebase(drag.from);drag.extreme=rebase(drag.extreme);
+  drag.lowerTop=lower.top;drag.upperTop=upper.top;
+ }
+ return {lower,upper};
+}
+function updateDrag(delta){
+ if(!drag)return;
+ const {lower,upper}=dragBounds();
+ drag.position=Math.max(lower.top,Math.min(upper.top,drag.position+delta));
+ // Short landscape can introduce an email stop less than the usual intent
+ // distance away. Reaching that actual endpoint must still complete the stop.
+ const shortEndpoint=upper.top-lower.top<=28&&drag.position!==drag.from&&(drag.direction>0?drag.position===upper.top:drag.position===lower.top);
+ if(Math.abs(drag.position-drag.from)>28||shortEndpoint)drag.committed=true;
+ drag.extreme=drag.direction>0?Math.max(drag.extreme,drag.position):Math.min(drag.extreme,drag.position);
+ const reverse=drag.direction>0?drag.extreme-drag.position:drag.position-drag.extreme;
+ if(reverse>18){drag.direction*=-1;drag.extreme=drag.position}
+ queue();
+}
+function yieldNative(){
+ drag=null;move=null;contact=null;recoveryPending=false;cancelEntry();queue();settleUnownedScroll();
+}
 panel.addEventListener('touchstart',event=>{
  touchCount=event.touches.length;
  if(touchCount===1)releaseFormFocus(event.target);
  if(touchCount!==1||!eligible()||editable(event.target)){contact=null;if(touchCount!==1)recoverZoom();return}
- const touch=event.touches[0];contact={id:touch.identifier,start:touch.clientY,extreme:touch.clientY,accepted:false,direction:0};
+ const touch=event.touches[0];contact={id:touch.identifier,start:touch.clientY,last:touch.clientY,startX:touch.clientX,accepted:false};
 },{passive:true});
 panel.addEventListener('touchmove',event=>{
  if(event.touches.length!==1||!contact||!eligible())return;
  const touch=[...event.touches].find(item=>item.identifier===contact.id);if(!touch)return;
- if(event.cancelable)event.preventDefault();
- const delta=contact.start-touch.clientY;
- if(!contact.accepted&&Math.abs(delta)>28){contact.accepted=true;contact.direction=delta>0?1:-1;contact.extreme=touch.clientY;advance(contact.direction,true)}
- else if(contact.accepted){
-  contact.extreme=contact.direction>0?Math.min(contact.extreme,touch.clientY):Math.max(contact.extreme,touch.clientY);
-  const reverse=contact.direction>0?touch.clientY-contact.extreme:contact.extreme-touch.clientY;
-  if(reverse>18){contact.direction*=-1;contact.extreme=touch.clientY;advance(contact.direction)}
- }
+ // An uncancelable stream already belongs to native scrolling. Never race it
+ // with either the approach's scrollTop writes or the parked zoom camera.
+ if(!event.cancelable){yieldNative();return}
+ const delta=contact.start-touch.clientY,horizontal=Number.isFinite(contact.startX)&&Number.isFinite(touch.clientX)?Math.abs(touch.clientX-contact.startX):0;
+ if(!contact.accepted&&horizontal>6&&horizontal>Math.abs(delta)){contact=null;return}
+ event.preventDefault();
+ if(!contact.accepted){
+  if(Math.abs(delta)<=6)return;
+  beginDrag(delta);
+ }else updateDrag(contact.last-touch.clientY);
+ contact.last=touch.clientY;
 },{passive:false});
-function release(event){touchCount=event.touches.length;if(!touchCount){contact=null;if(recoveryPending)recoverZoom();else enter();settleUnownedScroll()}}
+function release(event){
+ touchCount=event.touches.length;
+ if(touchCount)return;
+ if(drag)dragBounds();
+ const held=drag;drag=null;contact=null;
+ if(held){
+  const key=held.committed?(held.direction>0?held.upper:held.lower):held.resume||held.origin;
+  const target=stops().find(point=>point.key===key);
+  if(target)travel(target,target.top>=held.position?1:-1,held.position);
+ }else if(recoveryPending)recoverZoom();else enter();
+ settleUnownedScroll();
+}
 addEventListener('touchend',release,{capture:true,passive:true});
 addEventListener('touchcancel',()=>{touchCount=0;contact=null;recoverZoom()},{capture:true,passive:true});
 panel.addEventListener('keydown',event=>{
@@ -251,24 +324,22 @@ function reset(){
  invalidateGeometry();
  recoverZoom(true);
  if(move){const target=stops().find(point=>point.key===move.key);if(target){panel.scrollTop=target.top;lastStop=target.key}move=null}
- contact=null;touchCount=0;recoveryPending=false;recoveryPosition=null;recoveryAnchor=null;recoveryOverview=null;wheelConsumed=false;wheelDirection=0;wheelReverse=0;clearTimeout(wheelTimer);clearTimeout(settleTimer);cancelEntry();
+ drag=null;contact=null;touchCount=0;recoveryPending=false;recoveryPosition=null;recoveryAnchor=null;recoveryOverview=null;recoveryTarget=null;wheelConsumed=false;wheelDirection=0;wheelReverse=0;clearTimeout(wheelTimer);clearTimeout(settleTimer);cancelEntry();
 }
 function settleUnownedScroll(){
  clearTimeout(settleTimer);
- if(move||endpointReady||entered)return;
+ if(drag||move||endpointReady||entered)return;
  // Scrollbar/native/restored positions cannot grant entry, but should not
  // park the camera between the overview and the interactive archive either.
- settleTimer=setTimeout(()=>{if(!move&&!endpointReady&&!touchCount&&eligible())recoverZoom()},180);
+ settleTimer=setTimeout(()=>{if(!drag&&!move&&!endpointReady&&!touchCount&&eligible())recoverZoom()},180);
 }
 panel.addEventListener('scroll',()=>{
- // A real native/scrollbar move takes ownership from a parked camera zoom.
- // Delayed notifications of our own anchor do nothing. On actual deviation,
- // remeasure invalidated geometry so a no-op layout event cannot hide native
- // takeover. Real layout/toolbar changes retain their geometry recovery path.
- const anchor=move?.cameraOnly?move.nativeAnchor:recoveryPending?recoveryAnchor:null;
+ // Native movement supersedes every scripted owner, including the approach.
+ // Our own writes update their anchor before the delayed notification arrives.
+ const owner=drag||move,anchor=owner?owner.nativeAnchor:recoveryPending?recoveryAnchor:null;
  if(anchor!==null&&innerWidth===viewportWidth&&innerHeight===viewportHeight&&Math.abs(panel.scrollTop-anchor)>1){
-  const overview=readGeometry().overview,ownedOverview=move?.cameraOnly?move.overview:recoveryOverview;
-  if(overview===ownedOverview){move=null;recoveryPending=false;cancelEntry()}
+  const overview=readGeometry().overview,ownedOverview=owner?owner.overview:recoveryOverview;
+  if(overview===ownedOverview)yieldNative();
   else if(recoveryPending){recoveryAnchor=panel.scrollTop;recoveryOverview=overview}
  }
  queue();settleUnownedScroll();
@@ -285,8 +356,8 @@ addEventListener('resize',()=>{
  invalidateGeometry();
  // Safari's address bar changes the available height during a valid swipe.
  // Keep that accepted destination; orientation/keyboard changes still revoke it.
- if(toolbarResize&&eligible()&&(move?.key==='vault'&&move.allowEntry||endpointReady)){
-  if(!move){panel.scrollTop=stops().at(-1).top;enter()}
+ if(toolbarResize&&eligible()&&(drag||move?.key==='vault'&&move.allowEntry||endpointReady)){
+  if(!drag&&!move){panel.scrollTop=stops().at(-1).top;enter()}
   queue();return;
  }
  recoverZoom();
@@ -298,7 +369,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();els
 new MutationObserver(()=>{invalidateGeometry();if(panel.inert)reset();queue()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 button.addEventListener('click',()=>{entered=true;reset()});
 motionPreference.addEventListener('change',()=>{reset();queue()});
-window.__vaultEntryGuide={get moving(){return !!move},get target(){return move?.key||lastStop},get touching(){return touchCount},get entered(){return entered}};
+window.__vaultEntryGuide={get moving(){return !!(drag||move)},get target(){return drag?(drag.direction>0?drag.upper:drag.lower):move?.key||lastStop},get touching(){return touchCount},get entered(){return entered}};
 queue();
 })();
 
