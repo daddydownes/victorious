@@ -438,8 +438,8 @@ body.world-active #vault .drag-label{
  animation-play-state:paused!important;
 }
 
-/* The first two chapters are fully clipped once the overview reaches the top.
-   Pause both together so their shared logo/button lighting stays synchronized. */
+/* Pause each chapter's effects only after it is fully above the viewport.
+   Target the signup landing rather than its parent containing the Vault. */
 .collection-content-offscreen .collection-screen,
 .collection-content-offscreen .collection-screen *,
 .collection-content-offscreen .collection-screen *::before,

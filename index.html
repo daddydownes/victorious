@@ -1305,8 +1305,8 @@ body.world-active #vault .drag-label{
  animation-play-state:paused!important;
 }
 
-/* The first two chapters are fully clipped once the overview reaches the top.
-   Pause both together so their shared logo/button lighting stays synchronized. */
+/* Pause each chapter's effects only after it is fully above the viewport.
+   Target the signup landing rather than its parent containing the Vault. */
 .collection-content-offscreen .collection-screen,
 .collection-content-offscreen .collection-screen *,
 .collection-content-offscreen .collection-screen *::before,
@@ -5612,8 +5612,7 @@ function render(position){
  }
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
- // Collection and signup are wholly above the viewport at the overview.
- // Pause their shared light cycle together; resume before reverse reveal.
+ // Pause each fully covered chapter; resume before reverse reveal.
  panel.classList.toggle('entry-content-offscreen',top>=section);
  panel.classList.toggle('collection-content-offscreen',top>=first);
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));

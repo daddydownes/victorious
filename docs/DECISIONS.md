@@ -1,5 +1,13 @@
 # Decisions and recent changes
 
+## October 9 — coordinate touch ownership, camera lifetime and viewport geometry
+
+Twenty independent audits found genuine discontinuities missed by earlier endpoint/position checks. Pause completion immediately when a new eligible finger touches down, retain its destination for tap release, and ensure cancellation cannot leave a paused owner. Use validated input timestamps rather than handler-delivery time and discard idle velocity seeds. Rebase released camera movement when its bounds change, as held dragging already does. Keep phone held input separate from desktop wheel/key timing.
+
+Prepare the scene while opaque chapters cover it, retain its brightness/transform/layer state through ordinary reveal-edge reversals, and cancel only on actual chapter/lifecycle exit. Capture camera framing during height-only browser-chrome changes; update native height without recentering photos or measuring hidden film/seam sections. Paint the endpoint before activation and avoid successful-entry hidden-panel cleanup reads. Native scroll creation remains necessary; retain transform promotion through the existing settlement instead of demoting it in that same frame. Remove the poster's redundant blur over black and pause each chapter's effects only once fully offscreen. Preserve photograph decoration, delivery quality, geometry, stage landings, cancellation and post-Vault behavior.
+
+Functional following is not a rendered-frame measurement. The browser driver's acknowledgement delays can themselves generate approximately 30Hz input. Do not interpret those checks or agent consensus as proof of physical Safari smoothness. Keep further architecture changes deliberate and tied to evidence, rather than repeatedly tuning release thresholds or undoing independently useful fixes.
+
 ## October 9 — preserve touch speed when automatic completion begins
 
 The direct-drag correction still handed touch release to the desktop-style ease-out, causing an abrupt speed increase after a slow finger movement. Sample recent bounded displacement over roughly 80ms and use a monotone cubic completion with that starting speed and zero ending speed. A held pause retires the velocity; remaining distance controls the bounded 120–520ms duration. Keep automatic full-stage completion, the separate overview, reversals, release gating and interruption recovery. Wheel/key callers retain their previous curve and timing. This supersedes only the touch release interpolation from the preceding decision; artwork, camera geometry and image delivery are unaffected.

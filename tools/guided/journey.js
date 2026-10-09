@@ -134,8 +134,7 @@ function render(position){
  }
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
- // Collection and signup are wholly above the viewport at the overview.
- // Pause their shared light cycle together; resume before reverse reveal.
+ // Pause each fully covered chapter; resume before reverse reveal.
  panel.classList.toggle('entry-content-offscreen',top>=section);
  panel.classList.toggle('collection-content-offscreen',top>=first);
  scene.style.setProperty('--vault-progress',progress.toFixed(4));scene.style.setProperty('--vault-title-opacity',Math.max(0,1-progress*1.7).toFixed(4));
