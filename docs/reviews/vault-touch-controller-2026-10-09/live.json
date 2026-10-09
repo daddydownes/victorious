@@ -1,0 +1,60 @@
+{
+  "base": "https://vctrsclo.com/",
+  "mergeCommit": "fe50d83d9026ffced67728ec4c57dc4818fab736",
+  "held": [
+    {
+      "phase": "arrival",
+      "sha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "metrics": {
+        "maximumStep": 10,
+        "maximumExcessStep": 0,
+        "heldDrift": 0,
+        "reverseErrors": 0,
+        "followError": 6
+      },
+      "errors": [],
+      "final": {
+        "phase": "film",
+        "entered": false,
+        "top": 1688
+      }
+    },
+    {
+      "phase": "zoom",
+      "sha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+      "metrics": {
+        "maximumStep": 10,
+        "maximumExcessStep": 0,
+        "heldDrift": 0,
+        "reverseErrors": 0,
+        "followError": 6
+      },
+      "errors": [],
+      "final": {
+        "phase": "vault",
+        "entered": true,
+        "top": 2532
+      }
+    }
+  ],
+  "journey": {
+    "tag": "chromium-390-844-normal-1",
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "motion": "no-preference",
+    "pattern": "normal",
+    "pass": 1,
+    "input": "CDP native touch",
+    "status": "PASS",
+    "errors": [],
+    "stage": "unchanged Surface smoke",
+    "sourceSha256": "c737374ca6ca5ff8d5eb321cc197862285a59a11b8e3f20e05053459dcceca02",
+    "hero": {
+      "time": 3.733333,
+      "duration": 3.733333,
+      "ended": true,
+      "error": null
+    }
+  }
+}
