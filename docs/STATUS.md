@@ -1,5 +1,15 @@
 # Current status
 
+## October 9 — smooth both Vault swipes
+
+The owner still reports small glitches on both dates-to-overview arrival and the second zoom swipe in Safari on a newer iPhone; the exact model is unknown. Code commit `6853483870def0aa80275bbdf4437c441d8b5619`, based on published `d1820a1`, drives the camera from its continuous eased position and finishes only a sub-quarter-pixel remainder. During zoom/reversal it keeps the covered signup scroller stationary, then synchronizes the native endpoint once. Fresh gestures can continue during the old completion tail. Native takeover, cancellation, multitouch, viewport changes and the release gate remain coordinated to avoid half-entered states.
+
+Higher-resolution photo requests/retries/swaps wait through camera motion and the existing 700ms handoff settlement; initial loading retains its bounded queue/fallback. Final chapter styles are batched before native-pan measurement/focus, and visual-only viewport changes avoid unnecessary measurement. Original photos, image quality, CSS, markup, camera geometry, signup, archive pan, Surface, game and hosting are unchanged.
+
+In three controlled Chromium 390×844/DPR3/6× CPU runs, hidden-panel scroll updates during zoom fell from 26–27 to one endpoint update, and the slowest such update fell from about 62–64ms to below 0.01ms. The final sampled zoom/handoff maximum frame gaps were 31–34ms versus 66–83ms for the baseline. This is predecoded local delivery on a desktop engine; exploratory runs varied, and physical-iPhone smoothness is not proven. See [the motion review](reviews/vault-safari-motion-2026-10-09/README.md) for exact hashes, measurements and limitations.
+
+Validation passes 40 final-source journeys across ten engine/viewport/motion configurations (32 completed films, eight reduced-motion journeys), including WebKit portrait/landscape and Chromium phone touch. Signup is mocked. The 540-frame continuity suite, 27 interruption regressions, delivery/viewport/handoff checks, strict scope, build and required workflow regressions pass. Portrait/landscape renders were inspected. Publication verification is pending. Physical iPhone Safari remains the owner's acceptance check; no zero-lag guarantee is made.
+
 ## October 9 — dates-to-bird’s-eye arrival workload
 
 The owner clarified that the remaining lag is the swipe from event dates/signup to the first photo overview, **before** zooming into the Vault. Code commit `9f8bf497658f4b1867c23dab85243ad978d7d04f`, based on published `3fae18e`, starts the existing bounded photo preparation during the covered approach to signup. It also removes a redundant per-frame Vault clipping mask: the opaque sections above it already cover the same region. The original photos, quality, composition, CSS, gestures, camera transforms and half-entry recovery are preserved.
