@@ -42,7 +42,8 @@ function root(){
   finishNextDropVaultHandoff(){c.document.body.classList.add('next-vault-open')},scrollTo(){},
   setTimeout(fn,delay){timers.set(++id,{fn,at:now+delay});return id},clearTimeout(key){timers.delete(key)}};
  vm.createContext(c);
- for(const name of ['calcScale','clampAxis','clampPan','sizeNativeSpace','applyPan','activateNativePan','measure','prepareVaultCamera','paintVaultCamera','cancelVaultCamera','commitVaultCamera'])vm.runInContext(actualFunction(html,name),c);
+ const variables=html.match(/^  var vaultCameraAnimation=[^\n]+;$/m);assert(variables,'Missing camera animation ownership declarations');vm.runInContext(variables[0],c);
+ for(const name of ['calcScale','clampAxis','clampPan','sizeNativeSpace','applyPan','activateNativePan','measure','prepareVaultCamera','restoreVaultPreview','stopVaultCameraTransition','mountVaultPreview','transitionVaultCamera','resetVaultCameraTransition','reverseVaultCameraTransition','paintVaultCamera','cancelVaultCamera','commitVaultCamera'])vm.runInContext(actualFunction(html,name),c);
  const api=html.match(/^  window\.__vaultCamera=([^\n]+);$/m);assert(api,'Missing public camera API');
  vm.runInContext('window.__vaultCamera='+api[1],c);
  function advance(ms){const end=now+ms;let count=0;while(true){const job=[...timers].filter(([,timer])=>timer.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!job)break;assert(++count<20,'Timer loop');now=job[1].at;timers.delete(job[0]);job[1].fn()}now=end}
@@ -72,6 +73,25 @@ c.cancelVaultCamera();assert(!c.vaultCameraActive);assert.equal(c.vault.style.vi
 assert.equal(prepared.calls.measure,1,'Leaving a resized preview resumes its deferred full measurement');
 c.cancelVaultCamera();assert.equal(prepared.calls.flush,1,'Cancellation retires one preparation once');
 console.log('PASS real camera preparation is idempotent; covered reversals retain preparation; toolbar-only measurement preserves preview focus; real width changes remain measured');
+
+// A native chapter can remount immediately after orientation, before the
+// root's queued resize measurement has run. Its first frame must use the new
+// width/scale, while a later toolbar-only change retains that captured frame.
+const remounted=root(),r=remounted.c;
+const originalParent={appendChild(element){element.parentNode=this}},host={appendChild(element){element.parentNode=this}};
+r.vault.parentNode=originalParent;
+r.document.documentElement.clientWidth=844;r.innerHeight=390;
+assert(r.mountVaultPreview(host,390));
+assert.equal(r.vw,844,'The remounted camera cannot retain the old portrait width');
+assert.equal(r.S,844/1100,'The first remounted frame uses the landscape plane scale');
+assert.equal(r.vaultCameraHeight,390);
+const mountedFrame=r.dive.style.transform;
+assert.equal(Number(mountedFrame.match(/scale\(([^)]+)\)/)[1]),Number((Math.min(844/(r.PW*r.S),390/(r.PH*r.S))*.88).toFixed(5)),'The first remounted frame fits the new visible viewport');
+r.innerHeight=350;r.measure();r.mountVaultPreview(host,350);
+assert.equal(r.vaultCameraHeight,390,'Toolbar-only changes cannot replace captured preview height');
+assert.equal(r.dive.style.transform,mountedFrame,'Toolbar-only changes preserve the mounted overview frame');
+r.cancelVaultCamera();assert.equal(r.vault.parentNode,originalParent,'Orientation preview cancellation restores its original parent');
+console.log('PASS immediate orientation remount uses current width/scale before queued measurement; later toolbar changes retain captured framing');
 }
 
 // Execute the actual guide renderer against the actual root camera. Small

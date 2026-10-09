@@ -1,5 +1,17 @@
 # Decisions and recent changes
 
+## October 9 — native approach, then a separate browser-run Vault zoom
+
+The owner still reports physical Safari lag after input/timing corrections and explicitly asks to preserve the first swipe from dates into the bird's-eye overview and a new second swipe into the Vault. Replace the phone mechanism rather than continue tuning its touchmove/RAF camera loop. Keep desktop wheel/key behavior, original photographs, their decoration and delivery quality, the full overview composition, signup, archive, Surface and game.
+
+Let native scrolling carry the real Vault inside the invitation during the approach, using a single fixed overview transform. Restore that same element to its original parent before the collection becomes hidden/inert. Remove the phone's artificial extra zoom corridor. Use native chapter snapping where each landing is a real snap target; tall signup content uses explicit readable release landings instead. Preserve keyboard fitting and resolve accepted landing keys against fresh geometry after resize.
+
+A released, settled overview arms a new gesture. Its CSS blocks vertical native panning before that contact starts, preventing native edge movement from competing with the zoom while keeping browser pinch available. Only a new accepted upward swipe, after release, runs the browser-managed 620ms transform animation from overview to the existing interactive Vault. The first gesture cannot trigger both stages. JavaScript handles intent and lifecycle rather than rewriting the camera every display frame.
+
+Reverse the running animation from its current time. Multitouch anywhere, cancellation, focus/modal changes, rotation and lifecycle interruption revoke entry; ordinary height-only toolbar resizing preserves the accepted path. Activate the archive only after forward animation completion, all contacts released and current eligibility. Preserve endpoint installation, generation guards, native-pan handoff and the existing settlement window. Retire inactive global non-passive touch capture so it cannot keep the new native approach waiting on the main thread.
+
+This supersedes the earlier direct-drag phone mechanism, while retaining its useful cancellation, media and viewport safeguards. Focused tests establish the two stages, native ownership, browser-animation use and lifecycle behavior; they are not physical iPhone performance measurements. Publication and device acceptance are recorded separately in status.
+
 ## October 9 — coordinate touch ownership, camera lifetime and viewport geometry
 
 Twenty independent audits found genuine discontinuities missed by earlier endpoint/position checks. Pause completion immediately when a new eligible finger touches down, retain its destination for tap release, and ensure cancellation cannot leave a paused owner. Use validated input timestamps rather than handler-delivery time and discard idle velocity seeds. Rebase released camera movement when its bounds change, as held dragging already does. Keep phone held input separate from desktop wheel/key timing.

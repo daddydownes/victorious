@@ -44,16 +44,24 @@ function cameraLifecycle(test){
  const style=name=>new Proxy({removeProperty(key){record(name+'.removeProperty',key)}},{set(object,key,value){record(name+'.style',key,value);object[key]=value;return true}});
  c.plane.style=style('plane');
  const next={attrs:{},setAttribute(key,value){record('next.attribute',key,value);this.attrs[key]=value}},button={disabled:false};
+ const sibling={},host={},originalParent={
+  insertBefore(node,before){assert.equal(before,sibling);record('restore');node.parentNode=this},
+  appendChild(node){record('restore');node.parentNode=this}
+ };sibling.parentNode=originalParent;
  Object.assign(c,{vaultActive:false,vaultCameraMeasurePending:false,nativePanActive:false,queueMeasure:noop,reduced:false,vault:{style:style('vault'),classList:classes('vault',['vault-previewing']),setAttribute:noop,removeAttribute:noop,focus(options){record('focus',options)}},dive:{style:style('dive')},guidePhase:'film',entryGen:0,
-  paintVaultCamera(){record('paint')},hideCue:noop,setNextDropInert(node,value){record('inert',node===next?'next':node===c.vault?'vault':'other',value);node.inert=value},stage:{setAttribute:noop},seamGold:{setAttribute:noop},stopInertia:noop,
-  activateNativePan(){record('native')},unlock(){record('unlock');c.document.documentElement.classList.add('gutter');c.document.body.classList.remove('locked')},scrollTo(...values){record('scroll',...values)},vaultY(){record('landing');return 731},
+  paintVaultCamera(){record('paint')},hideCue:noop,setNextDropInert(node,value){if(node===next&&value)assert.notEqual(c.vault.parentNode,host,'The collection cannot make its mounted Vault inert');record('inert',node===next?'next':node===c.vault?'vault':'other',value);node.inert=value},stage:{setAttribute:noop},seamGold:{setAttribute:noop},stopInertia:noop,
+  activateNativePan(){record('native')},unlock(){record('unlock');c.document.documentElement.classList.add('gutter');c.document.body.classList.remove('locked')},scrollTo(...values){record('scroll',...values)},vaultY(){assert.equal(c.vault.parentNode,originalParent,'Restore the original fixed Vault before measuring its landing');record('landing');return 731},
   vaultRevealed:false,revealVaultTitle:noop,document:{getElementById:id=>id==='nextDrop'?next:id==='nextVaultHold'?button:null,
    documentElement:{classList:classes('html')},body:{classList:classes('body',['locked','next-drop-landed','guiding'])}}});
  const handoffStart=html.indexOf('  function finishNextDropVaultHandoff('),handoffEnd=html.indexOf('  function flyIn(',handoffStart);
  assert(handoffStart>0&&handoffEnd>handoffStart);vm.runInContext(html.slice(handoffStart,handoffEnd),c);
+ c.vault.parentNode=originalParent;
+ const variables=html.match(/^  var vaultCameraAnimation=[^\n]+;$/m);assert(variables,'Missing camera animation ownership declarations');vm.runInContext(variables[0],c);
+ const helpersStart=html.indexOf('  function restoreVaultPreview('),helpersEnd=html.indexOf('  function mountVaultPreview(',helpersStart);
+ assert(helpersStart>0&&helpersEnd>helpersStart);vm.runInContext(html.slice(helpersStart,helpersEnd),c);
  const first=html.indexOf('  function cancelVaultCamera('),last=html.indexOf('  window.__vaultCamera=',first);
  assert(first>0&&last>first);vm.runInContext(html.slice(first,last),c);
- test.lifecycle={events,next,button};
+ test.lifecycle={events,next,button,mountPreview(){c.vaultPreviewParent=originalParent;c.vaultPreviewNext=sibling;c.vault.parentNode=host;c.vault.classList.add('vault-inline-preview')},record};
 }
 const watchdog=setTimeout(()=>{console.error('FAIL: photo scheduler test left a readiness promise unresolved');process.exitCode=1},5000);
 (async()=>{
@@ -114,7 +122,10 @@ const watchdog=setTimeout(()=>{console.error('FAIL: photo scheduler test left a 
  const initialBehindReady=inflight.c.warmVaultImages();assert.equal(inflight.downloads.length,6,'Initial photos bypass paused upgrades without exceeding four active downloads');
  inflight.downloads[4].finish();inflight.downloads[5].finish();await initialBehindReady;await flush();
  assert(initialBehindQueue.every(img=>img.writes.length===1));assert.equal(inflight.c.vaultNetworkQueue.length,5);assert.equal(inflight.c.vaultNetworkActive,0);
+ const cancelGeneration=inflight.c.vaultCameraAnimationGeneration;
  inflight.c.cancelVaultCamera();
+ assert.equal(inflight.c.vaultCameraAnimation,null,'Cancellation without a Web Animation leaves no owner');
+ assert.equal(inflight.c.vaultCameraAnimationGeneration,cancelGeneration+1,'Cancellation still invalidates stale completion when no effect exists');
  assert.equal(inflight.c.vaultPendingUpgrades.size,0,'Leaving the preview flushes deferred presentation');
  assert.equal(inflight.downloads.length,10,'Cancellation also restarts queued upgrades');
  for(let cursor=6;cursor<inflight.downloads.length;cursor++){inflight.downloads[cursor].finish();await flush()}
@@ -140,10 +151,17 @@ const watchdog=setTimeout(()=>{console.error('FAIL: photo scheduler test left a 
  const heldReady=handoff.c.warmVaultImages();assert.equal(handoff.downloads.length,1);
  handoff.c.vaultCameraActive=true;handoff.downloads[0].finish();await heldReady;await flush();
  laterPhoto.naturalWidth=640;laterPhoto.source='https://example.com/assets/delivery/archive-640.webp';
+ handoff.lifecycle.mountPreview();
+ handoff.c.vaultCameraAnimation={cancel(){handoff.lifecycle.record('animation.cancel')}};
+ handoff.lifecycle.events.length=0;
  handoff.c.commitVaultCamera();
  assert.equal(handoff.c.guidePhase,'vault');assert.equal(handoff.c.vaultCameraActive,false);
  const order=handoff.lifecycle.events,at=kind=>order.findIndex(event=>event.kind===kind);
- assert.equal(order[0].kind,'landing','The document landing is measured before camera, class or native geometry writes');
+ assert.equal(order[0].kind,'restore','The inline archive returns to its original parent before the handoff');
+ assert(at('restore')<at('landing'),'Document landing measurement follows the required preview restoration');
+ assert(at('animation.cancel')<at('landing'),'Retire the filled effect before measuring the restored Vault');
+ assert(at('landing')<at('paint')&&at('landing')<at('inert')&&at('landing')<at('native'),'The landing is measured before camera painting, chapter hiding or native geometry writes');
+ assert.equal(handoff.c.vaultCameraAnimation,null,'Commit clears the finished effect owner');
  const finalClass=order.findIndex(event=>event.kind==='body.add'&&event.values.includes('next-vault-open'));
  assert(finalClass>0&&finalClass<at('native'),'Final handoff chapter classes precede native activation');
  assert(at('next.attribute')<at('native'));assert(handoff.lifecycle.next.inert);assert.equal(handoff.lifecycle.next.attrs['aria-hidden'],'true');assert(handoff.lifecycle.button.disabled);

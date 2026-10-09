@@ -450,3 +450,19 @@ body.world-active #vault .drag-label{
 .entry-content-offscreen .signup-landing *::after{
  animation-play-state:paused!important;
 }
+
+/* Phone approach is a real native scrolling layer; there is no hidden zoom
+   corridor to stop in. The next independent swipe runs the camera transition. */
+.next-drop.vault-native-entry{touch-action:pan-y pinch-zoom;scroll-snap-type:y mandatory;overflow-anchor:none;-webkit-overflow-scrolling:touch}
+.vault-native-entry .collection-signup{scroll-snap-align:none}
+.vault-native-entry .signup-landing,.vault-native-entry .collection-vault{scroll-snap-align:start;scroll-snap-stop:always}
+.vault-native-entry .collection-vault{height:var(--vault-native-height,100dvh);min-height:var(--vault-native-height,100dvh)}
+.vault-native-entry .vault-descent-scene{height:var(--vault-native-height,100dvh);touch-action:pan-y pinch-zoom;z-index:1}
+.vault.vault-inline-preview{position:absolute;inset:0 auto auto 0;width:100%;height:var(--vault-preview-height,100dvh);z-index:0;touch-action:pan-y pinch-zoom}
+.next-drop.vault-native-entry.email-viewport,.next-drop.vault-native-entry.email-editing{scroll-snap-type:none}
+
+.next-drop.vault-native-entry.vault-native-zooming{touch-action:pan-x pinch-zoom}
+
+.next-drop.vault-native-entry.vault-native-free-snap{scroll-snap-type:none}
+.next-drop.vault-native-entry.vault-native-armed,.vault-native-entry.vault-native-armed .vault-descent-scene{touch-action:pan-x pinch-zoom}
+.vault-native-entry.vault-native-zooming .vault-descent-scene{touch-action:pan-x pinch-zoom}

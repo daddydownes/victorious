@@ -1317,6 +1317,22 @@ body.world-active #vault .drag-label{
 .entry-content-offscreen .signup-landing *::after{
  animation-play-state:paused!important;
 }
+
+/* Phone approach is a real native scrolling layer; there is no hidden zoom
+   corridor to stop in. The next independent swipe runs the camera transition. */
+.next-drop.vault-native-entry{touch-action:pan-y pinch-zoom;scroll-snap-type:y mandatory;overflow-anchor:none;-webkit-overflow-scrolling:touch}
+.vault-native-entry .collection-signup{scroll-snap-align:none}
+.vault-native-entry .signup-landing,.vault-native-entry .collection-vault{scroll-snap-align:start;scroll-snap-stop:always}
+.vault-native-entry .collection-vault{height:var(--vault-native-height,100dvh);min-height:var(--vault-native-height,100dvh)}
+.vault-native-entry .vault-descent-scene{height:var(--vault-native-height,100dvh);touch-action:pan-y pinch-zoom;z-index:1}
+.vault.vault-inline-preview{position:absolute;inset:0 auto auto 0;width:100%;height:var(--vault-preview-height,100dvh);z-index:0;touch-action:pan-y pinch-zoom}
+.next-drop.vault-native-entry.email-viewport,.next-drop.vault-native-entry.email-editing{scroll-snap-type:none}
+
+.next-drop.vault-native-entry.vault-native-zooming{touch-action:pan-x pinch-zoom}
+
+.next-drop.vault-native-entry.vault-native-free-snap{scroll-snap-type:none}
+.next-drop.vault-native-entry.vault-native-armed,.vault-native-entry.vault-native-armed .vault-descent-scene{touch-action:pan-x pinch-zoom}
+.vault-native-entry.vault-native-zooming .vault-descent-scene{touch-action:pan-x pinch-zoom}
 </style><body class="locked">
 <!-- VCTRS_WORLD_START -->
 <main id="world" hidden aria-label="The VCTRS world" tabindex="-1">
@@ -1864,6 +1880,12 @@ body.world-active #vault .drag-label{
   function lock(){ document.body.classList.add('locked'); }
   function unlock(){ document.documentElement.classList.add('gutter'); document.body.classList.remove('locked'); }
   function blockScroll(e){ if(phase!=='done'){ e.preventDefault(); } }
+  function releaseFilmScrollCapture(){
+    // An inactive non-passive window listener still makes native scrolling
+    // wait for the main thread. Retire the film's capture when its phase ends.
+    removeEventListener('wheel',blockScroll);
+    removeEventListener('touchmove',blockScroll);
+  }
 
   var timer=null, started=0, resumeFilm=false, lastFilmTime=0;
   var openingContinue=document.createElement('button');
@@ -1905,7 +1927,7 @@ body.world-active #vault .drag-label{
   }
   function finish(){
     if(phase==='done') return;
-    phase='done'; openingContinue.hidden=true; if(timer){clearInterval(timer); timer=null;}
+    phase='done'; releaseFilmScrollCapture(); openingContinue.hidden=true; if(timer){clearInterval(timer); timer=null;}
     if(logoTintTask){cancelMotionTask(logoTintTask); logoTintTask=null;} // Cancel an interrupted fade before completing the handoff.
     // Keep the opening title hidden while the email chapter takes over.
     stage.classList.remove('playing'); stage.classList.add('done','cardend');
@@ -2104,7 +2126,7 @@ body.world-active #vault .drag-label{
   addEventListener('touchcancel',function(){ armTouchY=null; },{passive:true});
 
   if(reduced&&!directVault){
-    phase='done'; stage.classList.add('done','cardend');
+    phase='done'; releaseFilmScrollCapture(); stage.classList.add('done','cardend');
     showFilmLogo(true);
     var seekLast=function(){ film.currentTime=Math.max(0,(film.duration||10.9)-0.05); };
     if(film.readyState>=1){ seekLast(); } else { film.addEventListener('loadedmetadata',seekLast); }
@@ -2522,7 +2544,9 @@ body.world-active #vault .drag-label{
   }
   addEventListener('wheel', onGuideWheel, {passive:false});
   addEventListener('touchstart', function(e){ if(e.touches&&e.touches[0]){ gtY=e.touches[0].clientY; gStartY=gtY; gBlurred=false; } }, {passive:true});
-  addEventListener('touchmove', onGuideTouch, {passive:false});
+  // Only the original seam needs its cancelling touch handler. The collection
+  // is a sibling, so its native approach must not pass through this listener.
+  seamTrack.addEventListener('touchmove', onGuideTouch, {passive:false});
   addEventListener('keydown',function(e){
     if(!reduced || (guidePhase!=='toEmail' && guidePhase!=='email' && guidePhase!=='toVault')) return;
     var el=e.target, tag=el&&el.tagName, editing=tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(el&&el.isContentEditable);
@@ -2664,6 +2688,7 @@ body.world-active #vault .drag-label{
       pinchStartScale=1, pinchAnchorX=0, pinchAnchorY=0, pinchNext=null, pinchRect=null,
       nativeContinuationTouch=null;
   var vaultCameraActive=false, vaultCameraZoom=1, vaultCameraHeight=0, vaultCameraMeasurePending=false;
+  var vaultCameraAnimation=null, vaultCameraAnimationGeneration=0, vaultPreviewParent=null, vaultPreviewNext=null;
   var stageDim=document.getElementById('stageDim');
   function primeVaultUnderSeam(){ vault.style.visibility='visible'; vault.style.opacity='1'; }
   if(reduced){ // no entry choreography: the archive sits landed
@@ -3581,7 +3606,87 @@ body.world-active #vault .drag-label{
     dive.style.setProperty('--vault-brightness','1');
     applyPan(); warmVaultOverview();
   }
+  function restoreVaultPreview(){
+    if(vaultPreviewParent){
+      if(vaultPreviewNext && vaultPreviewNext.parentNode===vaultPreviewParent) vaultPreviewParent.insertBefore(vault,vaultPreviewNext);
+      else vaultPreviewParent.appendChild(vault);
+      vaultPreviewParent=null; vaultPreviewNext=null;
+    }
+    vault.classList.remove('vault-inline-preview');
+    vault.style.removeProperty('--vault-preview-height');
+  }
+  function stopVaultCameraTransition(){
+    vaultCameraAnimationGeneration++;
+    var animation=vaultCameraAnimation; vaultCameraAnimation=null;
+    if(animation) animation.cancel();
+  }
+  function mountVaultPreview(host,height){
+    if(!host || nativePanActive || vaultActive) return false;
+    if(vaultCameraAnimation || (vaultPreviewParent && vault.parentNode===host)) return vault.parentNode===host;
+    // Orientation can remount this preview before the queued root resize frame.
+    // Refresh width-dependent plane geometry now; toolbar height alone keeps
+    // the camera's captured framing through the existing measurement gate.
+    if(document.documentElement.clientWidth!==vw) measure();
+    prepareVaultCamera();
+    if(!vaultCameraActive) return false;
+    stopVaultCameraTransition();
+    if(vault.parentNode!==host){
+      if(!vaultPreviewParent){vaultPreviewParent=vault.parentNode;vaultPreviewNext=vault.nextSibling;}
+      host.appendChild(vault);
+    }
+    if(Number.isFinite(height) && height>0) vaultCameraHeight=height;
+    vault.classList.add('vault-inline-preview');
+    vault.style.setProperty('--vault-preview-height',(vaultCameraHeight||vh)+'px');
+    // The real archive rides inside the native scroll chapter at one fixed
+    // overview transform. Native scrolling reveals it without repaint calls.
+    paintVaultCamera(0,0);
+    return true;
+  }
+  function transitionVaultCamera(duration){
+    if(!vaultCameraActive) prepareVaultCamera();
+    if(!vaultCameraActive || reduced || typeof dive.animate!=='function') return null;
+    stopVaultCameraTransition();
+    paintVaultCamera(0,0);
+    var from=dive.style.transform, identity='translate3d(0px,0px,0) scale(1)';
+    var generation=vaultCameraAnimationGeneration;
+    var animation=vaultCameraAnimation=dive.animate([{transform:from},{transform:identity}],{
+      duration:Math.max(1,Number(duration)||620),easing:'cubic-bezier(.4,0,.2,1)',fill:'both'
+    });
+    // Preserve the endpoint while the initiating finger is still down. The
+    // guide owns entry permission; cancellation invalidates this completion.
+    animation.finished.then(function(){
+      if(generation!==vaultCameraAnimationGeneration || vaultCameraAnimation!==animation) return;
+      if(animation.playbackRate<=0) return;
+      vaultCameraZoom=1; dive.style.transform=identity;
+    },function(){});
+    return animation;
+  }
+  function resetVaultCameraTransition(){
+    stopVaultCameraTransition();
+    if(vaultCameraActive) paintVaultCamera(0,0);
+  }
+  function reverseVaultCameraTransition(){
+    var animation=vaultCameraAnimation;
+    if(!animation || !vaultCameraActive) return null;
+    var time=animation.currentTime;
+    if(time===null || time<=0){resetVaultCameraTransition();return null;}
+    var generation=vaultCameraAnimationGeneration, overview=animation.effect.getKeyframes()[0].transform;
+    // Reverse the browser's running effect from its displayed time, preserving
+    // the current frame rather than cancelling it back to the overview.
+    if(typeof animation.updatePlaybackRate==='function') animation.updatePlaybackRate(-2);
+    else animation.playbackRate=-2;
+    animation.play();
+    animation.finished.then(function(){
+      if(generation!==vaultCameraAnimationGeneration || vaultCameraAnimation!==animation || animation.playbackRate>=0) return;
+      // Install the resting frame beneath the filled effect before removing it.
+      dive.style.transform=overview;
+      vaultCameraZoom=Math.min(vw/(PW*S),(vaultCameraHeight||vh)/(PH*S))*.88;
+      stopVaultCameraTransition();
+    },function(){});
+    return animation;
+  }
   function paintVaultCamera(progress,entranceOffset){
+    if(vaultCameraAnimation) return;
     if(!vaultCameraActive) prepareVaultCamera();
     if(!vaultCameraActive) return;
     var t=Math.max(0,Math.min(1,progress));
@@ -3605,6 +3710,8 @@ body.world-active #vault .drag-label{
     else dive.style.transform='translate3d('+(startX*(1-e)).toFixed(3)+'px,'+(startY*(1-e)+entranceOffset).toFixed(3)+'px,0) scale('+q.toFixed(5)+')';
   }
   function cancelVaultCamera(){
+    stopVaultCameraTransition();
+    restoreVaultPreview();
     if(!vaultCameraActive || vaultActive) return;
     vaultCameraActive=false; vaultCameraZoom=1;
     vault.style.transform='';
@@ -3618,6 +3725,11 @@ body.world-active #vault .drag-label{
   }
   function commitVaultCamera(){
     if(guidePhase==='toVault'||guidePhase==='vault'||guidePhase==='closing'||guidePhase==='surfaced') return;
+    // Leave the collection before it becomes hidden/inert, and preserve the
+    // exact animation endpoint before retiring its forward-filled effect.
+    restoreVaultPreview();
+    dive.style.transform='translate3d(0px,0px,0) scale(1)';
+    stopVaultCameraTransition();
     // Measure the preserved document landing before changing its chapter styles.
     var landingScroll=vaultY();
     paintVaultCamera(1);
@@ -3657,7 +3769,7 @@ body.world-active #vault .drag-label{
       flushVaultImageUpgrades();warmVaultImages();
     }},Math.max(180,vaultCameraSettleUntil-Date.now()));
   }
-  window.__vaultCamera={prepare:prepareVaultCamera,paint:paintVaultCamera,cancel:cancelVaultCamera,commit:commitVaultCamera,warm:warmVaultImages,warmOverview:warmVaultOverview};
+  window.__vaultCamera={prepare:prepareVaultCamera,mountPreview:mountVaultPreview,transition:transitionVaultCamera,resetTransition:resetVaultCameraTransition,reverseTransition:reverseVaultCameraTransition,paint:paintVaultCamera,cancel:cancelVaultCamera,commit:commitVaultCamera,warm:warmVaultImages,warmOverview:warmVaultOverview};
 
   function stopInertia(){ inertia=null; motionVaultStep=null; vault.classList.remove('gliding'); }
   function startInertia(){
@@ -3824,10 +3936,10 @@ body.world-active #vault .drag-label{
      a dead stop just because the visitor keeps moving the wheel/trackpad. */
   var postScrollTask=null, postScrollTarget=0, postScrollLastInput=0;
   var postWheelLast=0, postWheelSpent=0, postWheelBudget=0, postWheelSign=0;
-  var postTouch=null;
+  var postTouch=null, postScrollEnabled=false;
   function postScrollAllowed(){
     var game=document.getElementById('flapOverlay');
-    return false && !motionQuery.matches && guidePhase==='surfaced' && !vaultClosing && !surfacing && !(game&&game.classList.contains('on'));
+    return postScrollEnabled && !motionQuery.matches && guidePhase==='surfaced' && !vaultClosing && !surfacing && !(game&&game.classList.contains('on'));
   }
   function postScrollControl(target){
     return target&&target.closest&&target.closest('input,textarea,select,button,label,a,summary,[contenteditable="true"],[role="button"],[role="slider"]');
@@ -3912,7 +4024,8 @@ body.world-active #vault .drag-label{
       velocity:0,budget:Math.max(420,Math.min(1100,innerHeight*1.15))};
     postScrollTarget=scrollY; postScrollLastInput=now;
   },{passive:true});
-  addEventListener('touchmove',function(e){
+  // This retired control must not register a global scroll-blocking listener.
+  if(postScrollEnabled) addEventListener('touchmove',function(e){
     if(!postTouch) return;
     if(!postScrollAllowed() || e.touches.length!==1 || postScrollSelection()){
       postTouch=null; stopPostScroll(); return;
@@ -5448,7 +5561,7 @@ var FLAPPY_GRAFFITI_ART={"viewBox":[0,0,100,36],"gold":"#f0d492","motifs":[{"id"
     var returnedHud=vault.querySelector('.vault-hud');returnedHud.style.opacity='';returnedHud.style.transform='';returnedHud.style.willChange='';
     filmLogo.style.opacity='1';filmLogo.style.transform='';filmLogo.style.willChange='';
     setHot(null);flybloom.style.opacity='0';guidePhase='film';
-    phase='done'; playWanted=false; resumeFilm=false; film.pause();
+    phase='done'; releaseFilmScrollCapture(); playWanted=false; resumeFilm=false; film.pause();
     introVHalo.style.opacity='0'; stage.classList.remove('playing');
     stage.classList.add('done','cardend'); showFilmLogo(true);
     var enterReturnedVault=function(){
@@ -5538,9 +5651,235 @@ panel.addEventListener('scroll',()=>{if(fitted&&form.contains(document.activeEle
 new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
 if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
 })();
+// Phone entry: native chapter scrolling, followed by one browser-run zoom.
+// The actual Vault sits in the invitation during approach, so the scrolling
+// layer carries its photos without touchmove/RAF camera or scrollTop writes.
+(()=>{
+'use strict';
+if(!(typeof navigator!=='undefined'&&navigator.maxTouchPoints>0&&matchMedia('(any-pointer: coarse)').matches))return;
+const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
+if(!panel||!signup||!invitation)return;
+const form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),button=document.getElementById('nextVaultHold'),scene=invitation.querySelector('.vault-descent-scene'),motion=matchMedia('(prefers-reduced-motion: reduce)');
+let geometry=null,gesture=null,contacts=0,armed=false,entered=false,mounted=false,warmed=false,landing=null,zoom=null,zoomReady=false,reversing=false,epoch=0,settleTimer=0;
+let width=innerWidth,height=innerHeight;
+panel.classList.add('vault-native-entry');
+function available(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
+function editable(target){return !!target.closest('input,textarea,select,[contenteditable]')}
+function eligible(){return available()&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)}
+function measure(){
+ if(geometry)return geometry;
+ const size=panel.clientHeight,top=panel.scrollTop,origin=panel.getBoundingClientRect().top;
+ const first=signup.getBoundingClientRect().top-origin+top,overview=invitation.getBoundingClientRect().top-origin+top;
+ const points=[{key:'collection',top:0},{key:'signup',top:first}];
+ for(let y=first+size*.85;y<overview-size-24;y+=size*.85)points.push({key:'email-'+points.length,top:y});
+ if(overview-size>first+24)points.push({key:'email-bottom',top:overview-size});
+ points.push({key:'overview',top:overview});
+ geometry={size,first,overview,points:points.filter((point,i)=>!i||point.top-points[i-1].top>3)};
+ return geometry;
+}
+function prepare(){
+ if(!available())return;
+ const g=measure();
+ if(!mounted&&panel.scrollTop>0&&panel.scrollTop>=g.first-g.size*.5){
+  mounted=true;window.__vaultCamera.mountPreview(invitation,g.size);
+ }
+ if(!warmed&&panel.scrollTop>0&&panel.scrollTop>=g.first-g.size*.5){
+  warmed=true;window.__vaultCamera.warm();window.__vaultCamera.warmOverview();
+ }
+}
+function stage(){const top=panel.scrollTop;return measure().points.reduce((best,point)=>Math.abs(point.top-top)<Math.abs(best.top-top)?point:best)}
+function next(direction,from=panel.scrollTop){const points=measure().points;return direction>0?points.find(point=>point.top>from+4):[...points].reverse().find(point=>point.top<from-4)}
+function cancelZoom(){
+ const hadZoom=!!(zoom||zoomReady||reversing);
+ epoch++;zoom?.cancel();zoom=null;zoomReady=false;reversing=false;
+ scene.querySelectorAll('h2,.vault-descent-instruction').forEach(el=>el.getAnimations().forEach(animation=>animation.cancel()));
+ panel.classList.remove('vault-native-zooming','vault-native-armed');
+ if(hadZoom&&mounted&&!entered)window.__vaultCamera.resetTransition();
+}
+function reverseZoom(){
+ const token=++epoch;zoomReady=false;armed=false;reversing=true;
+ const animation=window.__vaultCamera.reverseTransition();
+ scene.querySelectorAll('h2,.vault-descent-instruction').forEach(el=>el.getAnimations().forEach(effect=>effect.cancel()));
+ if(!animation){cancelZoom();queueSettle();return}
+ zoom=animation;
+ animation.finished.then(()=>{
+  if(token!==epoch||!available())return;
+  zoom=null;reversing=false;panel.classList.remove('vault-native-zooming');queueSettle();
+ }).catch(()=>{});
+}
+function commit(){
+ if(!zoomReady||reversing||contacts||!eligible())return;
+ zoomReady=false;entered=true;button.click();
+}
+function startZoom(){
+ if(!armed||!eligible()||zoom||zoomReady)return;
+ armed=false;landing=null;panel.classList.remove('vault-native-armed');panel.classList.add('vault-native-zooming');
+ const token=++epoch;
+ if(motion.matches){zoomReady=true;window.__vaultCamera.paint(1,0);commit();return}
+ zoom=window.__vaultCamera.transition(620);
+ if(!zoom){zoomReady=true;commit();return}
+ for(const el of scene.querySelectorAll('h2,.vault-descent-instruction'))el.animate([{opacity:1},{opacity:0}],{duration:340,fill:'both',easing:'ease-out'});
+ zoom.finished.then(()=>{
+  if(token!==epoch)return;
+  if(!eligible()){cancelZoom();queueSettle();return}
+  zoom=null;zoomReady=true;commit();
+ }).catch(()=>{});
+}
+function settle(){
+ clearTimeout(settleTimer);
+ if(!eligible()||contacts||zoom||zoomReady)return;
+ const g=measure(),top=panel.scrollTop;
+ if(landing)landing=g.points.find(point=>point.key===landing.key)||g.points.at(-1);
+ if(!landing&&Math.abs(top-stage().top)>2)landing=stage();
+ if(landing&&Math.abs(top-landing.top)>2){
+  // Correct only a completed gesture, using the browser's native scroll tween.
+  panel.scrollTo({top:landing.top,behavior:motion.matches?'instant':'smooth'});
+  settleTimer=setTimeout(settle,180);return;
+ }
+ landing=null;armed=eligible()&&Math.abs(top-g.overview)<=2;
+ panel.classList.toggle('vault-native-armed',armed);
+ prepare();
+}
+function queueSettle(){clearTimeout(settleTimer);settleTimer=setTimeout(settle,140)}
+function land(point){
+ if(!point||!eligible())return;
+ cancelZoom();armed=false;landing=point;
+ panel.scrollTo({top:point.top,behavior:motion.matches?'instant':'smooth'});
+ if(Math.abs(panel.scrollTop-point.top)<=2)settle();else queueSettle();
+}
+function releaseFocus(target){
+ if(!panel.classList.contains('email-viewport')&&!editable(target)&&form.contains(document.activeElement)){
+  signup.querySelector('h2').focus({preventScroll:true});panel.classList.remove('email-editing');
+ }
+}
+panel.addEventListener('touchstart',event=>{
+ contacts=event.touches.length;
+ if(contacts!==1){gesture=null;armed=false;cancelZoom();return}
+ releaseFocus(event.target);
+ if(!eligible()||editable(event.target)){gesture=null;return}
+ const touch=event.touches[0],top=panel.scrollTop;
+ // A fresh contact during a landing belongs to that same landing, never the
+ // next chapter. Only a settled overview can grant the second swipe.
+ gesture={id:touch.identifier,x:touch.clientX,y:touch.clientY,lastY:touch.clientY,extreme:0,direction:0,accepted:false,overview:armed&&!landing,zooming:!!(zoom||zoomReady),from:top,origin:stage()};
+ armed=false;
+},{passive:true});
+panel.addEventListener('touchmove',event=>{
+ if(!gesture||event.touches.length!==1||!eligible())return;
+ const touch=[...event.touches].find(t=>t.identifier===gesture.id);if(!touch)return;
+ const distance=gesture.y-touch.clientY,horizontal=Math.abs(gesture.x-touch.clientX);
+ if(!gesture.accepted&&horizontal>6&&horizontal>Math.abs(distance)){gesture=null;return}
+ gesture.lastY=touch.clientY;
+ if(Math.abs(distance)>28)gesture.accepted=true;
+ if(!gesture.direction&&gesture.accepted){gesture.direction=distance>0?1:-1;gesture.extreme=distance}
+ if(gesture.direction){
+  gesture.extreme=gesture.direction>0?Math.max(gesture.extreme,distance):Math.min(gesture.extreme,distance);
+  if((gesture.direction>0?gesture.extreme-distance:distance-gesture.extreme)>28){gesture.direction*=-1;gesture.extreme=distance}
+ }
+ // A deliberate reverse of an already-running zoom returns to the complete
+ // overview. Ordinary approach input stays entirely browser-owned.
+ if(gesture.zooming&&gesture.accepted&&gesture.direction<0){reverseZoom();gesture.zooming=false;gesture.overview=false;gesture.accepted=false;gesture.cancelledZoom=true}
+},{passive:true});
+function release(event){
+ contacts=event.touches.length;if(contacts)return;
+ const held=gesture;gesture=null;
+ if(zoom||zoomReady){commit();return}
+ if(!held||!eligible()||held.cancelledZoom){queueSettle();return}
+ if(held.overview&&held.accepted&&held.direction>0){armed=true;startZoom();return}
+ if(held.accepted){
+  // A gesture that started before the overview can land there but cannot zoom.
+  const target=next(held.direction,held.origin.top)||held.origin;
+  land(target);
+ }else if(!landing)land(held.origin);else queueSettle();
+}
+// A second finger outside this panel still revokes pending entry.
+addEventListener('touchstart',event=>{
+ if(event.touches.length>1&&(gesture||zoom||zoomReady)){
+  contacts=event.touches.length;gesture=null;armed=false;cancelZoom();
+ }
+},{capture:true,passive:true});
+addEventListener('touchend',release,{capture:true,passive:true});
+addEventListener('touchcancel',event=>{
+ contacts=event.touches.length;gesture=null;cancelZoom();armed=false;landing=null;queueSettle();
+},{capture:true,passive:true});
+panel.addEventListener('scroll',()=>{
+ if(!available())return;
+ const g=measure(),top=panel.scrollTop;
+ panel.classList.toggle('collection-content-offscreen',top>=g.first);
+ panel.classList.toggle('entry-content-offscreen',top>=g.overview-2);
+ if(top<g.overview-2){armed=false;if(zoom||zoomReady)cancelZoom()}
+ prepare();
+ if(!contacts&&landing?.key==='overview'&&Math.abs(top-g.overview)<=2)settle();else queueSettle();
+},{passive:true});
+panel.addEventListener('scrollend',settle,{passive:true});
+panel.addEventListener('focusin',()=>{
+ if(form.contains(document.activeElement)&&(zoom||zoomReady||reversing))cancelZoom();
+});
+if(viewer)new MutationObserver(()=>{
+ if(viewer.open){gesture=null;armed=false;cancelZoom()}else layout();
+}).observe(viewer,{attributes:true,attributeFilter:['open']});
+
+panel.addEventListener('wheel',event=>{
+ if(event.ctrlKey||Math.abs(event.deltaX)>Math.abs(event.deltaY)||!event.deltaY||editable(event.target))return;
+ releaseFocus(event.target);if(!eligible())return;
+ // Phone trackpads/mice use the same complete landings. Native approach wheel
+ // scrolling remains available; only a fresh overview burst grants zoom.
+ if(armed&&event.deltaY>0){event.preventDefault();startZoom()}
+},{passive:false});
+panel.addEventListener('keydown',event=>{
+ if(editable(event.target)||(event.key===' '&&event.target.closest('button')))return;
+ const direction=['ArrowUp','PageUp','Home'].includes(event.key)||(event.key===' '&&event.shiftKey)?-1:['ArrowDown','PageDown','End',' '].includes(event.key)?1:0;
+ if(!direction)return;releaseFocus(event.target);if(!eligible())return;event.preventDefault();if(event.repeat)return;
+ if(armed&&direction>0)startZoom();else land(event.key==='Home'?measure().points[0]:next(direction));
+});
+function cue(key,event){
+ event.preventDefault();event.stopImmediatePropagation();
+ const heading=key==='signup'?signup.querySelector('h2'):invitation.querySelector('h2');heading?.focus({preventScroll:true});
+ land(measure().points.find(point=>point.key===key));
+}
+document.getElementById('collectionScrollCue').addEventListener('click',event=>cue('signup',event),true);
+document.getElementById('vaultScrollCue').addEventListener('click',event=>cue('overview',event),true);
+function layout(){
+ geometry=null;
+ if(!available())return;
+ panel.style.setProperty('--vault-native-height',panel.clientHeight+'px');
+ // Native mandatory snap has no readable intermediate target inside a tall
+ // landscape card. Explicit release landings cover that card instead.
+ const g=measure();panel.classList.toggle('vault-native-free-snap',g.overview-g.first>g.size+24);
+ if(mounted)document.getElementById('vault').style.setProperty('--vault-preview-height',panel.clientHeight+'px');
+ prepare();queueSettle();
+}
+function reset(){
+ clearTimeout(settleTimer);gesture=null;contacts=0;armed=false;landing=null;cancelZoom();
+ if(!entered&&mounted){window.__vaultCamera.cancel();mounted=false}
+ geometry=null;
+}
+addEventListener('resize',()=>{
+ const toolbar=Math.abs(innerWidth-width)<2&&Math.abs(innerHeight-height)<=Math.max(160,height*.25);
+ width=innerWidth;height=innerHeight;
+ if(!toolbar){
+  const key=landing?.key||stage().key;
+  // Retire a browser-owned smooth scroll before resolving the same landing
+  // in the new orientation; an old pixel target must not keep moving afterward.
+  panel.scrollTo({top:panel.scrollTop,behavior:'instant'});
+  reset();layout();
+  if(eligible())land(measure().points.find(point=>point.key===key)||stage());
+ }else layout();
+});
+if(window.ResizeObserver)new ResizeObserver(layout).observe(signup);
+document.fonts?.ready.then(layout);
+addEventListener('blur',reset);addEventListener('focus',layout);addEventListener('pagehide',reset);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();else layout()});
+new MutationObserver(()=>{if(!available())reset();else layout()}).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
+button.addEventListener('click',()=>{entered=true;reset()});
+motion.addEventListener('change',()=>{reset();layout()});
+window.__vaultEntryGuide={get moving(){return !!(landing||zoom)},get target(){return zoom||zoomReady?'vault':landing?.key||stage().key},get touching(){return contacts},get entered(){return entered},get native(){return true},get armed(){return armed}};
+layout();
+})();
+
 // One owner guides the post-film entry; repeated input cannot restart a move.
 (()=>{
 'use strict';
+if(typeof navigator!=='undefined'&&navigator.maxTouchPoints>0&&matchMedia('(any-pointer: coarse)').matches)return;
 const panel=document.getElementById('nextDrop'),signup=document.getElementById('collectionSignup'),invitation=document.getElementById('vaultInvitation');
 if(!panel||!signup||!invitation)return;
 const scene=invitation.querySelector('.vault-descent-scene'),button=document.getElementById('nextVaultHold'),form=document.getElementById('nextDropEmail'),viewer=document.getElementById('productViewer'),motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
