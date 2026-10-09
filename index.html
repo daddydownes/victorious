@@ -3548,10 +3548,10 @@ body.world-active #vault .drag-label{
     var centerX=px+PW*S/2, centerY=py+PH*S/2;
     var startX=vw/2-overview*centerX, startY=vh/2-overview*centerY;
     vaultCameraZoom=q;
-    // Reveal the stationary archive below the invitation's leading edge.
-    // Moving the entire fixed Vault exposed its rectangular boundary and
-    // made the first phone swipe look like a separate sheet sliding in.
-    vault.style.clipPath=entranceOffset>0?'inset('+Math.max(0,entranceOffset).toFixed(3)+'px 0 0)':'';
+    // The opaque signup/collection sections above this fixed layer already
+    // cover everything above the invitation edge. Re-clipping the 33 filtered
+    // photos each frame duplicates that mask and adds first-reveal paint work.
+    // Keep the black Vault fixed and move only its photos below that edge.
     // Move only the photos while the section rises; the black viewport itself
     // stays fixed and blends with the black collection page at the clip edge.
     if(t>=1) dive.style.transform='scale(1)';
@@ -5531,8 +5531,13 @@ function enter(){
 }
 function render(){
  const {height,first,overview:section,sectionHeight}=readGeometry(),top=panel.scrollTop;
- if(!photosWarmed&&top>=first-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
- if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
+ // Prepare the whole overview while moving toward the dates, with the Vault
+ // still covered. Waiting for its first visible frame starts 33-photo decode
+ // and first-reveal paint together on the next swipe.
+ if(top>0&&top>=first-height*.5&&window.__vaultCamera){
+  if(!photosWarmed){photosWarmed=true;window.__vaultCamera.warm()}
+  if(!overviewWarmed){overviewWarmed=true;window.__vaultCamera.warmOverview()}
+ }
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
  // Collection and signup are wholly above the viewport at the overview.

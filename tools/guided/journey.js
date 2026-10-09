@@ -114,8 +114,13 @@ function enter(){
 }
 function render(){
  const {height,first,overview:section,sectionHeight}=readGeometry(),top=panel.scrollTop;
- if(!photosWarmed&&top>=first-2&&window.__vaultCamera){photosWarmed=true;window.__vaultCamera.warm()}
- if(!overviewWarmed&&top>=section-height*.65&&window.__vaultCamera){overviewWarmed=true;window.__vaultCamera.warmOverview()}
+ // Prepare the whole overview while moving toward the dates, with the Vault
+ // still covered. Waiting for its first visible frame starts 33-photo decode
+ // and first-reveal paint together on the next swipe.
+ if(top>0&&top>=first-height*.5&&window.__vaultCamera){
+  if(!photosWarmed){photosWarmed=true;window.__vaultCamera.warm()}
+  if(!overviewWarmed){overviewWarmed=true;window.__vaultCamera.warmOverview()}
+ }
  const progress=Math.max(0,Math.min(1,(top-section)/Math.max(1,sectionHeight-height)));
  const entranceOffset=Math.max(0,Math.min(height,section-top));
  // Collection and signup are wholly above the viewport at the overview.

@@ -1,5 +1,15 @@
 # Current status
 
+## October 9 — dates-to-bird’s-eye arrival workload
+
+The owner clarified that the remaining lag is the swipe from event dates/signup to the first photo overview, **before** zooming into the Vault. Code commit `9f8bf497658f4b1867c23dab85243ad978d7d04f`, based on published `3fae18e`, starts the existing bounded photo preparation during the covered approach to signup. It also removes a redundant per-frame Vault clipping mask: the opaque sections above it already cover the same region. The original photos, quality, composition, CSS, gestures, camera transforms and half-entry recovery are preserved.
+
+Three immediate-arrival runs per version at 390×844/DPR3/4× CPU slowdown found all 33 photos marked prepared before the candidate reveal versus zero for the baseline. Median summed arrival image-decode tasks fell from 254.216ms to 16.879ms and raster tasks from 37.358ms to 4.889ms. Decoding moved earlier into the covered signup approach; both versions already sampled near 60 FPS in this desktop test. This does not establish an FPS increase or physical-iPhone smoothness, and earlier preparation can download photos for visitors who stop at dates.
+
+Validation: 12 completed-hero journeys (four each Chromium 390×844 touch, WebKit 390×844 and 844×390 wheel/keyboard), 32 settled composition comparisons across eight engine/viewport/motion configurations, 760 retained-controller frame states, 32 matching camera transforms, 27 interrupted-entry cases, image delivery and required workflow regressions pass. Signup is mocked. Tests, hashes, measurements and limitations are in [the arrival review](reviews/vault-overview-arrival-2026-10-09/README.md).
+
+Publication is pending separate Pages and canonical live verification. Physical iPhone Safari/embedded-browser confirmation and the owner’s exact device model remain outstanding. Next: publish the tested root and confirm the owner’s result on the dates-to-overview swipe.
+
 ## October 9 — iPhone Vault entry recovery and photo work
 
 Code commit `4450a04`, based on fresh GitHub main `4058137`, fixes an inactive Vault endpoint after cancelled touches, multiple contacts, rotation or lifecycle interruption. Accepted short swipes finish entry; ordinary height-only toolbar resizing preserves accepted intent. Actual cancellation returns to the complete overview, and native/restored partial scroll positions settle there without granting entry. Reversal, touch release, reduced motion and exact-once handoff remain coordinated.
