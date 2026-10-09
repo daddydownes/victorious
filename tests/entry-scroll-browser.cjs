@@ -28,10 +28,12 @@ const state=page=>page.evaluate(()=>{
 async function run(config){
  const [engine,width,height,motion='no-preference']=config,browser=await pw[engine].launch();
  try{for(let pass=1;pass<=passes;pass++){
-  const mobile=width<900,touch=engine==='chromium'&&mobile,pattern=process.env.QA_PATTERN||patterns[(pass-1)%4];
+  const mobile=width<900,touch=engine==='chromium'&&mobile,pattern=process.env.QA_PATTERN||(motion==='reduce'?['normal','reverse-jitter','focus','cancel-resize']:patterns)[(pass-1)%4];
   const tag=config.join('-')+'-'+pattern+'-'+pass,row={tag,engine,width,height,motion,pattern,pass,input:touch?'CDP native touch':'wheel',status:'RUNNING',errors:[]};
   rows.push(row);save();
-  const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:Number(process.env.QA_DPR||1),hasTouch:mobile,reducedMotion:motion,...(engine!=='firefox'?{isMobile:mobile}:{})});
+  // Mobile WebKit cannot inject wheel events. Exercise WebKit at phone sizes
+  // in desktop mode; only Chromium's CDP path claims native touch input here.
+  const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:Number(process.env.QA_DPR||1),hasTouch:mobile,reducedMotion:motion,...(engine!=='firefox'?{isMobile:touch}:{})});
   const page=await context.newPage();page.setDefaultTimeout(45000);page.on('pageerror',error=>row.errors.push(error.message));
   await context.route('**/formsubmit.co/**',route=>route.fulfill({json:{success:true}}));
   const cdp=engine==='chromium'?await context.newCDPSession(page):null;let view={width,height};
@@ -39,9 +41,9 @@ async function run(config){
   const mark=stage=>{row.stage=stage;save()};
   const pause=ms=>page.waitForTimeout(ms);
   async function finger(direction=1,{fraction=.66,steps=16,gap=14,settle=850,cancel=false,jitter=0,reverse=false}={}){
-   // Keep short-landscape gestures well clear of Chromium's near-input touch
-   // adjustment. No extra browser round trips may slow a rapid input pair.
-   const x=view.width*(view.width>view.height?.08:.5),start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
+   // Keep navigation clear of editable fields as signup moves under rapid
+   // input, including portrait. No browser round trips may slow a rapid pair.
+   const x=view.width*(view.width>view.height?.08:.02),start=view.height*(direction>0?.84:.16),end=start-direction*view.height*fraction;
    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y:start,id:1}]});
    for(let i=1;i<=steps;i++){
     await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:start+(end-start)*i/steps,id:1}]});await pause(gap);
@@ -86,7 +88,9 @@ async function run(config){
     assert(observed[1].moving,'Rapid-pair fixture did not arrive during the transition: '+JSON.stringify(observed));
     (row.rapidPairs||=[]).push(observed);
    }
-   else{await page.mouse.move(view.width*.5,view.height*.7);for(let i=0;i<8;i++){await page.mouse.wheel(0,view.height*.7);await pause(20)}}
+   // WebKit's wheel acknowledgement can be slower than the quiet threshold.
+   // Dispatch one burst instead of inadvertently testing eight fresh gestures.
+   else{await page.mouse.move(view.width*.5,view.height*.7);await Promise.all(Array.from({length:8},()=>page.mouse.wheel(0,view.height*.7)))}
    await pause(1000);
   }
   try{
@@ -96,7 +100,7 @@ async function run(config){
    if(process.env.QA_SOURCE_SHA256)assert.equal(row.sourceSha256,process.env.QA_SOURCE_SHA256,'Preview changed during the verified test run');
    // Wait for the actual untouched automatic film sequence. No skip input.
    await page.waitForFunction(()=>document.body.classList.contains('next-drop-landed')&&!document.getElementById('nextDrop').inert,{},{timeout:65000});
-   row.hero=await page.locator('#film').evaluate(el=>({time:el.currentTime,duration:el.duration,ended:el.ended}));
+   row.hero=await page.locator('#film').evaluate(el=>({time:el.currentTime,duration:el.duration,ended:el.ended,error:el.error?.message||null}));
    if(motion!=='reduce')assert(row.hero.duration>0&&row.hero.time>=row.hero.duration-.15,'The original hero did not finish before entry QA: '+JSON.stringify(row.hero));
    await page.evaluate(()=>{
     const p=document.getElementById('nextDrop');window.__entryQA={entries:0,wasOpen:false,overviewFrames:0,touchTargets:[]};
@@ -169,12 +173,14 @@ async function run(config){
     if(touch)await finger(1,{fraction:.18,steps:18,gap:22,cancel:true});
     else{await page.mouse.wheel(0,view.height*.18);await pause(40);await page.mouse.wheel(0,-view.height*.18);await pause(650)}
     row.cancel=await state(page);assert.equal(row.cancel.phase,'film','Cancelled input entered Vault');
+    assert(row.cancel.progress<.005,'Cancelled input parked an inactive zoom: '+JSON.stringify(row.cancel));
     view=mobile?{width:height,height:width}:{width,height:height-100};await page.setViewportSize(view);await pause(700);
     row.resize=await state(page);assert.equal(row.resize.phase,'film','Resize alone entered Vault');
+    assert(row.resize.progress<.005,'Resize parked an inactive zoom: '+JSON.stringify(row.resize));
     await move(-1);assert.equal((await state(page)).phase,'film');await overview();
    }
    if(!touch){
-    mark('keyboard reverse');await page.locator('#nextDrop').focus();await page.keyboard.press('PageUp');await pause(700);
+    mark('keyboard reverse');await page.locator('#vaultInvitation h2').focus();await page.keyboard.press('PageUp');await pause(700);
     row.keyboardReverse=await state(page);assert.equal(row.keyboardReverse.phase,'film');
     assert(row.keyboardReverse.top<row.keyboardReverse.overview-20,'PageUp did not move toward signup');
     await overview();
@@ -185,7 +191,7 @@ async function run(config){
     else for(let i=0;i<20;i++){await page.mouse.wheel(0,view.height*.2);await pause(25)}
     await pause(1000);
    }
-   if(!touch&&pass%2===0){await page.locator('#nextDrop').focus();await page.keyboard.press('End');await pause(750)}
+   if(!touch&&pass%2===0){await page.locator('#vaultInvitation h2').focus();await page.keyboard.press('End');await pause(750)}
    row.vault=await toVault(pattern==='reverse-jitter'&&touch?{jitter:4}:{});
    await page.waitForFunction(()=>window.__guide.phase()==='vault'&&!document.getElementById('vault').inert);
    row.vault=await state(page);assert.equal(row.vault.entries,1,'Vault handoff did not run exactly once');

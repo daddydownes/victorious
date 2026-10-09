@@ -15,11 +15,11 @@ function create(source){
  invitation.querySelector=s=>s==='.vault-descent-scene'?scene:heading;panel.querySelector=()=>screen;
  const nodes={nextDrop:panel,collectionSignup:signup,vaultInvitation:invitation,nextDropEmail:form,productViewer:viewer,nextVaultHold:button,collectionScrollCue:node('collectionScrollCue'),vaultScrollCue:node('vaultScrollCue')};
  const doc={hidden:false,activeElement:heading,body:{classList:classes()},getElementById:k=>nodes[k],addEventListener(k,f){(events[k]||=[]).push(f)}};
- const ctx={document:doc,performance:{now:()=>now},matchMedia:()=>({matches:false,addEventListener(){}}),ResizeObserver:class{constructor(fn){observers.push(fn)}observe(){}},MutationObserver:class{observe(){}},setTimeout(fn,delay){timers.set(++id,{fn,at:now+delay});return id},clearTimeout:id=>timers.delete(id),requestAnimationFrame(fn){frames.set(++id,fn);return id},cancelAnimationFrame:id=>frames.delete(id),addEventListener(k,f){(events[k]||=[]).push(f)},__vaultCamera:{warm(){},warmOverview(){},paint(){},cancel(){}}};ctx.window=ctx;
+ const ctx={document:doc,innerWidth:390,innerHeight:height,performance:{now:()=>now},matchMedia:()=>({matches:false,addEventListener(){}}),ResizeObserver:class{constructor(fn){observers.push(fn)}observe(){}},MutationObserver:class{observe(){}},setTimeout(fn,delay){timers.set(++id,{fn,at:now+delay});return id},clearTimeout:id=>timers.delete(id),requestAnimationFrame(fn){frames.set(++id,fn);return id},cancelAnimationFrame:id=>frames.delete(id),addEventListener(k,f){(events[k]||=[]).push(f)},__vaultCamera:{warm(){},warmOverview(){},paint(){},cancel(){}}};ctx.window=ctx;
  vm.runInNewContext(extract(source),ctx);
  function step(){now+=16;const jobs=[...frames.values()];frames.clear();for(const fn of jobs)fn(now);for(const [key,t]of [...timers])if(t.at<=now){timers.delete(key);t.fn()}}
  function wheel(delta){for(const f of panel.events.wheel)f({target:panel,deltaX:0,deltaY:delta,preventDefault(){}})}
- function resize(h){height=h;for(const fn of events.resize||[])fn();for(const fn of observers)fn()}
+ function resize(h){height=h;ctx.innerHeight=h;for(const fn of events.resize||[])fn();for(const fn of observers)fn()}
  function reflow(x){extra=x;for(const fn of observers)fn()}
  function state(){return JSON.parse(JSON.stringify({top:panel.scrollTop,target:ctx.__vaultEntryGuide.target,moving:ctx.__vaultEntryGuide.moving,entered:ctx.__vaultEntryGuide.entered,progress:scene.style.getPropertyValue('--vault-progress')}))}
  return {step,wheel,resize,reflow,state,reads:()=>rects};
@@ -39,4 +39,4 @@ for(const test of cases){
  assert(b.reads()<a.reads()/5,'Geometry reads were not substantially reduced');
  console.log('PASS',test.name,'145 identical frame states; geometry reads',a.reads(),'->',b.reads());
 }
-console.log('PASS: 725 baseline-matched controller frames; unchanged easing, targets, reversal, resize and entry permission.');
+console.log('PASS: 725 baseline-matched frames for ordinary entry, reversal, pre-zoom resize and reflow; cancellation recovery is covered separately.');

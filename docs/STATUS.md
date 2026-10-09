@@ -1,5 +1,15 @@
 # Current status
 
+## October 9 — iPhone Vault entry recovery and photo work
+
+Code commit `4450a04`, based on fresh GitHub main `4058137`, fixes an inactive Vault endpoint after cancelled touches, multiple contacts, rotation or lifecycle interruption. Accepted short swipes finish entry; ordinary height-only toolbar resizing preserves accepted intent. Actual cancellation returns to the complete overview, and native/restored partial scroll positions settle there without granting entry. Reversal, touch release, reduced motion and exact-once handoff remain coordinated.
+
+The photo loader avoids requesting/decoding a derivative that is already displayed, while preserving larger-image promotion, retry and the four-request limit. Decorative dust drawing sleeps during the preview/zoom. Production markup, CSS, photos, video, signup, Surface, game and hosting remain unchanged.
+
+Validation passed 32 full browser journeys (28 completed opening films and four reduced-motion journeys), 10 focused browser recovery cases, 27 controller regressions, 725 matching frames for retained ordinary entry behavior, delivery/decode/layout checks and the required local regression suite. Chromium covers 320×568, 390×844, 430×932, 844×390 and 1440×900; WebKit covers 390×844 and 844×390 with wheel/keyboard input. Portrait/landscape renders were inspected. Signup was mocked. The exact tested root hash and compact results are in [the review](reviews/iphone-vault-2026-10-09/README.md).
+
+This is a branch/PR candidate, not a production deployment. Physical iPhone Safari and embedded browsers remain untested; native macOS Safari session creation timed out. These fixes remove specific overhead and a reproduced stuck state, not every possible frame hitch. Next: review/merge when publication is authorized, verify Pages and canonical live equality, then gather real-device feedback.
+
 ## October 4 — City Takeover pop-up update
 
 Code commit `546e073083a357ebb6bf982a2e07fae6520075c5` replaces the next pop-up with City Takeover at Garema Place, City, on 10 October 2026, 12–4 PM AEDT. The countdown uses explicit `+11:00` start/end timestamps and the live message ends at 4 PM. The card opens Garema Place in maps; a dedicated event URL was not supplied. Source changes are in `tools/guided/collection.html` and `tools/guided/journey.js`, rebuilt into `index.html`.

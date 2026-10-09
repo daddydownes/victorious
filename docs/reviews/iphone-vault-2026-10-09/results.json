@@ -1,0 +1,788 @@
+{
+  "codeCommit": "4450a04",
+  "baseline": "4058137",
+  "rootSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+  "journeys": [
+    {
+      "tag": "chromium-390-844-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-spam-3",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-cancel-resize-4",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-320-568-normal-1",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-320-568-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-320-568-spam-3",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-320-568-cancel-resize-4",
+      "engine": "chromium",
+      "width": 320,
+      "height": 568,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-844-390-normal-1",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-844-390-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-844-390-spam-3",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-844-390-cancel-resize-4",
+      "engine": "webkit",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-844-390-normal-1",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-844-390-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-844-390-spam-3",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-844-390-cancel-resize-4",
+      "engine": "chromium",
+      "width": 844,
+      "height": 390,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-1440-900-normal-1",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-1440-900-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-1440-900-spam-3",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-1440-900-cancel-resize-4",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-390-844-normal-1",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-390-844-reverse-jitter-2",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-390-844-spam-3",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "webkit-390-844-cancel-resize-4",
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "wheel",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.7333333333333334,
+        "duration": 3.7333333333333334,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-430-932-normal-1",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-430-932-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "reverse-jitter",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-430-932-spam-3",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "spam",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-430-932-cancel-resize-4",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "motion": "no-preference",
+      "pattern": "cancel-resize",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 3.733333,
+        "duration": 3.733333,
+        "ended": true,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-reduce-normal-1",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "normal",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-reduce-reverse-jitter-2",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "reverse-jitter",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-reduce-focus-3",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "focus",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      },
+      "errors": []
+    },
+    {
+      "tag": "chromium-390-844-reduce-cancel-resize-4",
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "motion": "reduce",
+      "pattern": "cancel-resize",
+      "input": "CDP native touch",
+      "status": "PASS",
+      "sourceSha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "hero": {
+        "time": 0,
+        "duration": 3.733333,
+        "ended": false,
+        "error": null
+      },
+      "errors": []
+    }
+  ],
+  "focusedRecovery": [
+    {
+      "engine": "chromium",
+      "scenario": "toolbar",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "chromium",
+      "scenario": "orientation",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0.0008,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "chromium",
+      "scenario": "blur",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "chromium",
+      "scenario": "native-idle",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "chromium",
+      "scenario": "touchcancel",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "chromium",
+      "scenario": "held-toolbar",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "webkit",
+      "scenario": "toolbar",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 1,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "webkit",
+      "scenario": "orientation",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 0.9984,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "webkit",
+      "scenario": "blur",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 0.9989,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    },
+    {
+      "engine": "webkit",
+      "scenario": "native-idle",
+      "staticOpening": true,
+      "errors": [],
+      "sha256": "f896ab549553a2f121c1ea42264d98af1ae944e2c498467e58f2d240a630266d",
+      "recovery": {
+        "phase": "film",
+        "moving": false,
+        "target": "overview",
+        "progress": 0.6991,
+        "inert": true,
+        "entries": 0
+      },
+      "final": {
+        "phase": "vault",
+        "moving": false,
+        "target": "vault",
+        "progress": 0.9989,
+        "inert": false,
+        "entries": 1
+      },
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Browser-engine emulation, not physical iPhone testing.",
+    "WebKit uses phone-sized desktop mode with wheel/keyboard input; Chromium uses CDP touch.",
+    "Focused cases use static-opening setup and controlled lifecycle/resize signals.",
+    "Native Safari session creation timed out; it is not a passing test.",
+    "No universal FPS or battery claim."
+  ]
+}

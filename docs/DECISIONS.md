@@ -1,5 +1,11 @@
 # Decisions and recent changes
 
+## October 9 — settle Vault entry instead of parking an inactive zoom
+
+The owner reports visitors stopping just before the Vault becomes interactive and asks for iPhone/Safari optimization. Preserve the complete overview and original visual journey. An accepted short onward gesture finishes the zoom automatically after release, including ordinary height-only Safari toolbar resizing. Genuine touch cancellation, multiple contacts, rotation, blur or background interruption revoke entry and return to the overview. Native/restored partial positions also settle to the overview after input is idle; geometry alone still cannot activate the archive. This supersedes cancelling entry for every resize while leaving its camera tween running.
+
+Avoid same-URL photo promotion and suspend decorative dust drawing throughout preview/zoom; resume normal dust after handoff. Keep media bytes, image quality, larger-image promotion, visible CSS, gesture thresholds and Surface/game behavior. Browser-engine tests are distinct from physical iPhone results.
+
 ## September 24 — guide only the existing pre-Vault journey
 
 The owner rejected making the whole website one continuous scroll and clarified the scope: preserve the original hero, Previous Drops, Adreama/signup, full-screen Vault, and existing Surface/story/game sequence. Change only how visitors move through the post-film collection, signup, overview and zoom. After reviewing the corrected local demo, the owner authorized publishing it to the existing domain.
