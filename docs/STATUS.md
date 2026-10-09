@@ -8,7 +8,7 @@ Final root SHA-256 is `0063f46dac8ee5941978054e40c42b6fe94c2f22d369c161996798ea8
 
 One completed-film Chromium phone touch journey passed signup/focus, overview, Vault and Surface on the earlier rewrite candidate. One WebKit phone-size desktop wheel journey passed the retained controller. A separate WebKit mobile-context cue/keyboard check exercised the native branch with controlled `maxTouchPoints=5` (the desktop engine reports zero), observed a real intermediate Web Animation frame, and verified restoration. These browser-engine checks and inspected phone renders establish mechanism/behavior, not physical iPhone frame rate. No full matrix or physical-device performance test was run. Earlier functional successes did not fix the owner's physical feedback; this release changes the input/render architecture, and physical Safari acceptance remains outstanding.
 
-Publication uses the owner's existing authorization; Pages completion and canonical source equality are checked separately. Next: test the same first overview swipe and second entry swipe on the owner's Safari device. Do not infer zero lag from endpoint, emulation or source tests.
+Published to `main` as `a025efbdd6872905e67dd49afef2ec2dc442753c` under the owner's existing authorization. GitHub Pages reported that exact commit built; the canonical homepage matched the final root SHA-256 above. This publication record changes documentation only. Next: test the same first overview swipe and second entry swipe on the owner's Safari device. Do not infer zero lag from endpoint, emulation or source tests.
 
 ## October 9 — twenty-agent Vault code investigation
 
