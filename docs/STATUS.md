@@ -1,5 +1,11 @@
 # Current status
 
+## October 9 — remove the touch-release speed jump
+
+The owner still reported a hitch entering the Vault and requested focused code inspection with brief verification. Follow-up `a86154751d95b9691ec7eb27ca4487e044041420`, based on published `b1b6232`, corrects a concrete release mismatch: gentle 4px-per-frame input became a 66.857px first frame when the previous fixed ease-out took over. Touch completion now starts from recent measured finger speed, ends at rest, and scales duration with remaining distance. Stationary releases start at rest. The accepted stage still completes automatically; desktop wheel/key timing and all presentation/media/root-camera behavior remain unchanged.
+
+The new regression fails on the published baseline and passes 20 approach/zoom release paths at 60/120Hz, including slow, fast, stationary, reverse and near-endpoint gestures. The gentle 60Hz first released step is now 5.895px. Retained held-follow/interruption/native ownership tests, 540 unchanged wheel frames, 540 continuity frames, 27 settling cases, scope/source/build and diff checks pass. One focused Chromium 390×844/DPR3 browser check per affected swipe passed with predecoded photos, mocked signup, zero excess held movement, zero stationary drift and no page errors. Full journey/game matrices were deliberately not repeated. Root SHA-256: `8df7a952fb91e277c4062fb683220440f5e7c0e27ba2bf43aa2afd9a19a6ce9d`. Independent code review found no blocking issue. Physical iPhone Safari smoothness remains unverified; this fixes the reproduced release acceleration, not a measured device rendering stall.
+
 ## October 9 — direct held-finger scrolling
 
 The owner clarified that the jump happens while holding a finger down and moving up/down. Code `2bbf0cf4d43589f31a1b882187b26c067383fc65` with short-stage follow-up `d8559065c153acb2bec689c68b44916b27bb6723`, based on published `9bb78db`, replaces phone swipe-triggered timing with direct finger-following movement within one chapter. Stationary contact holds still; release automatically finishes an accepted stage. Separate overview, reversal, cancellation and exact-once entry remain coordinated. Browser-owned input yields control, and toolbar resizing preserves held progress. Desktop wheel/key behavior is retained.

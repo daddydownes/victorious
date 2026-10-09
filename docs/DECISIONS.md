@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## October 9 — preserve touch speed when automatic completion begins
+
+The direct-drag correction still handed touch release to the desktop-style ease-out, causing an abrupt speed increase after a slow finger movement. Sample recent bounded displacement over roughly 80ms and use a monotone cubic completion with that starting speed and zero ending speed. A held pause retires the velocity; remaining distance controls the bounded 120–520ms duration. Keep automatic full-stage completion, the separate overview, reversals, release gating and interruption recovery. Wheel/key callers retain their previous curve and timing. This supersedes only the touch release interpolation from the preceding decision; artwork, camera geometry and image delivery are unaffected.
+
 ## October 9 — follow the held finger, finish on release
 
 The owner clarified that holding a finger down and moving up/down produces jumps. The existing swipe-triggered controller waited for 28px, then ran its own fixed-time chapter animation; reversing the finger launched another animation. This mismatch is reproducible without image loading. Replace only phone touch ownership with direct bounded movement after 6px of intent slop. Held movement and reversal track displacement one-to-one; a stationary finger stays still. After sufficient travel, release finishes the selected endpoint automatically. Small previews return to their origin. Keep the overview as a separate landing, and retain the existing desktop wheel/key behavior.
