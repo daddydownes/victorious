@@ -26,7 +26,7 @@ function openingBeforeFirstFrameHandoff(source){
  return opening;
 }
 assert.equal(openingBeforeFirstFrameHandoff(script),section(before,'  var VWHITE=','  function lock()'),'Opening preserved except the exact reviewed first-frame handoff');
-assert.equal(section(script,'  var LIST_URL=','  function captureReceipt'),section(before,'  var LIST_URL=','  function captureReceipt'),'Live signup transport preserved');
+assert.ok(!/type="email"|formsubmit\.co|ADD YOUR EMAIL/.test(html), "Email signup is retired");
 const photos=s=>JSON.parse(s.match(/var PHOTOS=(\[[^\r\n]*\]);/)[1]).map(({preview,...p})=>p);
 const selected=photos(script),liveSlots=photos(before);
 assert.equal(selected.length,33,'All selected photographs included');
@@ -53,4 +53,4 @@ for(const doc of [html,preview])for(const m of doc.matchAll(/<(?:img|video|sourc
  const ref=m[1];if(/^(?:https?:|data:|#|about:)/.test(ref))continue;const relative=decodeURIComponent(ref.split(/[?#]/)[0]);let current=root;
  for(const bit of relative.split('/').filter(Boolean)){assert.ok(fs.readdirSync(current).includes(bit),'Case-sensitive asset missing: '+ref);current=path.join(current,bit)}assert.ok(fs.statSync(current).isFile());assets++;
 }
-console.log('guided source PASS: original opening, signup, physics, 33 selected photos with original live slots preserved, metadata, hosting files, embedded source and '+assets+' asset references.');
+console.log('guided source PASS: original opening, signup removal, physics, 33 selected photos with original live slots preserved, metadata, hosting files, embedded source and '+assets+' asset references.');

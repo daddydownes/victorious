@@ -25,6 +25,8 @@ Edit `tools/guided/` and run `node tools/build-guided.cjs`. The generated `index
 
 ## Validation
 
+October 26 signup retirement: `tests/no-signup-browser.cjs` checks the completed opening, event/map controls, absence of forms and requests, Vault and Surface in four viewport/engine configurations, four passes each. Set `BASE_URL` and `EVIDENCE_DIR`; add `node tests/popup-countdown.cjs` for time boundaries. The older signup-specific suites below document the retired feature and should not be run against this candidate. `tests/vault-native-entry-browser.cjs` native-forward now verifies zero signup requests before its touch journey.
+
 With Node.js installed:
 
 ```sh

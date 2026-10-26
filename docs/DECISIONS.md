@@ -1,5 +1,9 @@
 # Decisions and recent changes
 
+## October 26 — retain original styling, update event, retire signup
+
+Keep the existing dark rounded event card and four-column countdown. The owner requested the original appearance with the new VCTRS × MHC pop-up details: Civic Skate Park, November 8, 1–5 PM, new drop, free food, giveaway challenge, and Intrepid, Losninos & Regime. Remove email capture throughout the homepage, including below the Surface film. Centre the retained card after removing the form; preserve opening, collection, Vault and Surface behavior. The owner accepted this candidate based on `85a7106` and authorized publication on October 26.
+
 ## October 10 — prepare the hero during the V; keep the Surface cue unboxed
 
 The owner reports a small hero playback delay on Apple phones and a box around Surface's Scroll down control. Keep the approved V, full movie and newly accepted native two-swipe Vault behavior. Prepare one muted inline video frame under the intro, then rewind before real playback. At the original hold endpoint, request playback and retain the V until a current frame is ready; its existing 320ms exit overlaps that frame. This changes the handoff instead of shortening the movie or autoplaying most of it invisibly. Cold startup extends only the final V hold. Preparation must not own the camera or mutate actual playback through late callbacks.

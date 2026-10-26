@@ -1,5 +1,11 @@
 # Current status
 
+## October 26 — original event style, new details, no email (approved release)
+
+Based on freshly verified `main` / live baseline `85a71062c91ce9d0dd0190c316e28ecdbfa44dab`. The owner chose the original dark rounded event card and four-column countdown with VCTRS × MHC, Civic Skate Park, November 8, 1–5 PM, new drop/free food/giveaway challenge and Intrepid, Losninos & Regime. Both visible email forms, the legacy form and all FormSubmit handlers are removed. The event is centred after removing the form; opening, gallery, Vault and Surface behavior are retained. The owner accepted this exact appearance and authorized publication on October 26.
+
+Verified the explicit-root preview matches generated `index.html` byte for byte. Build, source preservation, countdown boundaries, reveal, post-Surface scroll, press feedback, Surface input/recovery and whitespace checks pass. `tests/no-signup-browser.cjs` passed four complete opening → event → Vault → Surface journeys each in Chromium desktop 1440×900, Chromium touch emulation 390×844, WebKit 844×390 and reduced-motion Firefox 320×568. Map pointer/keyboard activation passed; every run found zero email fields, form submissions or page errors. The focused Chromium native-forward CDP touch regression also passed. Desktop, phone and landscape renders were inspected. These are browser-engine checks, not physical Safari acceptance or a full production-release matrix. Approved homepage SHA-256: `92bce5d03ffbfb060a3b65e54faf8641b671a3706aa07cb6cdef2e83f0ee8f43`. Deployment verification must compare Pages and the canonical live homepage with this release.
+
 ## October 10 — hero startup and Surface scroll cue
 
 The owner accepted the published native two-swipe Vault rewrite on their Safari iPhone: the former lag was gone, with a softer scrolling feel. The exact phone model is unknown. Keep runtime `d5a8d7c` and published `a025efb` as the accepted baseline; this follow-up leaves `tools/guided/journey.js` byte-identical.

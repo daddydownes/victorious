@@ -79,12 +79,8 @@ async function setup(browser,name){
   const fixture=await setup(browser,name),{context,page,row,start,move,release,cancel,swipe,overview,beginZoom,assertOverview,touch}=fixture;
   try{
    if(name==='native-forward'){
-    // All transport is mocked. The normal focused form must still submit,
-    // then release focus when the visitor starts onward navigation beside it.
-    await page.locator('#nextDropEmailInput').fill('native-entry@example.com');
-    await page.locator('#nextDropEmail button').click();
-    await page.waitForFunction(()=>document.getElementById('nextDropResult').textContent.trim().length>0);
-    assert.equal(fixture.submissions(),1,'The signup transport was not exercised exactly once');
+    assert.equal(await page.locator('input[type=email],form').count(),0,'Retired signup is absent');
+    assert.equal(fixture.submissions(),0,'No signup transport should run');
     const initial=await state(page);assert(initial.native,'Phone entry did not select the native controller');assert.equal(initial.parent,'vaultInvitation');
     const paintBaseline=initial.paints,transitionBaseline=initial.transitions,samples=[];
     await start(780);

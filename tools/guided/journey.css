@@ -469,3 +469,10 @@ body.world-active #vault .drag-label{
 .next-drop.vault-native-entry.vault-native-free-snap{scroll-snap-type:none}
 .next-drop.vault-native-entry.vault-native-armed,.vault-native-entry.vault-native-armed .vault-descent-scene{touch-action:pan-x pinch-zoom}
 .vault-native-entry.vault-native-zooming .vault-descent-scene{touch-action:pan-x pinch-zoom}
+
+/* Keep the original event card, centred after retiring the email form. */
+.signup-landing .next-drop-card{margin-block:auto}
+.signup-landing .popup-countdown{margin-block:0}
+.popup-name{margin-block:0}
+.popup-details{display:block;margin:0 0 20px;color:#c7c1b5;font:400 12px/1.6 'VCTRS Rounded',Arial,sans-serif}
+.signup-landing .vault-scroll-cue{margin-top:36px}

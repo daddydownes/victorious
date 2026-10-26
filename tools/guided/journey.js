@@ -1,65 +1,4 @@
 /* One continuous VCTRS journey; native scrolling owns the camera position. */
-// Keep the signup's own scroller inside a reported keyboard viewport. No UA
-// assumptions: ordinary layout resizing retains the existing CSS fallback.
-(()=>{
-'use strict';
-const panel=document.getElementById('nextDrop'),form=document.getElementById('nextDropEmail');
-if(!panel||!form)return;
-const row=form.querySelector('.next-drop-email-row'),result=document.getElementById('nextDropResult'),viewport=window.visualViewport;
-let frame=0,engaged=false,fitted=false,savedScroll=0,lastHeight=null,pointer=null,viewportSettlingUntil=0;
-function available(){return !panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
-function restore(){
- if(fitted){const signup=document.getElementById('collectionSignup'),leftSignup=signup&&panel.scrollTop>signup.offsetTop+signup.clientHeight/2;panel.classList.remove('email-viewport');panel.style.removeProperty('--email-top');panel.style.removeProperty('--email-height');if(!leftSignup)panel.scrollTop=savedScroll;fitted=false}
- lastHeight=null;
-}
-function update(){
- frame=0;
- if(!available()){engaged=false;pointer=null;panel.classList.remove('email-editing');restore();return}
- // Keyboard recovery can precede pointerup/click. Keep JOIN under the finger
- // for the whole gesture; its click runs before the queued layout update.
- if(pointer!==null)return;
- const focused=form.contains(document.activeElement);
- panel.classList.toggle('email-editing',focused);
- if(focused)engaged=true;
- // Pinching is browser-owned. Hold the last layout rather than chase zoom.
- if(viewport&&Number.isFinite(viewport.scale)&&Math.abs(viewport.scale-1)>.01)return;
- const height=viewport?viewport.height:innerHeight,top=viewport?viewport.offsetTop:0;
- if(!Number.isFinite(height)||height<=0||!Number.isFinite(top)||top<0){restore();return}
- const contracted=height<document.documentElement.clientHeight-1;
- if(!focused&&!contracted)engaged=false;
- if(engaged&&contracted){
-  if(!fitted){savedScroll=panel.scrollTop;fitted=true}
-  panel.style.setProperty('--email-top',top+'px');panel.style.setProperty('--email-height',height+'px');panel.classList.add('email-viewport');
-  // Return temporary keyboard scroll as the viewport expands, in step with
-  // the browser's own resize instead of one jump when the keyboard closes.
-  if(lastHeight!==null&&height>lastHeight&&panel.scrollTop>savedScroll)panel.scrollTop=Math.max(savedScroll,panel.scrollTop-(height-lastHeight));
-  lastHeight=height;
- }else restore();
- if(!focused&&!fitted)return;
- // Scroll only this panel, without moving focus, selection or the document.
- const bounds=panel.getBoundingClientRect(),input=row.getBoundingClientRect(),receipt=result.getBoundingClientRect();
- const start=input.top-12,end=receipt.bottom+12,room=bounds.height;
- if(end-start>room||start<bounds.top)panel.scrollTop+=start-bounds.top;
- else if(end>bounds.bottom)panel.scrollTop+=end-bounds.bottom;
-}
-function queue(){if(!frame)frame=requestAnimationFrame(update)}
-panel.addEventListener('focusin',queue);panel.addEventListener('focusout',queue);
-form.addEventListener('pointerdown',e=>{pointer=e.pointerId;panel.classList.add('email-editing')},{passive:true});
-function releasePointer(e){if(e&&e.pointerId!==pointer)return;pointer=null;queue()}
-addEventListener('pointerup',releasePointer,{passive:true});addEventListener('pointercancel',releasePointer,{passive:true});
-addEventListener('blur',()=>releasePointer());
-addEventListener('resize',queue);
-if(viewport){
- const changed=()=>{viewportSettlingUntil=performance.now()+500;queue()};
- viewport.addEventListener('resize',changed);viewport.addEventListener('scroll',changed);
-}
-// WebKit can run its own focused-input scroll just after a viewport resize.
-// Recheck only during that brief settle window, leaving ordinary scrolling free.
-panel.addEventListener('scroll',()=>{if(fitted&&form.contains(document.activeElement)&&performance.now()<viewportSettlingUntil)queue()},{passive:true});
-// Attribute changes are delivered after entry samples the logo's source rect.
-new MutationObserver(queue).observe(panel,{attributes:true,attributeFilter:['inert','aria-hidden']});
-if(window.ResizeObserver)new ResizeObserver(queue).observe(result);
-})();
 // Phone entry: native chapter scrolling, followed by one browser-run zoom.
 // The actual Vault sits in the invitation during approach, so the scrolling
 // layer carries its photos without touchmove/RAF camera or scrollTop writes.
@@ -74,7 +13,7 @@ let width=innerWidth,height=innerHeight;
 panel.classList.add('vault-native-entry');
 function available(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function editable(target){return !!target.closest('input,textarea,select,[contenteditable]')}
-function eligible(){return available()&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)}
+function eligible(){return available()&&!panel.classList.contains('email-viewport')&&!form?.contains(document.activeElement)}
 function measure(){
  if(geometry)return geometry;
  const size=panel.clientHeight,top=panel.scrollTop,origin=panel.getBoundingClientRect().top;
@@ -157,7 +96,7 @@ function land(point){
  if(Math.abs(panel.scrollTop-point.top)<=2)settle();else queueSettle();
 }
 function releaseFocus(target){
- if(!panel.classList.contains('email-viewport')&&!editable(target)&&form.contains(document.activeElement)){
+ if(!panel.classList.contains('email-viewport')&&!editable(target)&&form?.contains(document.activeElement)){
   signup.querySelector('h2').focus({preventScroll:true});panel.classList.remove('email-editing');
  }
 }
@@ -221,7 +160,7 @@ panel.addEventListener('scroll',()=>{
 },{passive:true});
 panel.addEventListener('scrollend',settle,{passive:true});
 panel.addEventListener('focusin',()=>{
- if(form.contains(document.activeElement)&&(zoom||zoomReady||reversing))cancelZoom();
+ if(form?.contains(document.activeElement)&&(zoom||zoomReady||reversing))cancelZoom();
 });
 if(viewer)new MutationObserver(()=>{
  if(viewer.open){gesture=null;armed=false;cancelZoom()}else layout();
@@ -314,7 +253,7 @@ function readGeometry(){
 }
 function stops(){return readGeometry().points}
 function currentPosition(){if(drag)dragBounds();return drag?.position??move?.position??(recoveryPending?recoveryPosition:null)??panel.scrollTop}
-function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
+function eligible(){return !entered&&!document.hidden&&!panel.inert&&panel.getAttribute('aria-hidden')!=='true'&&!panel.classList.contains('email-viewport')&&!form?.contains(document.activeElement)&&!viewer?.open&&!document.body.classList.contains('next-vault-opening')&&!document.body.classList.contains('next-vault-open')}
 function cancelEntry(){endpointReady=false;if(move)move.allowEntry=false;clearTimeout(entryTimer);entryTimer=0}
 // An interrupted zoom must not leave the inactive archive looking entered.
 // Real cancellation returns to the overview; a released short swipe still
@@ -454,7 +393,7 @@ function advance(direction,fresh=false){
 }
 function editable(target){return !!target.closest('input,textarea,select,[contenteditable]')}
 function releaseFormFocus(target){
- if(!panel.classList.contains('email-viewport')&&!editable(target)&&form.contains(document.activeElement)){
+ if(!panel.classList.contains('email-viewport')&&!editable(target)&&form?.contains(document.activeElement)){
   signup.querySelector('h2').focus({preventScroll:true});panel.classList.remove('email-editing');
  }
 }
@@ -876,7 +815,7 @@ if(context?.registerTool){try{Promise.resolve(context.registerTool({name:'start_
  function render(){
   const remaining=Math.max(0,Math.ceil((target-Date.now())/1000));
   clock.hidden=remaining===0;started.hidden=remaining>0;
-  started.textContent=Date.now()<end?'On now · Until 4 PM':'This pop-up has finished.';
+  started.textContent=Date.now()<end?'On now · Until 5 PM':'This pop-up has finished.';
   const values=[Math.floor(remaining/86400),Math.floor(remaining/3600)%24,Math.floor(remaining/60)%60,remaining%60];
   units.forEach((unit,i)=>{clock.querySelector('[data-time="'+unit+'"]').textContent=String(values[i]).padStart(2,'0')});
   if(Date.now()>=end)clearInterval(timer);
